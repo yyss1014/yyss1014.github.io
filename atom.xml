@@ -1,0 +1,1386 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://yyss1014.github.io</id>
+    <title>WASD研究院</title>
+    <updated>2025-03-04T02:26:44.901Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://yyss1014.github.io"/>
+    <link rel="self" href="https://yyss1014.github.io/atom.xml"/>
+    <subtitle>温故而知新</subtitle>
+    <logo>https://yyss1014.github.io/images/avatar.png</logo>
+    <icon>https://yyss1014.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2025, WASD研究院</rights>
+    <entry>
+        <title type="html"><![CDATA[Java面向对象基础]]></title>
+        <id>https://yyss1014.github.io/post/java-mian-xiang-dui-xiang-ji-chu/</id>
+        <link href="https://yyss1014.github.io/post/java-mian-xiang-dui-xiang-ji-chu/">
+        </link>
+        <updated>2025-02-28T07:45:23.000Z</updated>
+        <content type="html"><![CDATA[<p>开发一个个对象，把数据交给对象，再调用对象的方法来完成数据的处理。对象本质上是一个特殊的数据结构，class也就是类，也称为对象的设计图。</p>
+<ul>
+<li>类名建议用英文单词，首字母大写。</li>
+</ul>
+<pre><code class="language-java">public class Student {
+    //成员变量
+    String name;
+    double chinese;
+    double math;
+    //成员方法
+    public void printTotalScore() {
+        System.out.println(name+&quot;总成绩是：&quot;+(chinese+math));
+    }
+    public void printAverageScore() {
+        System.out.println(name+&quot;总成绩是：&quot;+(chinese+math)/2);
+    }
+}
+//一个代码文件中，可以写多个class类，但只能用一个class类修饰
+//对象与对象之间不会相互影响，但多个对象指向一个对象会相互影响
+//如果某个对象没有一个变量引用它，则该对象无法操作了，则该对象成为垃圾对象。（创建好对象后但没有指针指向它，它会被判断成内存中的垃圾被自动清除）
+</code></pre>
+<h2 id="this"><strong>this</strong></h2>
+<p>this是一个对象，可以用在方法中，用来拿到当前对象。this主要解决变量名称冲突问题。</p>
+<pre><code class="language-java">public class Student {
+    double score;
+    public void printthis(){
+        System.out.println(this);
+    }
+    public void printPass(double score) {
+        if(this.score &gt; score){
+            System.out.println(&quot;恭喜你考上哈佛大学了~&quot;);
+        }else{
+            System.out.println(&quot;落选了&quot;);
+        }
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        Student s = new Student();
+        System.out.println(s);//com.ys.Student@3b07d329
+        s.printthis();//com.ys.Student@3b07d329
+    }
+}
+</code></pre>
+<h2 id="构造器"><strong>构造器</strong></h2>
+<p>创建对象时，对象会调用构造器。</p>
+<pre><code class="language-java">public class Student{
+    public Student(){
+        ···
+    }
+}
+</code></pre>
+<ul>
+<li>类在设计时，如果不写构造器，java会为类设计一个无参构造器的。</li>
+<li>一旦生成有参的构造器，java不会帮我们的类生成无参构造器了，此时建议自己手写一个无参构造器出来。</li>
+</ul>
+<p>Teacher类（不写构造器）<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-02-28%20165049.png#pic_center" alt="" width="300" loading="lazy"><br>
+反编译后的Teacher类<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-02-28%20165008.png#pic_center" alt="" width="300" loading="lazy"></p>
+<h2 id="实体javabean实体类"><strong>实体javaBean（实体类）</strong></h2>
+<p>实体类是一种特殊形式的类。实体类成员变量必须私有，且为它们提供get、set方法，必须有无参构造器。</p>
+<pre><code class="language-java">public class Student {
+    //必须有私有成员变量，并为每个成员变量都提供get set方法
+    private String name;
+    private double score;
+
+    //必须为类生成一个公开的无参构造器，右键-&gt;generate-&gt;constructor
+    public Student() {
+    }
+    //右键-&gt;generate-&gt;getter and setter
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class StudentOperater {
+    private Student student;
+
+    public StudentOperater(Student student) {
+        this.student = student;
+    }
+    public void printPass(){
+        if(student.getScore()&gt;=60){
+            System.out.println(student.getName()+&quot;学生成绩及格&quot;);
+        }else{
+            System.out.println(student.getName()+&quot;学生成绩不及格&quot;);
+        }
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        Student s1 = new Student();
+        s1.setName(&quot;播妞&quot;);
+        s1.setScore(99);
+        System.out.println(s1.getName());
+        System.out.println(s1.getScore());
+        StudentOperater opreater=new StudentOperater(s1);
+        opreater.printPass();
+
+    }
+}
+</code></pre>
+<h2 id="综合案例"><strong>综合案例</strong></h2>
+<p>展示系统中的全部电影（每部电影的名称，价格），允许用户根据电影的编号查询除某个电影的具体信息。</p>
+<pre><code class="language-java">public class Movie {
+    private int id;
+    private String name;
+    private double price;
+    private double score;
+    private String director;
+    private String actor;
+    private String info;
+
+    public Movie() {
+    }
+
+    public Movie(int id, String name, double price, double score, String director, String actor, String info) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.score = score;
+        this.director = director;
+        this.actor = actor;
+        this.info = info;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public void setDirector(String director) {
+        this.director = director;
+    }
+
+    public String getActor() {
+        return actor;
+    }
+
+    public void setActor(String actor) {
+        this.actor = actor;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class MovieOperator {
+    private Movie[] movies;
+
+    public MovieOperator(Movie[] movies) {
+        this.movies = movies;
+    }
+    public void printAllMovies() {
+        System.out.println(&quot;---全部电影信息如下---&quot;);
+        for (int i = 0; i &lt; movies.length; i++) {
+            Movie m=movies[i];
+            System.out.println(&quot;编号：&quot;+m.getId());
+            System.out.println(&quot;名称：&quot;+m.getName());
+            System.out.println(&quot;价格：&quot;+m.getPrice());
+            System.out.println(&quot;---------------&quot;);
+        }
+    }
+    public void searchMovieById(int id) {
+        for (int i = 0; i &lt; movies.length; i++) {
+            Movie m=movies[i];
+            if (m.getId() == id) {
+                System.out.println(&quot;该电影影评如下：&quot;);
+                System.out.println(&quot;编号：&quot;+m.getId());
+                System.out.println(&quot;名称：&quot;+m.getName());
+                System.out.println(&quot;价格：&quot;+m.getPrice());
+                System.out.println(&quot;导演：&quot;+m.getDirector());
+                System.out.println(&quot;主演：&quot;+m.getActor());
+                System.out.println(&quot;其他信息：&quot;+m.getInfo());
+                return;
+            }
+        }
+        System.out.println(&quot;没有电影信息&quot;);
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        Movie[] movies = new Movie[1];
+        movies[0] = new Movie(1, &quot;水门桥&quot;, 28.9, 9.8, &quot;徐克&quot;, &quot;吴京&quot;, &quot;12w人想看&quot;);
+        MovieOperator operator = new MovieOperator(movies);
+
+        while (true) {
+            System.out.println(&quot;==电影信息系统==&quot;);
+            System.out.println(&quot;1.查询全部电影信息&quot;);
+            System.out.println(&quot;2.根据id查询某个电影的详细信息展示&quot;);
+            System.out.println(&quot;请您输入命令&quot;);
+            Scanner sc = new Scanner(System.in);
+            int command = sc.nextInt();
+            switch (command) {
+                case 1:
+                    operator.printAllMovies();
+                    break;
+                case 2:
+                    System.out.println(&quot;请您输入查询的电影id&quot;);
+                    int id = sc.nextInt();
+                    operator.searchMovieById(id);
+                    break;
+                default:
+                    System.out.println(&quot;您输入的命令有问题&quot;);
+
+            }
+        }
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Java基础案例]]></title>
+        <id>https://yyss1014.github.io/post/java-mian-xiang-dui-xiang-bu-fen-ji-chu-an-li/</id>
+        <link href="https://yyss1014.github.io/post/java-mian-xiang-dui-xiang-bu-fen-ji-chu-an-li/">
+        </link>
+        <updated>2025-02-27T06:57:18.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="案例1-买飞机票"><strong>案例1 买飞机票</strong></h2>
+<p>需求：用户购买机票时，机票会安装淡季旺季，头等舱还是经济舱的情况进行相应的优惠。5-10月为旺季，11月至次年4月为淡季，旺季头等舱机票打9折，经济舱打8.5折；淡季头等舱打7折，经济舱打6.5折。</p>
+<pre><code class="language-java">public class test1 {
+    public static void main(String[] args) {
+        System.out.println(&quot;请输入月份：&quot;);
+        Scanner sc = new Scanner(System.in);
+        int a = sc.nextInt();
+        System.out.println(&quot;请输入仓型，是经济舱还是头等舱：&quot;);
+        String b = sc.next();
+        System.out.println(&quot;请输入机票价格：&quot;);
+        double c = sc.nextDouble();
+        double d=ticket(b,a,c);
+        System.out.println(&quot;您的机票优惠价是：&quot;+d);
+    }
+    public static double ticket(String s, int month,double price) {
+        if(month &lt;=10&amp;&amp;month&gt;=5){
+            return price*(s==&quot;头等舱&quot;?0.9:0.85);
+        }else
+            return price*(s==&quot;头等舱&quot;?0.7:0.65);
+
+    }
+}
+</code></pre>
+<h2 id="案例2-生成验证码"><strong>案例2 生成验证码</strong></h2>
+<p>生成可以指定位数的验证码，每位可以是大写字母，小写字母，数字。</p>
+<pre><code class="language-java">public class test2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println(&quot;请输入需要的验证码的长度：&quot;);
+        int n=sc.nextInt();
+        String code=creatCode(n);
+        System.out.println(code);
+    }
+    public static String creatCode(int n){
+        Random r = new Random();
+        String code = &quot;&quot;;
+        for (int i = 1; i &lt;= n; i++) {
+            int type = r.nextInt(3);
+            switch(type){
+                case 0:
+                    code += (char)('a'+r.nextInt(26));
+                    break;
+                case 1:
+                    code += (char)('A'+r.nextInt(26));
+                    break;
+                case 2:
+                    code += (char)('0'+r.nextInt(10));
+            }
+        }
+        return code;
+    }
+}
+</code></pre>
+<h2 id="案例3-评委打分"><strong>案例3 评委打分</strong></h2>
+<p>在比赛中可能有多个评委打分，分数是0-100之间的整数，选手最后得分为去掉一个最高分，去掉一个最低分后剩余分数的平均分。</p>
+<pre><code class="language-java">public class test3 {
+    public static void main(String[] args) {
+        System.out.println(&quot;当前的选手的得分是&quot;+getAverageScore(6));
+
+    }
+    public static double getAverageScore(int number){
+        int[] scores=new int[number];
+        Scanner sc=new Scanner(System.in);
+        int max=0;
+        int sum=0;
+        int min=101;
+        for (int i = 0; i &lt; scores.length; i++) {
+            System.out.println(&quot;请录入第&quot;+(i+1)+&quot;个评委的分数&quot;);
+            scores[i]=sc.nextInt();
+            sum+=scores[i];
+            if(scores[i]&gt;max){
+                max=scores[i];
+            }
+            if(scores[i]&lt;min){
+                min=scores[i];
+            }
+        }
+        return 1.0*(sum-max-min)/(number-2);
+    }
+}
+</code></pre>
+<h2 id="案例4-数字加密"><strong>案例4 数字加密</strong></h2>
+<p>某系统的数字密码是4位数，如1983，需要加密后再传输，加密规则是对密码中的每一位数都加5，再对10求余，最后将所有数字反转，得到一串加密后的新数。</p>
+<pre><code class="language-java">public class test4 {
+    public static void main(String[] args) {
+        System.out.println(&quot;加密后的结果是：&quot;+encrypt(1983));
+
+    }
+    public static String encrypt(int number){
+        int[] numbers=split(number);//Alt+Enter直接创建方法
+        for (int i = 0; i &lt; numbers.length; i++) {
+            numbers[i]=(numbers[i]+5)%10;
+        }
+        String data=&quot;&quot;;
+        for (int i = 0; i &lt; numbers.length; i++) {
+            data+=numbers[i];
+        }
+        return data;
+    }
+
+    public static int[] split(int number) {
+        int[] numbers=new int[4];
+        for (int i = 0; i &lt; numbers.length; i++) {
+            numbers[i]=number%10;
+            number=number/10;
+        }
+        return numbers;
+    }
+}
+</code></pre>
+<h2 id="案例5-数组拷贝"><strong>案例5 数组拷贝</strong></h2>
+<p>请将一个整型数组，拷贝一个一模一样的数组出来。</p>
+<pre><code class="language-java">public class test5 {
+    public static void main(String[] args) {
+        int[] arr={11,22,33};
+        int[] arr2=copy(arr);
+        printArray(arr2);
+    }
+    public static void printArray(int[] arr) {
+        System.out.print(&quot;[&quot;);
+        for (int i = 0; i &lt; arr.length; i++) {
+            System.out.print(i==arr.length-1?arr[i]:arr[i]+&quot;,&quot;);
+        }
+        System.out.print(&quot;]&quot;);
+    }
+    public static int[] copy(int[] arr) {
+        int[] arr2 = new int[arr.length];
+        for (int i = 0; i &lt; arr.length; i++) {
+            arr2[i] = arr[i];
+        }
+        return arr2;
+    }
+}
+</code></pre>
+<h2 id="案例6-抢红包"><strong>案例6 抢红包</strong></h2>
+<p>一个大V直播抽奖，红包金额分别为9、666、188、520、99999。请模拟粉丝前来抽奖，随机抽取，抽完极致，注意：一个红包只能被抽取一次。</p>
+<pre><code class="language-java">public class test6 {
+    public static void main(String[] args) {
+        int[] moneys={9,666,188,520,99999};
+        start(moneys);
+    }
+    public static void start(int[] moneys) {
+        Scanner sc=new Scanner(System.in);
+        for (int i=0;i&lt;moneys.length;i++) {
+            System.out.println(&quot;请输入任意内容进行抽奖：&quot;);//Ctrl+Alt+T快捷生成流程控制语句
+            sc.next();
+            Random random=new Random();
+            while (true) {
+                int index=random.nextInt(moneys.length);
+                int money=moneys[index];
+                if(money!=0){
+                    System.out.println(&quot;恭喜你抽中了红包&quot;+money);
+                    moneys[index]=0;
+                    break;
+                }
+            }
+        }
+        System.out.println(&quot;活动结束了&quot;);
+    }
+}
+</code></pre>
+<p>这种方法有性能问题，可以打乱奖金顺序依次发给粉丝。</p>
+<h2 id="案例7-找素数"><strong>案例7 找素数</strong></h2>
+<p>判断101-200之间有多少素数并返回所有素数。</p>
+<ul>
+<li>方法一</li>
+</ul>
+<pre><code class="language-java">public class test7 {
+    public static void main(String[] args) {
+        System.out.println(&quot;素数个数为&quot;+search(101,200));
+    }
+    public static int search(int start, int end) {
+        int sum=0;
+        for (int i = start; i &lt;= end; i++) {
+            boolean flag=true;
+            for (int j = i/2; j &gt; 1; j--) {
+                if (i%j==0) {
+                    flag=false;
+                   break;
+                }
+            }
+            if (flag==true) {
+                System.out.println(i);
+                sum+=1;
+            }
+        }
+        return sum;
+    }
+}
+</code></pre>
+<ul>
+<li>方法二</li>
+</ul>
+<pre><code class="language-java">public class test7 {
+    public static void main(String[] args) {
+        System.out.println(&quot;素数个数为&quot;+search(101,200));
+    }
+    public static int search(int start, int end) {
+        int sum=0;
+        OUT://为外部循环指定标签
+        for (int i = start; i &lt;= end; i++) {
+            for (int j = i/2; j &gt; 1; j--) {
+                if (i%j==0) {
+                    continue OUT;
+                }
+            }
+                System.out.println(i);
+                sum+=1;
+        }
+        return sum;
+    }
+}
+</code></pre>
+<ul>
+<li>方法三</li>
+</ul>
+<pre><code class="language-java">public class test7 {
+    public static void main(String[] args) {
+        for (int i = 101; i &lt;= 200; i++) {
+            if (check(i)){
+                System.out.println(i);
+            }
+        }
+    }
+    public static boolean check(int data) {
+        for (int i = 2; i &lt;= data / 2; i++) {
+            if (data % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+</code></pre>
+<h2 id="案例8-打印乘法表"><strong>案例8 打印乘法表</strong></h2>
+<pre><code class="language-java">public class test8 {
+    public static void main(String[] args) {
+        for (int i = 1; i &lt;=9 ; i++) {
+            for (int j = 1; j &lt;=i ; j++) {
+                System.out.print(j+&quot;X&quot;+i+&quot;=&quot;+i*j+&quot;\t&quot;);
+            }
+            System.out.println();
+        }
+    }
+}
+</code></pre>
+<p>打印等边梯形</p>
+<pre><code class="language-java">public class test9 {
+    public static void main(String[] args) {
+        int n=10;
+        for (int i = 1; i &lt;= n; i++) {
+            for (int j = 1; j &lt;=(n-i) ; j++) {
+                System.out.print(&quot; &quot;);
+            }
+            for (int j = 1; j &lt;=2*i-1 ; j++) {
+                System.out.print(&quot;*&quot;);
+            }
+            System.out.println();
+        }
+    }
+}
+</code></pre>
+<h2 id="案例9-双色球"><strong>案例9 双色球</strong></h2>
+<p>投注号码由6个红球号码和1个蓝球号码组成。红色球号码由1-33中选择，蓝色球号码由1-16组成。</p>
+<pre><code class="language-java">public class test10 {
+    public static void main(String[] args) {
+        int[] userNumbers=userselectNumbers();
+        System.out.println(&quot;您投注的号码：&quot;);
+        printArray(userNumbers);
+        int[] luckeyNumbers=createluckyNumbers();
+        System.out.println(&quot;中奖的号码：&quot;);
+        printArray(luckeyNumbers);
+        judge(userNumbers, luckeyNumbers);
+
+    }
+    public static void printArray(int[] array) {
+        System.out.print(&quot;[&quot;);
+        for (int i = 0; i &lt; array.length; i++) {
+            System.out.print(i== array.length-1 ?array[i] :  array[i]+&quot;, &quot; );
+        }
+        System.out.println(&quot;]&quot;);
+    }
+    public static int[] userselectNumbers() {
+        int[] numbers=new int[7];
+        Scanner sc=new Scanner(System.in);
+        Random r = new Random();
+        for (int i = 0; i &lt; numbers.length-1; i++) {
+            while (true) {
+                System.out.println(&quot;请您输入第&quot;+(i+1)+&quot;个红球号码&quot;);
+                int number=sc.nextInt();
+                if(number&lt;1||number&gt;33) {
+                    System.out.println(&quot;对不起，您输入的号码不在1-33之间&quot;);
+                }else if(exist(numbers,number)){
+                        System.out.println(&quot;您的红球号码重复了&quot;);
+                }else{
+                    numbers[i]=number;
+                    break;
+                }
+            }
+        }
+        while (true) {
+            System.out.println(&quot;请输入最后一个蓝球号码&quot;);
+            int number=sc.nextInt();
+            if(number&lt;1||number&gt;16) {
+                System.out.println(&quot;对不起，您输入的号码不在1-16之间&quot;);
+            }else{
+                numbers[numbers.length-1]=number;
+                break;
+            }
+        }
+        return numbers;
+    }
+    public static boolean exist(int[] numbers, int number) {
+        for (int i = 0; i &lt; numbers.length; i++) {
+            if(numbers[i]==0) {
+                break;
+            }
+            if (numbers[i] == number) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public static int[] createluckyNumbers() {
+        int[] numbers=new int[7];
+        Random r=new Random();
+        for (int i = 0; i &lt; numbers.length-1; i++) {
+            while (true) {
+                int number=r.nextInt(33)+1;
+                if(!exist(numbers,number)) {
+                    numbers[i]=number;
+                    break;
+                }
+            }
+        }
+        numbers[numbers.length-1]=r.nextInt(16)+1;
+        return numbers;
+    }
+    public static void judge(int[] usernumbers,int[] luckeynumbers) {
+        int redcount=0;
+        int bluecount=0;
+        for (int i = 0; i &lt; usernumbers.length-1; i++) {
+            for (int j = 0; j &lt; luckeynumbers.length-1; j++) {
+                if(usernumbers[i]==luckeynumbers[j]) {
+                    redcount++;
+                    break;
+                }
+            }
+        }
+        bluecount=usernumbers[6]==luckeynumbers[6]?1:0;
+        System.out.println(&quot;您命中的红球数量是：&quot;+redcount);
+        System.out.println(&quot;您命中的蓝球数量是：&quot;+bluecount);
+        if(redcount==6&amp;&amp;bluecount==1) {
+            System.out.println(&quot;1000w&quot;);
+        } else if (redcount==6&amp;&amp;bluecount==0) {
+            System.out.println(&quot;500w&quot;);
+        }else if (redcount==5&amp;&amp;bluecount==1) {
+            System.out.println(&quot;3000&quot;);
+        }else if (redcount==5&amp;&amp;bluecount==0||redcount==4&amp;&amp;bluecount==1) {
+            System.out.println(&quot;200&quot;);
+        }else if (redcount==4&amp;&amp;bluecount==0||redcount==3&amp;&amp;bluecount==1) {
+            System.out.println(&quot;10&quot;);
+        }else if (redcount&lt;3&amp;&amp;bluecount==1) {
+            System.out.println(&quot;5&quot;);
+        }else{
+            System.out.println(&quot;感谢您对福利事业的巨大贡献&quot;);
+        }
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Java方法]]></title>
+        <id>https://yyss1014.github.io/post/java-fang-fa/</id>
+        <link href="https://yyss1014.github.io/post/java-fang-fa/">
+        </link>
+        <updated>2025-02-27T02:29:39.000Z</updated>
+        <content type="html"><![CDATA[<p>方法是一种语法结构，它可以把一段代码封装成一个功能，以便重复调用。</p>
+<pre><code class="language-java">修饰符 返回值类型 方法名(形参列表){
+    方法体代码(需要执行的功能代码)
+    return 返回值
+}
+</code></pre>
+<pre><code class="language-java">public class HelloWorld {
+    public static void main(String[] args) {
+        int rs=sum(10,20);
+        System.out.println(rs);
+    }
+    public static int sum(int a, int b) {
+        int c = a + b;
+        return c;
+    }
+}
+</code></pre>
+<p>形参列表可以有多个，甚至可以没有，多个形参必须用“,”隔开，且不能初始化给值。传输实参给方法的形参时，传输的是实参变量中形参的副本，引用类型的参数传输的存储的地址值。</p>
+<h2 id="案例"><strong>案例</strong></h2>
+<p>输出一个int类型的数组内容，要求输出格式为：[11,22,33,44,55]</p>
+<pre><code class="language-java">public static void printArray(int[] arr) {
+        if (arr==null){
+            System.out.println(arr);
+            return;
+        }
+        System.out.print(&quot;[&quot;);
+        for (int i = 0; i &lt; arr.length; i++) {
+            System.out.print(i==arr.length-1?arr[i]:arr[i]+&quot;,&quot;);
+        }
+        System.out.print(&quot;]&quot;);
+    }
+</code></pre>
+<p>判断两个数组是否相等</p>
+<pre><code class="language-java"> public static boolean equals(int [] arr1, int [] arr2) {
+     if(arr1==null &amp;&amp; arr2==null){
+         return true;
+     }
+     if (arr1==null||arr2==null) {
+         return false;
+     }
+     if (arr1.length!=arr2.length) {
+         return false;
+     }
+     for (int i = 0; i &lt; arr1.length; i++) {
+         if (arr1[i]!=arr2[i]) {
+             return false;
+         }
+     }
+     return true;
+ }
+</code></pre>
+<h2 id="方法重载"><strong>方法重载</strong></h2>
+<p>一个类中，只要一些方法名称相同，形参列表不同，那么它们就是方法重载，其他都不管。<br>
+return在无返回值的方法中，可以直接跳出并结束当前方法的执行。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Java数组]]></title>
+        <id>https://yyss1014.github.io/post/java-shu-zu/</id>
+        <link href="https://yyss1014.github.io/post/java-shu-zu/">
+        </link>
+        <updated>2025-02-26T08:21:31.000Z</updated>
+        <content type="html"><![CDATA[<p>数组是一个容器，用来存储同一批类型的数据。</p>
+<h2 id="数组类型"><strong>数组类型</strong></h2>
+<p>数组类型[] 数组名=new 数据类型[]{元素1，元素2，元素3，······}</p>
+<pre><code class="language-java">int[] arr =new int[]{1,2,3,4,5,6,7,8,9,10};
+</code></pre>
+<p>简化写法：<br>
+数组类型[] 数组名={元素1，元素2，元素3，······}</p>
+<ul>
+<li>什么类型的数组存放什么类型的数据</li>
+<li>数组类型[] 数组名也可以写成数组类型 数组名[]</li>
+</ul>
+<h2 id="数组访问"><strong>数组访问</strong></h2>
+<pre><code class="language-java">arr[0]=66    //修改数组中的数据
+arr.length   //访问数组中的元素个数
+arr.length-1 //访问数组中的最大索引（前提是元素个数大于0）
+//数组遍历
+for (int i = 0; i &lt; arr.length; i++) {//快捷键：数组名.fori+Enter
+            System.out.println(arr[i]);
+}
+</code></pre>
+<h2 id="动态定义数组"><strong>动态定义数组</strong></h2>
+<p>数组类型[] 数组名= new 数组类型[长度]</p>
+<pre><code class="language-java">int[] arr = new int[10]; //arr=[0,0,0]
+</code></pre>
+<p>动态初始化数组默认规则：</p>
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>byte、short、char、int、long</td>
+<td>0</td>
+</tr>
+<tr>
+<td>float、double</td>
+<td>0.0</td>
+</tr>
+<tr>
+<td>boolean</td>
+<td>false</td>
+</tr>
+<tr>
+<td>类、接口、数组、String</td>
+<td>null</td>
+</tr>
+</tbody>
+</table>
+<p>评委打分案例，录入6位评委的评分并求平均分。</p>
+<pre><code class="language-java">import java.util.Scanner;
+
+public class HelloWorld {
+    public static void main(String[] args) {
+        double[] scores = new double[6];
+        Scanner sc = new Scanner(System.in);
+        for (int i = 0; i &lt; scores.length; i++) {
+            System.out.println(&quot;请输入当前第&quot;+(i+1)+&quot;个评委的分数：&quot;);
+            double score=sc.nextDouble();
+            scores[i]=score;
+        }
+        double sum = 0;
+        for (int i = 0; i &lt; scores.length; i++) {
+            sum+=scores[i];
+        }
+        System.out.println(&quot;选手的最终得分是&quot;+sum/scores.length);
+    }
+}
+</code></pre>
+<p>多个变量指向一个数组：</p>
+<pre><code class="language-java">int[] arr1={11,22,33};
+int[] arr2=arr1;
+System.out.println(arr1);//[I@4eec7777
+System.out.println(arr2);//[I@4eec7777
+arr2[1]=99;
+System.out.println(arr1[1]);//99
+</code></pre>
+<p>可以看到两个数组指向同一个地址。如果数组变量中存储的值是null，那么该变量不指向任何数组对象。</p>
+<h2 id="案例"><strong>案例</strong></h2>
+<ul>
+<li>数组反转</li>
+</ul>
+<pre><code class="language-java">public class HelloWorld {
+    public static void main(String[] args) {
+        int[] arr={10,20,30,40,50};
+        for (int i = 0,j=arr.length-1;i &lt; j ; i++,j--) {
+            int temp=arr[i];
+            arr[i]=arr[j];
+            arr[j]=temp;
+        }
+    }
+}
+</code></pre>
+<ul>
+<li>随机排名</li>
+</ul>
+<pre><code class="language-java">public class HelloWorld {
+    public static void main(String[] args) {
+        int[] codes = new int[5];
+        Scanner sc = new Scanner(System.in);
+        for (int i = 0; i &lt; codes.length; i++) {
+            System.out.println(&quot;请输入当前第&quot;+i+1+&quot;员工的工号&quot;);
+            int code =sc.nextInt();
+            codes[i] = code;
+        }
+        Random r = new Random();
+        for (int i = 0; i &lt; codes.length; i++) {
+            int index=r.nextInt(codes.length);
+            int temp=codes[index];
+            codes[index]=codes[i];
+            codes[i]=temp;
+        }
+        for (int i = 0; i &lt; codes.length; i++) {
+            System.out.println(codes[i]);
+        }
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Java流程控制]]></title>
+        <id>https://yyss1014.github.io/post/java-liu-cheng-kong-zhi/</id>
+        <link href="https://yyss1014.github.io/post/java-liu-cheng-kong-zhi/">
+        </link>
+        <updated>2025-02-24T13:47:13.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="分支结构"><strong>分支结构</strong></h2>
+<ol>
+<li>if 分支</li>
+</ol>
+<pre><code class="language-java">if(条件表达式){
+    代码；
+}
+
+if(条件表达式){
+    代码1；
+}else{
+    代码2；
+}
+
+if(条件表达式){
+    代码1；
+}else if(条件表达式){
+    代码2；
+}
+···
+else{
+    代码n；
+}
+</code></pre>
+<ul>
+<li>()后不能跟&quot;;&quot;，否则{}代码不受if控制。如果if语句的{}中只有一行代码，{}可以省略不写。</li>
+</ul>
+<ol start="2">
+<li>switch分支</li>
+</ol>
+<p>  先执行表达式的值，再拿着这个值去与case后的值进行匹配。如果全部case后的值不匹配，再执行default模块。</p>
+<ul>
+<li>表达式类型只能是byte、short、int、char，JDK5开始支持枚举，JDK7开始支String，不支持double（浮点数不精确）、float、long</li>
+<li>case后的值不允许重复，只能是字面量，不能是变量。</li>
+<li>正常使用switch的时候，不要忘记break，否则会出现穿透现象。不过当存在多个分支的代码时，可以把相同的代码放在一个case块中，其他的case块都通过穿透性穿透到case块执行代码即可，这样可以简化代码。</li>
+</ul>
+<pre><code class="language-java">switch(表达式){
+    case值1:
+        执行代码...;
+        break;
+    case值2:
+        执行代码...;
+        break;
+    ...
+    case值n-1:
+        执行代码...;
+        break;
+    default:
+        执行代码n;
+}
+</code></pre>
+<h2 id="循环结构"><strong>循环结构</strong></h2>
+<ol>
+<li>for 循环</li>
+</ol>
+<pre><code class="language-java">for (int i = 0; i &lt; 3; i++){
+    System.out.println(&quot;Hello World&quot;);
+}
+</code></pre>
+<ol start="2">
+<li>while 循环</li>
+</ol>
+<pre><code class="language-java">int i = 0;
+while(i &lt; 5){    
+    System.out.println(&quot;Hello World&quot;);
+    i++;
+}
+</code></pre>
+<ol start="3">
+<li>do-while 循环</li>
+</ol>
+<pre><code class="language-java">int i=0;
+do{
+    System.out.println(&quot;Hello World&quot;);
+    i++;
+}while(i&lt;3);
+</code></pre>
+<ol start="4">
+<li>死循环</li>
+</ol>
+<pre><code class="language-java">for( ; ; ){
+    System.out.println(&quot;Hello World&quot;);
+}
+while(true){    
+    System.out.println(&quot;Hello World&quot;);
+}
+do{
+    System.out.println(&quot;Hello World&quot;);
+}while(true);
+</code></pre>
+<p>continue用于跳出当前循环的当次执行，break跳出并结束当前所在循环的执行。</p>
+<h2 id="案例"><strong>案例</strong></h2>
+<p>生成随机数，nextInt(10)生成的是0-9之间的随机数。</p>
+<pre><code class="language-java">import java.util.Random;
+
+public class HelloWorld {
+    public static void main(String[] args) {
+        Random r = new Random();
+        for (int i = 0; i &lt; 20; i++) {
+            int data=r.nextInt(10);
+            System.out.println(data);
+        }
+    }
+}
+</code></pre>
+<p>猜测幸运数字。</p>
+<pre><code class="language-java">import java.util.Random;
+import java.util.Scanner;
+
+public class HelloWorld {
+    public static void main(String[] args) {
+        Random r = new Random();
+        int luckyNumber = r.nextInt(100);
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            System.out.println(&quot;请输入你所猜测的数据：&quot;);
+            int guessNumber = sc.nextInt();
+            if (luckyNumber &lt; guessNumber) {
+                System.out.println(&quot;你输入的数字过大&quot;);
+            } else if (luckyNumber &gt; guessNumber) {
+                System.out.println(&quot;你输入的数字过小&quot;);
+            }else{
+                System.out.println(&quot;猜测成功了，可以买单了&quot;);
+                break;
+            }
+        }
+    } 
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[API简单介绍]]></title>
+        <id>https://yyss1014.github.io/post/api-jie-shao/</id>
+        <link href="https://yyss1014.github.io/post/api-jie-shao/">
+        </link>
+        <updated>2025-02-24T13:24:22.000Z</updated>
+        <content type="html"><![CDATA[<p>API(Application Programming Interface：程序编程接口)：JAVA写好的程序，程序员可以直接调用，Java为自己写好的程序提供了程序说明书。<br>
+例、使用scanner接收键盘输入的数据</p>
+<pre><code class="language-java">import java.util.Scanner;//导包
+public class HelloWorld {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println(&quot;Enter your age: &quot;);
+        int age = sc.nextInt();//等待用户输入一个整数，直到用户输入回车键才会拿到数据
+        System.out.println(&quot;You are &quot; + age + &quot; years old.&quot;);
+        System.out.println(&quot;Enter your name: &quot;);
+        String name = sc.next();//等待用户输入一个字符串，直到用户输入回车键才会拿到数据
+        System.out.println(name + &quot; ,Welcome&quot;);
+    }
+}
+
+</code></pre>
+<h2 id="包"><strong>包</strong></h2>
+<p>包是用来分门别类管理不同程序的，类似文件夹，建包有利于程序的管理和维护。</p>
+<ol>
+<li>同一个包下的程序，可以直接访问。</li>
+<li>访问其他包下的程序，必须导包才可以访问。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250304100501.png#pic_center" alt="" width="500" loading="lazy"></li>
+</ol>
+<ul>
+<li>add unambiguous imports on the fly（自动导包）<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250304101411.png#pic_center" alt="" width="500" loading="lazy"></li>
+</ul>
+<ol start="3">
+<li>自己的程序中调用Java提供的程序，也需要先导包才可以使用，注意：Java.lang下的程序（String, System）是不需要导包的，可以直接使用。</li>
+<li>访问多个其他包的程序，这些程序命名又一样的情况，默认只能导入一个程序，另一个程序需要带包名或类名来讨论。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250304102440.png#pic_center" alt="" width="500" loading="lazy"></li>
+</ol>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Java基础语法]]></title>
+        <id>https://yyss1014.github.io/post/java-ji-chu-yu-fa/</id>
+        <link href="https://yyss1014.github.io/post/java-ji-chu-yu-fa/">
+        </link>
+        <updated>2025-02-23T09:17:57.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="注释"><strong>注释</strong></h2>
+<pre><code class="language-java">//一行注释
+
+/*
+多行
+注释
+*/
+
+/**
+文档注释：文档注释的内容是可以提取到一个程序说明文档的
+*/
+</code></pre>
+<h2 id="变量"><strong>变量</strong></h2>
+<p>数据类型 变量名=数据</p>
+<pre><code class="language-java">&amp;emsp;&amp;emsp;标识符就是名字，如类名，变量名都是标识符。标识符由数字，字母，下划线(_)，和美元符($)组成。要求不能以数字开头，不能用关键字做名字，且区分大小写。
+## **二进制、八进制在程序中的写法**
+```java
+int a1=0B01100001;          //0B或0b开头二进制
+int a2=0141;                //0开头八进制
+int a3=0XFA;                //0X或0x开头十六进制
+</code></pre>
+<h2 id="数据类型"><strong>数据类型</strong></h2>
+<ul>
+<li>整型数据</li>
+</ul>
+<pre><code class="language-java">byte a=127;             //byte范围-128~127
+short s=13244;          //short 范围-32768~32767
+int i=422424;    
+long lg=42424224444L;   //整型字面上默认是int类型，如果是long类型需要后面加上L或l
+</code></pre>
+<ul>
+<li>浮点类型</li>
+</ul>
+<pre><code class="language-java">float f=3.14F;       //字面上默认小数是double，如果是float型后面需要加F或f
+double d=56.45;
+</code></pre>
+<ul>
+<li>char字符型</li>
+</ul>
+<pre><code class="language-java">char ch='a';
+char ch2='中';
+</code></pre>
+<ul>
+<li>字符串类型（扩展一种引用数据类型）</li>
+</ul>
+<pre><code class="language-java">string name=&quot;张三&quot;;
+</code></pre>
+<h2 id="数据类型转换"><strong>数据类型转换</strong></h2>
+<ol>
+<li>类型范围小的变量，可以直接赋值给类型范围大的变量。</li>
+</ol>
+<pre><code class="language-java">byte a=12;
+int b =a;
+
+int c=100;
+double d=c;    //d=100.0
+
+char ch='a';   //'a'=97=&gt;000000000 01100001 
+int i=ch;      //发生自动类型转换=&gt;00000000 00000000 00000000 01100001
+</code></pre>
+<ul>
+<li>byte→short→int→long→float→double</li>
+<li>char→int→long→float→double</li>
+</ul>
+<ol start="2">
+<li>在表达式中，小范围类型的变量，会自动转换为表达式中较大类型的变量。</li>
+</ol>
+<ul>
+<li>byte、short、char→int→long→float→double</li>
+<li>注意：在表达式中，byte、short、char是直接转换成int类型参与运算。</li>
+</ul>
+<pre><code class="language-java">byte a=10;
+int b=20;
+long c=30;
+long rs=a+b+c;
+</code></pre>
+<ol start="3">
+<li>强制类型转换</li>
+</ol>
+<pre><code class="language-java">int a=20;
+byte b=(byte)a;    // ALT +ENTER 强制类型转换
+
+int i=1500;      //00000000 00000000 00000101 11011100
+byte b=(byte)i;  //11011100
+
+double d=99.5;
+int m=(int)d;     //m=99，丢掉小数部分，保留整数部分
+</code></pre>
+<h2 id="算数运算符"><strong>算数运算符</strong></h2>
+<p>在java中，两个整数相除还是整数。</p>
+<pre><code class="language-java">int i=5;
+int j=2;
+i/j      //2.5=&gt;2
+i*1.0/j  //2.5
+</code></pre>
+<p>使用加符号连接时能算则算，不能算就用加符号连接在一起。</p>
+<pre><code class="language-java">int a=5;
+System.out.println(&quot;abc&quot;+a);     //abc5
+System.out.println(a+5);         //10
+System.out.println(&quot;abc&quot;+a+'a'); //abc5a
+System.out.println(a+'a'+&quot;abc&quot;); //102abc
+</code></pre>
+<p>自增自减非单独使用时，++a先自增再赋值，a++先赋值再自增。</p>
+<pre><code class="language-java">int m=5;
+int n=3;
+int result=++m - --m + m-- - ++n + n-- + 3;   //6-5+5-4+4+3
+</code></pre>
+<p>扩展赋值运算符底层代码形式：<br>
+eg.  a+=b → a=(a的类型)(a+b)</p>
+<h2 id="逻辑运算符"><strong>逻辑运算符</strong></h2>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>叫法</th>
+<th>运算逻辑</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&amp;</td>
+<td>逻辑与</td>
+<td>前后表达式都为true才为true</td>
+</tr>
+<tr>
+<td>|</td>
+<td>逻辑或</td>
+<td>只要有一个true结果就为true</td>
+</tr>
+<tr>
+<td>！</td>
+<td>逻辑非</td>
+<td>true变false，false变true</td>
+</tr>
+<tr>
+<td>^</td>
+<td>逻辑异或</td>
+<td>前后表达式结果相同则为false，前后表达式结果不同则为true</td>
+</tr>
+<tr>
+<td>&amp;&amp;</td>
+<td>短路与</td>
+<td>判断结果与&amp;相同，若左侧表达式为false，右侧不执行</td>
+</tr>
+<tr>
+<td>||</td>
+<td>短路或</td>
+<td>判断结果与|一样，左边为true，右侧则不执行</td>
+</tr>
+</tbody>
+</table>
+<h2 id="三元运算符"><strong>三元运算符</strong></h2>
+<p>条件表达式？值1:值2;</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Java入门 - Hello World]]></title>
+        <id>https://yyss1014.github.io/post/java-ru-men-hello-world/</id>
+        <link href="https://yyss1014.github.io/post/java-ru-men-hello-world/">
+        </link>
+        <updated>2025-02-23T06:21:55.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="记事本开发hello-world"><strong>记事本开发Hello World</strong></h2>
+<ul>
+<li>第一个Java代码建议用记事本书写，创建一个新记事本，显示隐藏扩展名，文件的后缀改成.java</li>
+<li>建议代码文件名全英文，首字母大写，满足驼峰模式</li>
+</ul>
+<ol>
+<li>编写代码<br>
+第一个代码程序如下：</li>
+</ol>
+<pre><code class="language-java">public class HelloWorld{
+    public static void main(String[] args){
+        System.out.printIn(&quot;Hello World&quot;);
+    }
+}
+</code></pre>
+<p>文件名称必须与代码的类名称一致。</p>
+<ol start="2">
+<li>编译代码<br>
+调出命令行窗口在代码文件当前目录下运行。</li>
+</ol>
+<pre><code class="language-cpp">javac 文件名.java
+</code></pre>
+<ol start="3">
+<li>运行代码<br>
+接着在命令行窗口运行。</li>
+</ol>
+<pre><code class="language-cpp">java 文件名
+</code></pre>
+<h2 id="idea开发hello-world"><strong>IDEA开发Hello World</strong></h2>
+<h3 id="idea常用快捷键"><strong>IDEA常用快捷键</strong></h3>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>main/psvm、sout、···</td>
+<td>快捷输入相关代码</td>
+</tr>
+<tr>
+<td>Ctrl+D</td>
+<td>复制当前行数据到下一行</td>
+</tr>
+<tr>
+<td>Ctrl+Y</td>
+<td>删除所在行</td>
+</tr>
+<tr>
+<td>Ctrl+ALT+L</td>
+<td>格式化代码</td>
+</tr>
+<tr>
+<td>ALT+SHIFT+⬆，ALT+SHIFT+⬇</td>
+<td>上下移动当前代码</td>
+</tr>
+<tr>
+<td>Ctrl+/，Ctrl+Shift+/</td>
+<td>对代码进行注释</td>
+</tr>
+</tbody>
+</table>
+<h3 id="idea其他操作"><strong>IDEA其他操作</strong></h3>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[基本的DOS命令]]></title>
+        <id>https://yyss1014.github.io/post/ji-ben-de-dos-ming-ling/</id>
+        <link href="https://yyss1014.github.io/post/ji-ben-de-dos-ming-ling/">
+        </link>
+        <updated>2025-02-22T12:20:20.000Z</updated>
+        <content type="html"><![CDATA[<p>打开CMD的方式:</p>
+<ol>
+<li>开始+系统+命令提示符</li>
+<li>win+R 输入cmd打开控制台</li>
+<li>在任意文件夹下按住shift键+鼠标右键点击，在此处打开命令行窗口</li>
+<li>资源管理器的地址栏，cmd空格加上路径</li>
+<li>管理员运行</li>
+</ol>
+<p>常用的DOS命令：</p>
+<pre><code class="language-cpp">#盘符切换  (需要进入C盘)C:
+#查看路径下的所有文件 dir
+#切换目录change directory cd /d C:
+#切换下一级目录 cd (目录名称)
+#返回上一级目录 cd..
+#清理屏幕 cls
+#退出终端 exit
+#查看电脑ip ipconfig
+#打开应用
+    计算器 calc
+    画图 mspaint
+    记事本 notepad
+#ping命令 ping www.baidu.com
+#文件操作
+    创建文件 cd&gt;(文件名称)
+    删除文件 delete (文件名称)
+    创建目录 md (目录名)
+    删除目录 rd (目录名)
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Markdown语法]]></title>
+        <id>https://yyss1014.github.io/post/hello/</id>
+        <link href="https://yyss1014.github.io/post/hello/">
+        </link>
+        <updated>2025-01-09T08:04:18.000Z</updated>
+        <content type="html"><![CDATA[<p>  偶然发现看论文时发现写注释真的挺有用的，可以理清思路，b站up遇见狂神说的java基础视频也鼓励这一点。于是我决定从今天开始写博客。<br>
+  参考来源：<a href="https://www.bilibili.com/video/BV12J41137hu?vd_source=906aff1cc5a8e26730933b6cc846bcdb&amp;spm_id_from=333.788.videopod.episodes">【狂神说Java】Java零基础学习视频通俗易懂</a></p>
+<h2 id="1标题"><strong>1.标题</strong></h2>
+<pre><code class="language-cpp"># 一级标题
+## 二级标题
+### 三级标题
+</code></pre>
+<h2 id="2字体"><strong>2.字体</strong></h2>
+<pre><code class="language-cpp">**这是粗体**
+*这是斜体*
+***这是斜体加粗***
+~~这是删除线~~
+</code></pre>
+<h2 id="3引用"><strong>3.引用</strong></h2>
+<pre><code class="language-cpp">&gt; 这里引用一段话
+</code></pre>
+<h2 id="4分割线"><strong>4.分割线</strong></h2>
+<pre><code class="language-cpp">---
+***
+</code></pre>
+<h2 id="5图片"><strong>5.图片</strong></h2>
+<pre><code class="language-cpp">![图片名字](图片路径)
+</code></pre>
+<h2 id="6超链接"><strong>6.超链接</strong></h2>
+<pre><code class="language-cpp">[超链接名字](地址)
+</code></pre>
+<h2 id="7列表"><strong>7.列表</strong></h2>
+<p>  分为无序列表和有序列表，表格语句上一行必须为空行，不然无法生效。</p>
+<ul>
+<li>有序列表</li>
+</ul>
+<pre><code class="language-cpp">1. 有序列表
+2. 有序列表
+3. 有序列表
+</code></pre>
+<ul>
+<li>无序列表</li>
+</ul>
+<pre><code class="language-cpp">- 无序列表
+</code></pre>
+<h2 id="8表格"><strong>8.表格</strong></h2>
+<pre><code class="language-cpp">名字|性别|生日
+--|--|--|
+易遇|男|12.31
+</code></pre>
+<h2 id="9代码"><strong>9.代码</strong></h2>
+<p>  注意这里代码块最后一行也需要三个反引号，玻珠人菜无法显示。</p>
+<pre><code class="language-cpp">```cpp
+code
+</code></pre>
+<h2 id="10换行"><strong>10.换行</strong></h2>
+<pre><code class="language-cpp">&amp;emsp;  表示一个全角的空格
+&amp;ensp;  表示一个半角的空格
+</code></pre>
+<h2 id="11字体大小颜色"><strong>11.字体大小，颜色</strong></h2>
+<pre><code class="language-cpp">&lt;font face=&quot;逐浪新宋&quot;&gt;我是逐浪新宋&lt;/font&gt;
+&lt;font face=&quot;逐浪圆体&quot;&gt;我是逐浪圆体&lt;/font&gt;
+&lt;font face=&quot;逐浪花体&quot;&gt;我是逐浪花体&lt;/font&gt;
+&lt;font face=&quot;逐浪像素字&quot;&gt;我是逐浪像素字&lt;/font&gt;
+&lt;font face=&quot;逐浪立楷&quot;&gt;我是逐浪立楷&lt;/font&gt;
+&lt;font color=red&gt;我是红色&lt;/font&gt;
+&lt;font color=#008000&gt;我是绿色&lt;/font&gt;
+&lt;font color=yellow&gt;我是黄色&lt;/font&gt;
+&lt;font color=Blue&gt;我是蓝色&lt;/font&gt;
+&lt;font color= #871F78&gt;我是紫色&lt;/font&gt;
+&lt;font color= #DCDCDC&gt;我是浅灰色&lt;/font&gt;
+&lt;font size=3&gt;我是尺寸3&lt;/font&gt;
+</code></pre>
+<p>效果如下：<br>
+<font face="逐浪新宋">我是逐浪新宋</font><br>
+<font face="逐浪圆体">我是逐浪圆体</font><br>
+<font face="逐浪花体">我是逐浪花体</font><br>
+<font face="逐浪像素字">我是逐浪像素字</font><br>
+<font face="逐浪立楷">我是逐浪立楷</font><br>
+<font color=red>我是红色</font><br>
+<font color=#008000>我是绿色</font><br>
+<font color=yellow>我是黄色</font><br>
+<font color=Blue>我是蓝色</font><br>
+<font color= #871F78>我是紫色</font><br>
+<font color= #DCDCDC>我是浅灰色</font><br>
+<font size=4>我是尺寸4</font></p>
+]]></content>
+    </entry>
+</feed>
