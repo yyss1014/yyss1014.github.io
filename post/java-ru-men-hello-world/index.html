@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Java入门 - Hello World | WASD研究院</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://yyss1014.github.io/favicon.ico?v=1741440177537">
+<link rel="stylesheet" href="https://yyss1014.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="记事本开发Hello World
+
+第一个Java代码建议用记事本书写，创建一个新记事本，显示隐藏扩展名，文件的后缀改成.java
+建议代码文件名全英文，首字母大写，满足驼峰模式
+
+
+编写代码
+第一个代码程序如下：
+
+public clas..." />
+    <meta name="keywords" content="Java" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://yyss1014.github.io">
+        <img src="https://yyss1014.github.io/images/avatar.png?v=1741440177537" class="site-logo">
+        <h1 class="site-title">WASD研究院</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/archives" class="site-nav">
+            目录
+          </a>
+        
+      
+        
+          <a href="/" class="site-nav">
+            文章
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            分类
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://yyss1014.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Java入门 - Hello World</h2>
+            <div class="post-date">2025-02-23</div>
+            
+            <div class="post-content" v-pre>
+              <h2 id="记事本开发hello-world"><strong>记事本开发Hello World</strong></h2>
+<ul>
+<li>第一个Java代码建议用记事本书写，创建一个新记事本，显示隐藏扩展名，文件的后缀改成.java</li>
+<li>建议代码文件名全英文，首字母大写，满足驼峰模式</li>
+</ul>
+<ol>
+<li>编写代码<br>
+第一个代码程序如下：</li>
+</ol>
+<pre><code class="language-java">public class HelloWorld{
+    public static void main(String[] args){
+        System.out.printIn(&quot;Hello World&quot;);
+    }
+}
+</code></pre>
+<p>文件名称必须与代码的类名称一致。</p>
+<ol start="2">
+<li>编译代码<br>
+调出命令行窗口在代码文件当前目录下运行。</li>
+</ol>
+<pre><code class="language-cpp">javac 文件名.java
+</code></pre>
+<ol start="3">
+<li>运行代码<br>
+接着在命令行窗口运行。</li>
+</ol>
+<pre><code class="language-cpp">java 文件名
+</code></pre>
+<h2 id="idea开发hello-world"><strong>IDEA开发Hello World</strong></h2>
+<h3 id="idea常用快捷键"><strong>IDEA常用快捷键</strong></h3>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>main/psvm、sout、···</td>
+<td>快捷输入相关代码</td>
+</tr>
+<tr>
+<td>Ctrl+D</td>
+<td>复制当前行数据到下一行</td>
+</tr>
+<tr>
+<td>Ctrl+Y</td>
+<td>删除所在行</td>
+</tr>
+<tr>
+<td>Ctrl+ALT+L</td>
+<td>格式化代码</td>
+</tr>
+<tr>
+<td>ALT+SHIFT+⬆，ALT+SHIFT+⬇</td>
+<td>上下移动当前代码</td>
+</tr>
+<tr>
+<td>Ctrl+/，Ctrl+Shift+/</td>
+<td>对代码进行注释</td>
+</tr>
+</tbody>
+</table>
+<h3 id="idea其他操作"><strong>IDEA其他操作</strong></h3>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://yyss1014.github.io/tag/ZoLZarYSyW/" class="tag">
+                    Java
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://yyss1014.github.io/post/ji-ben-de-dos-ming-ling/">
+                  <h3 class="post-title">
+                    基本的DOS命令
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Markdown语法 | WASD研究院</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://yyss1014.github.io/favicon.ico?v=1741440177537">
+<link rel="stylesheet" href="https://yyss1014.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="  偶然发现看论文时发现写注释真的挺有用的，可以理清思路，b站up遇见狂神说的java基础视频也鼓励这一点。于是我决定从今天开始写博客。
+  参考来源：【狂神说Java】Java零基础学习视频通俗易懂
+1.标题
+# 一级标题
+## 二级标题..." />
+    <meta name="keywords" content="" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://yyss1014.github.io">
+        <img src="https://yyss1014.github.io/images/avatar.png?v=1741440177537" class="site-logo">
+        <h1 class="site-title">WASD研究院</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/archives" class="site-nav">
+            目录
+          </a>
+        
+      
+        
+          <a href="/" class="site-nav">
+            文章
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            分类
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://yyss1014.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Markdown语法</h2>
+            <div class="post-date">2025-01-09</div>
+            
+            <div class="post-content" v-pre>
+              <p>  偶然发现看论文时发现写注释真的挺有用的，可以理清思路，b站up遇见狂神说的java基础视频也鼓励这一点。于是我决定从今天开始写博客。<br>
+  参考来源：<a href="https://www.bilibili.com/video/BV12J41137hu?vd_source=906aff1cc5a8e26730933b6cc846bcdb&amp;spm_id_from=333.788.videopod.episodes">【狂神说Java】Java零基础学习视频通俗易懂</a></p>
+<h2 id="1标题"><strong>1.标题</strong></h2>
+<pre><code class="language-cpp"># 一级标题
+## 二级标题
+### 三级标题
+</code></pre>
+<h2 id="2字体"><strong>2.字体</strong></h2>
+<pre><code class="language-cpp">**这是粗体**
+*这是斜体*
+***这是斜体加粗***
+~~这是删除线~~
+</code></pre>
+<h2 id="3引用"><strong>3.引用</strong></h2>
+<pre><code class="language-cpp">&gt; 这里引用一段话
+</code></pre>
+<h2 id="4分割线"><strong>4.分割线</strong></h2>
+<pre><code class="language-cpp">---
+***
+</code></pre>
+<h2 id="5图片"><strong>5.图片</strong></h2>
+<pre><code class="language-cpp">![图片名字](图片路径)
+</code></pre>
+<h2 id="6超链接"><strong>6.超链接</strong></h2>
+<pre><code class="language-cpp">[超链接名字](地址)
+</code></pre>
+<h2 id="7列表"><strong>7.列表</strong></h2>
+<p>  分为无序列表和有序列表，表格语句上一行必须为空行，不然无法生效。</p>
+<ul>
+<li>有序列表</li>
+</ul>
+<pre><code class="language-cpp">1. 有序列表
+2. 有序列表
+3. 有序列表
+</code></pre>
+<ul>
+<li>无序列表</li>
+</ul>
+<pre><code class="language-cpp">- 无序列表
+</code></pre>
+<h2 id="8表格"><strong>8.表格</strong></h2>
+<pre><code class="language-cpp">名字|性别|生日
+--|--|--|
+易遇|男|12.31
+</code></pre>
+<h2 id="9代码"><strong>9.代码</strong></h2>
+<p>  注意这里代码块最后一行也需要三个反引号，玻珠人菜无法显示。</p>
+<pre><code class="language-cpp">```cpp
+code
+</code></pre>
+<h2 id="10换行"><strong>10.换行</strong></h2>
+<pre><code class="language-cpp">&amp;emsp;  表示一个全角的空格
+&amp;ensp;  表示一个半角的空格
+</code></pre>
+<h2 id="11字体大小颜色"><strong>11.字体大小，颜色</strong></h2>
+<pre><code class="language-cpp">&lt;font face=&quot;逐浪新宋&quot;&gt;我是逐浪新宋&lt;/font&gt;
+&lt;font face=&quot;逐浪圆体&quot;&gt;我是逐浪圆体&lt;/font&gt;
+&lt;font face=&quot;逐浪花体&quot;&gt;我是逐浪花体&lt;/font&gt;
+&lt;font face=&quot;逐浪像素字&quot;&gt;我是逐浪像素字&lt;/font&gt;
+&lt;font face=&quot;逐浪立楷&quot;&gt;我是逐浪立楷&lt;/font&gt;
+&lt;font color=red&gt;我是红色&lt;/font&gt;
+&lt;font color=#008000&gt;我是绿色&lt;/font&gt;
+&lt;font color=yellow&gt;我是黄色&lt;/font&gt;
+&lt;font color=Blue&gt;我是蓝色&lt;/font&gt;
+&lt;font color= #871F78&gt;我是紫色&lt;/font&gt;
+&lt;font color= #DCDCDC&gt;我是浅灰色&lt;/font&gt;
+&lt;font size=3&gt;我是尺寸3&lt;/font&gt;
+</code></pre>
+<p>效果如下：<br>
+<font face="逐浪新宋">我是逐浪新宋</font><br>
+<font face="逐浪圆体">我是逐浪圆体</font><br>
+<font face="逐浪花体">我是逐浪花体</font><br>
+<font face="逐浪像素字">我是逐浪像素字</font><br>
+<font face="逐浪立楷">我是逐浪立楷</font><br>
+<font color=red>我是红色</font><br>
+<font color=#008000>我是绿色</font><br>
+<font color=yellow>我是黄色</font><br>
+<font color=Blue>我是蓝色</font><br>
+<font color= #871F78>我是紫色</font><br>
+<font color= #DCDCDC>我是浅灰色</font><br>
+<font size=4>我是尺寸4</font></p>
+
+            </div>
+            
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>
