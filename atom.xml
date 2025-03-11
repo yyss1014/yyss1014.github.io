@@ -1,0 +1,2996 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://yyss1014.github.io</id>
+    <title>WASD研究院</title>
+    <updated>2025-03-11T02:26:48.398Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://yyss1014.github.io"/>
+    <link rel="self" href="https://yyss1014.github.io/atom.xml"/>
+    <subtitle>温故而知新</subtitle>
+    <logo>https://yyss1014.github.io/images/avatar.png</logo>
+    <icon>https://yyss1014.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2025, WASD研究院</rights>
+    <entry>
+        <title type="html"><![CDATA[Java面向对象进阶]]></title>
+        <id>https://yyss1014.github.io/post/java-mian-xiang-dui-xiang-jin-jie/</id>
+        <link href="https://yyss1014.github.io/post/java-mian-xiang-dui-xiang-jin-jie/">
+        </link>
+        <updated>2025-03-10T03:35:13.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E5%86%85%E9%83%A8%E7%B1%BB"><strong>内部类</strong></a></li>
+<li><a href="#%E6%9E%9A%E4%B8%BE"><strong>枚举</strong></a></li>
+<li><a href="#%E6%8A%BD%E8%B1%A1%E6%9E%9A%E4%B8%BE"><strong>抽象枚举</strong></a></li>
+<li><a href="#%E6%B3%9B%E5%9E%8B"><strong>泛型</strong></a></li>
+</ul>
+</li>
+</ul>
+</p>
+<h2 id="内部类"><strong>内部类</strong></h2>
+<p>成员内部类是类中的一个普通成员，类似我们学过的普通成员变量。可以直接访问外部类的实例成员、静态成员。</p>
+<pre><code class="language-java">public class Outer {
+    private int age=99;
+    public static String a;
+    //成员内部类
+    public class Inner{
+        private String name;
+        public static String schoolname;//内部类从JDK16才开始支持定义静态成员
+        private int age=88;
+        public void test(){
+            System.out.println(a);
+            System.out.println(age);
+
+            int age=66;
+            System.out.println(age);//66
+            System.out.println(this.age);//88
+            System.out.println(Outer.this.age);//99
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        Outer.Inner in=new Outer().new Inner();
+        in.test();
+    }
+}
+</code></pre>
+<p>静态内部类：有static修饰的内部类，属于外部类自己持有(类方法、类变量)。</p>
+<pre><code class="language-java">public class Outer {
+    private int age;
+    public static String schoolName;
+    //静态内部类
+    public static class Inner{
+        private String name;
+        public static int a;
+
+        public void test(){
+            System.out.println(schoolName);
+            //System.out.println(age);不可以访问实例成员变量
+        }
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+    }
+    //静态方法、类方法
+    public static void test2(){
+        System.out.println(schoolName);
+        //System.out.println(age);不可以访问实例成员变量
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        Outer.Inner in = new Outer.Inner();
+        in.test();
+    }
+}
+</code></pre>
+<p>局部内部类（不常用）：定义在方法中、代码块中、构造器等执行体中。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+    }
+    public static void go(){
+        class A{}
+        abstract class B{}
+        interface C{}
+    }
+}
+</code></pre>
+<p>匿名内部类：特殊的局部内部类，所谓匿名指不需要程序员为这个类声明名字。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        //Animal a=new Cat();
+        //a.cry();
+        Animal a=new Animal(){
+            @Override
+            public void cry() {
+                System.out.println(&quot;猫喵喵喵&quot;);
+            }
+        };
+        a.cry();
+    }
+
+}
+/*class Cat extends Animal {
+    @Override
+    public void cry() {
+        System.out.println(&quot;猫喵喵喵&quot;);
+    }
+}*/
+abstract class Animal{
+    public abstract void cry();
+}
+</code></pre>
+<p>匿名内部类反编译：<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250310152806.png#pic_center" alt="" width="500" loading="lazy"></p>
+<ul>
+<li>通常作为一个参数传输给方法。</li>
+</ul>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+       /*Swimming s1=new Swimming(){
+            @Override
+            public void swim() {
+                System.out.println(&quot;狗游泳&quot;);
+            }
+        };
+       go(s1);*/
+        go(new Swimming() {
+            @Override
+            public void swim() {
+                System.out.println(&quot;狗游泳&quot;);
+            }
+        });
+    }
+
+    public static void go(Swimming s) {
+        System.out.println(&quot;----------开始------------&quot;);
+        s.swim();
+    }
+
+    interface Swimming {
+        void swim();
+    }
+}
+</code></pre>
+<p>开发应用场景：</p>
+<pre><code class="language-java">import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class Test {
+    public static void main(String[] args) {
+        //拓展：搞清楚匿名内部类在开发中的真实使用场景。
+        //GUI编程
+        //1、创建窗口
+        JFrame win=new JFrame(&quot;登录界面&quot;);
+        JPanel panel=new JPanel();
+        win.add(panel);
+
+        JButton btn=new JButton(&quot;登录&quot;);
+        panel.add(btn);
+        //给按钮绑定单机事件
+        btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(win,&quot;登录一下&quot;);
+            }
+        });
+        btn.addActionListener(e -&gt; JOptionPane.showMessageDialog(win,&quot;登录一下&quot;));
+        //最终核心目的是简化代码
+
+        win.setSize(300,300);
+        win.setLocationRelativeTo(null);
+        win.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        win.setVisible(true);
+    }
+}
+</code></pre>
+<h2 id="枚举"><strong>枚举</strong></h2>
+<p>枚举是一种特殊类。</p>
+<pre><code class="language-java">public enum A {
+    //枚举类第一行必须罗列的是枚举对象的名字
+    X,Y,Z;
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        A a1=A.X;
+        System.out.println(a1);
+    }
+}
+</code></pre>
+<p>反编译后的枚举类A：<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250310162551.png" alt="" loading="lazy"></p>
+<ul>
+<li>枚举类第一行罗列的名称都是常量，每个常量记住的都是枚举类的一个对象。</li>
+<li>枚举类的构造器都是私有的，因此枚举类外不能创建对象。</li>
+<li>枚举类都是最终类，不可被继承。</li>
+<li>枚举类从第二行开始可以定义类的其他各种成员。</li>
+<li>编译器为枚举类新增了几个方法，并且枚举类都是继承java.lang.Enum类的，从enum类也会继承到一些方法。</li>
+</ul>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        A a1=A.X;
+        System.out.println(a1);
+        //A a=new A();
+        A[] as=A.values();//拿到全部对象
+        A a3=A.valueOf(&quot;Z&quot;);
+        System.out.println(a3.name());//Z
+        System.out.println(a3.ordinal());//索引
+    }
+}
+</code></pre>
+<h2 id="抽象枚举"><strong>抽象枚举</strong></h2>
+<p>枚举对象名字时需要重写抽象方法。</p>
+<pre><code class="language-java">public enum B {
+    X(){
+        @Override
+        public void go() {
+
+        }
+    },Y(&quot;张三&quot;){
+        @Override
+        public void go() {
+            System.out.println(getName());
+        }
+    };
+    private String name;
+    public abstract void go();
+
+    B() {
+    }
+
+    B(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+</code></pre>
+<p>枚举在信息选择部分应用广泛。</p>
+<pre><code class="language-java">public enum Constant {
+    BOY,GIRL;
+}
+public class Test {
+    public static void main(String[] args) {
+        check(Constant.BOY);
+    }
+    public static void check(Constant sex){
+        switch (sex){
+            case BOY://case语句Constant.BOY前缀可以省略
+                System.out.println(&quot;美女&quot;);
+                break;
+            case GIRL:
+                System.out.println(&quot;帅哥&quot;);
+                break;
+        }
+    }
+}
+</code></pre>
+<h2 id="泛型"><strong>泛型</strong></h2>
+<p>定义类、接口、方法时，同时声明一个或多个类型变量，称为泛型类、泛型接口、泛型方法，他们统称为泛型。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Java面向对象高级]]></title>
+        <id>https://yyss1014.github.io/post/java-mian-xiang-dui-xiang/</id>
+        <link href="https://yyss1014.github.io/post/java-mian-xiang-dui-xiang/">
+        </link>
+        <updated>2025-03-08T06:56:39.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="多态"><strong>多态</strong></h2>
+<p>多态时在继承/实现情况下的一种现象，表现为：对象多态，行为多态。</p>
+<ul>
+<li>有继承/实现关系；存在父类引用子类对象；存在方法重写。但多态不能调用子类的独有功能。</li>
+<li>多态是对象、行为的多态，Java中的属性（成员变量）不谈多态。</li>
+</ul>
+<pre><code class="language-java">public class People {
+    public String name=&quot;父类People的名称&quot;;
+    public void run(){
+        System.out.println(&quot;人可以跑&quot;);
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Student extends People {
+    @Override
+    public void run() {
+        System.out.println(&quot;学生跑的贼快&quot;);
+    }
+    public void test(){
+        System.out.println(&quot;学生需要考试&quot;);
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Teacher extends People {
+    public String name=&quot;子类Teacher的名称&quot;;
+    @Override
+    public void run() {
+        System.out.println(&quot;老师跑的气喘吁吁&quot;);
+    }
+    public void teach(){
+        System.out.println(&quot;老师需要教知识&quot;);
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        //对象多态
+        People p1 = new Teacher();
+        p1.run();//老师跑的气喘吁吁
+        //识别技巧，编译看左边，运行看右边
+        System.out.println(p1.name);//父类People的名称
+        People p2 = new Student();
+        p2.run();//学生跑的贼快
+    }
+}
+</code></pre>
+<ul>
+<li>好处1：可以实现解耦合，右边对象可以随时切换，后续业务可以随时改变。</li>
+<li>好处2：定义父类方法时，使用父类作为形参，可以接收一切子类对象，扩展性更强更便利。</li>
+</ul>
+<h2 id="类型转换"><strong>类型转换</strong></h2>
+<p>自动类型转换：父类 变量名=new 子类()<br>
+强制类型转换：子类 变量名=(子类) 父类变量</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        People p1 = new Student();
+        p1.run();
+        //强制类型转换
+        Student s1 = (Student) p1;//Alt+Enter再次Enter
+        s1.test();
+        //强制类型转换在编译阶段有继续或者实现关系就可以强制转换，但运行时可能会出现类型转换异常
+        //Teacher t1 = (Teacher) p1;//运行异常：ClassCastException
+
+        System.out.println(&quot;------------&quot;);
+        Student s = new Student();
+        go(s);
+        Teacher t = new Teacher();
+        go(t);
+    }
+    public static void go(People p){
+        p.run();
+        if(p instanceof Student){
+            Student s2 = (Student) p;
+            s2.test();
+        }else{
+            Teacher t2 = (Teacher) p;
+            t2.teach();
+        }
+    }
+}
+</code></pre>
+<h2 id="final"><strong>final</strong></h2>
+<p>final关键字是最终的意思，可以修饰类，方法和变量。</p>
+<pre><code class="language-java">public class Test {
+    public static final String SCHOOL_NAME=&quot;WASD&quot;;
+    //必须要进行赋值，用public static final修饰称为常量，建议名称全部大写，多个单词下划线连接
+    public static void main(String[] args) {
+        //final修饰变量，有且只能赋值一次
+        /*变量
+         一、局部变量
+         二、成员变量
+            1.静态成员变量
+            2.实例成员变量
+         */
+        final int a;
+        a=12;
+        //a=13;第二次赋值出错了
+        final int[] arr={1,2,3,4,5};
+        //arr=null;第二次赋值，出错了
+        //修饰引用类型的变量，变量存储的地址不能变，但地址所指向得对象的内容是可变的
+    }
+    public static void buy(final double z){
+        //z=0.1;第二次赋值出错了
+    }
+
+}
+//final修饰类，类不能被继承
+final class A {}
+//class B extends A {}
+//final修饰方法，方法不能被重写
+class C{
+    public final void test(){}
+}
+class D extends C{
+    /*@Override
+    public void test(){}*/
+}
+</code></pre>
+<h2 id="常量"><strong>常量</strong></h2>
+<p>使用static final修饰的成员变量称为常量，通常用来记录系统的配置信息。</p>
+<ul>
+<li>出现常量的地方会被替换为记住的字面量，这样可以保证使用常量和使用字面量的性能是一样的。</li>
+</ul>
+<pre><code class="language-java">public class Test {
+    public static final String SCHOOL_NAME=&quot;WASD&quot;;
+    //必须要进行赋值，用public static final修饰称为常量，建议名称全部大写，多个单词下划线连接
+    public static void main(String[] args) {
+        System.out.println(SCHOOL_NAME);
+    }
+}
+</code></pre>
+<p>反编译后的类</p>
+<pre><code class="language-java">public class Test {
+    public static final String SCHOOL_NAME = &quot;WASD&quot;;
+
+    public Test() {
+    }
+
+    public static void main(String[] args) {
+        System.out.println(&quot;WASD&quot;);
+    }
+}
+</code></pre>
+<h2 id="抽象类"><strong>抽象类</strong></h2>
+<p>abstract关键字可以修饰类、成员方法。</p>
+<ul>
+<li>抽象方法：必须有abstract修饰，只有方法签名，没有方法体。</li>
+</ul>
+<pre><code class="language-java">public abstract class A {
+    //抽象方法：必须有abstract修饰，只有方法签名，没有方法体
+    public abstract void run();
+}
+</code></pre>
+<ul>
+<li>抽象类：<br>
+抽象类中不一定有抽象方法，有抽象方法的类一定是抽象类。类该有的成员抽象类都可以有，抽象类不能创建对象，仅作为一种特殊的父类，让子类继承并且实现。</li>
+</ul>
+<pre><code class="language-java">public abstract class A {
+    private String name;
+    public static String schoolname;
+    public A() {}
+    public A(String name) {
+        this.name = name;
+    }
+    //抽象方法：必须有abstract修饰，只有方法签名，没有方法体
+    public abstract void run();
+    public String getname(){
+        return name;
+    }
+    public void setname(String name){
+        this.name = name;
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class B extends A {
+    //Alt+Enter键全部重写
+    @Override
+    public void run() {
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        //注意：抽象类不能创建对象
+        //A a=new A();
+    }
+}
+</code></pre>
+<p>抽象类的好处：设计抽象类就是为了更好地实现多态。</p>
+<pre><code class="language-java">public abstract class Animal {
+    private String name;
+    public abstract void cry();
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Cat extends Animal {
+    @Override
+    public void cry() {
+        System.out.println(getName()+&quot;喵喵喵&quot;);
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Dog extends Animal{
+    @Override
+    public void cry() {
+        System.out.println(getName()+&quot;汪汪汪&quot;);
+    }
+}
+</code></pre>
+<pre><code class="language-Java">public class Test {
+    public static void main(String[] args) {
+        Animal a=new Cat();
+        a.setName(&quot;叮当猫&quot;);
+        a.cry();
+    }
+}
+</code></pre>
+<h2 id="模板方法设计模式"><strong>模板方法设计模式</strong></h2>
+<ul>
+<li>定义一个抽象类</li>
+<li>在里面定义两个方法，一个模板方法把相同代码放进去，一个抽象方法具体实现交给子类完成。</li>
+</ul>
+<pre><code class="language-java">public abstract class People {
+    //模板方法设计模式，加final防止被子类重写
+    public final void write(){
+        System.out.println(&quot;\t\t\t\t《我的爸爸》&quot;);
+        System.out.println(&quot;\t\t第一段------------&quot;);
+        System.out.println(writeMain());
+    }
+    public abstract String writeMain();
+}
+</code></pre>
+<pre><code class="language-java">public class Student extends People{
+    @Override
+    public String writeMain() {
+        return &quot;\&quot;正文--------------\&quot;&quot;;
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Teacher extends People{
+  @Override
+    public String writeMain() {
+        return &quot;范文---------&quot;;
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        //写一篇作文，第一段一样，其余部分自由发挥
+        Teacher t=new Teacher();
+        t.write();
+    }
+}
+</code></pre>
+<h2 id="接口"><strong>接口</strong></h2>
+<p>Java提供了一个关键字interface，用这个定义关键字我们可以定义一个特殊的结构：接口。</p>
+<pre><code class="language-java">public interface A {
+    //成员变量（常量）
+    String SCHOOL_NAME=&quot;黑马程序员&quot;;
+    //成员方法（抽象方法）
+    void test();
+    //不能有构造器和代码块
+}
+</code></pre>
+<p>接口无法创建对象，接口是用来被类实现的，实现接口的类被称为实现类。一个类可以实现多个接口，必须全写完全部接口的全部抽象方法，否则实现类要被定义为抽象类。</p>
+<pre><code class="language-java">public interface B {
+    void testb1();
+    void testb2();
+}
+public interface C {
+    void testc1();
+    void testc2();
+}
+</code></pre>
+<pre><code class="language-java">public class D implements B,C{
+    @Override
+    public void testb1() {
+
+    }
+
+    @Override
+    public void testb2() {
+
+    }
+
+    @Override
+    public void testc1() {
+
+    }
+
+    @Override
+    public void testc2() {
+
+    }
+}
+</code></pre>
+<ul>
+<li>弥补了类单继承的不足，一个类可以实现多个接口。</li>
+<li>让程序可以面向接口编程，这样程序员就可以灵活方便的切换各种业务实现。</li>
+</ul>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        //面向接口编程，程序员可以切换各种实现对象
+        Singer s=new A();
+        s.sing();
+        Singer d=new B();
+        d.sing();
+    }
+}
+class B implements Singer {
+    @Override
+    public void sing() {
+
+    }
+}
+class A extends Student implements Driver1,Singer{
+    @Override
+    public void drive() {
+
+    }
+
+    @Override
+    public void sing() {
+
+    }
+}
+class Student{}
+interface Driver1{
+    void drive();
+}
+interface Singer{
+    void sing();
+}
+</code></pre>
+<h2 id="接口案例实现"><strong>接口案例实现</strong></h2>
+<p>  班级学生信息管理模块的开发，需求设计一个班级学生的信息管理模块，学生的数据有姓名、性别、成绩。功能1；要求打印出全班学生的信息，功能2：要求打印出全班学生的平均成绩。<br>
+  以上功能是有多套方案的，第一套方案打印出班级全部学生的信息，打印出班级全部学生的平均分。第二套方案打印出全部学生的信息包括男女人数，能打印出班级全部学生的平均分。</p>
+<pre><code class="language-java">public class Student {
+    private String name;
+    private char sex;
+    private double score;
+    ···
+}
+</code></pre>
+<pre><code class="language-java">public class ClassManager {
+    private ArrayList&lt;Student&gt; students = new ArrayList&lt;Student&gt;();
+    private StudentOperator studentOperator=new StudentOperatorlmpl1();
+
+    public ClassManager() {
+        students.add(new Student(&quot;迪丽热巴&quot;, '女', 90));
+        students.add(new Student(&quot;古力娜扎&quot;, '女', 100));
+        students.add(new Student(&quot;马尔扎哈&quot;, '男', 80));
+        students.add(new Student(&quot;卡尔扎巴&quot;, '男', 60));
+    }
+    public void printInfo(){
+        studentOperator.printAllInfo(students);
+    }
+    public void printScore(){
+        studentOperator.printAverageScore(students);
+    }
+}
+</code></pre>
+<pre><code class="language-java">public interface StudentOperator {
+    void printAllInfo(ArrayList&lt;Student&gt; students);
+    void printAverageScore(ArrayList&lt;Student&gt; students);
+}
+public class StudentOperatorlmpl1 implements StudentOperator{
+    @Override
+    public void printAllInfo(ArrayList&lt;Student&gt; students) {
+        System.out.println(&quot;-----全班全部学生信息-----&quot;);
+        for (int i = 0; i &lt; students.size(); i++) {
+            Student s=students.get(i);
+            System.out.println(&quot;姓名：&quot;+s.getName()+&quot;，性别：&quot;+s.getSex()+&quot;，成绩：&quot;+s.getScore());
+        }
+        System.out.println(&quot;----------------------&quot;);
+    }
+
+    @Override
+    public void printAverageScore(ArrayList&lt;Student&gt; students) {
+        double allScore=0.0;
+        for (int i = 0; i &lt; students.size(); i++) {
+            Student s=students.get(i);
+            allScore+=s.getScore();
+        }
+        System.out.println(&quot;平均分：&quot;+(allScore)/students.size());
+    }
+}
+public class StudentOperatorlmpl2 implements StudentOperator{
+    @Override
+    public void printAllInfo(ArrayList&lt;Student&gt; students) {
+        int count1=0;
+        int count2=0;
+        System.out.println(&quot;-----全班全部学生信息-----&quot;);
+        for (int i = 0; i &lt; students.size(); i++) {
+            Student s=students.get(i);
+            System.out.println(&quot;姓名：&quot;+s.getName()+&quot;，性别：&quot;+s.getSex()+&quot;，成绩：&quot;+s.getScore());
+            if(s.getSex()=='男'){
+                count1++;
+            }else{
+                count2++;
+            }
+        }
+        System.out.println(&quot;男生人数是：&quot;+count1+&quot;，女生人数是：&quot;+count2);
+        System.out.println(&quot;班级总人数是：&quot;+students.size());
+        System.out.println(&quot;----------------------&quot;);
+    }
+
+    @Override
+    public void printAverageScore(ArrayList&lt;Student&gt; students) {
+        double allScore=0.0;
+        double max=students.get(0).getScore();
+        double min=students.get(0).getScore();
+        for (int i = 0; i &lt; students.size(); i++) {
+            Student s=students.get(i);
+            if(s.getScore()&gt;max){max=s.getScore();}
+            if(s.getScore()&lt;min){min=s.getScore();}
+            allScore+=s.getScore();
+        }
+        System.out.println(&quot;学生的最高分是：&quot;+max);
+        System.out.println(&quot;学生的最低分是：&quot;+min);
+        System.out.println(&quot;平均分：&quot;+(allScore-max-min)/students.size());
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        ClassManager clazz=new ClassManager();
+        clazz.printInfo();
+        clazz.printScore();
+    }
+}
+</code></pre>
+<h2 id="接口的三种方法"><strong>接口的三种方法</strong></h2>
+<pre><code class="language-java">public interface A {
+    //默认方法，必须用default修饰，默认会被public修饰
+    //也是实例方法：对象的方法，必须用实现类的对象来访问。
+    default  void test1(){
+        System.out.println(&quot;=====默认方法=====&quot;);
+        test2();
+    }
+    //私有方法：必须用private修饰（JDK9开始支持），也是实例方法
+    private void test2(){
+        System.out.println(&quot;=====私有方法=====&quot;);
+    }
+    //静态方法：必须用static修饰，默认会被public修饰
+    static void test3(){
+        System.out.println(&quot;=====静态方法=====&quot;);
+    }
+}
+public class B implements A{
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        B b = new B();
+        b.test1();
+        //b.test2();
+        A.test3();
+    }
+}
+</code></pre>
+<h2 id="接口的多继承"><strong>接口的多继承</strong></h2>
+<p>一个接口可以实现多个接口。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+
+    }
+}
+interface A {
+    void test1();
+}
+interface B {
+    void test2();
+}
+interface C {}
+interface D extends A, B, C {}
+class E implements D {
+    @Override
+    public void test1() {
+
+    }
+
+    @Override
+    public void test2() {
+
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test2 {
+    public static void main(String[] args) {
+        Zi zi = new Zi();
+        zi.run();//Fu run
+    }
+}
+interface I {
+    void test1();
+}
+interface J {
+    String test1();
+}
+//interface K extends J,I {}
+//class E implements I,J {}
+//方法签名冲突无法重写
+class Fu{
+    public void run(){
+        System.out.println(&quot;Fu run&quot;);
+    }
+}
+interface IT {
+    default void run(){
+        System.out.println(&quot;IT run&quot;);
+    }
+}
+//一个类继承了父类又实现了接口，父类和子类中有同名的默认方法，实现类优先实现父类的
+class Zi extends Fu implements IT {}
+//一个类实现了多个接口，多个接口处存在同名的默认方法，重写该方法即可不冲突
+interface It1{
+    default void test(){}
+}
+interface It2{
+    default void test(){}
+}
+class N implements It1, It2{
+    @Override
+    public void test() {
+        It1.super.test();//调用某个接口的默认方法
+        System.out.println(&quot;自己的&quot;);
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Java继承]]></title>
+        <id>https://yyss1014.github.io/post/java-ji-cheng/</id>
+        <link href="https://yyss1014.github.io/post/java-ji-cheng/">
+        </link>
+        <updated>2025-03-06T08:20:56.000Z</updated>
+        <content type="html"><![CDATA[<p>java中提供了一个关键字extends，用这个关键字，可以让一个类和另一个类建立父子关系。子类能继承父类的非私有成员，子类对象是由父类子类共同完成的（子类对象包含父类成员，但无法调用非私有成员）。</p>
+<pre><code class="language-java">public class A {
+    public int i;
+    public void print1(){
+        System.out.println(&quot;===print1===&quot;);
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class B extends A {
+    //子类可以继承父类的私有成员
+    public void print3(){
+        System.out.println(i);
+        print1();
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        B b = new B();//b对象是由AB两个设计图共同创建的
+        System.out.println(b.i);
+        b.print1();
+    }
+}
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250306163339.png" alt="" loading="lazy"></figure>
+<h2 id="权限修饰符"><strong>权限修饰符</strong></h2>
+<table>
+<thead>
+<tr>
+<th>修饰符</th>
+<th>在本类</th>
+<th>同一个包的其他类里</th>
+<th>任意包下的子类里</th>
+<th>任意包下的任意类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>private</td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>缺省</td>
+<td>√</td>
+<td>√</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>protected</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td></td>
+</tr>
+<tr>
+<td>public</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>protected可以在任意包下的子类A里访问，但不能在非子类B中通过A类的对象访问</li>
+</ul>
+<h2 id="单继承"><strong>单继承</strong></h2>
+<p>一个类只能继承一个父类，Java中的类不支持多继承，但支持多层继承。</p>
+<pre><code class="language-java">class A {};//extends Object{},Object类是所有类的祖宗类
+class B extends A {};
+class C extends B {};
+</code></pre>
+<h2 id="方法重写"><strong>方法重写</strong></h2>
+<p>当子类觉得父类某个方法不管用，子类可以重新写一个参数一样的方法，子类可以重写一个参数列表一样的方法，称为方法重写。重写后方法的访问遵循就近原则。</p>
+<ul>
+<li>重写小技巧：使用Override重写，可以指定java编译器，检查我们方法重写的格式是否正确，代码可读性也会更好。</li>
+<li>子类重写父类方法时，访问权限必须大于等于父类该方法的权限（public&gt;protected&gt;缺省）</li>
+<li>重写方法返回值类型，必须与被重写方法返回值一样，或者范围更小。</li>
+<li>私有方法，静态方法不能被重写，如果重写会报错的。</li>
+</ul>
+<pre><code class="language-java">public class A {
+    public void print1(){
+        System.out.println(&quot;111&quot;);
+    }
+    public void print2(int a,int b){
+        System.out.println(&quot;111111&quot;);
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class B extends A{
+    @Override
+    public void print1(){
+        System.out.println(&quot;666&quot;);
+    }
+    @Override
+    public void print2(int a,int b){
+        System.out.println(&quot;666666&quot;);
+    }
+}
+</code></pre>
+<h2 id="常见应用场景"><strong>常见应用场景</strong></h2>
+<p>子类重写Object中的类方法，以便返回对象的内容。</p>
+<pre><code class="language-java">//object类中的toString()方法
+public String toString() {
+        return getClass().getName() + &quot;@&quot; + Integer.toHexString(hashCode());
+    }
+</code></pre>
+<p>创建实体类Student</p>
+<pre><code class="language-java">public class Student {
+    private int age;
+    private String name;
+
+    public Student(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+    ······
+    @Override
+    public String toString() {
+        return &quot;Student [age=&quot; + age + &quot;, name=&quot; + name + &quot;]&quot;;
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        Student s=new Student(&quot;播妞&quot;,19);
+        System.out.println(s);//Student [age=19, name=播妞]
+    }
+}
+</code></pre>
+<h2 id="子类中访问其他成员的特点"><strong>子类中访问其他成员的特点</strong></h2>
+<p>在子类方法中访问成员遵循就近原则，如果在子父类中出现了重名的成员，会优先选择子类的；如果此时一定要在子类中使用父类成员需要使用super关键字。</p>
+<pre><code class="language-java">public class F {
+    String name=&quot;父类名称&quot;;
+    public void print1(){
+        System.out.println(&quot;==父类的print方法执行==&quot;);
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Z extends F{
+    String name=&quot;子类名称&quot;;
+    public void showname() {
+        String name=&quot;局部名称&quot;;
+        System.out.println(name);
+        System.out.println(this.name);
+        System.out.println(super.name);
+    }
+    public void print1(){
+        System.out.println(&quot;==子类的print方法执行==&quot;);
+    }
+    public void showMethod(){
+        print1();
+        super.print1();
+    }
+
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        Z z=new Z();
+        z.showname();
+        /*局部名称
+          子类名称
+          父类名称*/
+        z.showMethod();
+        /*==子类的print方法执行==
+          ==父类的print方法执行==*/
+    }
+}
+</code></pre>
+<h2 id="子类构造器"><strong>子类构造器</strong></h2>
+<p>子类的全部构造器都会先调用父类的构造器，再执行自己的。</p>
+<pre><code class="language-java">public class F {
+    public F() {
+        System.out.println(&quot;父类的无参构造器执行了&quot;);
+    }
+}
+</code></pre>
+<p>子类的所有构造器都会调用父类的无参构造器，如果父类没有无参构造器会报错。或者在子类构造器里第一行用super(...)调用父类的有参构造器。</p>
+<pre><code class="language-java">public class Z extends F{
+    public Z() {
+        super();//默认存在
+        System.out.println(&quot;子类的无参构造器执行了&quot;);
+    }
+    public Z(String name) {
+        super();//默认存在
+        System.out.println(&quot;子类的有参构造器执行了&quot;);
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        Z z=new Z();
+       /* 父类的无参构造器执行了
+          子类的无参构造器执行了*/
+        Z z2=new Z(&quot;wasd&quot;);
+        /*父类的无参构造器执行了
+          子类的有参构造器执行了*/
+    }
+}
+</code></pre>
+<p>常见应用案例：</p>
+<pre><code class="language-java">public class Test2 {
+    public static void main(String[] args) {
+        Teacher t = new Teacher(&quot;李四&quot;,36,&quot;Java&quot;);
+
+    }
+}
+class Teacher extends People{
+    private String skill;
+
+    public Teacher(String name, int age, String skill) {
+        super(age, name);
+        this.skill = skill;
+    }
+
+    public String getSkill() {
+        return skill;
+    }
+
+    public void setSkill(String skill) {
+        this.skill = skill;
+    }
+}
+class People{
+    private String name;
+    private int age;
+
+    public People() {
+    }
+
+    public People(int age, String name) {
+        this.age = age;
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+}
+</code></pre>
+<h2 id="兄弟构造器"><strong>兄弟构造器</strong></h2>
+<p>在任意类的构造器中，可以用this(...)调用兄弟构造器。this(...)和super(...)不能同时写，且this(...)也要写在第一行。</p>
+<pre><code class="language-java">public class Test3 {
+    Student s1=new Student(&quot;李四&quot;,24);
+}
+class Student{
+    private String name;
+    private int age;
+    private String schoolname;
+
+    public Student() {
+    }
+    public Student(String name, int age) {
+       this(name, age, &quot;WASD&quot;);
+    }
+
+    public Student(String name, int age, String schoolname) {
+        this.name = name;
+        this.age = age;
+        this.schoolname = schoolname;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getSchoolname() {
+        return schoolname;
+    }
+
+    public void setSchoolname(String schoolname) {
+        this.schoolname = schoolname;
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Static]]></title>
+        <id>https://yyss1014.github.io/post/java-mian-xiang-dui-xiang-gao-ji/</id>
+        <link href="https://yyss1014.github.io/post/java-mian-xiang-dui-xiang-gao-ji/">
+        </link>
+        <updated>2025-03-05T09:14:45.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="static修饰成员变量"><strong>static修饰成员变量</strong></h2>
+<p>static叫静态，可以修饰成员变量、成员方法。成员变量按照有无static修饰，分为两种：</p>
+<ul>
+<li>类变量：有static修饰，属于类，在计算机中只有一份，会被类的全部对象共享。</li>
+<li>实例变量：对象的变量，无static修饰，属于每个对象的。</li>
+</ul>
+<pre><code class="language-java">public class Student{
+    //类变量
+    static String name;
+    //实例变量（对象的变量）
+    int age;
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        //类名、类变量（推荐）
+        Student.name=&quot;袁华&quot;;
+        //类名、类变量（不推荐）
+        Student s1=new Student();
+        s1.name=&quot;马冬梅&quot;;
+        Student s2=new Student();
+        s2.name=&quot;秋雅&quot;;
+        System.out.println(s1.name);//秋雅
+        System.out.println(Student.name);//秋雅
+    }
+}
+</code></pre>
+<p>  首先，Test类会被加载到方法区中，Test类中的main方法会被加载到栈中执行，main中的第一行代码 Student.name=&quot;袁华&quot;;用到了Student类，会将类加载到方法区中。加载中检查到类变量，会在堆内存中为类变量开辟区域，初始值是null。每个实例对象的地址存储在栈内存中，对应的实例变量也存放在堆内存中。通过实例对象访问类变量时，先根据对象地址访问实例变量，发现没有该名字的变量后访问方法区的类方法，再找到该名字的类对象。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250305174726.png" alt="" loading="lazy"></p>
+<h2 id="static修饰成员方法"><strong>static修饰成员方法</strong></h2>
+<p>成员方法的分类：</p>
+<ul>
+<li>类方法：有static修饰的成员方法，属于类</li>
+</ul>
+<pre><code class="language-java">public static void printHelloWorld() {
+        System.out.println(&quot;Hello World&quot;);
+}
+</code></pre>
+<ul>
+<li>实例方法：无static修饰的成员方法，属于对象，不能直接用类调用</li>
+</ul>
+<pre><code class="language-java">public void printHelloWorld() {
+        System.out.println(&quot;Hello World&quot;);
+}
+</code></pre>
+<pre><code class="language-java"> public static void main(String[] args) {
+        //类.类方法
+        Student.printHelloWorld();
+        //对象.类方法（不推荐）
+        Student s1 = new Student();
+        s1.printHelloWorld();
+}
+</code></pre>
+<p>  首先，Test类会被加载到方法区中，Test类中的main方法会被加载到栈中执行，main中的第一行代码 Student.printHelloWorld();用到了Student类，会将类加载到方法区中，再找到该函数名字的类方法执行。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250305181621.png" alt="" loading="lazy"><br>
+  main方法是类方法，虚拟机调用Test.main()执行。类方法最常见的应用场景是做工具类，工具类里都是一些很常见的类方法，每个方法都是用来完成一些功能，给开发人员共同使用。建议将工具类构造器私有。</p>
+<pre><code class="language-java">public class Student {
+    static String schoolname;
+    double score;
+    //1.类方法中可以直接访问类成员，但不能访问实例成员
+    public static void printHelloWorld() {
+        schoolname = &quot;Hello World&quot;;
+        printHelloWorld2();
+        //3.类方法中不能出现this关键字，但实例方法可以
+    }
+    public static void printHelloWorld2() {}
+    //2.实例方法中可以直接访问类成员，也可以直接访问实例成员
+    public void printPass(){
+        schoolname = &quot;Pass&quot;;
+        printHelloWorld2();
+        System.out.println(score);
+        printPass2();
+    }
+    public void printPass2(){}
+}
+</code></pre>
+<h2 id="代码块"><strong>代码块</strong></h2>
+<p>代码块是类的5大成分之一：（成员变量、构造器、方法、代码块、内部类）</p>
+<ul>
+<li>静态代码块：static{}；类加载时自动执行，因为类只会加载一次，所以静态代码块只会执行一次。完成类的初始化。</li>
+</ul>
+<pre><code class="language-java">public class Student {
+    static int number=80;
+    static String schoolname;
+    static {
+        System.out.println(&quot;静态代码块执行&quot;);
+        schoolname=&quot;黑马&quot;;
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        System.out.println(Student.number);
+        System.out.println(Student.number);
+        System.out.println(Student.number);
+        /*静态代码块执行
+        80
+        80
+        80*/
+        System.out.println(Student.schoolname);//黑马
+    }
+}
+</code></pre>
+<ul>
+<li>实例代码块：{}；每次创建对象时，在构造器前执行。和构造器一样用来完成对象的初始化。</li>
+</ul>
+<pre><code class="language-java">public class Student {
+    static {
+        System.out.println(&quot;静态代码块执行&quot;);
+    }
+    int age;
+    {
+        System.out.println(&quot;实例代码执行&quot;);
+        age=18;
+    }
+    public Student() {
+        System.out.println(&quot;无参数构造器执行&quot;);
+    }
+    public Student(String name) {
+        System.out.println(&quot;有参数构造器执行&quot;);
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        Student s1=new Student();
+        Student s2=new Student(&quot;张三&quot;);
+        /*静态代码块执行
+        实例代码执行
+        无参数构造器执行
+        实例代码执行
+        有参数构造器执行*/
+    }
+}
+</code></pre>
+<h2 id="单例设计模式"><strong>单例设计模式</strong></h2>
+<p>设计模式：一个问题通常有n种解法，其中有一种是最优的，这个最优解法被人总结出来了，称为设计模式。<br>
+单例设计模式：确保一个类只有一个对象</p>
+<ul>
+<li>饿汉式单例：拿对象时，对象早就创建好了</li>
+</ul>
+<pre><code class="language-java">public class A {
+    //定义一个类变量记住类的一个对象
+    private static A a=new A();
+    //私有类的构造器
+    private A() {
+    }
+    //定义一个类方法返回类对象
+    public static A getObject() {
+        return a;
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        A a1=A.getObject();
+        A a2=A.getObject();
+        System.out.println(a1);//com.ys.d1_staticdemo.A@3b07d329
+        System.out.println(a2);//com.ys.d1_staticdemo.A@3b07d329
+    }
+}
+</code></pre>
+<ul>
+<li>懒汉式单例：拿到单例时才开始创建对象</li>
+</ul>
+<pre><code class="language-java">public class A {
+    //定义一个类变量，勇于存出类的一个对象
+    private static A a;
+    //私有类的构造器
+    private A() {
+    }
+    //定义一个类方法，这个方法用语确保第一次调用才会创建对象，后面调用时都会用这一个对象返回
+    public static A getObject() {
+        if (a == null) {
+            System.out.println(&quot;第一次创建对象&quot;);
+            a = new A();
+        }
+        return a;
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        A a1=A.getObject();//第一次创建对象
+        A a2=A.getObject();
+        System.out.println(a1==a2);//true
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Student {
+    private int age;
+    private String name;
+
+    public Student(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+······
+    @Override
+    public String toString() {
+        return &quot;Student [age=&quot; + age + &quot;, name=&quot; + name + &quot;]&quot;;
+    }
+}
+
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[模拟ATM系统]]></title>
+        <id>https://yyss1014.github.io/post/mo-ni-atm-xi-tong/</id>
+        <link href="https://yyss1014.github.io/post/mo-ni-atm-xi-tong/">
+        </link>
+        <updated>2025-03-04T12:05:46.000Z</updated>
+        <content type="html"><![CDATA[<p>封装实体类</p>
+<pre><code class="language-java">public class Account {
+    private String cardId;
+    private String Username;
+    private char sex;
+    private String password;
+    private double money;
+    private double limit;//限额
+
+    public Account() {
+    }
+
+    public Account(String cardId, String username, char sex, String password, double money, double limit) {
+        this.cardId = cardId;
+        Username = username;
+        this.sex = sex;
+        this.password = password;
+        this.money = money;
+        this.limit = limit;
+    }
+
+    public String getCardId() {
+        return cardId;
+    }
+
+    public void setCardId(String cardId) {
+        this.cardId = cardId;
+    }
+
+    public String getUsername() {
+        return Username+(sex=='男'?&quot;先生&quot;:&quot;女士&quot;);
+    }
+
+    public void setUsername(String username) {
+        Username = username;
+    }
+
+    public char getSex() {
+        return sex;
+    }
+
+    public void setSex(char sex) {
+        this.sex = sex;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public double getMoney() {
+        return money;
+    }
+
+    public void setMoney(double money) {
+        this.money = money;
+    }
+
+    public double getLimit() {
+        return limit;
+    }
+
+    public void setLimit(double limit) {
+        this.limit = limit;
+    }
+}
+</code></pre>
+<p>具体操作类</p>
+<pre><code class="language-java">import java.util.ArrayList;
+import java.util.Random;
+import java.util.Scanner;
+
+public class ATM {
+    private ArrayList&lt;Account&gt; accounts = new ArrayList&lt;&gt;();
+    private Scanner sc = new Scanner(System.in);
+    private Account loginacc;
+    Random r = new Random();
+    public void start(){
+        while (true) {
+            System.out.println(&quot;=====欢迎进入银行系统=====&quot;);
+            System.out.println(&quot;1.用户登录&quot;);
+            System.out.println(&quot;2.用户开户&quot;);
+            System.out.println(&quot;请选择你要操作的指令：&quot;);
+            int command = sc.nextInt();
+            switch (command) {
+                case 1:
+                    login();
+                    break;
+                case 2:
+                    createAccount();
+                    break;
+                default:
+                    System.out.println(&quot;没有该操作~~&quot;);
+            }
+        }
+
+    }
+    private void login(){
+        System.out.println(&quot;==系统登录==&quot;);
+        if(accounts.size()==0){
+            return;
+        }
+        while (true) {
+            System.out.println(&quot;请输入您的登录卡号：&quot;);
+            String cardId = sc.next();
+           Account acc=getAccountByCardId(cardId);
+            if(acc==null){
+                System.out.println(&quot;卡号不存在~&quot;);
+            }else{
+                while (true) {
+                    System.out.println(&quot;请输入您的登录密码：&quot;);
+                    String password = sc.next();
+                    if(password.equals(acc.getPassword())){
+                        loginacc=acc;
+                        System.out.println(&quot;恭喜您，&quot;+acc.getUsername()+&quot;成功登录了账户，您的卡号是：&quot;+acc.getCardId());
+                        showuseraccount();
+                        return;
+                    }else{
+                        System.out.println(&quot;您的密码不正确&quot;);
+                    }
+                }
+            }
+        }
+
+
+    }
+    private void showuseraccount(){
+        while (true) {
+            System.out.println(loginacc.getUsername()+&quot;您可以选择如下功能进行账户操作====&quot;);
+            System.out.println(&quot;1.查询账户&quot;);
+            System.out.println(&quot;2.存款&quot;);
+            System.out.println(&quot;3.取款&quot;);
+            System.out.println(&quot;4.转账&quot;);
+            System.out.println(&quot;5.密码修改&quot;);
+            System.out.println(&quot;6.退出&quot;);
+            System.out.println(&quot;7.注销当前账户&quot;);
+            int command = sc.nextInt();
+            switch (command) {
+                case 1:
+                    showloginaccount();
+                    break;
+                case 2:
+                    depositMoney();
+                    break;
+                case 3:
+                    drawMoney();
+                    break;
+                case 4:
+                    transferMoney();
+                    break;
+                case 5:
+                    updatePassword();
+                    return;
+                case 6:
+                    System.out.println(loginacc.getUsername()+&quot;您退出系统成功！&quot;);
+                    return;
+                case 7:
+                    if (deleteAccount()) {
+                        return;
+                    }
+                    break;
+                default:
+                    System.out.println(&quot;您的操作不存在&quot;);
+            }
+        }
+    }
+
+    private void updatePassword() {
+        System.out.println(&quot;===账户密码修改操作===&quot;);
+        while (true) {
+            System.out.println(&quot;请输入当前账户的密码：&quot;);
+            String password = sc.next();
+            if (password.equals(loginacc.getPassword())) {
+                while (true) {
+                    System.out.println(&quot;请您输入新密码：&quot;);
+                    String newPassword = sc.next();
+                    System.out.println(&quot;请您再输入一次密码：&quot;);
+                    String newPassword2 = sc.next();
+                    if (newPassword.equals(newPassword2)) {
+                        loginacc.setPassword(newPassword);
+                        System.out.println(&quot;密码修改成功，请您重新登录！&quot;);
+                        return;
+                    }else{
+                        System.out.println(&quot;您两次输入的密码不一致&quot;);
+                    }
+                }
+            }else{
+                System.out.println(&quot;当前密码不正确&quot;);
+            }
+        }
+    }
+
+    private boolean deleteAccount() {
+        System.out.println(&quot;====用户销户====&quot;);
+        System.out.println(&quot;请问您确认销户吗？y/n&quot;);
+        String command = sc.next();
+        switch (command) {
+            case &quot;y&quot;:
+                if(loginacc.getMoney()&gt;0){
+                    System.out.println(&quot;您账户的钱还未取完，不允许销户&quot;);
+                    return false;
+                }else {
+                    accounts.remove(loginacc);
+                    System.out.println(&quot;您好，您的账户已经销户完成&quot;);
+                    return true;
+                }
+                default:
+                    System.out.println(&quot;好的，账户保留&quot;);
+                    return false;
+        }
+    }
+
+    private void transferMoney() {
+        System.out.println(&quot;====用户转账====&quot;);
+        if(accounts.size()&lt;2){
+            System.out.println(&quot;当前系统账户不足两个，不能转账!&quot;);
+            return;
+        }
+        if(loginacc.getMoney()==0){
+            System.out.println(&quot;您账户余额为0，无法转账&quot;);
+            return;
+        }
+        while (true) {
+            System.out.println(&quot;请输入您要转账的账户&quot;);
+            String cardId = sc.next();
+            Account acc=getAccountByCardId(cardId);
+            if(acc==null){
+                System.out.println(&quot;不存在当前账户，请重新确认！&quot;);
+            }else{
+                System.out.println(&quot;您要为*&quot;+acc.getUsername().substring(1)+&quot;转账&quot;);
+                System.out.println(&quot;请重新输入姓氏确认:&quot;);
+                String preName = sc.next();
+                if(acc.getUsername().startsWith(preName)){
+                    while (true) {
+                        System.out.println(&quot;请输入转账给对方的金额：&quot;);
+                        double money = sc.nextDouble();
+                        if(money&lt;=loginacc.getMoney()){
+                            loginacc.setMoney(loginacc.getMoney()-money);
+                            acc.setMoney(acc.getMoney()+money);
+                            System.out.println(&quot;转账成功&quot;);
+                            return;
+                        }else{
+                            System.out.println(&quot;余额不足，无法转账，最多转账&quot;+loginacc.getMoney());
+                        }
+                    }
+
+                }else{
+                    System.out.println(&quot;您输入的姓氏有问题&quot;);
+                }
+
+            }
+        }
+
+    }
+
+    private void drawMoney() {
+        System.out.println(&quot;====取钱操作====&quot;);
+        if (loginacc.getMoney()&lt;100) {
+            System.out.println(&quot;您的账户余额不足100，不允许取钱&quot;);
+            return;
+        } else {
+            while (true) {
+                System.out.println(&quot;请输入取款金额：&quot;);
+                double money = sc.nextDouble();
+                if(money&gt;loginacc.getMoney()){
+                    System.out.println(&quot;余额不足，您账户的余额是&quot;+loginacc.getMoney());
+                    continue;
+                }
+                if(money&gt;loginacc.getLimit()){
+                    System.out.println(&quot;取款金额超过了当次限额，您每次最多可取：&quot;+loginacc.getLimit());
+                    continue;
+                }
+                loginacc.setMoney(loginacc.getMoney()-money);
+                System.out.println(&quot;成功取款&quot;+money+&quot;，您的余额还剩&quot;+loginacc.getMoney());
+                return;
+            }
+        }
+
+    }
+
+    private void depositMoney() {
+        System.out.println(&quot;====存钱操作====&quot;);
+        System.out.println(&quot;请您输入存款金额：&quot;);
+        double money = sc.nextDouble();
+        loginacc.setMoney(loginacc.getMoney()+money);
+        System.out.println(&quot;恭喜您，存钱&quot;+money+&quot;成功，存钱后的余额是&quot;+loginacc.getMoney());
+
+    }
+
+    private void showloginaccount(){
+        System.out.println(&quot;当前您的账户信息如下====&quot;);
+        System.out.println(&quot;卡号：&quot;+loginacc.getCardId());
+        System.out.println(&quot;户主：&quot;+loginacc.getUsername());
+        System.out.println(&quot;性别：&quot;+loginacc.getSex());
+        System.out.println(&quot;余额：&quot;+loginacc.getMoney());
+        System.out.println(&quot;每次取款限额：&quot;+loginacc.getLimit());
+    }
+
+    private void createAccount() {
+        Account account = new Account();
+        System.out.println(&quot;请输入姓名：&quot;);
+        String name = sc.next();
+        account.setUsername(name);
+        while (true) {
+            System.out.println(&quot;请输入性别：&quot;);
+            char sex = sc.next().charAt(0);//字符串转换为字符
+            if (sex=='男'||sex=='女') {
+                account.setSex(sex);
+                break;
+            } else {
+                System.out.println(&quot;您输入的性别不对，只能是男或女&quot;);
+            }
+        }
+        while (true) {
+            System.out.println(&quot;请设置密码：&quot;);
+            String password = sc.next();
+            System.out.println(&quot;请再输入一次密码确认：&quot;);
+            String okpassword = sc.next();
+            if (password.equals(okpassword)) {
+                account.setPassword(password);
+                break;
+            } else {
+                System.out.println(&quot;您输入2次密码不一致&quot;);
+            }
+        }
+
+        System.out.println(&quot;请输入您的取现额度&quot;);
+        double limit = sc.nextDouble();
+        account.setLimit(limit);
+
+        String newCardId=createCardId();
+        account.setCardId(newCardId);
+
+        accounts.add(account);
+        System.out.println(&quot;恭喜您&quot;+account.getUsername()+&quot;开户成功！您的卡号是：&quot;+account.getCardId());
+    }
+    private String createCardId() {
+        while (true) {
+            String cardId = &quot;&quot;;
+            for (int i = 0; i &lt; 8; i++) {
+                cardId += r.nextInt(10);
+            }
+            Account acc=getAccountByCardId(cardId);
+            if (acc==null) {
+                return cardId;
+            }
+        }
+    }
+    private Account getAccountByCardId(String cardId) {
+        for (int i = 0; i &lt; accounts.size(); i++) {
+            Account acc = accounts.get(i);
+            if (acc.getCardId().equals(cardId)) {
+                return acc;
+            }
+        }
+        return null;
+    }
+
+}
+</code></pre>
+<p>主程序</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        ATM atm = new ATM();
+        atm.start();
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[常见API]]></title>
+        <id>https://yyss1014.github.io/post/chang-jian-api/</id>
+        <link href="https://yyss1014.github.io/post/chang-jian-api/">
+        </link>
+        <updated>2025-03-04T02:30:59.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="string"><strong>String</strong></h2>
+<h3 id="1string概述"><strong>1.String概述</strong></h3>
+<p>String创建对象的方式：1.Java所有构造器文字都为此类的对象2.调用String类的构造器初始化对象。</p>
+<table>
+<thead>
+<tr>
+<th>构造器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>public String()</td>
+<td>创建一个空白字符串对象，不包括任何内容</td>
+</tr>
+<tr>
+<td>public String(String original)</td>
+<td>根据传入的字符串内容，创建字符串对象</td>
+</tr>
+<tr>
+<td>public String(char[] chars)</td>
+<td>根据传入的字符数组内容，创建字符串对象</td>
+</tr>
+<tr>
+<td>public String(byte[] bytes)</td>
+<td>根据传入的字节数组内容，创建字符串对象</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-java">public class StringDemo1 {
+    public static void main(String[] args) {
+        //直接双引号得到字符串对象，封装字符串数据
+        String name=&quot;ithema&quot;;
+        System.out.println(name);//name记录的是字符串地址，但字符串本身做了些改进，可以直接字符串输出内容
+
+        //调用构造器初始化字符串
+        String rs1=new String();
+        System.out.println(rs1);//&quot;&quot;
+
+        String rs2=new String(&quot;hello&quot;);
+        System.out.println(rs2);
+
+        char[] chars={'a','b','c'};
+        String rs3=new String(chars);
+        System.out.println(rs3);
+
+        byte[] bytes={1,2,3,4};
+        String rs4=new String(bytes);
+        System.out.println(rs4);
+
+    }
+}
+</code></pre>
+<h3 id="2常用方法"><strong>2.常用方法</strong></h3>
+<ol>
+<li>获取字符串的长度</li>
+</ol>
+<pre><code class="language-java">String s=&quot;ithema&quot;;
+System.out.println(s.length());
+</code></pre>
+<ol start="2">
+<li>提取某个索引位置处的字符</li>
+</ol>
+<pre><code class="language-java">System.out.println(s.charAt(1));//t
+ for (int i = 0; i &lt; s.length(); i++) {
+     char c = s.charAt(i);
+     System.out.print(c);
+}
+</code></pre>
+<ol start="3">
+<li>把字符串转化为数组，再进行遍历</li>
+</ol>
+<pre><code class="language-java">char[] chars=s.toCharArray();
+for (int i = 0; i &lt; chars.length; i++) {
+    System.out.print(chars[i]);
+}
+</code></pre>
+<ol start="4">
+<li>判断字符串内容，内容一样返回true</li>
+</ol>
+<pre><code class="language-java">String s1=new String(&quot;异象回声&quot;);
+String s2=new String(&quot;异象回声&quot;);
+System.out.println(s1==s2);//false
+System.out.println(s1.equals(s2));//true
+</code></pre>
+<ol start="5">
+<li>忽略大小写比较字符串内容</li>
+</ol>
+<pre><code class="language-java">String c1=&quot;34AeFG&quot;;
+String c2=&quot;34aEfg&quot;;
+System.out.println(c1.equals(c2));
+System.out.println(c1.equalsIgnoreCase(c2));
+</code></pre>
+<ol start="6">
+<li>截取字符串</li>
+</ol>
+<pre><code class="language-java">String s3=&quot;多活一会吧小破游&quot;;
+String rs=s3.substring(0,5);//包前不包后
+System.out.println(rs);//多活一会吧
+</code></pre>
+<ol start="7">
+<li>从当前位置一直截取到字符串末尾</li>
+</ol>
+<pre><code class="language-java">String rs2=s3.substring(5);
+System.out.println(rs2);//小破游
+</code></pre>
+<ol start="8">
+<li>把字符串中的某个内容替换成新内容</li>
+</ol>
+<pre><code class="language-java">String info=&quot;这个电影是个垃圾,垃圾电影！&quot;;
+String rs3=info.replace(&quot;垃圾&quot;,&quot;*&quot;);
+System.out.println(rs3);//这个电影是个*,*电影！
+</code></pre>
+<ol start="9">
+<li>判断字符串中是否包含某个关键字</li>
+</ol>
+<pre><code class="language-java">String info2=&quot;Java是世界上最好的编程语言之一&quot;;
+System.out.println(info2.contains(&quot;Java&quot;));//true
+System.out.println(info2.contains(&quot;java&quot;));//false
+System.out.println(info2.contains(&quot;Java2&quot;));//false
+</code></pre>
+<ol start="10">
+<li>判断字符串是否以某个字符串开头</li>
+</ol>
+<pre><code class="language-java">String rs4=&quot;张三丰&quot;;
+System.out.println(rs4.startsWith(&quot;张&quot;));//true
+System.out.println(rs4.startsWith(&quot;张三&quot;));//true
+System.out.println(rs4.startsWith(&quot;张三2&quot;));//false
+</code></pre>
+<ol start="11">
+<li>把字符串按照某个指定内容分割成多个字符串，放到一个字符串数组返回</li>
+</ol>
+<pre><code class="language-java">String rs5=&quot;张无忌，周芷若，赵敏，殷素素&quot;;
+String[] names=rs5.split(&quot;，&quot;);
+for (int i = 0; i &lt; names.length; i++) {
+     System.out.println(names[i]);
+}
+</code></pre>
+<h3 id="3-string的注意事项"><strong>3. String的注意事项</strong></h3>
+<ul>
+<li>String是不可变对象</li>
+</ul>
+<pre><code class="language-java">String name=&quot;黑马&quot;;
+name+=&quot;程序员&quot;;
+System.out.println(name);//name内容改变了，name指向的地址也改变了
+</code></pre>
+<p>实际上是在堆内存里生成了一个新的字符串对象。</p>
+<ul>
+<li>只要是双引号给出的字符串对象，存储在常量池中，而且相同内容只会存储一份。</li>
+</ul>
+<pre><code class="language-java">String str1 = &quot;abc&quot;;
+String str2 = &quot;abc&quot;;
+System.out.println(str1 == str2);//true
+</code></pre>
+<ul>
+<li>new String创建字符串对象，每次new出来都是一个新对象，存放在堆内存中。</li>
+</ul>
+<pre><code class="language-java">char[] chars = {'a', 'b', 'c', 'd', 'e', 'f'};
+String str1 = new String(chars);
+String str2 = new String(chars);
+System.out.println(str1==str2);//false
+</code></pre>
+<pre><code class="language-java">String s1 = &quot;abc&quot;;//常量池
+String s2 = &quot;ab&quot;;
+String s3 = s2+&quot;c&quot;;//运算存放在堆中
+System.out.println(s1==s3);//false
+</code></pre>
+<p>编译优化机制</p>
+<pre><code class="language-java">String s1 = &quot;abc&quot;;//常量池
+String s2 = &quot;a&quot;+&quot;b&quot;+&quot;c&quot;;//java存在编译优化机制，运算都是确定值直接转成&quot;abc&quot;
+System.out.println(s1==s2);//true
+</code></pre>
+<p>反编译代码如下：<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250304114132.png#pic_center" alt="" width="500" loading="lazy"></p>
+<h3 id="4string案例"><strong>4.String案例</strong></h3>
+<p>开发登录界面，提示用户通过键盘输入登录名和密码。根据登陆方法返回的认证结果，判断用户是否登录成功，使用循环控制登录界面最多显示3次。</p>
+<pre><code class="language-java">public class StringDemo1 {
+    public static void main(String[] args) {
+        for (int i=0;i&lt;3;i++) {
+            Scanner sc = new Scanner(System.in);
+            System.out.println(&quot;请输入登录名称：&quot;);
+            String loginName = sc.next();
+            System.out.println(&quot;请输入登录密码：&quot;);
+            String password = sc.next();
+            boolean rs=login(loginName,password);
+            if(rs){
+                System.out.println(&quot;恭喜你，欢迎进入系统&quot;);
+                break;
+            }else{
+                System.out.println(&quot;登录名或密码错误，请您确认&quot;);
+            }
+        }
+    }
+
+    public static boolean login(String loginName, String password) {
+        String okloginName =&quot;WASD&quot;;
+        String okpassword =&quot;123456&quot;;
+        return loginName.equals(okloginName) &amp;&amp; password.equals(okpassword);
+    }
+}
+</code></pre>
+<p>使用String来开发验证码，实现随机产生验证码，每位可以是数字，大小写字母。</p>
+<pre><code class="language-java">public class StringDemo1 {
+    public static void main(String[] args) {
+        System.out.println(createcode(4));
+    }
+    public static String createcode(int n) {
+        String code=&quot;&quot;;
+        String data=&quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&quot;;
+        Random r = new Random();
+        for (int i = 0; i &lt; n; i++) {
+            int index = r.nextInt(data.length());
+            code += data.charAt(index);
+        }
+        return code;
+    }
+}
+</code></pre>
+<h2 id="arraylist"><strong>ArrayList</strong></h2>
+<p>  集合是一种容器，用来装数据，类似于数组。数组定义完成长度就固定了，而集合大小可变，开发中运用更多。集合种类有很多，Arraylist是其中一种。</p>
+<ul>
+<li>容器有哪些方法？增删改查。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>构造器</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ArrayList()</td>
+<td>构建一个初始容量为10的空列表</td>
+</tr>
+<tr>
+<td>ArrayList(int initialCapacity)</td>
+<td>构建具有指定初始容量的空列表</td>
+</tr>
+<tr>
+<td>ArrayList(Collection&lt;?extend E&gt;c)</td>
+<td>按照集合的迭代器返回的顺序构造一个包含指定集合元素的列表</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>创建一个ArrayList的集合对象并添加数据</li>
+</ol>
+<pre><code class="language-java">ArrayList list=new ArrayList();
+list.add(&quot;a&quot;);
+list.add(666);
+list.add(99.5);
+list.add(&quot;a&quot;);
+list.add(&quot;java&quot;);
+</code></pre>
+<pre><code class="language-java">ArrayList&lt;String&gt; list=new ArrayList&lt;String&gt;();
+ArrayList&lt;String&gt; list1=new ArrayList&lt;&gt;();//jdk1.7以上支持，建议这种写法
+list.add(&quot;a&quot;);
+list.add(&quot;a&quot;);
+list.add(&quot;java&quot;);
+System.out.println(list);//[a, a, java]
+</code></pre>
+<ol start="2">
+<li>在集合某个索引位置添加一个数据</li>
+</ol>
+<pre><code class="language-java">list.add(1,&quot;Mysql&quot;);
+System.out.println(list);//[a, Mysql, a, java]
+</code></pre>
+<ol start="3">
+<li>根据索引获取集合中某个索引位置处的值</li>
+</ol>
+<pre><code class="language-java"> String rs=list.get(1);
+System.out.println(rs);//Mysql
+</code></pre>
+<ol start="4">
+<li>获取集合的大小</li>
+</ol>
+<pre><code class="language-java"> System.out.println(list.size());
+</code></pre>
+<ol start="5">
+<li>根据索引删除集合中某个元素值，会返回被删除的元素值</li>
+</ol>
+<pre><code class="language-java">System.out.println(list.remove(1));//Mysql
+System.out.println(list);//[a, a, java]
+</code></pre>
+<ol start="6">
+<li>直接删除某个元素值，删除成功则会返回true，反之false，默认删除的是第一次出现的值</li>
+</ol>
+<pre><code class="language-java">System.out.println(list.remove(&quot;java&quot;));
+System.out.println(list);//[a, a]
+list.add(1,&quot;html&quot;);
+System.out.println(list.remove(&quot;a&quot;));
+System.out.println(list);//[html, a]
+</code></pre>
+<ol start="7">
+<li>修改某个索引位置的值，修改后会返回原来的值给我们</li>
+</ol>
+<pre><code class="language-java">System.out.println(list.set(1,&quot;aaa&quot;));//a
+System.out.println(list);//[html, aaa]
+</code></pre>
+<h3 id="arraylist应用案例"><strong>ArrayList应用案例</strong></h3>
+<p>购物车中存储了以下商品:Java入门，宁夏枸杞，黑枸杞，人字拖，特级枸杞，枸杞子。现在用户不想购买枸杞了，想要批量删除，请完成该需求。</p>
+<pre><code class="language-java">ArrayList&lt;String&gt; list = new ArrayList&lt;&gt;();
+list.add(&quot;Java入门&quot;);
+list.add(&quot;宁夏枸杞&quot;);
+list.add(&quot;黑枸杞&quot;);
+list.add(&quot;人字拖&quot;);
+list.add(&quot;特级枸杞&quot;);
+list.add(&quot;枸杞子&quot;);
+System.out.println(list);
+</code></pre>
+<p>方法一：</p>
+<pre><code class="language-java">for (int i = 0; i &lt; list.size(); i++) {
+     if(list.get(i).contains(&quot;枸杞&quot;)) {
+         list.remove(i);
+         i--;
+      }
+}
+</code></pre>
+<p>方法二：</p>
+<pre><code class="language-java">for (int i = list.size()-1; i &gt;=0; i--) {
+     if(list.get(i).contains(&quot;枸杞&quot;)) {
+         list.remove(i);
+      }
+}
+</code></pre>
+<h3 id="arraylist综合案例"><strong>ArrayList综合案例</strong></h3>
+<p>模仿外卖系统的商家系统，完成菜品的上架以及菜品信息浏览功能。<br>
+封装Food类</p>
+<pre><code class="language-java">public class Food {
+    private String name;
+    private double price;
+    private String desc;
+    ...
+}
+</code></pre>
+<p>Food对象操作方法类</p>
+<pre><code class="language-java">public class FoodOperater {
+    private ArrayList&lt;Food&gt; foodList;
+    public void addfood(){
+        Food f = new Food();
+        Scanner sc = new Scanner(System.in);
+        System.out.println(&quot;请输入菜品名称：&quot;);
+        f.setName(sc.next());
+        System.out.println(&quot;请输入菜品价格：&quot;);
+        f.setPrice(sc.nextDouble());
+        System.out.println(&quot;请输入菜品描述：&quot;);
+        f.setName(sc.next());
+        foodList.add(f);
+        System.out.println(&quot;上架成功&quot;);
+    }
+    public void showAllFoods(){
+        if(foodList.size()==0){
+            System.out.println(&quot;什么菜品都没有，先去上架&quot;);
+            return;
+        }
+        for (int i = 0; i &lt; foodList.size(); i++) {
+            Food f = foodList.get(i);
+            System.out.println(f.getName());
+            System.out.println(f.getPrice());
+            System.out.println(f.getDesc());
+            System.out.println(&quot;--------------&quot;);
+        }
+    }
+    public void start(){
+        while (true) {
+            System.out.println(&quot;请选择功能：&quot;);
+            System.out.println(&quot;1.上架菜品&quot;);
+            System.out.println(&quot;2.展示菜品&quot;);
+            System.out.println(&quot;3.退出&quot;);
+            Scanner sc = new Scanner(System.in);
+            String choice = sc.next();
+            switch (choice) {
+                case &quot;1&quot;:
+                    addfood();
+                    break;
+                case &quot;2&quot;:
+                    showAllFoods();
+                    break;
+                case &quot;3&quot;:
+                    System.out.println(&quot;下次再来哦&quot;);;
+                    return;
+                default:
+                    System.out.println(&quot;你输入的命令不存在&quot;);
+            }
+        }
+    }
+}
+</code></pre>
+<p>主函数</p>
+<pre><code class="language-java">public class StringDemo1 {
+    public static void main(String[] args) {
+        FoodOperater operator = new FoodOperater();
+        operator.start();
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Java面向对象基础]]></title>
+        <id>https://yyss1014.github.io/post/java-mian-xiang-dui-xiang-ji-chu/</id>
+        <link href="https://yyss1014.github.io/post/java-mian-xiang-dui-xiang-ji-chu/">
+        </link>
+        <updated>2025-02-28T07:45:23.000Z</updated>
+        <content type="html"><![CDATA[<p>开发一个个对象，把数据交给对象，再调用对象的方法来完成数据的处理。对象本质上是一个特殊的数据结构，class也就是类，也称为对象的设计图。</p>
+<ul>
+<li>类名建议用英文单词，首字母大写。</li>
+</ul>
+<pre><code class="language-java">public class Student {
+    //成员变量
+    String name;
+    double chinese;
+    double math;
+    //成员方法
+    public void printTotalScore() {
+        System.out.println(name+&quot;总成绩是：&quot;+(chinese+math));
+    }
+    public void printAverageScore() {
+        System.out.println(name+&quot;总成绩是：&quot;+(chinese+math)/2);
+    }
+}
+//一个代码文件中，可以写多个class类，但只能用一个class类修饰
+//对象与对象之间不会相互影响，但多个对象指向一个对象会相互影响
+//如果某个对象没有一个变量引用它，则该对象无法操作了，则该对象成为垃圾对象。（创建好对象后但没有指针指向它，它会被判断成内存中的垃圾被自动清除）
+</code></pre>
+<h2 id="this"><strong>this</strong></h2>
+<p>this是一个对象，可以用在方法中，用来拿到当前对象。this主要解决变量名称冲突问题。</p>
+<pre><code class="language-java">public class Student {
+    double score;
+    public void printthis(){
+        System.out.println(this);
+    }
+    public void printPass(double score) {
+        if(this.score &gt; score){
+            System.out.println(&quot;恭喜你考上哈佛大学了~&quot;);
+        }else{
+            System.out.println(&quot;落选了&quot;);
+        }
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        Student s = new Student();
+        System.out.println(s);//com.ys.Student@3b07d329
+        s.printthis();//com.ys.Student@3b07d329
+    }
+}
+</code></pre>
+<h2 id="构造器"><strong>构造器</strong></h2>
+<p>创建对象时，对象会调用构造器。</p>
+<pre><code class="language-java">public class Student{
+    public Student(){
+        ···
+    }
+}
+</code></pre>
+<ul>
+<li>类在设计时，如果不写构造器，java会为类设计一个无参构造器的。</li>
+<li>一旦生成有参的构造器，java不会帮我们的类生成无参构造器了，此时建议自己手写一个无参构造器出来。</li>
+</ul>
+<p>Teacher类（不写构造器）<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-02-28%20165049.png#pic_center" alt="" width="300" loading="lazy"><br>
+反编译后的Teacher类<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-02-28%20165008.png#pic_center" alt="" width="300" loading="lazy"></p>
+<h2 id="实体javabean实体类"><strong>实体javaBean（实体类）</strong></h2>
+<p>实体类是一种特殊形式的类。实体类成员变量必须私有，且为它们提供get、set方法，必须有无参构造器。</p>
+<pre><code class="language-java">public class Student {
+    //必须有私有成员变量，并为每个成员变量都提供get set方法
+    private String name;
+    private double score;
+
+    //必须为类生成一个公开的无参构造器，右键-&gt;generate-&gt;constructor
+    public Student() {
+    }
+    //右键-&gt;generate-&gt;getter and setter
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class StudentOperater {
+    private Student student;
+
+    public StudentOperater(Student student) {
+        this.student = student;
+    }
+    public void printPass(){
+        if(student.getScore()&gt;=60){
+            System.out.println(student.getName()+&quot;学生成绩及格&quot;);
+        }else{
+            System.out.println(student.getName()+&quot;学生成绩不及格&quot;);
+        }
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        Student s1 = new Student();
+        s1.setName(&quot;播妞&quot;);
+        s1.setScore(99);
+        System.out.println(s1.getName());
+        System.out.println(s1.getScore());
+        StudentOperater opreater=new StudentOperater(s1);
+        opreater.printPass();
+
+    }
+}
+</code></pre>
+<h2 id="综合案例"><strong>综合案例</strong></h2>
+<p>展示系统中的全部电影（每部电影的名称，价格），允许用户根据电影的编号查询除某个电影的具体信息。</p>
+<pre><code class="language-java">public class Movie {
+    private int id;
+    private String name;
+    private double price;
+    private double score;
+    private String director;
+    private String actor;
+    private String info;
+
+    public Movie() {
+    }
+
+    public Movie(int id, String name, double price, double score, String director, String actor, String info) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.score = score;
+        this.director = director;
+        this.actor = actor;
+        this.info = info;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public void setDirector(String director) {
+        this.director = director;
+    }
+
+    public String getActor() {
+        return actor;
+    }
+
+    public void setActor(String actor) {
+        this.actor = actor;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class MovieOperator {
+    private Movie[] movies;
+
+    public MovieOperator(Movie[] movies) {
+        this.movies = movies;
+    }
+    public void printAllMovies() {
+        System.out.println(&quot;---全部电影信息如下---&quot;);
+        for (int i = 0; i &lt; movies.length; i++) {
+            Movie m=movies[i];
+            System.out.println(&quot;编号：&quot;+m.getId());
+            System.out.println(&quot;名称：&quot;+m.getName());
+            System.out.println(&quot;价格：&quot;+m.getPrice());
+            System.out.println(&quot;---------------&quot;);
+        }
+    }
+    public void searchMovieById(int id) {
+        for (int i = 0; i &lt; movies.length; i++) {
+            Movie m=movies[i];
+            if (m.getId() == id) {
+                System.out.println(&quot;该电影影评如下：&quot;);
+                System.out.println(&quot;编号：&quot;+m.getId());
+                System.out.println(&quot;名称：&quot;+m.getName());
+                System.out.println(&quot;价格：&quot;+m.getPrice());
+                System.out.println(&quot;导演：&quot;+m.getDirector());
+                System.out.println(&quot;主演：&quot;+m.getActor());
+                System.out.println(&quot;其他信息：&quot;+m.getInfo());
+                return;
+            }
+        }
+        System.out.println(&quot;没有电影信息&quot;);
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        Movie[] movies = new Movie[1];
+        movies[0] = new Movie(1, &quot;水门桥&quot;, 28.9, 9.8, &quot;徐克&quot;, &quot;吴京&quot;, &quot;12w人想看&quot;);
+        MovieOperator operator = new MovieOperator(movies);
+
+        while (true) {
+            System.out.println(&quot;==电影信息系统==&quot;);
+            System.out.println(&quot;1.查询全部电影信息&quot;);
+            System.out.println(&quot;2.根据id查询某个电影的详细信息展示&quot;);
+            System.out.println(&quot;请您输入命令&quot;);
+            Scanner sc = new Scanner(System.in);
+            int command = sc.nextInt();
+            switch (command) {
+                case 1:
+                    operator.printAllMovies();
+                    break;
+                case 2:
+                    System.out.println(&quot;请您输入查询的电影id&quot;);
+                    int id = sc.nextInt();
+                    operator.searchMovieById(id);
+                    break;
+                default:
+                    System.out.println(&quot;您输入的命令有问题&quot;);
+
+            }
+        }
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Java基础案例]]></title>
+        <id>https://yyss1014.github.io/post/java-mian-xiang-dui-xiang-bu-fen-ji-chu-an-li/</id>
+        <link href="https://yyss1014.github.io/post/java-mian-xiang-dui-xiang-bu-fen-ji-chu-an-li/">
+        </link>
+        <updated>2025-02-27T06:57:18.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="案例1-买飞机票"><strong>案例1 买飞机票</strong></h2>
+<p>需求：用户购买机票时，机票会安装淡季旺季，头等舱还是经济舱的情况进行相应的优惠。5-10月为旺季，11月至次年4月为淡季，旺季头等舱机票打9折，经济舱打8.5折；淡季头等舱打7折，经济舱打6.5折。</p>
+<pre><code class="language-java">public class test1 {
+    public static void main(String[] args) {
+        System.out.println(&quot;请输入月份：&quot;);
+        Scanner sc = new Scanner(System.in);
+        int a = sc.nextInt();
+        System.out.println(&quot;请输入仓型，是经济舱还是头等舱：&quot;);
+        String b = sc.next();
+        System.out.println(&quot;请输入机票价格：&quot;);
+        double c = sc.nextDouble();
+        double d=ticket(b,a,c);
+        System.out.println(&quot;您的机票优惠价是：&quot;+d);
+    }
+    public static double ticket(String s, int month,double price) {
+        if(month &lt;=10&amp;&amp;month&gt;=5){
+            return price*(s==&quot;头等舱&quot;?0.9:0.85);
+        }else
+            return price*(s==&quot;头等舱&quot;?0.7:0.65);
+
+    }
+}
+</code></pre>
+<h2 id="案例2-生成验证码"><strong>案例2 生成验证码</strong></h2>
+<p>生成可以指定位数的验证码，每位可以是大写字母，小写字母，数字。</p>
+<pre><code class="language-java">public class test2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println(&quot;请输入需要的验证码的长度：&quot;);
+        int n=sc.nextInt();
+        String code=creatCode(n);
+        System.out.println(code);
+    }
+    public static String creatCode(int n){
+        Random r = new Random();
+        String code = &quot;&quot;;
+        for (int i = 1; i &lt;= n; i++) {
+            int type = r.nextInt(3);
+            switch(type){
+                case 0:
+                    code += (char)('a'+r.nextInt(26));
+                    break;
+                case 1:
+                    code += (char)('A'+r.nextInt(26));
+                    break;
+                case 2:
+                    code += (char)('0'+r.nextInt(10));
+            }
+        }
+        return code;
+    }
+}
+</code></pre>
+<h2 id="案例3-评委打分"><strong>案例3 评委打分</strong></h2>
+<p>在比赛中可能有多个评委打分，分数是0-100之间的整数，选手最后得分为去掉一个最高分，去掉一个最低分后剩余分数的平均分。</p>
+<pre><code class="language-java">public class test3 {
+    public static void main(String[] args) {
+        System.out.println(&quot;当前的选手的得分是&quot;+getAverageScore(6));
+
+    }
+    public static double getAverageScore(int number){
+        int[] scores=new int[number];
+        Scanner sc=new Scanner(System.in);
+        int max=0;
+        int sum=0;
+        int min=101;
+        for (int i = 0; i &lt; scores.length; i++) {
+            System.out.println(&quot;请录入第&quot;+(i+1)+&quot;个评委的分数&quot;);
+            scores[i]=sc.nextInt();
+            sum+=scores[i];
+            if(scores[i]&gt;max){
+                max=scores[i];
+            }
+            if(scores[i]&lt;min){
+                min=scores[i];
+            }
+        }
+        return 1.0*(sum-max-min)/(number-2);
+    }
+}
+</code></pre>
+<h2 id="案例4-数字加密"><strong>案例4 数字加密</strong></h2>
+<p>某系统的数字密码是4位数，如1983，需要加密后再传输，加密规则是对密码中的每一位数都加5，再对10求余，最后将所有数字反转，得到一串加密后的新数。</p>
+<pre><code class="language-java">public class test4 {
+    public static void main(String[] args) {
+        System.out.println(&quot;加密后的结果是：&quot;+encrypt(1983));
+
+    }
+    public static String encrypt(int number){
+        int[] numbers=split(number);//Alt+Enter直接创建方法
+        for (int i = 0; i &lt; numbers.length; i++) {
+            numbers[i]=(numbers[i]+5)%10;
+        }
+        String data=&quot;&quot;;
+        for (int i = 0; i &lt; numbers.length; i++) {
+            data+=numbers[i];
+        }
+        return data;
+    }
+
+    public static int[] split(int number) {
+        int[] numbers=new int[4];
+        for (int i = 0; i &lt; numbers.length; i++) {
+            numbers[i]=number%10;
+            number=number/10;
+        }
+        return numbers;
+    }
+}
+</code></pre>
+<h2 id="案例5-数组拷贝"><strong>案例5 数组拷贝</strong></h2>
+<p>请将一个整型数组，拷贝一个一模一样的数组出来。</p>
+<pre><code class="language-java">public class test5 {
+    public static void main(String[] args) {
+        int[] arr={11,22,33};
+        int[] arr2=copy(arr);
+        printArray(arr2);
+    }
+    public static void printArray(int[] arr) {
+        System.out.print(&quot;[&quot;);
+        for (int i = 0; i &lt; arr.length; i++) {
+            System.out.print(i==arr.length-1?arr[i]:arr[i]+&quot;,&quot;);
+        }
+        System.out.print(&quot;]&quot;);
+    }
+    public static int[] copy(int[] arr) {
+        int[] arr2 = new int[arr.length];
+        for (int i = 0; i &lt; arr.length; i++) {
+            arr2[i] = arr[i];
+        }
+        return arr2;
+    }
+}
+</code></pre>
+<h2 id="案例6-抢红包"><strong>案例6 抢红包</strong></h2>
+<p>一个大V直播抽奖，红包金额分别为9、666、188、520、99999。请模拟粉丝前来抽奖，随机抽取，抽完极致，注意：一个红包只能被抽取一次。</p>
+<pre><code class="language-java">public class test6 {
+    public static void main(String[] args) {
+        int[] moneys={9,666,188,520,99999};
+        start(moneys);
+    }
+    public static void start(int[] moneys) {
+        Scanner sc=new Scanner(System.in);
+        for (int i=0;i&lt;moneys.length;i++) {
+            System.out.println(&quot;请输入任意内容进行抽奖：&quot;);//Ctrl+Alt+T快捷生成流程控制语句
+            sc.next();
+            Random random=new Random();
+            while (true) {
+                int index=random.nextInt(moneys.length);
+                int money=moneys[index];
+                if(money!=0){
+                    System.out.println(&quot;恭喜你抽中了红包&quot;+money);
+                    moneys[index]=0;
+                    break;
+                }
+            }
+        }
+        System.out.println(&quot;活动结束了&quot;);
+    }
+}
+</code></pre>
+<p>这种方法有性能问题，可以打乱奖金顺序依次发给粉丝。</p>
+<h2 id="案例7-找素数"><strong>案例7 找素数</strong></h2>
+<p>判断101-200之间有多少素数并返回所有素数。</p>
+<ul>
+<li>方法一</li>
+</ul>
+<pre><code class="language-java">public class test7 {
+    public static void main(String[] args) {
+        System.out.println(&quot;素数个数为&quot;+search(101,200));
+    }
+    public static int search(int start, int end) {
+        int sum=0;
+        for (int i = start; i &lt;= end; i++) {
+            boolean flag=true;
+            for (int j = i/2; j &gt; 1; j--) {
+                if (i%j==0) {
+                    flag=false;
+                   break;
+                }
+            }
+            if (flag==true) {
+                System.out.println(i);
+                sum+=1;
+            }
+        }
+        return sum;
+    }
+}
+</code></pre>
+<ul>
+<li>方法二</li>
+</ul>
+<pre><code class="language-java">public class test7 {
+    public static void main(String[] args) {
+        System.out.println(&quot;素数个数为&quot;+search(101,200));
+    }
+    public static int search(int start, int end) {
+        int sum=0;
+        OUT://为外部循环指定标签
+        for (int i = start; i &lt;= end; i++) {
+            for (int j = i/2; j &gt; 1; j--) {
+                if (i%j==0) {
+                    continue OUT;
+                }
+            }
+                System.out.println(i);
+                sum+=1;
+        }
+        return sum;
+    }
+}
+</code></pre>
+<ul>
+<li>方法三</li>
+</ul>
+<pre><code class="language-java">public class test7 {
+    public static void main(String[] args) {
+        for (int i = 101; i &lt;= 200; i++) {
+            if (check(i)){
+                System.out.println(i);
+            }
+        }
+    }
+    public static boolean check(int data) {
+        for (int i = 2; i &lt;= data / 2; i++) {
+            if (data % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+</code></pre>
+<h2 id="案例8-打印乘法表"><strong>案例8 打印乘法表</strong></h2>
+<pre><code class="language-java">public class test8 {
+    public static void main(String[] args) {
+        for (int i = 1; i &lt;=9 ; i++) {
+            for (int j = 1; j &lt;=i ; j++) {
+                System.out.print(j+&quot;X&quot;+i+&quot;=&quot;+i*j+&quot;\t&quot;);
+            }
+            System.out.println();
+        }
+    }
+}
+</code></pre>
+<p>打印等边梯形</p>
+<pre><code class="language-java">public class test9 {
+    public static void main(String[] args) {
+        int n=10;
+        for (int i = 1; i &lt;= n; i++) {
+            for (int j = 1; j &lt;=(n-i) ; j++) {
+                System.out.print(&quot; &quot;);
+            }
+            for (int j = 1; j &lt;=2*i-1 ; j++) {
+                System.out.print(&quot;*&quot;);
+            }
+            System.out.println();
+        }
+    }
+}
+</code></pre>
+<h2 id="案例9-双色球"><strong>案例9 双色球</strong></h2>
+<p>投注号码由6个红球号码和1个蓝球号码组成。红色球号码由1-33中选择，蓝色球号码由1-16组成。</p>
+<pre><code class="language-java">public class test10 {
+    public static void main(String[] args) {
+        int[] userNumbers=userselectNumbers();
+        System.out.println(&quot;您投注的号码：&quot;);
+        printArray(userNumbers);
+        int[] luckeyNumbers=createluckyNumbers();
+        System.out.println(&quot;中奖的号码：&quot;);
+        printArray(luckeyNumbers);
+        judge(userNumbers, luckeyNumbers);
+
+    }
+    public static void printArray(int[] array) {
+        System.out.print(&quot;[&quot;);
+        for (int i = 0; i &lt; array.length; i++) {
+            System.out.print(i== array.length-1 ?array[i] :  array[i]+&quot;, &quot; );
+        }
+        System.out.println(&quot;]&quot;);
+    }
+    public static int[] userselectNumbers() {
+        int[] numbers=new int[7];
+        Scanner sc=new Scanner(System.in);
+        Random r = new Random();
+        for (int i = 0; i &lt; numbers.length-1; i++) {
+            while (true) {
+                System.out.println(&quot;请您输入第&quot;+(i+1)+&quot;个红球号码&quot;);
+                int number=sc.nextInt();
+                if(number&lt;1||number&gt;33) {
+                    System.out.println(&quot;对不起，您输入的号码不在1-33之间&quot;);
+                }else if(exist(numbers,number)){
+                        System.out.println(&quot;您的红球号码重复了&quot;);
+                }else{
+                    numbers[i]=number;
+                    break;
+                }
+            }
+        }
+        while (true) {
+            System.out.println(&quot;请输入最后一个蓝球号码&quot;);
+            int number=sc.nextInt();
+            if(number&lt;1||number&gt;16) {
+                System.out.println(&quot;对不起，您输入的号码不在1-16之间&quot;);
+            }else{
+                numbers[numbers.length-1]=number;
+                break;
+            }
+        }
+        return numbers;
+    }
+    public static boolean exist(int[] numbers, int number) {
+        for (int i = 0; i &lt; numbers.length; i++) {
+            if(numbers[i]==0) {
+                break;
+            }
+            if (numbers[i] == number) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public static int[] createluckyNumbers() {
+        int[] numbers=new int[7];
+        Random r=new Random();
+        for (int i = 0; i &lt; numbers.length-1; i++) {
+            while (true) {
+                int number=r.nextInt(33)+1;
+                if(!exist(numbers,number)) {
+                    numbers[i]=number;
+                    break;
+                }
+            }
+        }
+        numbers[numbers.length-1]=r.nextInt(16)+1;
+        return numbers;
+    }
+    public static void judge(int[] usernumbers,int[] luckeynumbers) {
+        int redcount=0;
+        int bluecount=0;
+        for (int i = 0; i &lt; usernumbers.length-1; i++) {
+            for (int j = 0; j &lt; luckeynumbers.length-1; j++) {
+                if(usernumbers[i]==luckeynumbers[j]) {
+                    redcount++;
+                    break;
+                }
+            }
+        }
+        bluecount=usernumbers[6]==luckeynumbers[6]?1:0;
+        System.out.println(&quot;您命中的红球数量是：&quot;+redcount);
+        System.out.println(&quot;您命中的蓝球数量是：&quot;+bluecount);
+        if(redcount==6&amp;&amp;bluecount==1) {
+            System.out.println(&quot;1000w&quot;);
+        } else if (redcount==6&amp;&amp;bluecount==0) {
+            System.out.println(&quot;500w&quot;);
+        }else if (redcount==5&amp;&amp;bluecount==1) {
+            System.out.println(&quot;3000&quot;);
+        }else if (redcount==5&amp;&amp;bluecount==0||redcount==4&amp;&amp;bluecount==1) {
+            System.out.println(&quot;200&quot;);
+        }else if (redcount==4&amp;&amp;bluecount==0||redcount==3&amp;&amp;bluecount==1) {
+            System.out.println(&quot;10&quot;);
+        }else if (redcount&lt;3&amp;&amp;bluecount==1) {
+            System.out.println(&quot;5&quot;);
+        }else{
+            System.out.println(&quot;感谢您对福利事业的巨大贡献&quot;);
+        }
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Java方法]]></title>
+        <id>https://yyss1014.github.io/post/java-fang-fa/</id>
+        <link href="https://yyss1014.github.io/post/java-fang-fa/">
+        </link>
+        <updated>2025-02-27T02:29:39.000Z</updated>
+        <content type="html"><![CDATA[<p>方法是一种语法结构，它可以把一段代码封装成一个功能，以便重复调用。</p>
+<pre><code class="language-java">修饰符 返回值类型 方法名(形参列表){
+    方法体代码(需要执行的功能代码)
+    return 返回值
+}
+</code></pre>
+<pre><code class="language-java">public class HelloWorld {
+    public static void main(String[] args) {
+        int rs=sum(10,20);
+        System.out.println(rs);
+    }
+    public static int sum(int a, int b) {
+        int c = a + b;
+        return c;
+    }
+}
+</code></pre>
+<p>形参列表可以有多个，甚至可以没有，多个形参必须用“,”隔开，且不能初始化给值。传输实参给方法的形参时，传输的是实参变量中形参的副本，引用类型的参数传输的存储的地址值。</p>
+<h2 id="案例"><strong>案例</strong></h2>
+<p>输出一个int类型的数组内容，要求输出格式为：[11,22,33,44,55]</p>
+<pre><code class="language-java">public static void printArray(int[] arr) {
+        if (arr==null){
+            System.out.println(arr);
+            return;
+        }
+        System.out.print(&quot;[&quot;);
+        for (int i = 0; i &lt; arr.length; i++) {
+            System.out.print(i==arr.length-1?arr[i]:arr[i]+&quot;,&quot;);
+        }
+        System.out.print(&quot;]&quot;);
+    }
+</code></pre>
+<p>判断两个数组是否相等</p>
+<pre><code class="language-java"> public static boolean equals(int [] arr1, int [] arr2) {
+     if(arr1==null &amp;&amp; arr2==null){
+         return true;
+     }
+     if (arr1==null||arr2==null) {
+         return false;
+     }
+     if (arr1.length!=arr2.length) {
+         return false;
+     }
+     for (int i = 0; i &lt; arr1.length; i++) {
+         if (arr1[i]!=arr2[i]) {
+             return false;
+         }
+     }
+     return true;
+ }
+</code></pre>
+<h2 id="方法重载"><strong>方法重载</strong></h2>
+<p>一个类中，只要一些方法名称相同，形参列表不同，那么它们就是方法重载，其他都不管。<br>
+return在无返回值的方法中，可以直接跳出并结束当前方法的执行。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Java数组]]></title>
+        <id>https://yyss1014.github.io/post/java-shu-zu/</id>
+        <link href="https://yyss1014.github.io/post/java-shu-zu/">
+        </link>
+        <updated>2025-02-26T08:21:31.000Z</updated>
+        <content type="html"><![CDATA[<p>数组是一个容器，用来存储同一批类型的数据。</p>
+<h2 id="数组类型"><strong>数组类型</strong></h2>
+<p>数组类型[] 数组名=new 数据类型[]{元素1，元素2，元素3，······}</p>
+<pre><code class="language-java">int[] arr =new int[]{1,2,3,4,5,6,7,8,9,10};
+</code></pre>
+<p>简化写法：<br>
+数组类型[] 数组名={元素1，元素2，元素3，······}</p>
+<ul>
+<li>什么类型的数组存放什么类型的数据</li>
+<li>数组类型[] 数组名也可以写成数组类型 数组名[]</li>
+</ul>
+<h2 id="数组访问"><strong>数组访问</strong></h2>
+<pre><code class="language-java">arr[0]=66    //修改数组中的数据
+arr.length   //访问数组中的元素个数
+arr.length-1 //访问数组中的最大索引（前提是元素个数大于0）
+//数组遍历
+for (int i = 0; i &lt; arr.length; i++) {//快捷键：数组名.fori+Enter
+            System.out.println(arr[i]);
+}
+</code></pre>
+<h2 id="动态定义数组"><strong>动态定义数组</strong></h2>
+<p>数组类型[] 数组名= new 数组类型[长度]</p>
+<pre><code class="language-java">int[] arr = new int[10]; //arr=[0,0,0]
+</code></pre>
+<p>动态初始化数组默认规则：</p>
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>byte、short、char、int、long</td>
+<td>0</td>
+</tr>
+<tr>
+<td>float、double</td>
+<td>0.0</td>
+</tr>
+<tr>
+<td>boolean</td>
+<td>false</td>
+</tr>
+<tr>
+<td>类、接口、数组、String</td>
+<td>null</td>
+</tr>
+</tbody>
+</table>
+<p>评委打分案例，录入6位评委的评分并求平均分。</p>
+<pre><code class="language-java">import java.util.Scanner;
+
+public class HelloWorld {
+    public static void main(String[] args) {
+        double[] scores = new double[6];
+        Scanner sc = new Scanner(System.in);
+        for (int i = 0; i &lt; scores.length; i++) {
+            System.out.println(&quot;请输入当前第&quot;+(i+1)+&quot;个评委的分数：&quot;);
+            double score=sc.nextDouble();
+            scores[i]=score;
+        }
+        double sum = 0;
+        for (int i = 0; i &lt; scores.length; i++) {
+            sum+=scores[i];
+        }
+        System.out.println(&quot;选手的最终得分是&quot;+sum/scores.length);
+    }
+}
+</code></pre>
+<p>多个变量指向一个数组：</p>
+<pre><code class="language-java">int[] arr1={11,22,33};
+int[] arr2=arr1;
+System.out.println(arr1);//[I@4eec7777
+System.out.println(arr2);//[I@4eec7777
+arr2[1]=99;
+System.out.println(arr1[1]);//99
+</code></pre>
+<p>可以看到两个数组指向同一个地址。如果数组变量中存储的值是null，那么该变量不指向任何数组对象。</p>
+<h2 id="案例"><strong>案例</strong></h2>
+<ul>
+<li>数组反转</li>
+</ul>
+<pre><code class="language-java">public class HelloWorld {
+    public static void main(String[] args) {
+        int[] arr={10,20,30,40,50};
+        for (int i = 0,j=arr.length-1;i &lt; j ; i++,j--) {
+            int temp=arr[i];
+            arr[i]=arr[j];
+            arr[j]=temp;
+        }
+    }
+}
+</code></pre>
+<ul>
+<li>随机排名</li>
+</ul>
+<pre><code class="language-java">public class HelloWorld {
+    public static void main(String[] args) {
+        int[] codes = new int[5];
+        Scanner sc = new Scanner(System.in);
+        for (int i = 0; i &lt; codes.length; i++) {
+            System.out.println(&quot;请输入当前第&quot;+i+1+&quot;员工的工号&quot;);
+            int code =sc.nextInt();
+            codes[i] = code;
+        }
+        Random r = new Random();
+        for (int i = 0; i &lt; codes.length; i++) {
+            int index=r.nextInt(codes.length);
+            int temp=codes[index];
+            codes[index]=codes[i];
+            codes[i]=temp;
+        }
+        for (int i = 0; i &lt; codes.length; i++) {
+            System.out.println(codes[i]);
+        }
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
+</feed>
