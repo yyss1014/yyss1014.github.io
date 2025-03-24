@@ -1,0 +1,3135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://yyss1014.github.io</id>
+    <title>WASD研究院</title>
+    <updated>2025-03-24T09:51:53.709Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://yyss1014.github.io"/>
+    <link rel="self" href="https://yyss1014.github.io/atom.xml"/>
+    <subtitle>温故而知新</subtitle>
+    <logo>https://yyss1014.github.io/images/avatar.png</logo>
+    <icon>https://yyss1014.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2025, WASD研究院</rights>
+    <entry>
+        <title type="html"><![CDATA[IO流]]></title>
+        <id>https://yyss1014.github.io/post/io-liu/</id>
+        <link href="https://yyss1014.github.io/post/io-liu/">
+        </link>
+        <updated>2025-03-23T11:11:46.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li><a href="#%E5%AD%97%E8%8A%82%E6%B5%81"><strong>字节流</strong></a>
+<ul>
+<li><a href="#fileinputstream"><strong>FileInputStream</strong></a></li>
+<li><a href="#fileoutputstream"><strong>FileOutputStream</strong></a></li>
+<li><a href="#%E6%A1%88%E4%BE%8B%E6%96%87%E4%BB%B6%E5%A4%8D%E5%88%B6"><strong>案例：文件复制</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E9%87%8A%E6%94%BE%E8%B5%84%E6%BA%90%E7%9A%84%E6%96%B9%E5%BC%8F"><strong>释放资源的方式</strong></a>
+<ul>
+<li><a href="#try-catch-finally"><strong>try-catch-finally</strong></a></li>
+<li><a href="#try-with-resource"><strong>try-with-resource</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E5%AD%97%E7%AC%A6%E6%B5%81"><strong>字符流</strong></a>
+<ul>
+<li><a href="#filereader"><strong>FileReader</strong></a></li>
+<li><a href="#filewriter"><strong>FileWriter</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E7%BC%93%E5%86%B2%E6%B5%81"><strong>缓冲流</strong></a>
+<ul>
+<li><a href="#%E5%AD%97%E8%8A%82%E7%BC%93%E5%86%B2%E6%B5%81"><strong>字节缓冲流</strong></a></li>
+<li><a href="#%E5%AD%97%E7%AC%A6%E7%BC%93%E5%86%B2%E6%B5%81"><strong>字符缓冲流</strong></a>
+<ul>
+<li><a href="#%E5%AD%97%E7%AC%A6%E7%BC%93%E5%86%B2%E8%BE%93%E5%85%A5%E6%B5%81"><strong>字符缓冲输入流</strong></a></li>
+<li><a href="#%E5%AD%97%E7%AC%A6%E7%BC%93%E5%86%B2%E8%BE%93%E5%87%BA%E6%B5%81"><strong>字符缓冲输出流</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E6%A1%88%E4%BE%8B"><strong>案例</strong></a></li>
+<li><a href="#%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90"><strong>性能分析</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E8%BD%AC%E6%8D%A2%E6%B5%81"><strong>转换流</strong></a>
+<ul>
+<li><a href="#%E5%AD%97%E7%AC%A6%E8%BE%93%E5%85%A5%E8%BD%AC%E6%8D%A2%E6%B5%81"><strong>字符输入转换流</strong></a></li>
+<li><a href="#%E5%AD%97%E7%AC%A6%E8%BE%93%E5%87%BA%E8%BD%AC%E6%8D%A2%E6%B5%81"><strong>字符输出转换流</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E6%89%93%E5%8D%B0%E6%B5%81"><strong>打印流</strong></a>
+<ul>
+<li><a href="#%E5%AD%97%E8%8A%82%E8%BE%93%E5%87%BA%E6%B5%81"><strong>字节输出流</strong></a></li>
+<li><a href="#%E5%AD%97%E7%AC%A6%E8%BE%93%E5%87%BA%E6%B5%81"><strong>字符输出流</strong></a></li>
+<li><a href="#%E8%BE%93%E5%87%BA%E8%AF%AD%E5%8F%A5%E7%9A%84%E9%87%8D%E5%AE%9A%E5%90%91"><strong>输出语句的重定向</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E6%B5%81"><strong>数据流</strong></a></li>
+<li><a href="#%E5%BA%8F%E5%88%97%E5%8C%96%E6%B5%81"><strong>序列化流</strong></a></li>
+</ul>
+<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250323191953.png" alt="" loading="lazy"></p>
+<h1 id="字节流"><strong>字节流</strong></h1>
+<h2 id="fileinputstream"><strong>FileInputStream</strong></h2>
+<p>以内存为基准，把磁盘文件中的数据以字节的形式读入到内存中。<br>
+一次读取一个字节：</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws Exception {
+       //创建文件字节输入流管道，与源文件接通
+        //InputStream is= new FileInputStream(new File(&quot;file-io-app\\src\\ys.txt&quot;));
+        //简化写法，推荐使用
+        InputStream is= new FileInputStream(&quot;file-io-app\\src\\ys.txt&quot;);
+        //开始读取文件的字节数据
+        /*int b1=is.read();
+        System.out.println((char)b1);//a
+        int b2=is.read();
+        System.out.println((char)b2);//b
+        int b3=is.read();// 没有数据了，返回-1
+        System.out.println(b3);*/
+        //循环改造上述代码
+        int b;
+        //先看等号右边
+        while((b=is.read())!=-1){
+            System.out.print((char)b);
+        }
+        //每次读取文件数据时，内存中的程序调用硬件资源读取硬盘中的数据，性能很差
+        //流使用完毕后必须关闭，释放系统资源
+        is.close();
+    }
+}
+</code></pre>
+<p>一次读取多个字节：</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws Exception {
+       //创建一个字节输入流对象
+        InputStream is=new FileInputStream(&quot;file-io-app\\src\\ys.txt&quot;);//abc66
+        //开始读取文件中的字节数据，每次读取多个字节
+        byte[] buffer =new byte[3];
+        int len=is.read(buffer);
+        String rs=new String(buffer);
+        System.out.println(&quot;当前读取的字节数量：&quot;+len);
+        System.out.println(rs);
+
+        //buffer=[abc]
+        //buffer=[66c]
+        //读取多少就倒出多少
+        int len2 =is.read(buffer);
+        String rs2 =new String(buffer,0,len2);
+        System.out.println(&quot;当前读取的字节数量：&quot;+ len2);
+        System.out.println(rs2);
+        int len3 =is.read(buffer);
+        System.out.println(len3);//-1
+        String rs3 =new String(buffer);
+        System.out.println(rs3);//66c
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws Exception {
+       //创建一个字节输入流对象
+        InputStream is=new FileInputStream(&quot;file-io-app\\src\\ys.txt&quot;);//abc66
+        //循环改造
+        byte[] buffer =new byte[3];
+        int len;
+        while((len=is.read(buffer))!=-1){
+            String rs = new String(buffer, 0, len);
+            System.out.println(rs);
+        }
+        //性能得到了明显提升
+        //也不能避免汉字乱码
+        is.close();
+    }
+}
+</code></pre>
+<p>一次读取完全部字节：</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws Exception {
+        //一次性读取完文件的全部字节到一个字节数组里
+        //创建一个字节输入流管道与源文件接通
+        InputStream is=new FileInputStream(&quot;file-io-app\\src\\ys.txt&quot;);
+//        File f=new File(&quot;file-io-app\\src\\ys.txt&quot;);
+//        long size=f.length();
+//        byte[] buffer =new byte[(int)size];
+//
+//        int len=is.read(buffer);
+//        System.out.println(new String(buffer));
+//
+//        System.out.println(size);
+//        System.out.println(len);
+        byte[] buffer= is.readAllBytes();//如果文件太大会抛出内存溢出异常
+        System.out.println(new String(buffer));
+    }
+}
+</code></pre>
+<h2 id="fileoutputstream"><strong>FileOutputStream</strong></h2>
+<p>以内存为基准，把内存中的数据以字节的形式写出到文件中。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws Exception {
+        //创建一个字节输出流管道与目标文件接通
+        //写数据前会把原来数据清空，覆盖管道
+        /*OutputStream os =
+                new FileOutputStream(&quot;file-io-app\\src\\ys.txt&quot;);*/
+        //追加数据的管道
+        OutputStream os =
+                new FileOutputStream(&quot;file-io-app\\src\\ys.txt&quot;,true);
+        //文件可以自动生成
+        //开始写字节数据了
+        os.write(97);
+        os.write('b');
+        //os.write('颜');//[ooo]默认只能写一个字节，第一个o
+
+        byte[] bytes = &quot;我爱你中国&quot;.getBytes();
+        os.write(bytes);
+        os.write(bytes,0,15);
+        //换行&quot;\r\n&quot;
+        os.write(&quot;\r\n&quot;.getBytes());
+        os.close();
+    }
+}
+</code></pre>
+<h2 id="案例文件复制"><strong>案例：文件复制</strong></h2>
+<p>字节流适合一切文件的复制操作。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws Exception {
+        //需求：复制照片
+        InputStream is=new FileInputStream(&quot;C:\\Users\\adminys\\Pictures\\Screenshots\\屏幕截图 2025-02-23 154218.png&quot;);
+        OutputStream os=new FileOutputStream(&quot;C:\\Users\\adminys\\Desktop\\picture.png&quot;);
+        byte[] buffer =new byte[1024];//1KB
+        int len;
+        while((len=is.read(buffer))!=-1){
+            os.write(buffer,0,len);
+        }
+        //后创建的流先关掉
+        os.close();
+        is.close();
+        System.out.println(&quot;复制完成&quot;);
+    }
+}
+</code></pre>
+<h1 id="释放资源的方式"><strong>释放资源的方式</strong></h1>
+<h2 id="try-catch-finally"><strong>try-catch-finally</strong></h2>
+<p>无论try中的程序是正常执行了，还是出现异常，最后一定会执行finally代码区，除非JVM终止。一版用于程序执行完后释放资源的操作。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws Exception {
+        try{
+            System.out.println(10/0);
+            return;
+            //System.exit(0);//虚拟机
+        }catch(Exception e){
+            e.printStackTrace();//打印异常信息
+        }finally{
+            System.out.println(&quot;===finally执行了一次===&quot;);
+        }
+        System.out.println(chu(10,2));//111
+    }
+    public static int chu(int a,int b){
+        try {
+            return a/b;
+        }catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }finally{
+            //千万不要在finally返回数据
+            return 111;
+        }
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args){
+        InputStream is=null;
+        OutputStream os=null;
+        try {
+            //需求：复制照片
+            is=new FileInputStream(&quot;C:\\Users\\adminys\\Pictures\\Screenshots\\屏幕截图 2025-02-23 154218.png&quot;);
+            os=new FileOutputStream(&quot;C:\\Users\\adminys\\Desktop\\picture.png&quot;);
+            byte[] buffer =new byte[1024];//1KB
+            int len;
+            while((len=is.read(buffer))!=-1){
+                os.write(buffer,0,len);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            //完成资源释放
+            try {
+                if(os!=null)os.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                if(is!=null)is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            System.out.println(&quot;复制完成&quot;);
+        }
+    }
+}
+</code></pre>
+<h2 id="try-with-resource"><strong>try-with-resource</strong></h2>
+<p>JDK7开始提供了更简单的资源释放方案。资源使用完毕后会自动使用close()。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        // 使用 try-with-resources 自动关闭资源
+        try (InputStream is = new FileInputStream(&quot;C:\\Users\\adminys\\Pictures\\Screenshots\\屏幕截图 2025-02-23 154218.png&quot;);
+             OutputStream os = new FileOutputStream(&quot;C:\\Users\\adminys\\Desktop\\picture.png&quot;);
+             MyConnection conn = new MyConnection()
+             ) { // 确保 MyConnection 实现 AutoCloseable
+
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = is.read(buffer)) != -1) {
+                os.write(buffer, 0, len);
+            }
+            System.out.println(&quot;复制完成&quot;);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+// MyConnection 需实现 AutoCloseable
+class MyConnection implements AutoCloseable {
+    @Override
+    public void close() throws Exception {
+        System.out.println(&quot;释放了与某个硬件的连接资源&quot;);
+    }
+}
+</code></pre>
+<h1 id="字符流"><strong>字符流</strong></h1>
+<h2 id="filereader"><strong>FileReader</strong></h2>
+<p>以内存为基准，可以把文件中的数据以字符的形式读入到内存中去。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        try (//创建一个文件字符输入流管道与源文件接通
+                Reader fr = new FileReader(&quot;file-io-app\\src\\ys01.txt&quot;);
+        ) {
+            //读取文本文件的内容
+//            int c;
+//            while ((c = fr.read()) != -1) {
+//                System.out.print((char) c);
+//            }
+            //每次读取一个字符的形式，性能比较差
+            char[] buffer = new char[3];
+            int len ;
+            while ((len = fr.read(buffer)) != -1) {
+                System.out.print(new String(buffer, 0, len));
+            }
+            //性能比较不错
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<h2 id="filewriter"><strong>FileWriter</strong></h2>
+<p>以内存为基准，可以把内存中的数据以字符的形式写出到文件中去。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        try (
+                //创建一个文件字符输出流管道与目标文件接通
+                //覆盖管道
+                //Writer fw = new FileWriter(&quot;file-io-app\\src\\ys01.txt&quot;);
+                //追加数据的管道
+                Writer fw = new FileWriter(&quot;file-io-app\\src\\ys01.txt&quot;,true);
+                ){
+            fw.write('a');
+            fw.write(97);
+            fw.write('硕');
+            //写一个字符串
+            fw.write(&quot;我爱你中国abc&quot;);
+            //写一个字符串的一部分
+            fw.write(&quot;我爱你中国abc&quot;,0,5);
+            //写一个字符数组进去
+            char[] buffer={'黑','马','a','b','c'};
+            fw.write(buffer);
+            //写字符串数组的一部分进去
+            fw.write(buffer,0,2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<p>字符输出流写出数据后，必须刷新流，或者关闭流，写出去得到数据才能生效。写出的数据先保存在缓冲区中，再通过系统调用，只要调用一次，就可以把数据写到文件中。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws IOException {
+        Writer fw = new FileWriter(&quot;file-io-app\\src\\ys01.txt&quot;,true);
+        fw.write('a');
+        fw.write('b');
+        fw.write('c');
+        fw.write('d');
+        fw.write(&quot;\r\n&quot;);
+
+        fw.write(&quot;我爱你中国&quot;);
+        fw.write(&quot;\r\n&quot;);
+        fw.write(&quot;我爱你中国&quot;);
+//        fw.flush();
+//        fw.write(&quot;张三&quot;);
+//        fw.flush();
+        fw.close();//关闭流，包含刷新操作
+    }
+}
+</code></pre>
+<h1 id="缓冲流"><strong>缓冲流</strong></h1>
+<figure data-type="image" tabindex="1"><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250324151929.png" alt="" loading="lazy"></figure>
+<h2 id="字节缓冲流"><strong>字节缓冲流</strong></h2>
+<p>提高字节流读写数据的性能。<br>
+原理：字节缓冲输入流自带了8KB缓冲池；字节缓冲输出流也自带了8KB缓冲池。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws IOException {
+        try (
+                InputStream is = new FileInputStream(&quot;file-io-app/src/ys01.txt&quot;);
+                // 1、定义一个字节缓冲输入流包装原始的字节输入流
+                InputStream bis = new BufferedInputStream(is,8192*2);
+
+                OutputStream os = new FileOutputStream(&quot;file-io-app/src/ys01_bak.txt&quot;);
+                // 2、定义一个字节缓冲输出流包装原始的字节输出流
+                OutputStream bos = new BufferedOutputStream(os,8192*2);
+        ){
+
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = bis.read(buffer)) != -1){
+                bos.write(buffer, 0, len);
+            }
+            System.out.println(&quot;复制完成！！&quot;);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<h2 id="字符缓冲流"><strong>字符缓冲流</strong></h2>
+<h3 id="字符缓冲输入流"><strong>字符缓冲输入流</strong></h3>
+<p>原理：字符缓冲输入流自带了8KB的字符缓冲池（8192个字符）。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws IOException {
+        try (
+                Reader fr = new FileReader(&quot;file-io-app/src/ys01.txt&quot;);
+                // 创建一个字符缓冲输入流包装原始的字符输入流
+                BufferedReader br = new BufferedReader(fr);
+                //不用多态，需要用到BufferedReader特有功能
+        ){
+//            char[] buffer = new char[3];
+//            int len;
+//            while ((len = br.read(buffer)) != -1){
+//                System.out.print(new String(buffer, 0, len));
+//            }
+//            System.out.println(br.readLine());
+//            System.out.println(br.readLine());
+//            System.out.println(br.readLine());
+//            System.out.println(br.readLine());//null，没有内容
+            String line;
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<h3 id="字符缓冲输出流"><strong>字符缓冲输出流</strong></h3>
+<p>原理：字符缓冲输出流自带了8KB的字符缓冲池（8192个字符）。（原始的字符缓冲输出流也自带缓冲池，只是不大）</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws IOException {
+        try (
+                Writer fw = new FileWriter(&quot;file-io-app\\src\\ys01.txt&quot;, true);
+                //创建一个字符缓冲输出流包装原始的字符输出流
+                BufferedWriter bw = new BufferedWriter(fw);
+        ) {
+            bw.write('a');
+            bw.write('b');
+            bw.write('c');
+            bw.write('d');
+            bw.write(&quot;\r\n&quot;);
+
+            bw.write(&quot;我爱你中国&quot;);
+            bw.write(&quot;\r\n&quot;);
+            bw.write(&quot;我爱你中国&quot;);
+            bw.newLine();//换行
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<h2 id="案例"><strong>案例</strong></h2>
+<p>把出师表的文章顺序恢复到新文件。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws IOException {
+        try (
+                Reader fr = new FileReader(&quot;file-io-app/src/csb.txt&quot;);
+                // 创建一个字符缓冲输入流包装原始的字符输入流
+                BufferedReader br = new BufferedReader(fr);
+                Writer fw = new FileWriter(&quot;file-io-app\\src\\ys01.txt&quot;);
+                //创建一个字符缓冲输出流包装原始的字符输出流
+                BufferedWriter bw = new BufferedWriter(fw);
+        ){
+            String line;
+            List&lt;String&gt; list = new ArrayList&lt;String&gt;();
+            while ((line = br.readLine()) != null) {
+                list.add(line);
+            }
+            Collections.sort(list);
+            System.out.println(list);
+            for (String s : list) {
+                bw.write(s);
+                bw.newLine();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<h2 id="性能分析"><strong>性能分析</strong></h2>
+<pre><code class="language-java">public class Test {
+    // 复制的视频路径
+    private static final String SRC_FILE = &quot;C:\\Users\\adminys\\Desktop\\ys.mp4&quot;;
+    // 复制到哪个目的地
+    private static final String DEST_FILE = &quot;C:\\Users\\adminys\\Desktop\\&quot;;
+
+    public static void main(String[] args) throws IOException {
+        //copy01();//太慢
+        copy02();//低级字节流使用字节数组复制耗时：1.038s，如果字节数组比较大，性能也很好
+        copy03();//缓冲流一个一个字节复制耗时：1.762s
+        copy04();//缓冲流使用字节数组复制耗时：0.168s
+        //字节数组越大越好，但大到一定程度性能提升不大
+    }
+    private static void copy01() {
+        long startTime = System.currentTimeMillis();
+        try (
+                InputStream is = new FileInputStream(SRC_FILE);
+                OutputStream os = new FileOutputStream(DEST_FILE + &quot;1.mp4&quot;);
+        ){
+
+            int b;
+            while ((b = is.read()) != -1){
+                os.write(b);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        long endTime = System.currentTimeMillis();
+        System.out.println(&quot;低级字节流一个一个字节复制耗时：&quot; + (endTime - startTime) / 1000.0 + &quot;s&quot;);
+    }
+
+    private static void copy02() {
+        long startTime = System.currentTimeMillis();
+        try (
+                InputStream is = new FileInputStream(SRC_FILE);
+                OutputStream os = new FileOutputStream(DEST_FILE + &quot;2.mp4&quot;);
+        ){
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = is.read(buffer)) != -1){
+                os.write(buffer, 0, len);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        long endTime = System.currentTimeMillis();
+        System.out.println(&quot;低级字节流使用字节数组复制耗时：&quot; + (endTime - startTime) / 1000.0 + &quot;s&quot;);
+    }
+
+    private static void copy03() {
+        long startTime = System.currentTimeMillis();
+        try (
+                InputStream is = new FileInputStream(SRC_FILE);
+                BufferedInputStream bis = new BufferedInputStream(is);
+                OutputStream os = new FileOutputStream(DEST_FILE + &quot;3.mp4&quot;);
+                BufferedOutputStream bos = new BufferedOutputStream(os);
+        ){
+
+            int b;
+            while ((b = bis.read()) != -1){
+                bos.write(b);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        long endTime = System.currentTimeMillis();
+        System.out.println(&quot;缓冲流一个一个字节复制耗时：&quot; + (endTime - startTime) / 1000.0 + &quot;s&quot;);
+    }
+
+    private static void copy04() {
+        long startTime = System.currentTimeMillis();
+        try (
+                InputStream is = new FileInputStream(SRC_FILE);
+                BufferedInputStream bis = new BufferedInputStream(is);
+                OutputStream os = new FileOutputStream(DEST_FILE + &quot;4.mp4&quot;);
+                BufferedOutputStream bos = new BufferedOutputStream(os);
+        ){
+            byte[] buffer = new byte[1024]; // 32KB
+            int len;
+            while ((len = bis.read(buffer)) != -1){
+                bos.write(buffer, 0, len);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        long endTime = System.currentTimeMillis();
+        System.out.println(&quot;缓冲流使用字节数组复制耗时：&quot; + (endTime - startTime) / 1000.0 + &quot;s&quot;);
+    }
+}
+</code></pre>
+<h1 id="转换流"><strong>转换流</strong></h1>
+<p>如果代码编码和被读取的文本文件编码是一致的，使用字符流读取文本文件时不会出现乱码。不然会出现乱码。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250324164928.png" alt="" loading="lazy"></p>
+<h2 id="字符输入转换流"><strong>字符输入转换流</strong></h2>
+<p>解决思路：先获取文件的原始字节流，再将其按真实的字符集编码转换成字符输入流。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws FileNotFoundException {
+        try (
+                //代码编码UTF-8，文件编码GBK
+                InputStream is=new FileInputStream(&quot;file-io-app\\src\\ys01_bak.txt&quot;);
+                Reader isr=new InputStreamReader(is,&quot;GBK&quot;);//第二给参数默认为代码编码
+                BufferedReader br=new BufferedReader(isr);
+                ) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<h2 id="字符输出转换流"><strong>字符输出转换流</strong></h2>
+<p>解决思路：获取字节输出流，再按照指定的字符集编码将其转换为字符输出流。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws FileNotFoundException {
+        try (
+                OutputStream os=new FileOutputStream(&quot;file-io-app\\src\\ys01_bak.txt&quot;);
+                Writer osw=new OutputStreamWriter(os,&quot;GBK&quot;);
+                BufferedWriter bw=new BufferedWriter(osw);
+                ) {
+            bw.write(&quot;我爱你中国abc&quot;);
+            bw.write(&quot;我爱你中国123&quot;);
+            } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<h1 id="打印流"><strong>打印流</strong></h1>
+<p>打印流可以实现更加方便更高效地打印数据出去。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250324171138.png" alt="" loading="lazy"></p>
+<h2 id="字节输出流"><strong>字节输出流</strong></h2>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws FileNotFoundException {
+        try (
+                //public PrintStream(OutputStream out, boolean autoFlush, Charset charset)
+                //PrintStream ps=new PrintStream(&quot;file-io-app\\src\\ys01.txt&quot;, Charset.forName(&quot;GBK&quot;));
+                PrintStream ps=new PrintStream(&quot;file-io-app\\src\\ys01.txt&quot;);
+                //内部包装了缓冲流
+                ) {
+            //打印任意类型数据
+            ps.println(97);
+            ps.println('a');
+            ps.println(&quot;我爱你中国&quot;);
+            ps.println(true);
+            ps.println(99.5);
+            //写字节数据出去
+            ps.write(97);//'a'
+            } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<h2 id="字符输出流"><strong>字符输出流</strong></h2>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws FileNotFoundException {
+        try (
+                //打印流不能追加数据
+                //PrintWriter ps= new PrintWriter(&quot;file-io-app\\src\\ys01.txt&quot;);
+                PrintWriter ps= new PrintWriter(new FileOutputStream(&quot;file-io-app\\src\\ys01.txt&quot;,true));
+                //内部包装了缓冲流
+                ) {
+            //打印任意类型数据
+            ps.println(97);
+            ps.println('a');
+            ps.println(&quot;我爱你中国&quot;);
+            ps.println(true);
+            ps.println(99.5);
+            //写字符数据出去
+            ps.write(97);//'a'
+            ps.write(&quot;aaa&quot;);
+            } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<h2 id="输出语句的重定向"><strong>输出语句的重定向</strong></h2>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws FileNotFoundException {
+        System.out.println(&quot;老骥伏枥&quot;);
+        //public static final PrintStream out = null;
+        //默认创建的打印流通向控制台
+        try (PrintStream ps = new PrintStream(&quot;file-io-app\\src\\ys01.txt&quot;);){
+            System.setOut(ps);
+            System.out.println(&quot;志在千里&quot;);//不输出在控制台，输出在指定的文件里
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+</code></pre>
+<h1 id="数据流"><strong>数据流</strong></h1>
+<p><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250324173804.png" alt="" loading="lazy"><br>
+允许把数据和其类型一起写出去和读进来。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws FileNotFoundException {
+        try (
+                DataOutputStream dos = new DataOutputStream(new FileOutputStream(&quot;file-io-app\\src\\ys01.txt&quot;))
+        ) {
+            dos.writeInt(97);
+            dos.writeDouble(99.5);
+            dos.writeBoolean(true);
+            dos.writeUTF(&quot;hello&quot;);
+            //看起来是乱码，其实是特殊的数据存储方式
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+public class Test2 {
+    public static void main(String[] args) {
+        try(
+                DataInputStream dis = new DataInputStream(new FileInputStream(&quot;file-io-app\\src\\ys01.txt&quot;));
+        ) {
+            //读和写的顺序需要对应
+            int i = dis.readInt();
+            System.out.println(i);
+            double d=dis.readDouble();
+            System.out.println(d);
+            Boolean b=dis.readBoolean();
+            System.out.println(b);
+            String rs = dis.readUTF();
+            System.out.println(rs);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<h1 id="序列化流"><strong>序列化流</strong></h1>
+<p><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250324175045.png" alt="" loading="lazy"><br>
+对象序列化：把java对象写入到文件中去。<br>
+对象反序列化：把文件中的java对象写出来。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[File]]></title>
+        <id>https://yyss1014.github.io/post/file/</id>
+        <link href="https://yyss1014.github.io/post/file/">
+        </link>
+        <updated>2025-03-22T03:38:40.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li><a href="#%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1"><strong>创建对象</strong></a></li>
+<li><a href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><strong>常用方法</strong></a></li>
+<li><a href="#%E6%96%B9%E6%B3%95%E9%80%92%E5%BD%92"><strong>方法递归</strong></a>
+<ul>
+<li><a href="#%E6%A1%88%E4%BE%8B%E8%AE%A1%E7%AE%97n%E7%9A%84%E9%98%B6%E4%B9%98"><strong>案例：计算n的阶乘</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E7%BB%83%E4%B9%A0%E6%A1%88%E4%BE%8B"><strong>练习案例</strong></a></li>
+<li><a href="#%E5%AD%97%E7%AC%A6%E9%9B%86"><strong>字符集</strong></a></li>
+</ul>
+</p>
+<h1 id="创建对象"><strong>创建对象</strong></h1>
+<table>
+<thead>
+<tr>
+<th>构造器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>public File(String pathname)</td>
+<td>根据文件路径创建对象</td>
+</tr>
+<tr>
+<td>public File(String parent,String child)</td>
+<td>根据父路径和子路径名字创建文件对象</td>
+</tr>
+<tr>
+<td>public File(File parent,String child)</td>
+<td>根据父路径对应文件对象和子路径名字创建对象</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        //File f1=new File(&quot;C:\\Users\\adminys\\Desktop\\ab.txt&quot;);
+        //File f1=new File(&quot;C:/Users/adminys/Desktop/ab.txt&quot;);
+        File f1=new File(&quot;C:&quot;+File.separator+&quot;Users/adminys/Desktop/ab.txt&quot;);
+        System.out.println(f1.length());//文件大小
+
+        File f2=new File(&quot;C:/Users/adminys/Desktop&quot;);
+        System.out.println(f2.length());//文件夹本身的大小
+        //File对象可以指代一个不存在的文件路径
+        File f3 = new File(&quot;C:/Users/adminys/Desktop/aaa.txt&quot;);
+        System.out.println(f3.length());//0
+        System.out.println(f3.exists());//false
+        //定位的文件在模块中
+        //绝对路径带盘符
+        //File f4=new File(&quot;D:\\codetest\\javasepro\\file-io-app\\src\\ys.txt&quot;);
+        //相对路径，默认是直接工程下寻找文件
+        File f4=new File(&quot;file-io-app\\src\\ys.txt&quot;);
+        System.out.println(f4.length());
+    };
+}
+</code></pre>
+<h1 id="常用方法"><strong>常用方法</strong></h1>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        File f1=new File(&quot;C:\\Users\\adminys\\Desktop\\ab.txt&quot;);
+        //判断当前文件对象，对应的文件路径是否存在
+        System.out.println(f1.exists());
+        //判断当前文件对象是否是文件
+        System.out.println(f1.isFile());
+        //判断当前文件对象是否是文件夹
+        System.out.println(f1.isDirectory());
+        //获取文件名字(包含后缀）
+        System.out.println(f1.getName());
+        //获取文件大小，返回字节个数
+        System.out.println(f1.length());
+        //获取文件的最后修改时间
+        long time=f1.lastModified();
+        SimpleDateFormat sdf=new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);
+        System.out.println(sdf.format(time));
+        //获取创建文件对象时使用的路径
+        File f2=new File(&quot;C:\\Users\\adminys\\Desktop\\ab.txt&quot;);
+        File f3=new File(&quot;file-io-app\\src\\ys.txt&quot;);
+        System.out.println(f2.getPath());//C:\Users\adminys\Desktop\ab.txt
+        System.out.println(f3.getPath());//file-io-app\src\ys.txt
+        //获取绝对路径
+        System.out.println(f2.getAbsolutePath());//C:\Users\adminys\Desktop\ab.txt
+        System.out.println(f3.getAbsolutePath());//D:\codetest\javasepro\file-io-app\src\ys.txt
+    };
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws IOException {
+        //创建一个新文件，创建成功返回true，需要抛异常
+        File f1=new File(&quot;C:/Users/adminys/Desktop/ab1.txt&quot;);
+        System.out.println(f1.createNewFile());
+        //创建一个文件夹，只能用于创建一个一级文件夹
+        //File f2=new File(&quot;C:/Users/adminys/Desktop/aaa/bbb/ccc&quot;);
+        //System.out.println(f2.mkdir());//false
+        File f2=new File(&quot;C:/Users/adminys/Desktop/aaa&quot;);
+        System.out.println(f2.mkdir());//true
+        //创建多级文件夹
+        File f3 =new File(&quot;C:/Users/adminys/Desktop/bbb/ccc&quot;);
+        System.out.println(f3.mkdirs());
+        //删除文件，或者空文件夹，不能删除非空文件夹
+        System.out.println(f1 .delete());
+        System.out.println(f2.delete());
+    };
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws IOException {
+        //获取当前目录下所有的一级文件名称到一个字符数组中去返回
+        File f1=new File(&quot;D:/多视图&quot;);
+        String[] names=f1.list();
+        for (String name : names) {
+            System.out.println(name);
+        }
+        //获取当前目录下所有一级文件对象到一个文件对象数组中去返回
+        File[] files=f1.listFiles();
+        for (File file : files) {
+            System.out.println(file.getAbsolutePath());
+        }
+    };
+}
+</code></pre>
+<p>使用listFiles方法注意事项：</p>
+<ul>
+<li>当主调是文件，或者当路径不存在，返回null。</li>
+<li>当主调是空文件夹时，返回一个长度为0的数组。</li>
+<li>当主调是一个有内容的文件夹时，将所有一级文件和文件夹的路径放在一个File数组中返回。</li>
+<li>当主调是一个文件夹，且里面有隐藏文件，将所有一级文件和文件夹的路径放在一个File数组中返回，包含隐藏文件。</li>
+<li>当主调是一个文件夹，但没有权限访问该文件夹，返回null。</li>
+</ul>
+<h1 id="方法递归"><strong>方法递归</strong></h1>
+<ul>
+<li>直接递归：方法自己调用自己</li>
+<li>简介递归：方法调用其他方法，其他方法又调用自己。</li>
+</ul>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        test1();
+    }
+    public static void test1(){
+        System.out.println(&quot;-----test1-----&quot;);
+        test1();//无限在方法栈中调用test1()，最后栈内存溢出
+    }
+    public static void test2(){
+        System.out.println(&quot;-----test2-----&quot;);
+        test3();
+    }
+    public static void test3(){
+        System.out.println(&quot;-----test3-----&quot;);
+        test2();
+    }
+}
+</code></pre>
+<h2 id="案例计算n的阶乘"><strong>案例：计算n的阶乘</strong></h2>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        System.out.println(f(5));
+    }
+    public static int f(int n){
+        if(n==1){
+            return 1;
+        }else{
+            return f(n-1)*n;
+        }
+    }
+}
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250323152936.png" alt="" loading="lazy"></figure>
+<h1 id="练习案例"><strong>练习案例</strong></h1>
+<p>文件搜索：</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws IOException {
+        searchFile(new File(&quot;D:/&quot;),&quot;QQMusic.exe&quot;);
+    }
+
+    /**
+     * 去目录下搜索某个文件
+     * @param dir
+     * @param fileName
+     */
+    public static void searchFile(File dir, String fileName) throws IOException {
+        //把非法情况拦截
+        if(dir==null||!dir.exists()||dir.isFile()){
+            return;
+        }
+        //一定是文件夹对象
+        File[] files = dir.listFiles();
+        if(files==null||files.length==0){
+            return;
+        }
+        for (File file : files) {
+            if (file.isFile()) {
+                if (file.getName().contains(fileName)) {
+                    System.out.println(file.getAbsolutePath());
+                    Runtime runtime = Runtime.getRuntime();
+                    runtime.exec(file.getAbsolutePath());
+                }
+            }else{
+                searchFile(file,fileName);
+            }
+        }
+    }
+}
+</code></pre>
+<p>文件删除：</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        deleteDir(new File(&quot;C:\\Users\\adminys\\Desktop\\多视图&quot;));
+    }
+    public static void deleteDir(File dir) {
+        //把非法情况拦截
+        if(dir==null||!dir.exists()||dir.isFile()){
+            return;
+        }
+        File[] files = dir.listFiles();
+        if(files==null||files.length==0){
+            return;
+        }
+        for(File file:files){
+            if(!file.delete()){
+                deleteDir(file);
+            }
+        }
+        dir.delete();
+    }
+}
+</code></pre>
+<p>啤酒2院一瓶，4个盖子可以换一瓶，2个空瓶可以换一瓶，请问10元能换多少瓶？</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        System.out.println(buy(10, 0, 0));
+    }
+    public static int buy(int money,int bottle,int lid){
+        int buynumber=money/2+bottle/2+lid/4;
+        bottle=buynumber+bottle%2;
+        lid=buynumber+lid%4;
+        money=money%2;
+        if(money/2+bottle/2+lid/4&gt;0){
+            buynumber+=buy(money,bottle,lid);
+        }
+        return buynumber;
+    }
+}
+</code></pre>
+<h1 id="字符集"><strong>字符集</strong></h1>
+<ul>
+<li>ASCII，美国信息交换标准代码，字符集使用一个字节存储字符，首尾是0，总共可以表达128个字符</li>
+<li>GBK是汉字编码字符集，包含2万个汉字等字符，GBK中一个字符编码成两个字节的形式存储，汉字的第一个字节的第一位必须是0。</li>
+<li>Unicode字符集是统一码，也叫万国码，是国际组织指定的，可以容纳世界上所有文字符号的字符集。</li>
+<li>UTF-8是Unicode字符集的一种标准编码，采取可变长编码方案，共分四个长度区：1个字节、2个字节、3个字节、4个字节。英文字符、数字只占1个字节，汉字只占3个字节。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>UTF-8编码（二进制）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0xxxxxxx</td>
+</tr>
+<tr>
+<td>110xxxxx 10xxxxxx</td>
+</tr>
+<tr>
+<td>1110xxxx 10xxxxxx 10xxxxxx</td>
+</tr>
+<tr>
+<td>1110xxxx 10xxxxxx 10xxxxxx 10xxxxxx</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>英文，数字一般不会乱码，因为很多字符集都兼容ASCII编码。</li>
+</ul>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws UnsupportedEncodingException {
+       //编码
+        String data=&quot;a我b&quot;;
+        byte[] bytes=data.getBytes();//默认按照平台字符集UTF-8进行编码
+        System.out.println(Arrays.toString(bytes));//[97, -26, -120, -111, 98]
+        //按照指定字符集进行编码
+        byte[] bytes1=data.getBytes(&quot;GBK&quot;);//抛异常
+        System.out.println(Arrays.toString(bytes1));//[97, -50, -46, 98]
+        //解码
+        String s1=new String(bytes);//默认按照平台字符集UTF-8进行解码
+        System.out.println(s1);//a我b
+
+        String s2=new String(bytes1);//默认按照平台字符集UTF-8进行解码
+        System.out.println(s2);//a��b
+
+        String s3 =new String(bytes1,&quot;GBK&quot;);
+        System.out.println(s3);//a我b
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Stream]]></title>
+        <id>https://yyss1014.github.io/post/stream/</id>
+        <link href="https://yyss1014.github.io/post/stream/">
+        </link>
+        <updated>2025-03-20T06:29:35.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li><a href="#%E4%BD%93%E9%AA%8Cstream%E6%B5%81"><strong>体验Stream流</strong></a></li>
+<li><a href="#%E5%B8%B8%E8%A7%81%E6%96%B9%E6%B3%95"><strong>常见方法</strong></a></li>
+<li><a href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E4%B8%AD%E9%97%B4%E6%96%B9%E6%B3%95"><strong>常见的中间方法</strong></a></li>
+<li><a href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E7%BB%88%E7%BB%93%E6%96%B9%E6%B3%95"><strong>常见的终结方法</strong></a></li>
+</ul>
+</p>
+<h1 id="体验stream流"><strong>体验Stream流</strong></h1>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+        List&lt;String&gt; names = new ArrayList&lt;&gt;();
+        Collections.addAll(names, &quot;张三丰&quot;,&quot;张无忌&quot;,&quot;周芷若&quot;,&quot;赵敏&quot;,&quot;张强&quot;);
+        System.out.println(names);
+
+        List&lt;String&gt; list = new ArrayList&lt;&gt;();
+        for (String name : names) {
+            if(name.startsWith(&quot;张&quot;)){
+                list.add(name);
+            }
+        }
+        System.out.println(list);
+
+        //Stream流
+        List&lt;String&gt; list2=names.stream().filter(s -&gt; s.startsWith(&quot;张&quot;))
+                .filter(a-&gt;a.length()==3).collect(Collectors.toList());
+        System.out.println(list2);
+    }
+}
+</code></pre>
+<p>Stream流的使用步骤：<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250320143812.png" alt="" loading="lazy"></p>
+<h1 id="常见方法"><strong>常见方法</strong></h1>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+        //获取List集合的Stream流
+        List&lt;String&gt; names = new ArrayList&lt;&gt;();
+        Collections.addAll(names, &quot;张三丰&quot;,&quot;张无忌&quot;,&quot;周芷若&quot;,&quot;赵敏&quot;,&quot;张强&quot;);
+        Stream&lt;String&gt; stream = names.stream();//Collectin接口的default方法，实现接口的类对象可以调用
+        //获取Set集合的Stream流
+        Set&lt;String&gt; set = new HashSet&lt;&gt;();
+        Collections.addAll(set,&quot;张三丰&quot;,&quot;张无忌&quot;,&quot;周芷若&quot;,&quot;赵敏&quot;,&quot;张强&quot;);
+        Stream&lt;String&gt; stream1 = set.stream();
+        stream1.filter(s-&gt;s.contains(&quot;张&quot;)).forEach(s-&gt;System.out.println(s));
+        //Map集合的Stream流
+        Map&lt;String,Double&gt; map = new HashMap&lt;&gt;();
+        map.put(&quot;古力娜扎&quot;, 172.3);
+        map.put(&quot;迪丽热巴&quot;, 168.3);
+        map.put(&quot;马尔扎哈&quot;, 166.3);
+        map.put(&quot;卡尔扎巴&quot;, 168.3);
+        Set&lt;String&gt;keys = map.keySet();
+        Stream&lt;String&gt; stream2 = keys.stream();
+        Collection &lt;Double&gt; values = map.values();
+        Stream&lt;Double&gt; vs = values.stream();
+        Set&lt;Map.Entry&lt;String,Double&gt;&gt; entries=map.entrySet();
+        Stream&lt;Map.Entry&lt;String,Double&gt;&gt; kvs = entries.stream();
+        kvs.filter(e-&gt;e.getKey().contains(&quot;巴&quot;))
+                .forEach(e-&gt;System.out.println(e.getKey()+&quot;:&quot;+e.getValue()));
+        //获得数组的Stream流
+        String[] names2={&quot;张翠山&quot;, &quot;东方不败&quot;, &quot;唐大山&quot;, &quot;独孤求败&quot;};
+        Stream&lt;String&gt; s1 = Arrays.stream(names2);//Arrays类方法
+        Stream&lt;String&gt; s2 = Stream.of(names2);//Stream类方法
+    }
+}
+</code></pre>
+<h1 id="常见的中间方法"><strong>常见的中间方法</strong></h1>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+        List&lt;Double&gt; scores = new ArrayList&lt;&gt;();
+        Collections.addAll(scores, 88.5, 100.0, 60.0, 99.0, 9.5, 99.6, 25.0);
+        //找出成绩大于等于60分的数据，并升序后，再输出。
+        scores.stream().filter(s-&gt;s&gt;=60).sorted()
+                .forEach(s-&gt;System.out.println(s));//forEach是终结方法，返回void
+
+        List&lt;Student&gt; students = new ArrayList&lt;&gt;();
+        Student s1 = new Student(&quot;蜘蛛精&quot;, 26, 172.5);
+        Student s2 = new Student(&quot;蜘蛛精&quot;, 26, 172.5);
+        Student s3 = new Student(&quot;紫霞&quot;, 23, 167.6);
+        Student s4 = new Student(&quot;白晶晶&quot;, 25, 169.0);
+        Student s5 = new Student(&quot;牛魔王&quot;, 35, 183.3);
+        Student s6 = new Student(&quot;牛夫人&quot;, 34, 168.5);
+        Collections.addAll(students, s1, s2, s3, s4, s5, s6);
+        //找出年龄大于等于23，且年龄小于等于30岁的学生，并按照年龄降序输出
+        students.stream().filter(s-&gt;s.getAge()&gt;=23&amp;&amp;s.getAge()&lt;=30)
+                .sorted(( o1,  o2) -&gt; o1.getAge()-o2.getAge())
+                .forEach(s-&gt;System.out.println(s));
+        //取出身高最高的前三名输出
+        students.stream().sorted(( o1,  o2) -&gt; Double.compare(o2.getHeight(),o1.getHeight()))
+                .limit(3).forEach(s-&gt;System.out.println(s));
+        //取出身高倒数的两名学生，并输出
+        System.out.println(&quot;---------&quot;);
+        students.stream().sorted(( o1,  o2) -&gt; Double.compare(o2.getHeight(),o1.getHeight()))
+                .skip(students.size()-2).forEach(System.out::println);
+        //找出身高超过168的学生叫什么名字，去除重复的名字再输出
+        students.stream().filter(s-&gt;s.getHeight()&gt;168).map(s-&gt;s.getName())//Student::getName
+                .distinct().forEach(System.out::println);
+        //distinct去重复，自定义类型对象需要重写hashCode，equals
+        students.stream().filter(s-&gt;s.getHeight()&gt;168).distinct()
+                .forEach(System.out::println);
+        //concat
+        Stream&lt;String&gt; st1=Stream.of(&quot;张三&quot;,&quot;李四&quot;);
+        Stream&lt;String&gt; st2=Stream.of(&quot;张三1&quot;,&quot;李四1&quot;);
+        Stream&lt;String&gt; allst=Stream.concat(st1,st2);//两个流类型不一样用Object
+        allst.forEach(System.out::println);
+    }
+}
+</code></pre>
+<h1 id="常见的终结方法"><strong>常见的终结方法</strong></h1>
+<p>调用完成后不会返回新的Stream了，没法使用流了。</p>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+        List&lt;Student&gt; students = new ArrayList&lt;&gt;();
+        Student s1 = new Student(&quot;蜘蛛精&quot;, 26, 172.5);
+        Student s2 = new Student(&quot;蜘蛛精&quot;, 26, 172.5);
+        Student s3 = new Student(&quot;紫霞&quot;, 23, 167.6);
+        Student s4 = new Student(&quot;白晶晶&quot;, 25, 169.0);
+        Student s5 = new Student(&quot;牛魔王&quot;, 35, 183.3);
+        Student s6 = new Student(&quot;牛夫人&quot;, 34, 168.5);
+        Collections.addAll(students, s1, s2, s3, s4, s5, s6);
+        //请计算身高超过168的有几人
+        long size=students.stream().filter(s-&gt;s.getHeight()&gt;168).count();
+        System.out.println(size);
+        //找出身高最高的学生对象
+        Student s=students.stream().max((o1,o2)-&gt;Double.compare(o1.getHeight(),o2.getHeight())).get();
+        System.out.println(s);
+        //找出身高最矮的学生对象
+        Student ss=students.stream().min((o1,o2)-&gt;Double.compare(o1.getHeight(),o2.getHeight())).get();
+        System.out.println(ss);
+
+        //请找出身高超过170的学生对象，并放到一个新集合中返回
+        //流只能收集一次
+        List&lt;Student&gt; students1=students.stream().filter(a-&gt;a.getHeight()&gt;170).collect(Collectors.toList());
+        System.out.println(students1);
+        Set&lt;Student&gt; students2 =students.stream().filter(a-&gt;a.getHeight()&gt;170).collect(Collectors.toSet());
+        System.out.println(students2);
+
+        //Object[] arr = students.stream().filter(a -&gt; a.getHeight() &gt; 170).toArray();
+        /*Student[] arr = students.stream().filter(a -&gt; a.getHeight() &gt; 170)
+                .toArray(new IntFunction&lt;Student[]&gt;() {
+            @Override
+            public Student[] apply(int value) {
+                return new Student[value];
+            }
+        });*/
+        Student[] arr = students.stream().filter(a -&gt; a.getHeight() &gt; 170).toArray(value -&gt; new Student[value]);
+        System.out.println(Arrays.toString(arr));
+        //请找出身高超过170的学生对象，把对象的名字和身高，放到一个Map集合中返回
+        Map&lt;String,Double&gt; map=
+                students.stream().filter(a-&gt;a.getHeight()&gt;170).distinct()
+                        .collect(Collectors.toMap(a-&gt;a.getName(),a-&gt;a.getHeight()));
+        System.out.println(map);
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[集合框架：Map]]></title>
+        <id>https://yyss1014.github.io/post/ji-he-kuang-jia-map/</id>
+        <link href="https://yyss1014.github.io/post/ji-he-kuang-jia-map/">
+        </link>
+        <updated>2025-03-19T08:40:43.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li><a href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><strong>常用方法</strong></a></li>
+<li><a href="#%E9%81%8D%E5%8E%86%E6%96%B9%E5%BC%8F"><strong>遍历方式</strong></a>
+<ul>
+<li><a href="#%E9%94%AE%E6%89%BE%E5%80%BC"><strong>键找值</strong></a></li>
+<li><a href="#%E9%94%AE%E5%80%BC%E5%AF%B9"><strong>键值对</strong></a></li>
+<li><a href="#lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F"><strong>Lambda表达式</strong></a></li>
+<li><a href="#%E6%A1%88%E4%BE%8B%E7%BB%9F%E8%AE%A1%E6%8A%95%E7%A5%A8%E4%BA%BA%E6%95%B0"><strong>案例：统计投票人数</strong></a></li>
+</ul>
+</li>
+<li><a href="#hashmap"><strong>HashMap</strong></a></li>
+<li><a href="#linkedhashmap"><strong>LinkedHashMap</strong></a></li>
+<li><a href="#treemap"><strong>TreeMap</strong></a></li>
+<li><a href="#%E9%9B%86%E5%90%88%E7%9A%84%E5%B5%8C%E5%A5%97"><strong>集合的嵌套</strong></a></li>
+</ul>
+</p>
+<ul>
+<li>双列集合，格式：{key1=value1,key2=value2,key3=value3,...}，一次需要存取一对数据作为一个元素。</li>
+<li>Map集合的每个元素&quot;key=value&quot;称为一个键值对/键值对对象/一个Entry对象，Map集合也叫”键值对集合“。</li>
+<li>Map集合的所有键是不允许重复的，但值可以重复，键和值一一对应，每个键只能找到自己对应的值。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250319164602.png" alt="" loading="lazy"><br>
+Map集合体系的特点：<br>
+Map系列集合都是由键决定特点，值是不做要求的。</li>
+<li>HashMap(由键决定特点)：无序、不重复、无索引</li>
+<li>Linked HashMap(由键决定特点)：有序、不重复、无索引</li>
+<li>TreeMap(由键决定特点)：按照大小默认排序、不重复、无索引</li>
+</ul>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+        Map&lt;String,Integer&gt; map = new HashMap&lt;&gt;();
+        map.put(&quot;手表&quot;, 100);
+        map.put(&quot;手表&quot;, 220);//后面重复的键数据会覆盖前面的
+        map.put(&quot;手机&quot;, 2);
+        map.put(&quot;Java&quot;, 2);
+        map.put(null,null);
+        System.out.println(map);//{null=null, 手表=220, Java=2, 手机=2}
+
+        Map&lt;Integer,String&gt; map1 = new TreeMap&lt;&gt;();
+        map1.put(23,&quot;Java&quot;);
+        map1.put(23,&quot;MySQL&quot;);
+        map1.put(19,&quot;李四&quot;);
+        map1.put(20,&quot;王五&quot;);
+        System.out.println(map1);//{19=李四, 20=王五, 23=MySQL}
+    }
+}
+</code></pre>
+<h1 id="常用方法"><strong>常用方法</strong></h1>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+        Map&lt;String,Integer&gt; map = new HashMap&lt;&gt;();
+        map.put(&quot;手表&quot;, 100);
+        map.put(&quot;手表&quot;, 220);//后面重复的键数据会覆盖前面的
+        map.put(&quot;手机&quot;, 2);
+        map.put(&quot;Java&quot;, 2);
+        map.put(null,null);
+        System.out.println(map);//{null=null, 手表=220, Java=2, 手机=2}
+
+        //获取集合的大小
+        System.out.println(map.size());
+        //清空集合
+        //map.clear();
+        //判断集合是否为空
+        System.out.println(map.isEmpty());
+        //根据键获取对应值
+        int v1=map.get(&quot;Java&quot;);
+        System.out.println(v1);
+        System.out.println(map.get(&quot;张三&quot;));//null
+        //根据键删除整个元素
+        System.out.println(map.remove(&quot;手表&quot;));
+        System.out.println(map);
+        //判断是否包含某个键
+        System.out.println(map.containsKey(&quot;Java&quot;));//true
+        //判断是否包含某个值
+        System.out.println(map.containsValue(&quot;2&quot;));//false
+        System.out.println(map.containsValue(2));//true
+        //获取Map集合全部键，放到Set集合里
+        Set&lt;String&gt; keys = map.keySet();
+        System.out.println(keys);//[null, Java, 手机]
+        //获取map集合的全部值
+        Collection&lt;Integer&gt; values = map.values();
+        System.out.println(values);//[null, 2, 2]
+        //将其他Map集合的数据倒入自己集合中
+        Map&lt;String,Integer&gt; map1 = new HashMap&lt;&gt;();
+        map1.put(&quot;java1&quot;,10);
+        map1.put(&quot;java2&quot;,20);
+        Map&lt;String,Integer&gt; map2 = new HashMap&lt;&gt;();
+        map2.put(&quot;java3&quot;,10);
+        map2.put(&quot;java2&quot;,222);
+        map1.putAll(map2);//把map2集合中的元素全部倒入一份到map1集合中
+        System.out.println(map1);//{java3=10, java2=222, java1=10}
+        System.out.println(map2);//{java3=10, java2=222}
+    }
+}
+</code></pre>
+<h1 id="遍历方式"><strong>遍历方式</strong></h1>
+<h2 id="键找值"><strong>键找值</strong></h2>
+<p>先获取map集合的全部键，再通过遍历键来找值。</p>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+        Map&lt;String,Double&gt; map = new HashMap&lt;&gt;();
+        map.put(&quot;蜘蛛精&quot;, 162.5);
+        map.put(&quot;蜘蛛精&quot;, 169.8);//后面重复的键数据会覆盖前面的
+        map.put(&quot;紫霞&quot;, 165.8);
+        map.put(&quot;至尊宝&quot;, 169.5);
+        map.put(&quot;牛魔王&quot;,183.6);
+        System.out.println(map);//{蜘蛛精=169.8, 牛魔王=183.6, 至尊宝=169.5, 紫霞=165.8}
+
+        Set&lt;String&gt; keys = map.keySet();
+        System.out.println(keys);
+        for (String key : keys) {
+            double value = map.get(key);
+            System.out.println(key + &quot;:&quot; + value);
+        }
+    }
+}
+</code></pre>
+<h2 id="键值对"><strong>键值对</strong></h2>
+<p>把“键值对”看成一个整体进行遍历。</p>
+<pre><code class="language-java">        //Entry是接口Map的内部接口
+        Set&lt;Map.Entry&lt;String,Double&gt;&gt; entries = map.entrySet();
+        System.out.println(entries);//[蜘蛛精=169.8, 牛魔王=183.6, 至尊宝=169.5, 紫霞=165.8]
+        for (Map.Entry&lt;String, Double&gt; entry : entries) {
+            String key = entry.getKey();
+            double value = entry.getValue();
+            System.out.println(key+&quot;:&quot;+value);
+        }
+</code></pre>
+<h2 id="lambda表达式"><strong>Lambda表达式</strong></h2>
+<p>jdk1.8后的新技术。</p>
+<pre><code class="language-java">map.forEach((k,v)-&gt;{
+            System.out.println(k+&quot;:&quot;+v);
+        });
+        map.forEach(new BiConsumer&lt;String, Double&gt;() {
+            @Override
+            public void accept(String k, Double v) {
+                System.out.println(k+&quot;:&quot;+v);
+            }
+        });
+</code></pre>
+<h2 id="案例统计投票人数"><strong>案例：统计投票人数</strong></h2>
+<p>某个班级有80名学生，班长提供了四个景点A、B、C、D，每个学生只能选择一个景点，请统计最终哪个景点想去的人数多。</p>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+        List&lt;String&gt; data=new ArrayList&lt;&gt;();
+        String[] selects={&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;D&quot;};
+        Random r=new Random();
+        for (int i = 0; i &lt; 80; i++) {
+            int index=r.nextInt(4);
+            data.add(selects[index]);
+        }
+        System.out.println(data);
+        Map&lt;String, Integer&gt; result=new HashMap&lt;&gt;();
+        for (String s : data) {
+            if (result.containsKey(s)) {
+                result.put(s, result.get(s) + 1);
+            }else{
+                result.put(s, 1);
+            }
+        }
+        System.out.println(result);
+    }
+}
+</code></pre>
+<h1 id="hashmap"><strong>HashMap</strong></h1>
+<p>HashMap和HashSet底层原理一样，都是基于哈希表实现的。实际上原来学的Set系列集合的底层就是基于Map实现的，只是Set集合中的元素只要键数据，不要值数据而已。</p>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+        Map&lt;Student,String&gt; map = new HashMap&lt;&gt;();
+        map.put(new Student(&quot;蜘蛛精&quot;,25,168.5),&quot;盘丝洞&quot;);
+        map.put(new Student(&quot;蜘蛛精&quot;,25,168.5),&quot;水帘洞&quot;);
+        map.put(new Student(&quot;至尊宝&quot;,23,163.5),&quot;水帘洞&quot;);
+        map.put(new Student(&quot;牛魔王&quot;,28,183.5),&quot;牛头山&quot;);
+        System.out.println(map);
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Student implements Comparable&lt;Student&gt;{
+    private String name;
+    private int age;
+    private double height;
+
+    //两个对象内容一样返回true
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return age == student.age &amp;&amp; Double.compare(height, student.height) == 0 &amp;&amp; Objects.equals(name, student.name);
+    }
+
+    //两个对象内容一样，返回的hash值一样
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, age, height);
+    }
+    ...
+</code></pre>
+<h1 id="linkedhashmap"><strong>LinkedHashMap</strong></h1>
+<p>LinkedHashMap和LinkedHashSet底层原理一样，都是基于哈希表实现的，只是每个键值对元素又额外的多了一个双链表的机制记录元素顺序（保证有序）。实际上原来学的LinkedHashSet底层原理就是LinkedHashMap。</p>
+<h1 id="treemap"><strong>TreeMap</strong></h1>
+<p>TreeMap和TreeSet底层原理一样，都是基于红黑树实现的。TreeMap集合同样也支持两种方式来指定排序规则。</p>
+<h1 id="集合的嵌套"><strong>集合的嵌套</strong></h1>
+<p>案例：在程序中记录省份和对应的城市信息。</p>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+        Map&lt;String, List&lt;String&gt;&gt; map = new HashMap&lt;&gt;();
+        List&lt;String&gt; cities1 = new ArrayList&lt;&gt;();
+        Collections.addAll(cities1,&quot;南京市&quot;,&quot;扬州市&quot;,&quot;苏州市&quot;,&quot;无锡市&quot;,&quot;常州市&quot;);
+        map.put(&quot;江苏省&quot;, cities1);
+        List&lt;String&gt; cities2 = new ArrayList&lt;&gt;();
+        Collections.addAll(cities2,&quot;武汉市&quot;,&quot;孝感市&quot;,&quot;十堰市&quot;,&quot;宜昌市&quot;,&quot;鄂州市&quot;);
+        map.put(&quot;湖北省&quot;, cities2);
+        List&lt;String&gt; cities3 = new ArrayList&lt;&gt;();
+        Collections.addAll(cities3,&quot;石家庄市&quot;,&quot;唐山市&quot;, &quot;邢台市&quot;, &quot;保定市&quot;, &quot;张家口市&quot;);
+        map.put(&quot;河北省&quot;, cities3);
+        System.out.println(map);
+        List&lt;String&gt; cities=map.get(&quot;湖北省&quot;);
+        for(String city:cities){
+            System.out.println(city);
+        }
+        map.forEach((k,v)-&gt;{
+            System.out.println(k+&quot;:&quot;+v);
+        });
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[集合框架：Collection]]></title>
+        <id>https://yyss1014.github.io/post/ji-he-kuang-jia/</id>
+        <link href="https://yyss1014.github.io/post/ji-he-kuang-jia/">
+        </link>
+        <updated>2025-03-17T11:13:57.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li><a href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><strong>常用方法</strong></a></li>
+<li><a href="#%E9%81%8D%E5%8E%86%E6%96%B9%E5%BC%8F"><strong>遍历方式</strong></a>
+<ul>
+<li><a href="#%E8%BF%AD%E4%BB%A3%E5%99%A8"><strong>迭代器</strong></a></li>
+<li><a href="#%E5%A2%9E%E5%BC%BAfor%E5%BE%AA%E7%8E%AF"><strong>增强for循环</strong></a></li>
+<li><a href="#lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F"><strong>Lambda表达式</strong></a></li>
+<li><a href="#%E6%A1%88%E4%BE%8B%E9%81%8D%E5%8E%86%E9%9B%86%E5%90%88%E4%B8%AD%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AF%B9%E8%B1%A1"><strong>案例：遍历集合中的自定义对象</strong></a></li>
+</ul>
+</li>
+<li><a href="#list%E9%9B%86%E5%90%88"><strong>List集合</strong></a>
+<ul>
+<li><a href="#list%E9%9B%86%E5%90%88%E7%9A%84%E9%81%8D%E5%8E%86%E6%96%B9%E5%BC%8F"><strong>List集合的遍历方式</strong></a></li>
+<li><a href="#%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86"><strong>底层原理</strong></a></li>
+</ul>
+</li>
+<li><a href="#set"><strong>Set</strong></a>
+<ul>
+<li><a href="#hashset"><strong>HashSet</strong></a></li>
+<li><a href="#linkedhashset"><strong>LinkedHashSet</strong></a></li>
+<li><a href="#treeset"><strong>TreeSet</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E9%9B%86%E5%90%88%E5%B9%B6%E5%8F%91%E4%BF%AE%E6%94%B9%E5%BC%82%E5%B8%B8%E9%97%AE%E9%A2%98"><strong>集合并发修改异常问题</strong></a></li>
+<li><a href="#%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86"><strong>相关知识</strong></a>
+<ul>
+<li><a href="#%E5%8F%AF%E5%8F%98%E5%8F%82%E6%95%B0"><strong>可变参数</strong></a></li>
+<li><a href="#collections"><strong>Collections</strong></a></li>
+<li><a href="#%E6%A1%88%E4%BE%8B%E6%96%97%E5%9C%B0%E4%B8%BB"><strong>案例：斗地主</strong></a></li>
+</ul>
+</li>
+</ul>
+<br>
+单列集合<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250317191726.png" alt="" loading="lazy"></p>
+<ul>
+<li>List系列集合：添加的元素是有序（存储和取出元素的顺序是一样的）、可重复、有索引。
+<ul>
+<li>ArrayList、LinekdList：有序、可重复、有索引。</li>
+</ul>
+</li>
+<li>Set系列集合：添加的元素是无序、不重复、无索引。
+<ul>
+<li>HashSet：无序、不重复、无索引。</li>
+<li>LinkedHashSet：无序、不重复、无索引。</li>
+<li>TreeSet：按照大小默认升序排列、不重复、无索引。</li>
+</ul>
+</li>
+</ul>
+<h1 id="常用方法"><strong>常用方法</strong></h1>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args){
+        Collection&lt;String&gt; c=new ArrayList&lt;&gt;();
+        c.add(&quot;a&quot;);
+        c.add(&quot;a&quot;);
+        c.add(&quot;b&quot;);
+        c.add(&quot;b&quot;);
+        c.add(&quot;c&quot;);
+        System.out.println(c);//[a, a, b, b, c]
+        //清空集合的元素
+        //c.clear();
+        //System.out.println(c);
+        //判断集合是否为空
+        System.out.println(c.isEmpty());
+        //获取集合的大小
+        System.out.println(c.size());
+        //判断集合是否包含某些元素
+        System.out.println(c.contains(&quot;a&quot;));
+        //删除某个元素，多个重复元素默认删除第一个
+        System.out.println(c.remove(&quot;a&quot;));
+        //把集合元素转成数组
+        Object[] arr=c.toArray();
+        System.out.println(Arrays.toString(arr));
+        String[] arr2=c.toArray(new String[c.size()]);
+        System.out.println(Arrays.toString(arr2));
+        System.out.println(&quot;------------------------&quot;);
+        Collection&lt;String&gt; c1=new ArrayList&lt;&gt;();
+        c1.add(&quot;a&quot;);
+        c1.add(&quot;b&quot;);
+        Collection&lt;String&gt; c2=new ArrayList&lt;&gt;();
+        c2.add(&quot;c&quot;);
+        c2.add(&quot;d&quot;);
+        c1.addAll(c2);//把c2集合的全部数据倒入到c1集合中
+        System.out.println(c1);//[a, b, c, d]
+        System.out.println(c2);//[c, d]
+
+    }
+}
+</code></pre>
+<h1 id="遍历方式"><strong>遍历方式</strong></h1>
+<h2 id="迭代器"><strong>迭代器</strong></h2>
+<p>迭代器是用来遍历集合的专用方式，java中迭代器的代表是Iterator。</p>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args){
+        Collection&lt;String&gt; c=new ArrayList&lt;&gt;();
+        c.add(&quot;赵敏&quot;);
+        c.add(&quot;小昭&quot;);
+        c.add(&quot;素素&quot;);
+        c.add(&quot;灭绝&quot;);
+        System.out.println(c);
+        //从集合中获取迭代器对象
+        Iterator&lt;String&gt; it=c.iterator();//相当于索引指针
+        System.out.println(it.next());
+        System.out.println(it.next());
+        System.out.println(it.next());
+        System.out.println(it.next());
+        //System.out.println(it.next());//报错
+
+        //使用循环结合迭代器
+        //hasNext()判断当前位置是否有元素存在，存在返回true，不存在返回false
+        while(it.hasNext()){
+            System.out.println(it.next());
+        }
+    }
+}
+</code></pre>
+<h2 id="增强for循环"><strong>增强for循环</strong></h2>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args){
+        Collection&lt;String&gt; c=new ArrayList&lt;&gt;();
+        c.add(&quot;赵敏&quot;);
+        c.add(&quot;小昭&quot;);
+        c.add(&quot;素素&quot;);
+        c.add(&quot;灭绝&quot;);
+        System.out.println(c);
+        for(String s:c){
+            System.out.println(s);
+        }
+        String[] names={&quot;迪丽热巴&quot;,&quot;古力娜扎&quot;,&quot;嘻嘻哈哈&quot;};
+        for(String s:names){
+            System.out.println(s);
+        }
+    }
+}
+</code></pre>
+<h2 id="lambda表达式"><strong>Lambda表达式</strong></h2>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args){
+        Collection&lt;String&gt; c=new ArrayList&lt;&gt;();
+        c.add(&quot;赵敏&quot;);
+        c.add(&quot;小昭&quot;);
+        c.add(&quot;素素&quot;);
+        c.add(&quot;灭绝&quot;);
+        System.out.println(c);
+        //default void forEach(Consumer&lt;? super T&gt; action):结合Lambda表达式遍历集合
+        /*default void forEach(Consumer&lt;? super T&gt; action) {
+            Objects.requireNonNull(action);
+            for (T t : this) {//this指的是c
+                action.accept(t);
+            }
+        }*/
+        /*c.forEach(new Consumer&lt;String&gt;() {
+            @Override
+            public void accept(String s) {
+                System.out.println(s);
+            }
+        });
+        c.forEach( s -&gt; System.out.println(s));*/
+        c.forEach( System.out::println);
+    }
+}
+</code></pre>
+<h2 id="案例遍历集合中的自定义对象"><strong>案例：遍历集合中的自定义对象</strong></h2>
+<pre><code class="language-java">/**
+ *       目标：完成电影信息的展示。
+ *       new Movie(&quot;《肖生克的救赎》&quot; , 9.7 ,  &quot;罗宾斯&quot;)
+ *       new Movie(&quot;《霸王别姬》&quot; , 9.6 ,  &quot;张国荣、张丰毅&quot;)
+ *       new Movie(&quot;《阿甘正传》&quot; , 9.5 ,  &quot;汤姆.汉克斯&quot;)
+ */
+public class RegexTest1 {
+    public static void main(String[] args) {
+        Collection&lt;Movie&gt; movies = new ArrayList&lt;&gt;();
+        movies.add(new Movie(&quot;《肖生克的救赎》&quot;, 9.7, &quot;罗宾斯&quot;));
+        movies.add(new Movie(&quot;《霸王别姬》&quot;, 9.6, &quot;张国荣、张丰毅&quot;));
+        movies.add(new Movie(&quot;《阿甘正传》&quot;, 9.5, &quot;汤姆.汉克斯&quot;));
+        System.out.println(movies);
+        //movies.for+enter
+        for (Movie movie : movies) {
+            System.out.println(&quot;电影名字：&quot;+movie.getName());
+            System.out.println(&quot;评分：&quot;+movie.getScore());
+            System.out.println(&quot;主演：&quot;+movie.getActor());
+        }
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Movie {
+    private String name;
+    private double score;
+    private String actor;
+    ...
+</code></pre>
+<h1 id="list集合"><strong>List集合</strong></h1>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+        //List是接口
+        List&lt;String&gt; list = new ArrayList&lt;&gt;();//经典代码
+        list.add(&quot;a&quot;);
+        list.add(&quot;b&quot;);
+        list.add(&quot;b&quot;);
+        list.add(&quot;c&quot;);
+        System.out.println(list);//[a, b, b, c]
+        //在某个索引位置插入元素
+        list.add(2,&quot;d&quot;);
+        System.out.println(list);//[a, b, d, b, c]
+        //根据索引删除元素，返回被删除元素
+        System.out.println(list.remove(2));
+        //返回集合中指定位置的元素
+        System.out.println(list.get(3));
+        //修改索引位置处的元素，修改成功后会返回原来的数据
+        System.out.println(list.set(3,&quot;e&quot;));
+        System.out.println(list);
+    }
+}
+</code></pre>
+<h2 id="list集合的遍历方式"><strong>List集合的遍历方式</strong></h2>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+        List&lt;String&gt; list = new ArrayList&lt;&gt;();//经典代码
+        list.add(&quot;a&quot;);
+        list.add(&quot;b&quot;);
+        list.add(&quot;c&quot;);
+        //for循环
+        for (int i = 0; i &lt; list.size(); i++) {
+            String s = list.get(i);
+            System.out.println(s);
+        }
+        //迭代器
+        Iterator&lt;String&gt; it=list.iterator();
+        while (it.hasNext()) {
+            System.out.println(it.next());
+        }
+        //增强for循环
+        for (String s : list) {
+            System.out.println(s);
+        }
+        //Lambda
+        list.forEach(System.out::println);
+    }
+}
+</code></pre>
+<h2 id="底层原理"><strong>底层原理</strong></h2>
+<ul>
+<li>Arraylist：基于数组实现的（查询快，增删慢）。
+<ul>
+<li>利用无参构造器创建的集合，会在底层创建一个长度为0的数组。</li>
+<li>添加第一个元素时，底层会创建一个新的长度为10的数组。</li>
+<li>存满时，会扩容1.5倍。</li>
+<li>如果一次添加多个元素，1.5倍还放不下，则新创建数组长度以实际为准。</li>
+</ul>
+</li>
+<li>LinkedList：基于双链表（记录前一个结点和下一个结点位置）实现的（查询慢，增删快，相对单向链表查询更快，对首尾结点增删改查非常快）。
+<ul>
+<li>新增很多首尾操作的特有办法。</li>
+<li>队列（先进先出，后进后出）：</li>
+</ul>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+    //创建一个队列，不要用多态，没有首尾操作特有方法
+        LinkedList&lt;String&gt; queue = new LinkedList&lt;&gt;();
+        queue.addLast(&quot;第1号人&quot;);
+        queue.addLast(&quot;第2号人&quot;);
+        queue.addLast(&quot;第3号人&quot;);
+        queue.addLast(&quot;第4号人&quot;);
+        System.out.println(queue);
+        //出队
+        System.out.println(queue.removeFirst());//第1号人
+        System.out.println(queue.removeFirst());//第2号人
+        System.out.println(queue.removeFirst());//第3号人
+        System.out.println(queue);//[第4号人]
+    }
+}
+</code></pre>
+<ul>
+<li>栈（后进先出，先进后出）：</li>
+</ul>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+    //创建一个栈
+        LinkedList&lt;String&gt; stack = new LinkedList&lt;&gt;();
+        //压栈（进栈，push）
+        //push()调用的就是addFirst
+        stack.addFirst(&quot;第1颗子弹&quot;);
+        stack.addFirst(&quot;第2颗子弹&quot;);
+        stack.addFirst(&quot;第3颗子弹&quot;);
+        stack.addFirst(&quot;第4颗子弹&quot;);
+        System.out.println(stack);//[第4颗子弹, 第3颗子弹, 第2颗子弹, 第1颗子弹]
+        //出栈（pop）
+        //pop()调用的就是removeFirst()
+        System.out.println(stack.removeFirst());
+        System.out.println(stack.removeFirst());
+        System.out.println(stack);//[第2颗子弹, 第1颗子弹]
+    }
+}
+</code></pre>
+</li>
+</ul>
+<h1 id="set"><strong>Set</strong></h1>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+        //Set是一个接口
+        //无序、不重复、无索引
+        // Set&lt;Integer&gt; set = new HashSet&lt;&gt;();//一行经典代码，[1, 2, 3, 4]，无序指的不是随机的顺序
+        //有序、不重复、无索引
+        //Set&lt;Integer&gt; set = new LinkedHashSet&lt;&gt;();//[2, 1, 3, 4]
+        //可排序（升序）、不重复、无索引
+        Set&lt;Integer&gt; set = new TreeSet&lt;&gt;();//[1, 2, 3, 4]
+        set.add(2);
+        set.add(1);
+        set.add(1);
+        set.add(3);
+        set.add(3);
+        set.add(4);
+        set.add(4);
+        System.out.println(set);
+    }
+}
+</code></pre>
+<h2 id="hashset"><strong>HashSet</strong></h2>
+<ul>
+<li>哈希值：
+<ul>
+<li>就是一个int类型的数值，java中每一个对象都有一个哈希值。</li>
+<li>java中的所有对象，都可以调用Object类提供的hashCode方法，返回对象自己的哈希值。</li>
+</ul>
+</li>
+<li>哈希值的特点：
+<ul>
+<li>同一个对象多次调用hashCode方法返回的哈希值是相同的。</li>
+<li>不同的对象哈希值一般不相同，但也可能会相同（哈希碰撞）。</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+        Student s1 = new Student(&quot;蜘蛛精&quot;,25, 169.5);
+        Student s2 = new Student(&quot;紫霞&quot;,22, 166.5);
+        System.out.println(s1.hashCode());//990368553
+        System.out.println(s2.hashCode());//1096979270
+
+        String str1=new String(&quot;abc&quot;);
+        String str2=new String(&quot;acD&quot;);
+        System.out.println(str1.hashCode());//96354
+        System.out.println(str2.hashCode());//96354
+    }
+}
+</code></pre>
+<p>HashSet基于哈希表实现，增删改查性能都很好，JDK8开始，哈希表=数组+链表+红黑树。JDK8之前，哈希表=数组+链表。步骤如下：</p>
+<ol>
+<li>创建一个默认长度为16的数组，默认加载因子为0.75，数组名为table</li>
+<li>使用元素的哈希值对数组长度求余计算出应存入的位置</li>
+<li>判断当前是否为null，如果是null直接存入</li>
+<li>如果不为null，表示有元素，则调用equals方法比较，相等则不存，不相等则存入数组
+<ol>
+<li>JDK8之前，新元素存入数组，占老元素位置，老元素挂在下面</li>
+<li>JDK8之后，新元素直接挂在老元素下面</li>
+</ol>
+</li>
+</ol>
+<p>  链表过长，导致查询性能降低，当数组中占满16*0.75=12个，数组就会扩容，规模大概是原来的两倍。JDK8开始，当链表长度超过8，且数组长度&gt;=64时，自动将链表转为红黑树。</p>
+<ul>
+<li>内容一样的两个类对象存入到HashSet集合中时，HashSet是不能去重复的。如果希望Set集合两个内容一样的对象是重复的，必须重写equals和hashCode方法。</li>
+</ul>
+<pre><code class="language-java">public class Student {
+    private String name;
+    private int age;
+    private double height;
+
+    //两个对象内容一样返回true
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return age == student.age &amp;&amp; Double.compare(height, student.height) == 0 &amp;&amp; Objects.equals(name, student.name);
+    }
+
+    //两个对象内容一样，返回的hash值一样
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, age, height);
+    }
+    ...
+</code></pre>
+<pre><code class="language-java">    public class RegexTest1 {
+    public static void main(String[] args) {
+        Set&lt;Student&gt; students = new HashSet&lt;&gt;();
+        Student s1 = new Student(&quot;至尊宝&quot;, 28, 169.6);
+        Student s2 = new Student(&quot;蜘蛛精&quot;, 23, 169.6);
+        Student s3 = new Student(&quot;蜘蛛精&quot;, 23, 169.6);
+        System.out.println(s2.hashCode());//573521603
+        System.out.println(s3.hashCode());//573521603
+        Student s4 = new Student(&quot;牛魔王&quot;, 48, 169.6);
+        students.add(s1);
+        students.add(s2);
+        students.add(s3);
+        students.add(s4);
+        System.out.println(students);
+    }
+}
+</code></pre>
+<h2 id="linkedhashset"><strong>LinkedHashSet</strong></h2>
+<p>底层原理依然是基于哈希表实现的，但每个元素都额外多了一个双链表机制记录它前后元素的位置。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250318200250.png" alt="" loading="lazy"></p>
+<h2 id="treeset"><strong>TreeSet</strong></h2>
+<p>底层是基于红黑树实现的排序。</p>
+<ul>
+<li>对于数值类型对象比如Double、Integer，按照数值本身大小进行升序排序。</li>
+<li>对于字符串类型，默认按照字符串首字母编号进行排序。</li>
+<li>对于自定义对象，默认无法直接排序。会报错，需要自定义排序规则。<br>
+方法一：实现Comparable接口，重写compareTo来指定比较规则，比较指标相等视为重复。</li>
+</ul>
+<pre><code class="language-java">public class Student implements Comparable&lt;Student&gt;{
+    private String name;
+    private int age;
+    private double height;
+
+    @Override
+    public int compareTo(Student o) {
+        return this.age - o.age;
+    }
+    ···
+</code></pre>
+<p>方法二：通过调用TreeSet集合有参数构造器，可以设置Comparator比较对象（比较器对象，用于制定比较规则）。两种方法中会优先选择自己自带的比较器对象进行排序。</p>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+        //public TreeSet(Comparator&lt;? super E&gt; comparator)
+        Set&lt;Student&gt; students = new TreeSet&lt;&gt;(new Comparator&lt;Student&gt;() {
+            @Override
+            public int compare(Student o1, Student o2) {
+                return Double.compare(o1.getHeight(), o2.getHeight());
+            }
+        });
+        students.add(new Student(&quot;蜘蛛精&quot;,23, 169.7));
+        students.add(new Student(&quot;紫霞&quot;,22, 169.8));
+        students.add(new Student(&quot;至尊宝&quot;,26, 165.5));
+        students.add(new Student(&quot;牛魔王&quot;,22, 183.5));
+        System.out.println(students);
+    }
+}
+</code></pre>
+<h1 id="集合并发修改异常问题"><strong>集合并发修改异常问题</strong></h1>
+<ul>
+<li>使用迭代器遍历集合时，又同时在删除集合中的数据，程序就会出现并发修改异常的错误。</li>
+<li>由于增强for循环遍历集合就是迭代器遍历集合的简化写法，因此，使用增强for循环遍历集合，又在同时删除集合中的数据时，程序也会出现并发修改异常的错误。</li>
+</ul>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+        List&lt;String&gt; list=new ArrayList&lt;&gt;();
+        list.add(&quot;王麻子&quot;);
+        list.add(&quot;小李子&quot;);
+        list.add(&quot;李爱花&quot;);
+        list.add(&quot;张全蛋&quot;);
+        list.add(&quot;晓李&quot;);
+        list.add(&quot;李玉刚&quot;);
+        System.out.println(list);//[王麻子, 小李子, 李爱花, 张全蛋, 晓李, 李玉刚]
+        //需求：找出集合中全部带李的名字，并从集合中删除
+        Iterator&lt;String&gt; it = list.iterator();
+        while (it.hasNext()) {
+            String name = it.next();
+            if(name.contains(&quot;李&quot;)){
+                //list.remove();//并发修改异常的错误
+                it.remove();//删除迭代器当前遍历到的数据，没删除一个数据后，指针回拨
+            }
+        }
+        System.out.println(list);
+    }
+}
+</code></pre>
+<ul>
+<li>可以使用迭代器自己的方法删除数据。</li>
+<li>使用for循环倒着遍历并删除；或者从前往后遍历，但删除元素后做i--操作。</li>
+</ul>
+<h1 id="相关知识"><strong>相关知识</strong></h1>
+<h2 id="可变参数"><strong>可变参数</strong></h2>
+<p>就是一种特殊形参，定义在方法、构造器的形参列表里，格式是：数据类型...数据名称;</p>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+        test();
+        test(10);//不传数据
+        test(10,20,30);
+        test(new int[]{10,20,30,40});
+    }
+    //在一个形参列表中，只有一个可变参数。
+    //可变参数必须在形参列表的最后面。
+    public static void test(int... nums) {
+        //可变参数在方法里，本身就是一个数组
+        System.out.println(nums.length);
+        System.out.println(Arrays.toString(nums));
+        System.out.println(&quot;--------------&quot;);
+    }
+}
+</code></pre>
+<h2 id="collections"><strong>Collections</strong></h2>
+<p>操作集合的工具类。</p>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+        //&lt;? super T&gt;下界通配符，在这里collection容器类型是T的父类，但具体类型编译器也不知道
+        //根据里氏替换原则，子类对象可以安全替换父类对象，容器可以安全插入T及其子类
+        // 读取的时候，编译器在不知道是什么类型的情况下只能返回Object对象，因为Object是任何Java类的最终祖先类。但这样的话，元素的类型信息就全部丢失了。
+        List&lt;Father&gt; fathers = new ArrayList&lt;&gt;();
+        List&lt;? super Son&gt; list = new ArrayList&lt;&gt;(fathers);
+        list.add(new Son());
+        //list.add(new Father());//报错
+        //public static &lt;T&gt; boolean addAll(Collection&lt;? super T&gt; c, T... elements)为集合批量添加数据
+        List&lt;String&gt; names = new ArrayList&lt;&gt;();
+        Collections.addAll(names, &quot;张三&quot;, &quot;李四&quot;, &quot;王五&quot;);
+        System.out.println(names);
+        //public static void shuffle(List&lt;?&gt; list):打乱list集合中的排序
+        Collections.shuffle(names);
+        System.out.println(names);
+        //public static &lt;T extends Comparable&lt;? super T&gt;&gt; void sort(List&lt;T&gt; list):对集合对象进行升序排序，可以自定义比较规则
+        List&lt;Integer&gt; list1=new ArrayList&lt;&gt;();
+        list1.add(3);
+        list1.add(5);
+        list1.add(2);
+        Collections.sort(list1);
+        System.out.println(list1);
+    }
+}
+class Son extends Father {}
+class Father{}
+</code></pre>
+<h2 id="案例斗地主"><strong>案例：斗地主</strong></h2>
+<ul>
+<li>在启动房间的时候，应该提前准备54张牌</li>
+<li>接着需要完成洗牌、发牌、对牌排序、看牌</li>
+</ul>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+        Room m = new Room();
+        //启动游戏
+        m.start();
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Room {
+    private List&lt;Card&gt; allCards = new ArrayList&lt;&gt;();
+    public Room() {
+        String[] numbers = {&quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;6&quot;, &quot;7&quot;, &quot;8&quot;, &quot;9&quot;, &quot;10&quot;, &quot;J&quot;, &quot;Q&quot;, &quot;K&quot;, &quot;A&quot;, &quot;2&quot;};
+        String[] colors = {&quot;♥&quot;, &quot;♠&quot;,&quot;♣&quot;,&quot;♦&quot;};
+        int size=0;
+        for (String number : numbers) {
+            size++;
+            for (String color : colors) {
+                Card card = new Card(number,color,size);
+                allCards.add(card);
+            }
+        }
+        Card c1 = new Card(&quot;&quot;,&quot;🤡&quot;,++size);
+        Card c2 = new Card(&quot;&quot;,&quot;🃏&quot;,++size);
+        Collections.addAll(allCards,c1,c2);
+        System.out.println(&quot;新牌&quot;+allCards);
+    }
+
+    public void start() {
+        Collections.shuffle(allCards);
+        System.out.println(&quot;洗牌后&quot;+allCards);
+        List&lt;Card&gt; yiyu = new ArrayList&lt;&gt;();
+        List&lt;Card&gt; gushiye = new ArrayList&lt;&gt;();
+        List&lt;Card&gt; xiaxiaoyin = new ArrayList&lt;&gt;();
+        for (int i = 0; i &lt; allCards.size()-3; i++) {
+            Card c = allCards.get(i);
+            if(i%3==0){
+                yiyu.add(c);
+            }else if(i%3==1){
+                gushiye.add(c);
+            }else if(i%3==2){
+                xiaxiaoyin.add(c);
+            }
+        }
+        //排序
+        sortCards(yiyu);
+        sortCards(gushiye);
+        sortCards(xiaxiaoyin);
+        System.out.println(&quot;yiyu&quot;+yiyu);
+        System.out.println(&quot;gushiye&quot;+gushiye);
+        System.out.println(&quot;xiaxiaoyin&quot;+xiaxiaoyin);
+        List&lt;Card&gt; lastThreeCards=allCards.subList(allCards.size()-3,allCards.size());
+        System.out.println(&quot;底牌&quot;+lastThreeCards);
+        
+    }
+
+    private void sortCards(List&lt;Card&gt; cards) {
+        cards.sort(new Comparator&lt;Card&gt;() {
+            @Override
+            public int compare(Card o1, Card o2) {
+                return o1.getSize()-o2.getSize();
+            }
+        });
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Card {
+    private String number;
+    private String color;
+    private int size;
+
+    @Override
+    public String toString() {
+        return number + color ;
+    }
+    ...
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[异常]]></title>
+        <id>https://yyss1014.github.io/post/yi-chang/</id>
+        <link href="https://yyss1014.github.io/post/yi-chang/">
+        </link>
+        <updated>2025-03-17T08:14:58.000Z</updated>
+        <content type="html"><![CDATA[<p>Error:代表系统级别错误（属于严重问题），开发人员不用管。<br>
+Exception：代表我们程序出现的问题。程序员经常用Exception类及其孩子来封装可能存在的问题。<br>
+运行时异常：RuntimeException及其子类，编译阶段不会出现错误提醒，运行时出现异常。<br>
+编译时异常：编译阶段就会出现错误提醒。</p>
+<ul>
+<li>捕获异常：</li>
+</ul>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);
+            Date d=sdf.parse(&quot;2028-11-11 10:24&quot;);
+            System.out.println(d);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+</code></pre>
+<ul>
+<li>抛出异常：</li>
+</ul>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) throws ParseException{
+            SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);
+            Date d=sdf.parse(&quot;2028-11-11 10:24&quot;);
+            System.out.println(d);
+    }
+}
+</code></pre>
+<h1 id="自定义异常"><strong>自定义异常</strong></h1>
+<p>如果企业自己的某种问题想通过异常来表示，以便用异常管理该问题，就需要自定义异常了。</p>
+<h2 id="自定义运行异常"><strong>自定义运行异常</strong></h2>
+<ul>
+<li>定义一个异常类继承RuntimeException</li>
+<li>重写构造器</li>
+<li>通过throw new 异常类(xxx)来创建对象并输出，编译阶段不报错，提醒不强烈，运行时才可能出现。</li>
+</ul>
+<pre><code class="language-java">public class AgeIllegalRuntimeException extends RuntimeException {
+    public AgeIllegalRuntimeException() {
+    }
+
+    public AgeIllegalRuntimeException(String message) {
+        super(message);
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args){
+        try {
+            saveAge(160);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(&quot;哪来的元婴老祖&quot;);
+        }
+    }
+    public static void saveAge(int age) {
+        if (age &gt; 0 &amp;&amp; age&lt;150) {
+            System.out.println(&quot;Age is &quot; + age);
+        }else {
+            //用一个异常对象封装这个问题
+            //throw抛出去这个异常对象
+            throw new AgeIllegalRuntimeException(&quot;/age is illegal,your age is &quot; + age);
+        }
+    }
+}
+</code></pre>
+<h2 id="自定义编译异常"><strong>自定义编译异常</strong></h2>
+<ul>
+<li>定义一个异常类继承Exception</li>
+<li>重写构造器</li>
+<li>通过throw new 异常类(xxx)来创建对象并输出，编译阶段就报错，提醒更加强烈。</li>
+</ul>
+<pre><code class="language-java">public static void saveAge(int age) throws AgeIllegalException {
+        if (age &gt; 0 &amp;&amp; age&lt;150) {
+            System.out.println(&quot;Age is &quot; + age);
+        }else {
+            //用一个异常对象封装这个问题
+            //throw抛出去这个异常对象
+            //throws用在方法上，抛出方法内部异常
+            throw new AgeIllegalException(&quot;/age is illegal,your age is &quot; + age);
+        }
+}
+</code></pre>
+<pre><code class="language-java">public class AgeIllegalException extends RuntimeException {
+    public AgeIllegalException() {
+    }
+
+    public AgeIllegalException(String message) {
+        super(message);
+    }
+}
+</code></pre>
+<h1 id="异常的处理"><strong>异常的处理</strong></h1>
+<ul>
+<li>记录异常并响应合适的信息给用户。</li>
+</ul>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args){
+        try {
+            test1();
+        } catch (FileNotFoundException e) {
+            System.out.println(&quot;您要找的文件对象不存在&quot;);
+            e.printStackTrace();//打印出这个异常对象的信息，记录下来
+        } catch (ParseException e) {
+            System.out.println(&quot;您要解析的时间有问题&quot;);
+            e.printStackTrace();//打印出这个异常对象的信息，记录下来
+        }
+    }
+    public static void test1() throws FileNotFoundException, ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);
+        Date d = sdf.parse(&quot;2028-11-11 10:24&quot;);
+        System.out.println(d);
+        test2();
+    }
+
+    public static void test2() throws FileNotFoundException {
+        // 读取文件的。
+        InputStream is = new FileInputStream(&quot;D:/meinv.png&quot;);
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args){
+        try {
+            test1();
+        } catch (Exception e) {
+            System.out.println(&quot;您要找的文件对象不存在&quot;);
+            e.printStackTrace();//打印出这个异常对象的信息，记录下来
+        }
+    }
+    public static void test1() throws Exception {
+        SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);
+        Date d = sdf.parse(&quot;2028-11-11 10:24&quot;);
+        System.out.println(d);
+        test2();
+    }
+
+    public static void test2() throws Exception {
+        // 读取文件的。
+        InputStream is = new FileInputStream(&quot;D:/meinv.png&quot;);
+    }
+}
+</code></pre>
+<ul>
+<li>捕获异常，尝试重新修复。</li>
+</ul>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args){
+        while (true) {
+            try {
+                System.out.println(getMoney());
+            } catch (Exception e) {
+                System.out.println(&quot;请您输入合法的数字&quot;);
+            }
+        }
+    }
+    public static double getMoney(){
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            System.out.println(&quot;请您输入合适的价格：&quot;);
+            double money = sc.nextDouble();
+            if(money&gt;=0){
+                return money;
+            }else{
+                System.out.println(&quot;您输入的价格是不合适的&quot;);
+            }
+        }
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[正则表达式]]></title>
+        <id>https://yyss1014.github.io/post/zheng-ze-biao-da-shi/</id>
+        <link href="https://yyss1014.github.io/post/zheng-ze-biao-da-shi/">
+        </link>
+        <updated>2025-03-17T03:36:35.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li><a href="#%E4%B9%A6%E5%86%99%E8%A7%84%E5%88%99"><strong>书写规则</strong></a></li>
+<li><a href="#%E5%BA%94%E7%94%A8%E6%A1%88%E4%BE%8B"><strong>应用案例</strong></a></li>
+<li><a href="#%E6%9F%A5%E6%89%BE%E6%A1%88%E4%BE%8B"><strong>查找案例</strong></a></li>
+<li><a href="#%E6%90%9C%E7%B4%A2%E6%9B%BF%E6%8D%A2-%E5%88%86%E5%89%B2%E5%86%85%E5%AE%B9"><strong>搜索替换、分割内容</strong></a></li>
+</ul>
+<br>
+有一些特定的字符组成，代表的是一个规则。</p>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+        System.out.println(checkQQ(&quot;274953911&quot;));
+        System.out.println(&quot;-------------&quot;);
+        System.out.println(checkQQ1(&quot;274e53911&quot;));
+    }
+    public static boolean checkQQ1(String qq){
+        return qq!=null&amp;&amp;qq.matches(&quot;[1-9]\\d{5,19}&quot;);
+    }
+    public static boolean checkQQ(String qq) {
+        if(qq==null||qq.startsWith(&quot;0&quot;)||qq.length()&lt;6||qq.length()&gt;20){
+            return false;
+        }
+        for (int i = 0; i &lt; qq.length(); i++) {
+            char ch=qq.charAt(i);
+            if(ch&lt;'0'||ch&gt;'9'){
+                return false;
+            }
+        }
+        return true;
+    }
+}
+</code></pre>
+<h1 id="书写规则"><strong>书写规则</strong></h1>
+<pre><code class="language-java">public class RegexTest2 {
+    public static void main(String[] args) {
+        // 1、字符类(只能匹配单个字符)
+        System.out.println(&quot;a&quot;.matches(&quot;[abc]&quot;));    // [abc]只能匹配a、b、c
+        System.out.println(&quot;e&quot;.matches(&quot;[abcd]&quot;)); // false
+
+        System.out.println(&quot;d&quot;.matches(&quot;[^abc]&quot;));   // [^abc] 不能是abc
+        System.out.println(&quot;a&quot;.matches(&quot;[^abc]&quot;));  // false
+
+        System.out.println(&quot;b&quot;.matches(&quot;[a-zA-Z]&quot;)); // [a-zA-Z] 只能是a-z A-Z的字符
+        System.out.println(&quot;2&quot;.matches(&quot;[a-zA-Z]&quot;)); // false
+
+        System.out.println(&quot;k&quot;.matches(&quot;[a-z&amp;&amp;[^bc]]&quot;)); // ： a到z，除了b和c
+        System.out.println(&quot;b&quot;.matches(&quot;[a-z&amp;&amp;[^bc]]&quot;)); // false
+
+        System.out.println(&quot;ab&quot;.matches(&quot;[a-zA-Z0-9]&quot;)); // false 注意：以上带 [内容] 的规则都只能用于匹配单个字符
+
+        // 2、预定义字符(只能匹配单个字符)  .  \d  \D   \s  \S  \w  \W
+        System.out.println(&quot;徐&quot;.matches(&quot;.&quot;)); // .可以匹配任意字符
+        System.out.println(&quot;徐徐&quot;.matches(&quot;.&quot;)); // false
+
+        // \转义
+        System.out.println(&quot;\&quot;&quot;);
+        // \n \t
+        System.out.println(&quot;3&quot;.matches(&quot;\\d&quot;));  // \d: 0-9
+        System.out.println(&quot;a&quot;.matches(&quot;\\d&quot;));  //false
+
+        System.out.println(&quot; &quot;.matches(&quot;\\s&quot;));   // \s: 代表一个空白字符
+        System.out.println(&quot;a&quot;.matches(&quot;\s&quot;)); // false
+
+        System.out.println(&quot;a&quot;.matches(&quot;\\S&quot;));  // \S: 代表一个非空白字符
+        System.out.println(&quot; &quot;.matches(&quot;\\S&quot;)); // false
+
+        System.out.println(&quot;a&quot;.matches(&quot;\\w&quot;));  // \w: [a-zA-Z_0-9]
+        System.out.println(&quot;_&quot;.matches(&quot;\\w&quot;)); // true
+        System.out.println(&quot;徐&quot;.matches(&quot;\\w&quot;)); // false
+
+        System.out.println(&quot;徐&quot;.matches(&quot;\\W&quot;));  // [^\w]不能是a-zA-Z_0-9
+        System.out.println(&quot;a&quot;.matches(&quot;\\W&quot;));  // false
+
+        System.out.println(&quot;23232&quot;.matches(&quot;\\d&quot;)); // false 注意：以上预定义字符都只能匹配单个字符。
+
+        // 3、数量词： ?   *   +   {n}   {n, }  {n, m}
+        System.out.println(&quot;a&quot;.matches(&quot;\\w?&quot;));   // ? 代表0次或1次
+        System.out.println(&quot;&quot;.matches(&quot;\\w?&quot;));    // true
+        System.out.println(&quot;abc&quot;.matches(&quot;\\w?&quot;)); // false
+
+        System.out.println(&quot;abc12&quot;.matches(&quot;\\w*&quot;));   // * 代表0次或多次
+        System.out.println(&quot;&quot;.matches(&quot;\\w*&quot;));        // true
+        System.out.println(&quot;abc12张&quot;.matches(&quot;\\w*&quot;)); // false
+
+        System.out.println(&quot;abc12&quot;.matches(&quot;\\w+&quot;));   // + 代表1次或多次
+        System.out.println(&quot;&quot;.matches(&quot;\\w+&quot;));       // false
+        System.out.println(&quot;abc12张&quot;.matches(&quot;\\w+&quot;)); // false
+
+        System.out.println(&quot;a3c&quot;.matches(&quot;\\w{3}&quot;));   // {3} 代表要正好是n次
+        System.out.println(&quot;abcd&quot;.matches(&quot;\\w{3}&quot;));  // false
+        System.out.println(&quot;abcd&quot;.matches(&quot;\\w{3,}&quot;));     // {3,} 代表是&amp;gt;=3次
+        System.out.println(&quot;ab&quot;.matches(&quot;\\w{3,}&quot;));     // false
+        System.out.println(&quot;abcde徐&quot;.matches(&quot;\\w{3,}&quot;));     // false
+        System.out.println(&quot;abc232d&quot;.matches(&quot;\\w{3,9}&quot;));     // {3, 9} 代表是  大于等于3次，小于等于9次
+
+        // 4、其他几个常用的符号：(?i)忽略大小写 、 或：| 、  分组：()
+        System.out.println(&quot;abc&quot;.matches(&quot;(?i)abc&quot;)); // true
+        System.out.println(&quot;ABC&quot;.matches(&quot;(?i)abc&quot;)); // true
+        System.out.println(&quot;aBc&quot;.matches(&quot;a((?i)b)c&quot;)); // true
+        System.out.println(&quot;ABc&quot;.matches(&quot;a((?i)b)c&quot;)); // false
+
+        // 需求1：要求要么是3个小写字母，要么是3个数字。
+        System.out.println(&quot;abc&quot;.matches(&quot;[a-z]{3}|\\d{3}&quot;)); // true
+        System.out.println(&quot;ABC&quot;.matches(&quot;[a-z]{3}|\\d{3}&quot;)); // false
+        System.out.println(&quot;123&quot;.matches(&quot;[a-z]{3}|\\d{3}&quot;)); // true
+        System.out.println(&quot;A12&quot;.matches(&quot;[a-z]{3}|\\d{3}&quot;)); // false
+
+        // 需求2：必须是”我爱“开头，中间可以是至少一个”编程“，最后至少是1个”666“
+        System.out.println(&quot;我爱编程编程666666&quot;.matches(&quot;我爱(编程)+(666)+&quot;));
+        System.out.println(&quot;我爱编程编程66666&quot;.matches(&quot;我爱(编程)+(666)+&quot;));
+    }
+}
+</code></pre>
+<h1 id="应用案例"><strong>应用案例</strong></h1>
+<pre><code class="language-java">private static void checkphone() {
+        while (true) {
+            System.out.println(&quot;请您输入您的电话号码：&quot;);
+            Scanner sc = new Scanner(System.in);
+            String phone = sc.nextLine();
+            if(phone.matches(&quot;(1[3-9]\\d{9})||(0\\d{2,7}-?[1-9]\\d{4,19})&quot;)){
+                System.out.println(&quot;您输入的号码格式正确&quot;);
+                break;
+            }else{
+                System.out.println(&quot;您输入的号码格式错误&quot;);
+            }
+        }
+    }
+    private static void checkEmail() {
+        while (true) {
+            System.out.println(&quot;请您输入您的邮箱：&quot;);
+            Scanner sc = new Scanner(System.in);
+            String phone = sc.nextLine();
+            if(phone.matches(&quot;\\w{2,}@\\w{2,20}(\\.\\w{2,10}){1,2}&quot;)){
+                System.out.println(&quot;您输入的邮箱格式正确&quot;);
+                break;
+            }else{
+                System.out.println(&quot;您输入的邮箱格式错误&quot;);
+            }
+        }
+</code></pre>
+<h1 id="查找案例"><strong>查找案例</strong></h1>
+<p>使用正则表达式查找一段文本中的内容。</p>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+        method1();
+    }
+
+    // 需求1：从以下内容中爬取出，手机，邮箱，座机、400电话等信息。
+    public static void method1(){
+        String data = &quot; 来黑马程序员学习Java，\n&quot; +
+                &quot;        电话：1866668888，18699997777\n&quot; +
+                &quot;        或者联系邮箱：boniu@itcast.cn，\n&quot; +
+                &quot;        座机电话：01036517895，010-98951256\n&quot; +
+                &quot;        邮箱：bozai@itcast.cn，\n&quot; +
+                &quot;        邮箱：dlei0009@163.com，\n&quot; +
+                &quot;        热线电话：400-618-9090 ，400-618-4000，4006184000，4006189090&quot;;
+        //定义爬取规则
+        String regex = &quot;(1[3-9]\\d{9})|(0\\d{2,7}-?[1-9]\\d{4,19})|(\\w{2,}@\\w{2,20}(\\.\\w{2,10}){1,2})&quot;
+                + &quot;|(400-?\\d{3,7}-?\\d{3,7})&quot;;
+        //把正则表达式封装成一个pattern对象
+        Pattern pattern = Pattern.compile(regex);
+        //通过Pattern对象区获取查找内容的匹配对象
+        Matcher matcher = pattern.matcher(data);
+        while (matcher.find()) {
+            String rs=matcher.group();
+            System.out.println(rs);
+        }
+    }
+}
+</code></pre>
+<h1 id="搜索替换-分割内容"><strong>搜索替换、分割内容</strong></h1>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+        // 1、public String replaceAll(String regex , String newStr)：按照正则表达式匹配的内容进行替换
+        // 需求1：请把 古力娜扎ai8888迪丽热巴999aa5566马尔扎哈fbbfsfs42425卡尔扎巴，中间的非中文字符替换成 “-”
+        String s1 = &quot;古力娜扎ai8888迪丽热巴999aa5566马尔扎哈fbbfsfs42425卡尔扎巴&quot;;
+        System.out.println(s1.replaceAll(&quot;\\w+&quot;, &quot;-&quot;));
+
+        // 需求2(拓展)：某语音系统，收到一个口吃的人说的“我我我喜欢编编编编编编编编编编编编程程程！”，需要优化成“我喜欢编程！”。
+        //(.)一组：。匹配任意字符
+        //\\1为这个组声明编号
+        //+:声明必须是重复的字
+        //$1可以去取到第一组那个代表重复的字
+        String s2 = &quot;我我我喜欢编编编编编编编编编编编编程程程！&quot;;
+        System.out.println(s2.replaceAll(&quot;(.)\\1+&quot;, &quot;$1&quot;));
+
+        // 2、public String[] split(String regex)：按照正则表达式匹配的内容进行分割字符串，反回一个字符串数组。
+        // 需求1：请把 古力娜扎ai8888迪丽热巴999aa5566马尔扎哈fbbfsfs42425卡尔扎巴，中的人名获取出来。
+        String s3 = &quot;古力娜扎ai8888迪丽热巴999aa5566马尔扎哈fbbfsfs42425卡尔扎巴&quot;;
+        String[] name=s3.split(&quot;\\w+&quot;);
+        System.out.println(Arrays.toString(name));
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Lambda表达式]]></title>
+        <id>https://yyss1014.github.io/post/lamda/</id>
+        <link href="https://yyss1014.github.io/post/lamda/">
+        </link>
+        <updated>2025-03-16T12:08:54.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li><a href="#arrays"><strong>Arrays</strong></a></li>
+<li><a href="#lambda"><strong>Lambda</strong></a></li>
+<li><a href="#%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8"><strong>方法引用</strong></a>
+<ul>
+<li><a href="#%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8"><strong>静态方法引用</strong></a></li>
+<li><a href="#%E5%AE%9E%E4%BE%8B%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8"><strong>实例方法引用</strong></a></li>
+<li><a href="#%E7%89%B9%E5%AE%9A%E7%B1%BB%E5%9E%8B%E6%96%B9%E6%B3%95%E7%9A%84%E5%BC%95%E7%94%A8"><strong>特定类型方法的引用</strong></a></li>
+<li><a href="#%E6%9E%84%E9%80%A0%E5%99%A8%E5%BC%95%E7%94%A8"><strong>构造器引用</strong></a></li>
+</ul>
+</li>
+</ul>
+</p>
+<h1 id="arrays"><strong>Arrays</strong></h1>
+<p>用来操作数组的一个工具类。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args){
+     //Arrays.toString返回数组内容
+     int arr[]={10,20,30,40,50,60};
+     System.out.println(Arrays.toString(arr));//[10, 20, 30, 40, 50, 60]
+
+     //拷贝数组
+     int[] arr2=Arrays.copyOfRange(arr,1,4);
+     System.out.println(Arrays.toString(arr2));//[20, 30, 40]
+
+     //拷贝数组，指定数组长度
+     int[] arr3=Arrays.copyOf(arr,10);
+     System.out.println(Arrays.toString(arr3));//[10, 20, 30, 40, 50, 60, 0, 0, 0, 0]
+
+     //把数组的原数据改为新数组又存进去
+     //public static void setAll(double[] array, IntToDoubleFunction(接口) generator)
+     double[] prices={99.8,128,100};
+     Arrays.setAll(prices, new IntToDoubleFunction() {
+      @Override
+      public double applyAsDouble(int value) {
+       //value=0,1,2数组索引
+       return prices[value]*0.8;
+      }
+     });
+     System.out.println(Arrays.toString(prices));//[79.84, 102.4, 80.0]
+     
+     //对数组进行排序，默认升序
+     Arrays.sort(prices);
+     System.out.println(Arrays.toString(prices));//[79.84, 80.0, 102.4]
+    }
+}
+</code></pre>
+<p>存储的是对象如何排序？</p>
+<ul>
+<li>方法一：让该对象的类实现Comparable（比较规则）接口，重写compareTo方法，自己制定比较规则。</li>
+</ul>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args){
+     Student[] students = new Student[4];
+     students[0] = new Student(23,169.5,&quot;蜘蛛精&quot;);
+     students[1] = new Student(26,163.8,&quot;紫霞&quot;);
+     students[2] = new Student(26,163.8,&quot;紫霞&quot;);
+     students[3] = new Student(24,167.5,&quot;至尊宝&quot;);
+     Arrays.sort(students);
+     System.out.println(Arrays.toString(students));
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Student implements Comparable&lt;Student&gt; {
+    private String name;
+    private int age;
+    private double height;
+    //指定比较规则
+    //this o
+    @Override
+    public int compareTo(Student o) {
+        //如果左边对象大于右边对象，返回正整数
+        //如果左边对象小于右边对象，返回负整数
+        //如果左边对象等于右边对象，返回0
+        return this.age - o.age;//升序
+        //return o.age - this.age;//降序
+    }
+
+    @Override
+    public String toString() {
+        return &quot;Student{&quot; +
+                &quot;name='&quot; + name + '\'' +
+                &quot;, age=&quot; + age +
+                &quot;, height=&quot; + height +
+                '}';
+    }
+    ...
+</code></pre>
+<ul>
+<li>方法二：创建Comparator比较器接口的匿名内部类对象。</li>
+</ul>
+<pre><code class="language-java">Arrays.sort(students, new Comparator&lt;Student&gt;() {
+            @Override
+            public int compare(Student o1, Student o2) {
+                //左边对象o1，右边o2
+                //如果左边对象大于右边对象，返回正整数
+                //如果左边对象小于右边对象，返回负整数
+                //如果左边对象等于右边对象，返回0
+                return Double.compare(o1.getHeight(), o2.getHeight());//升序
+            }
+});
+System.out.println(Arrays.toString(students));
+</code></pre>
+<h1 id="lambda"><strong>Lambda</strong></h1>
+<p>用于简化匿名内部类的代码写法。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args){
+        //Lambda表达式只能简化函数式接口的匿名内部类
+        //有且只有一个抽象方法的接口
+        /*Swimming s=new Swimming() {
+            @Override
+            public void swim() {
+                System.out.println(&quot;学生快乐的游泳&quot;);
+            }
+        };*/
+        Swimming s=()-&gt;{
+            System.out.println(&quot;学生快乐的游泳&quot;);
+        };
+        s.swim();
+    }
+}
+@FunctionalInterface
+interface Swimming{
+    void swim();
+}
+</code></pre>
+<pre><code class="language-java">double[] prices={99.8,128,100};
+     Arrays.setAll(prices, new IntToDoubleFunction() {
+      @Override
+      public double applyAsDouble(int value) {
+       //value=0,1,2数组索引
+       return prices[value]*0.8;
+      }
+     });
+ double[] prices = {99.8, 128, 100};
+        Arrays.setAll(prices, (int value) -&gt; {
+            //value=0,1,2数组索引
+            return prices[value] * 0.8;
+        });
+</code></pre>
+<p>Lambda表达式的省略规则：</p>
+<ul>
+<li>参数类型可以不写。</li>
+</ul>
+<pre><code class="language-java">double[] prices = {99.8, 128, 100};
+        Arrays.setAll(prices, (value) -&gt; {
+            //value=0,1,2数组索引
+            return prices[value] * 0.8;
+        });
+</code></pre>
+<ul>
+<li>如果只有一个参数，参数类型可以省略，同时()可以省略。</li>
+</ul>
+<pre><code class="language-java">double[] prices = {99.8, 128, 100};
+        Arrays.setAll(prices, value -&gt; {
+            //value=0,1,2数组索引
+            return prices[value] * 0.8;
+        });
+</code></pre>
+<ul>
+<li>如果Lambda表达式中方法体代码只有一行代码，可以省略大括号不写，同时必须省略分号，此时，如果这行代码是return语句，也必须去掉return不写。</li>
+</ul>
+<pre><code class="language-java">double[] prices = {99.8, 128, 100};
+        Arrays.setAll(prices, value -&gt;  prices[value] * 0.8);
+</code></pre>
+<h1 id="方法引用"><strong>方法引用</strong></h1>
+<h2 id="静态方法引用"><strong>静态方法引用</strong></h2>
+<p>类名::静态方法<br>
+如果某个Lambda表达式只是调用一个静态方法，并且前后参数一致，就可以使用静态方法引用。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        Student[] students = new Student[4];
+        students[0] = new Student(23,169.5,&quot;蜘蛛精&quot;);
+        students[1] = new Student(26,163.8,&quot;紫霞&quot;);
+        students[2] = new Student(26,163.8,&quot;紫霞&quot;);
+        students[3] = new Student(24,167.5,&quot;至尊宝&quot;);
+        /*Arrays.sort(students, new Comparator&lt;Student&gt;() {
+            @Override
+            public int compare(Student o1, Student o2) {
+                //左边对象o1，右边o2
+                //如果左边对象大于右边对象，返回正整数
+                //如果左边对象小于右边对象，返回负整数
+                //如果左边对象等于右边对象，返回0
+                return o1.getAge()-o2.getAge();//升序
+            }
+        });*/
+        //Arrays.sort(students, ( o1, o2) -&gt; o1.getAge()-o2.getAge());
+        //Arrays.sort(students, ( o1, o2) -&gt; CompareByData.compareByAge(o1, o2));
+        Arrays.sort(students, CompareByData::compareByAge);
+    }
+}
+public class CompareByData {
+    public static int compareByAge(Student o1, Student o2) {
+        return o1.getAge()-o2.getAge();
+    }
+}
+</code></pre>
+<h2 id="实例方法引用"><strong>实例方法引用</strong></h2>
+<p>对象名::实例方法<br>
+如果某个Lambda表达式只是调用一个实例方法，并且前后参数一致，就可以使用实例方法引用。</p>
+<pre><code class="language-java"> CompareByData compare=new CompareByData();
+//Arrays.sort(students, ( o1, o2) -&gt; compare.compareByAgeDesc(o1, o2);
+Arrays.sort(students, compare::compareByAgeDesc);
+</code></pre>
+<pre><code class="language-java">public class CompareByData {
+    public int compareByAgeDesc(Student o1, Student o2) {
+        return o2.getAge()-o1.getAge();
+    }
+}
+</code></pre>
+<h2 id="特定类型方法的引用"><strong>特定类型方法的引用</strong></h2>
+<p>类型::方法<br>
+如果某个Lambda表达式只是调用一个实例方法，并且前面参数列表中的第一个参数是作为方法的主调，后面所有参数都是作为该实例方法的入参的，则此时就可以使用特定类型的方法引用。</p>
+<pre><code class="language-java">public class Test2 {
+    public static void main(String[] args) {
+        String[] names={&quot;body&quot;,&quot;angela&quot;,&quot;Andy&quot;,&quot;dlei&quot;,&quot;caocao&quot;,&quot;Babo&quot;,&quot;jack&quot;,&quot;Cici&quot;};
+        //默认按照字符串的首字符编号进行升序排序
+        //Arrays.sort(names);
+        /*Arrays.sort(names,new Comparator&lt;String&gt;() {
+            @Override
+            public int compare(String o1, String o2) {
+                //官方方法：忽略大小写进行字符串排序
+                return o1.compareToIgnoreCase(o2);
+            }
+        });*/
+        //Arrays.sort(names,(o1,  o2) -&gt; o1.compareToIgnoreCase(o2));
+        Arrays.sort(names,String::compareToIgnoreCase);
+        System.out.println(Arrays.toString(names));
+    }
+}
+</code></pre>
+<h2 id="构造器引用"><strong>构造器引用</strong></h2>
+<p>类名::new<br>
+如果某个lambda表达式只是在创建对象，并且前后参数一致，就可以使用构造器引用。</p>
+<pre><code class="language-java">public class Test2 {
+    public static void main(String[] args) {
+        /*CreateCar cc=new CreateCar() {
+            @Override
+            public Car create(String name, double price) {
+                return new Car(name, price);
+            }
+        };*/
+        //CreateCar cc=(name, price) -&gt; new Car(name, price);
+        CreateCar cc=Car::new;
+        
+        Car c=cc.create(&quot;奔驰&quot;,49.9);
+        System.out.println(c);
+    }
+}
+interface CreateCar {
+    Car create(String name,double price);
+}
+</code></pre>
+<pre><code class="language-java">public class Car {
+    private String name;
+    private double price;
+    ...
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[常见API（四）]]></title>
+        <id>https://yyss1014.github.io/post/chang-jian-apisi/</id>
+        <link href="https://yyss1014.github.io/post/chang-jian-apisi/">
+        </link>
+        <updated>2025-03-12T12:15:10.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li><a href="#date"><strong>Date</strong></a></li>
+<li><a href="#simpledateformat"><strong>SimpleDateFormat</strong></a></li>
+<li><a href="#%E6%A1%88%E4%BE%8B%E7%A7%92%E6%9D%80%E6%B4%BB%E5%8A%A8"><strong>案例秒杀活动</strong></a></li>
+<li><a href="#calendar"><strong>Calendar</strong></a></li>
+<li><a href="#localdate"><strong>LocalDate</strong></a></li>
+<li><a href="#%E6%97%B6%E5%8C%BA"><strong>时区</strong></a></li>
+<li><a href="#instant"><strong>Instant</strong></a></li>
+<li><a href="#datetimeformatter"><strong>DateTimeFormatter</strong></a></li>
+<li><a href="#%E5%85%B6%E4%BB%96"><strong>其他</strong></a>
+<ul>
+<li><a href="#period"><strong>Period</strong></a></li>
+<li><a href="#duration"><strong>Duration</strong></a></li>
+</ul>
+</li>
+</ul>
+</p>
+<h1 id="date"><strong>Date</strong></h1>
+<p>代表的日期和时间。</p>
+<table>
+<thead>
+<tr>
+<th>构造器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>public Date()</td>
+<td>创建一个Date对象，代表的是系统当前此刻的日期时间</td>
+</tr>
+<tr>
+<td>public Date(long time)</td>
+<td>把毫秒值转换成Date日期对象</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        Date d= new Date();
+        System.out.println(d);//Wed Mar 12 19:36:11 CST 2025
+        long time=d.getTime();
+        System.out.println(time);//1741779371810
+        time+=2*1000;
+        Date d2=new Date(time);
+        System.out.println(d2);//Wed Mar 12 19:36:13 CST 2025
+
+        Date d3=new Date();
+        d3.setTime(time);
+        System.out.println(d3);//Wed Mar 12 19:36:13 CST 2025
+    }
+}
+</code></pre>
+<h1 id="simpledateformat"><strong>SimpleDateFormat</strong></h1>
+<p>用来格式化和解析日期的具体类。</p>
+<table>
+<thead>
+<tr>
+<th>构造器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>public SimpleDateFormat(String pattern)</td>
+<td>创建简单日期格式化对象，并封装时间的格式</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        Date d= new Date();
+        System.out.println(d);
+        long time = d.getTime();
+        System.out.println(time);
+
+        SimpleDateFormat sdf=new SimpleDateFormat(&quot;yyyy年MM月dd日 HH:mm:ss EEE a&quot;);
+        String rs = sdf.format(d);//日期格式化成字符串
+        String rs2 = sdf.format(time);//时间毫秒值格式化成字符串
+        System.out.println(rs);//2025年03月12日 19:57:02 周三 下午
+        System.out.println(rs2);//2025年03月12日 19:57:02 周三 下午
+        
+        String dateStr=&quot;2022-12-12 12:12:11&quot;;
+        //指定的时间格式必须与被解析的时间格式一摸一样，否则程序会出bug
+        SimpleDateFormat sdf2=new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);
+        Date d2=sdf2.parse(dateStr);//把字符串解析成时间对象
+        System.out.println(d2);//Mon Dec 12 12:12:11 CST 2022
+    }
+}
+</code></pre>
+<h1 id="案例秒杀活动"><strong>案例秒杀活动</strong></h1>
+<p>秒杀活动：2023年11月11日0:0:0-2023年2023年11月11日0:10:0</p>
+<ul>
+<li>小贾付款时间为2023年11月11日0:01:18</li>
+<li>小皮付款时间为2023年11月11日0:10:57<br>
+请用代码说明两位同学有没有参加上秒杀活动。</li>
+</ul>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws ParseException {
+        String start=&quot;2023年11月11日 0:0:0&quot;;
+        String end=&quot;2023年11月11日 0:10:0&quot;;
+        String xj=&quot;2023年11月11日 0:01:18&quot;;
+        String xp=&quot;2023年11月11日 0:10:57&quot;;
+
+        SimpleDateFormat sdf=new SimpleDateFormat(&quot;yyyy年MM月dd日 HH:mm:ss&quot;);
+        Date startDt=sdf.parse(start);
+        Date endDt=sdf.parse(end);
+        Date xjDt=sdf.parse(xj);
+        Date xpDt=sdf.parse(xp);
+
+        long startTime=startDt.getTime();
+        long endTime=endDt.getTime();
+        long xpTime=xpDt.getTime();
+        long xjTime=xjDt.getTime();
+        if(xjTime&gt;=startTime&amp;&amp;xjTime&lt;=endTime){
+            System.out.println(&quot;小贾秒杀成功了&quot;);
+        }else{
+            System.out.println(&quot;小贾秒杀失败了&quot;);
+        }
+        if(xpTime&gt;=startTime&amp;&amp;xpTime&lt;=endTime){
+            System.out.println(&quot;小皮秒杀成功了&quot;);
+        }else{
+            System.out.println(&quot;小皮秒杀失败了&quot;);
+        }
+    }
+}
+</code></pre>
+<h1 id="calendar"><strong>Calendar</strong></h1>
+<p>代表的是系统此刻时间对应的日历，通过它可以单独获取、修改时间中的年、月、日、时、分、秒等，是可变对象。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws ParseException {
+        //得到系统此刻时间的日历对象
+       Calendar now = Calendar.getInstance();
+        System.out.println(now);
+        //获取日历中的某个信息
+        int year= now.get(Calendar.YEAR);
+        System.out.println(year);
+        int days=now.get(Calendar.DAY_OF_YEAR);
+        System.out.println(days);
+        //拿到日历中的日期对象(类型为Date)
+        Date d=now.getTime();
+        System.out.println(d);
+        //拿到时间毫秒值
+        long time=now.getTimeInMillis();
+        System.out.println(time);
+        //修改日历中的某些信息
+        now.set(Calendar.MONTH, 9);
+        System.out.println(now);
+        //为某个信息增加或减少指定值
+        now.set(Calendar.DAY_OF_YEAR, 100);
+        now.set(Calendar.DAY_OF_YEAR, -100);
+        System.out.println(now);
+    }
+}
+</code></pre>
+<h1 id="localdate"><strong>LocalDate</strong></h1>
+<p>代表本地日期，是不可修改对象。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args){
+     LocalDate ld = LocalDate.now();//2025-03-16
+     System.out.println(ld);
+
+     //获取日期对象中的信息
+     int year = ld.getYear();
+     int month = ld.getMonthValue();//月（1-12）
+     int day = ld.getDayOfMonth();
+     int dayOfYear = ld.getDayOfYear();
+     int dayOfWeek= ld.getDayOfWeek().getValue();
+     System.out.println(dayOfWeek);//星期几（1-7）
+
+     //直接修改某些信息：withYear,withMonth,...
+     LocalDate ld2 =ld.withYear(2099);
+     System.out.println(ld2);//2099-03-16
+     System.out.println(ld);//2025-03-16
+
+     //把某个信息加多少
+     LocalDate ld3 =ld.plusMonths(3);
+     LocalDate ld4 =ld.plusYears(3);
+
+     //把某个信息减多少
+     LocalDate ld5 =ld.minusMonths(3);
+     LocalDate ld6 =ld.minusYears(3);
+
+     //获取指定的日期对象
+     LocalDate ld7 =LocalDate.of(2099,1,1);
+     LocalDate ld8 =LocalDate.of(2099,1,1);
+
+     //判断两个日期对象是否相等
+     System.out.println(ld7.equals(ld8));
+     System.out.println(ld8.isAfter(ld7));//false
+     System.out.println(ld6.isBefore(ld7));
+    }
+}
+</code></pre>
+<p>LocalTime用法同。</p>
+<pre><code class="language-java">LocalTime lt = LocalTime.now();//时 分 秒 纳秒
+System.out.println(lt);//17:04:08.449149
+</code></pre>
+<p>LocalDateTime同，可以把LocalDateTime转换为LocalTime和LocalDate。</p>
+<pre><code class="language-java">LocalDateTime ldt = LocalDateTime.now();//年 月 日 时 分 秒 纳秒
+System.out.println(ldt);//2025-03-16T17:11:16.393341400
+LocalDate ld=ldt.toLocalDate();
+LocalTime lt=ldt.toLocalTime();
+LocalDateTime ldt1 = LocalDateTime.of(ld, lt);
+</code></pre>
+<h1 id="时区"><strong>时区</strong></h1>
+<p>与LocalDateTime也有相同的用法。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args){
+     //获取系统的默认时区
+     ZoneId zoneId = ZoneId.systemDefault();
+     System.out.println(zoneId.getId());//Asia/Shanghai
+     System.out.println(zoneId.toString());//return getId()
+     System.out.println(zoneId);
+     //获得java支持的全部时区ID
+     System.out.println(ZoneId.getAvailableZoneIds());
+     //把某个时区id封装成ZoneId对象
+     ZoneId zoneId1 = ZoneId.of(&quot;America/New_York&quot;);
+
+     //ZonedDateTime:带时区的时间
+     ZonedDateTime now=ZonedDateTime.now(zoneId1);
+     System.out.println(now);//2025-03-16T05:24:26.634503-04:00[America/New_York]
+     ZonedDateTime now1 = ZonedDateTime.now(Clock.systemUTC());
+     System.out.println(now1);//2025-03-16T09:24:26.635517900Z,世界标准时间
+     //获取系统默认时区的时间
+     ZonedDateTime now2 = ZonedDateTime.now();
+     System.out.println(now2);
+     //public static Calendar getInstance(TimeZone zone)
+     Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(zoneId1));
+    }
+}
+</code></pre>
+<h1 id="instant"><strong>Instant</strong></h1>
+<p>通过获取instant对象可以拿到此刻的时间，该时间有两部分组成：从1970-01-01 00:00:00开始走到此刻的总秒数+不够1秒的纳秒数。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args){
+     Instant now = Instant.now();
+     //获取总秒数
+     long second=now.getEpochSecond();
+     System.out.println(second);//1742117978
+     //不够1秒的纳秒数
+     int nano=now.getNano();
+     System.out.println(nano);//458374100
+     //plus系列，minus系列，不可变对象
+     Instant instant=now.plusSeconds(second);
+     //做代码的性能分析，记录用户操作的时间点
+     Instant now1=Instant.now();
+     Instant now2=Instant.now();
+    }
+}
+</code></pre>
+<h1 id="datetimeformatter"><strong>DateTimeFormatter</strong></h1>
+<p>用于时间的格式化和解析。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args){
+     DateTimeFormatter formatter = DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd HH:mm:ss&quot;);
+     //对时间进行格式化
+     LocalDateTime now = LocalDateTime.now();
+     System.out.println(now);//2025-03-16T17:48:06.676593200
+     String rs=formatter.format(now);//正向格式化
+     System.out.println(rs);//2025-03-16 17:44:11
+     //另一种方案
+     //LocalDateTime中提供的函数public String format(DateTimeFormatter formatter)
+     String rs2=now.format(formatter);//反向格式化
+     System.out.println(rs2);
+     //解析时间，一半用LocalDateTime中提供的函数
+     String dateStr=&quot;2025-03-16 17:44:11&quot;;
+     LocalDateTime ldt=LocalDateTime.parse(dateStr, formatter);
+     System.out.println(ldt);//没提供纳秒，2025-03-16T17:44:11
+    }
+}
+</code></pre>
+<h1 id="其他"><strong>其他</strong></h1>
+<h2 id="period"><strong>Period</strong></h2>
+<p>用于计算两个LocalDate对象相差的年数、月数、日数。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args){
+     LocalDate start = LocalDate.of(2029,8,10);
+     LocalDate end = LocalDate.of(2029,8,15);
+     //封装两个日期对象
+     Period period=Period.between(start, end);
+     System.out.println(period.getYears());//0
+     System.out.println(period.getMonths());//0
+     System.out.println(period.getDays());//5
+    }
+}
+</code></pre>
+<h2 id="duration"><strong>Duration</strong></h2>
+<p>可以用于计算两个时间对象相差的天、时、分、秒、纳秒，支持LocalTime、LocalDateTime、Instant等对象。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args){
+     LocalDateTime start=LocalDateTime.of(2025,11,11,11,10,10);
+     LocalDateTime end=LocalDateTime.of(2025,11,11,11,11,11);
+     Duration duration=Duration.between(start, end);
+     System.out.println(duration.toDays());
+     System.out.println(duration.toHours());
+     System.out.println(duration.toMinutes());//1
+     System.out.println(duration.toSeconds());//61
+     System.out.println(duration.toMillis());//毫秒，61000
+     System.out.println(duration.toNanos());//61000000000
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[常见API（三）]]></title>
+        <id>https://yyss1014.github.io/post/chang-jian-apisan/</id>
+        <link href="https://yyss1014.github.io/post/chang-jian-apisan/">
+        </link>
+        <updated>2025-03-12T08:32:27.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li><a href="#math"><strong>Math</strong></a></li>
+<li><a href="#system"><strong>System</strong></a></li>
+<li><a href="#runtime"><strong>Runtime</strong></a></li>
+<li><a href="#bigdecimal"><strong>BigDecimal</strong></a></li>
+</ul>
+</p>
+<h1 id="math"><strong>Math</strong></h1>
+<p>代表数学，是一个工具类，里面都是对数据操作的一些静态方法。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args){
+        //取绝对值
+        System.out.println(Math.abs(-12));//12
+        System.out.println(Math.abs(-3.14));//3.14
+        //向上取整
+        System.out.println(Math.ceil(4.000001));//5.0
+        System.out.println(Math.ceil(4.0));//4.0
+        //向下取整
+        System.out.println(Math.floor(4.9999));//4.0
+        System.out.println(Math.floor(4.0));//4.0
+        //四舍五入
+        System.out.println(Math.round(3.49999));//3
+        System.out.println(Math.round(3.500001));//4
+        //取最大最小值
+        System.out.println(Math.max(10,20));//20
+        System.out.println(Math.min(10,20));//10
+        //取次方
+        System.out.println(Math.pow(2,3));//8
+        System.out.println(Math.pow(3,2));//9
+        //取随机数[0.0,1.0)
+        System.out.println(Math.random());
+    }
+}
+</code></pre>
+<h1 id="system"><strong>System</strong></h1>
+<p>System当前程序所在系统，也是工具类。</p>
+<ul>
+<li>终止当前运行的java虚拟机，参数用作状态码，非零状态表示异常终止。</li>
+</ul>
+<pre><code class="language-java">System.exit(0);//人为终止虚拟机
+</code></pre>
+<ul>
+<li>获取当前系统的时间，返回的是long类型的时间毫秒值，指的是从1970-1-1 0:0:0开始走到此刻的总的毫秒值，1s=1000ms</li>
+</ul>
+<pre><code class="language-java">long time=System.currentTimeMillis();
+ System.out.println(time);
+for (int i = 0; i &lt; 1000000; i++) {
+    System.out.println(i);
+}
+long time2=System.currentTimeMillis();
+System.out.println(time2);
+System.out.println((time2-time)/1000.0+&quot;s&quot;);
+</code></pre>
+<h1 id="runtime"><strong>Runtime</strong></h1>
+<p>代表程序所在的运行环境，是一个单例类。</p>
+<pre><code class="language-java">public class Runtime {
+    private static final Runtime currentRuntime = new Runtime();
+
+    private static Version version;
+
+    public static Runtime getRuntime() {
+        return currentRuntime;
+    }
+
+    /** Don't let anyone else instantiate this class */
+    private Runtime() {}
+···
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws IOException, InterruptedException {
+        Runtime r=Runtime.getRuntime();
+        //System类的exit方法调用的也是Runtime对象的，功能相同
+        //r.exit(0);
+        //获得虚拟机能够使用的处理器数
+        System.out.println(r.availableProcessors());//逻辑CPU核心数
+        //获取虚拟机的内存总量
+        System.out.println(r.totalMemory()/1024/1024+&quot;MB&quot;);
+        //获取虚拟机的可用内存量
+        System.out.println(r.freeMemory()/1024/1024+&quot;MB&quot;);
+        //启动某个程序，并返回代表该程序的对象
+        Process p=r.exec(&quot;C:\\Program Files\\Tencent\\QQNT\\QQ.exe&quot;);
+        //如果为QQ配置过环境变量可以直接启动
+        Thread.sleep(5000);//让程序暂停5秒继续往下走
+        p.destroy();//销毁关闭程序
+    }
+}
+</code></pre>
+<h1 id="bigdecimal"><strong>BigDecimal</strong></h1>
+<p>用于解决浮点型运算时，出现结果失真的问题。</p>
+<table>
+<thead>
+<tr>
+<th>构造器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>public BigDecimal(double val)<font color=red>注：不推荐使用这个</font></td>
+<td>将double转换为BigDecimal</td>
+</tr>
+<tr>
+<td>public BigDecimal(String val)</td>
+<td>将String转换为BigDecimal</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws IOException, InterruptedException {
+       double a = 0.1;
+       double b = 0.2;
+        System.out.println(a+b);//0.30000000000000004
+        System.out.println(&quot;---------------&quot;);
+        /*BigDecimal a1=new BigDecimal(Double.toString(a));
+        BigDecimal b1=new BigDecimal(Double.toString(b));*/
+        //valueOf转换一个double成BigDecimal
+        BigDecimal a1 = BigDecimal.valueOf(a);
+        BigDecimal b1 = BigDecimal.valueOf(b);
+        BigDecimal c1 = a1.add(b1);//加
+        BigDecimal c2 = a1.subtract(b1);//减
+        BigDecimal c3 = a1.multiply(b1);//乘
+        //除,后面两个参数是精确几位和舍入模式，ctrl+alt+space会提示
+        BigDecimal c4 = a1.divide(b1,3, RoundingMode.HALF_UP);
+        BigDecimal i=BigDecimal.valueOf(1);
+        BigDecimal j=BigDecimal.valueOf(3);
+        BigDecimal k = i.divide(j,3, RoundingMode.HALF_UP);//0.333
+
+        //把BigDecimal转换为double类型的数据
+        double rs=k.doubleValue();
+        System.out.println(rs);
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
+</feed>
