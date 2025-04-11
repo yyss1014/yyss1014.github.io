@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>API简单介绍 | WASD研究院</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://yyss1014.github.io/favicon.ico?v=1744365371547">
+<link rel="stylesheet" href="https://yyss1014.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="API(Application Programming Interface：程序编程接口)：JAVA写好的程序，程序员可以直接调用，Java为自己写好的程序提供了程序说明书。
+例、使用scanner接收键盘输入的数据
+import java..." />
+    <meta name="keywords" content="Java" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://yyss1014.github.io">
+        <img src="https://yyss1014.github.io/images/avatar.png?v=1744365371547" class="site-logo">
+        <h1 class="site-title">WASD研究院</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/archives" class="site-nav">
+            目录
+          </a>
+        
+      
+        
+          <a href="/" class="site-nav">
+            文章
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            分类
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://yyss1014.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">API简单介绍</h2>
+            <div class="post-date">2025-02-24</div>
+            
+            <div class="post-content" v-pre>
+              <p>API(Application Programming Interface：程序编程接口)：JAVA写好的程序，程序员可以直接调用，Java为自己写好的程序提供了程序说明书。<br>
+例、使用scanner接收键盘输入的数据</p>
+<pre><code class="language-java">import java.util.Scanner;//导包
+public class HelloWorld {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println(&quot;Enter your age: &quot;);
+        int age = sc.nextInt();//等待用户输入一个整数，直到用户输入回车键才会拿到数据
+        System.out.println(&quot;You are &quot; + age + &quot; years old.&quot;);
+        System.out.println(&quot;Enter your name: &quot;);
+        String name = sc.next();//等待用户输入一个字符串，直到用户输入回车键才会拿到数据
+        System.out.println(name + &quot; ,Welcome&quot;);
+    }
+}
+
+</code></pre>
+<h2 id="包"><strong>包</strong></h2>
+<p>包是用来分门别类管理不同程序的，类似文件夹，建包有利于程序的管理和维护。</p>
+<ol>
+<li>同一个包下的程序，可以直接访问。</li>
+<li>访问其他包下的程序，必须导包才可以访问。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250304100501.png#pic_center" alt="" width="500" loading="lazy"></li>
+</ol>
+<ul>
+<li>add unambiguous imports on the fly（自动导包）<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250304101411.png#pic_center" alt="" width="500" loading="lazy"></li>
+</ul>
+<ol start="3">
+<li>自己的程序中调用Java提供的程序，也需要先导包才可以使用，注意：Java.lang下的程序（String, System）是不需要导包的，可以直接使用。</li>
+<li>访问多个其他包的程序，这些程序命名又一样的情况，默认只能导入一个程序，另一个程序需要带包名或类名来讨论。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250304102440.png#pic_center" alt="" width="500" loading="lazy"></li>
+</ol>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://yyss1014.github.io/tag/ZoLZarYSyW/" class="tag">
+                    Java
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://yyss1014.github.io/post/java-ji-chu-yu-fa/">
+                  <h3 class="post-title">
+                    Java基础语法
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>

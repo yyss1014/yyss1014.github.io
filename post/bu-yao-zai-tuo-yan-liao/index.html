@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>MODGS | WASD研究院</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://yyss1014.github.io/favicon.ico?v=1744365371547">
+<link rel="stylesheet" href="https://yyss1014.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+光流
+
+传统光流算法
+
+LK算法
+LK金字塔算法
+HS算法
+
+
+基于深度学习的光流算法
+
+Flow Net
+RAFT
+
+
+
+
+3D高斯
+代码
+
+配置环境
+
+
+
+
+光流
+光流是一个有关物体运动的概念，指在一帧视频图像中，代表同一目标的像素点..." />
+    <meta name="keywords" content="" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://yyss1014.github.io">
+        <img src="https://yyss1014.github.io/images/avatar.png?v=1744365371547" class="site-logo">
+        <h1 class="site-title">WASD研究院</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/archives" class="site-nav">
+            目录
+          </a>
+        
+      
+        
+          <a href="/" class="site-nav">
+            文章
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            分类
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://yyss1014.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">MODGS</h2>
+            <div class="post-date">2025-04-02</div>
+            
+            <div class="post-content" v-pre>
+              <p><ul class="markdownIt-TOC">
+<li><a href="#%E5%85%89%E6%B5%81"><strong>光流</strong></a>
+<ul>
+<li><a href="#%E4%BC%A0%E7%BB%9F%E5%85%89%E6%B5%81%E7%AE%97%E6%B3%95"><strong>传统光流算法</strong></a>
+<ul>
+<li><a href="#lk%E7%AE%97%E6%B3%95"><strong>LK算法</strong></a></li>
+<li><a href="#lk%E9%87%91%E5%AD%97%E5%A1%94%E7%AE%97%E6%B3%95"><strong>LK金字塔算法</strong></a></li>
+<li><a href="#hs%E7%AE%97%E6%B3%95"><strong>HS算法</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E5%9F%BA%E4%BA%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%85%89%E6%B5%81%E7%AE%97%E6%B3%95"><strong>基于深度学习的光流算法</strong></a>
+<ul>
+<li><a href="#flow-net"><strong>Flow Net</strong></a></li>
+<li><a href="#raft"><strong>RAFT</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#3d%E9%AB%98%E6%96%AF"><strong>3D高斯</strong></a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81"><strong>代码</strong></a>
+<ul>
+<li><a href="#%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83"><strong>配置环境</strong></a></li>
+</ul>
+</li>
+</ul>
+</p>
+<h1 id="光流"><strong>光流</strong></h1>
+<p>光流是一个有关物体运动的概念，指在一帧视频图像中，代表同一目标的像素点到下一帧的移动量，用向量表示。<br>
+先看个大概：<br>
+<a href="https://zhuanlan.zhihu.com/p/660866515">光流算法：从传统算法到深度学习</a></p>
+<h2 id="传统光流算法"><strong>传统光流算法</strong></h2>
+<h3 id="lk算法"><strong>LK算法</strong></h3>
+<p>亮度不变假设：运动物体的灰度在很短的间隔时间内保持不变。<br>
+孔径问题(Aperture Problem)，注意求偏导是对当前帧求偏导。<br>
+<a href="https://blog.csdn.net/leviopku/article/details/121773298">经典光流算法Lucas-Kanade（有图助理解）</a></p>
+<h3 id="lk金字塔算法"><strong>LK金字塔算法</strong></h3>
+<p><a href="https://zhuanlan.zhihu.com/p/650196385">LK金字塔光流算法详解</a></p>
+<h3 id="hs算法"><strong>HS算法</strong></h3>
+<p>光流场平滑假设：场景中属于同一物体的像素形成光流场向量应当十分平滑，只有在物体边界的地方才会出现光流的突变，但这只占图像的一小部分。总体来看图像的光流场应当是平滑的。<br>
+<a href="https://blog.csdn.net/plateros/article/details/102931138">计算机视觉大型攻略 —— 光流（1）基本原理和经典算法</a></p>
+<h2 id="基于深度学习的光流算法"><strong>基于深度学习的光流算法</strong></h2>
+<h3 id="flow-net"><strong>Flow Net</strong></h3>
+<p><a href="https://zhuanlan.zhihu.com/p/124400267">基于FlowNet的光流估计</a></p>
+<h3 id="raft"><strong>RAFT</strong></h3>
+<p>光流可视化<br>
+<a href="https://blog.csdn.net/qq_33757398/article/details/106332814">一文搞懂光流 光流的生成，可视化以及映射（warp）</a><br>
+GRU<br>
+<a href="%E5%8F%B2%E4%B8%8A%E6%9C%80%E8%AF%A6%E7%BB%86%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%AE%B2%E8%A7%A3%EF%BC%88RNN/LSTM/GRU%EF%BC%89">史上最详细循环神经网络讲解（RNN/LSTM/GRU）</a><br>
+<a href="https://zhuanlan.zhihu.com/p/32085405">人人都能看懂的LSTM</a><br>
+<a href="https://zhuanlan.zhihu.com/p/32481747">人人都能看懂的GRU</a><br>
+最后还是看源码吧：<br>
+<a href="https://zhuanlan.zhihu.com/p/623489787">以RAFT模型代码为例的光流相关问题总结</a></p>
+<h1 id="3d高斯"><strong>3D高斯</strong></h1>
+<p><a href="https://www.bilibili.com/video/BV1zi421v7Dr/?spm_id_from=333.1387.favlist.content.click&amp;vd_source=906aff1cc5a8e26730933b6cc846bcdb">【较真系列】讲人话-3d gaussian splatting全解(原理+代码+公式)【1】 捏雪球<br>
+</a></p>
+<h1 id="代码"><strong>代码</strong></h1>
+<h2 id="配置环境"><strong>配置环境</strong></h2>
+<p>先下载3d高斯模块放入submodules文件夹：<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250403153841.png" alt="" loading="lazy"><br>
+按照3d高斯的说明文件配置环境：</p>
+<pre><code class="language-python">SET DISTUTILS_USE_SDK=1 # Windows only
+conda env create --file environment.yml
+conda activate gaussian_splatting
+</code></pre>
+<p>按照MoDGS的requirements文件下载其他库：</p>
+<pre><code class="language-python">pip install -r requirements.txt
+</code></pre>
+<p>最后还漏了pytorch3d库和av库，按指令装好：</p>
+<pre><code class="language-python">pip install av
+conda install https://anaconda.org/pytorch3d/pytorch3d/0.7.1/download/linux-64/pytorch3d-0.7.1-py37_cu116_pyt1121.tar.bz2
+</code></pre>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://yyss1014.github.io/post/te-shu-wen-jian/">
+                  <h3 class="post-title">
+                    特殊文件
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>
