@@ -1,0 +1,4767 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://yyss1014.github.io</id>
+    <title>WASD研究院</title>
+    <updated>2025-05-14T08:23:55.093Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://yyss1014.github.io"/>
+    <link rel="self" href="https://yyss1014.github.io/atom.xml"/>
+    <subtitle>温故而知新</subtitle>
+    <logo>https://yyss1014.github.io/images/avatar.png</logo>
+    <icon>https://yyss1014.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2025, WASD研究院</rights>
+    <entry>
+        <title type="html"><![CDATA[JavaScript]]></title>
+        <id>https://yyss1014.github.io/post/javascript/</id>
+        <link href="https://yyss1014.github.io/post/javascript/">
+        </link>
+        <updated>2025-05-14T07:39:39.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li><a href="#%E6%A0%B8%E5%BF%83%E8%AF%AD%E6%B3%95"><strong>核心语法</strong></a>
+<ul>
+<li><a href="#js%E5%BC%95%E5%85%A5%E6%96%B9%E5%BC%8F"><strong>JS引入方式</strong></a></li>
+</ul>
+</li>
+</ul>
+<br>
+JavaScript（简称：JS） 是一门跨平台、面向对象的脚本语言，是用来控制网页行为的，实现人机交互效果。JavaScript 和 Java 是完全不同的语言，不论是概念还是设计。但是基础语法类似。<br>
+JS的组成：</p>
+<ul>
+<li>ECMAScript: 规定了JS基础语法核心知识，包括变量、数据类型、流程控制、函数、对象等。</li>
+<li>BOM：浏览器对象模型，用于操作浏览器本身，如：页面弹窗、地址栏操作、关闭窗口等。</li>
+<li>DOM：文档对象模型，用于操作HTML文档，如：改变标签内的内容、改变标签内字体样式等。</li>
+</ul>
+<h1 id="核心语法"><strong>核心语法</strong></h1>
+<h2 id="js引入方式"><strong>JS引入方式</strong></h2>
+<p>内部脚本，将JS代码定义在HTML页面中：</p>
+<ul>
+<li>JavaScript代码必须位于&lt;script&gt;&lt;/script&gt;标签之间</li>
+<li>在HTML文档中，可以在任意地方，放置任意数量的&lt;script&gt;&lt;/script&gt;</li>
+<li>一般会把脚本置于&lt;body&gt;元素的底部，可改善显示速度</li>
+</ul>
+<p>外部脚本， 将JS代码定义在外部 JS文件中，然后引入到 HTML页面中：</p>
+<ul>
+<li>外部JS文件中，只包含JS代码，不包含&lt;script&gt;标签</li>
+<li>引入外部js的&lt;script&gt;标签，必须是双标签</li>
+</ul>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;title&gt;JS-引入方式&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;!-- &lt;script&gt;
+  //1.内部脚本
+  alert(&quot;Hello JS&quot;);
+  &lt;/script&gt; --&gt; 
+  &lt;!-- 外部脚本 --&gt;
+  &lt;script src=&quot;js/demo.js&quot;&gt;&lt;/script&gt; 
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<pre><code class="language-JavaScript">alert(&quot;Hello JavaScript&quot;)
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[HTML-CSS]]></title>
+        <id>https://yyss1014.github.io/post/html-css/</id>
+        <link href="https://yyss1014.github.io/post/html-css/">
+        </link>
+        <updated>2025-05-06T06:32:02.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li><a href="#html%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8"><strong>HTML快速入门</strong></a>
+<ul>
+<li><a href="#html%E4%B8%AD%E7%9A%84%E6%A0%87%E7%AD%BE%E7%89%B9%E7%82%B9"><strong>HTML中的标签特点</strong></a></li>
+</ul>
+</li>
+<li><a href="#vscode%E5%AE%89%E8%A3%85"><strong>VSCode安装</strong></a></li>
+<li><a href="#%E5%B8%B8%E8%A7%81%E6%A0%87%E9%A2%98%E4%B8%8E%E6%A0%B7%E5%BC%8F"><strong>常见标题与样式</strong></a>
+<ul>
+<li><a href="#css%E5%BC%95%E5%85%A5%E6%96%B9%E5%BC%8F"><strong>CSS引入方式</strong></a></li>
+<li><a href="#%E9%A2%9C%E8%89%B2%E8%A1%A8%E7%A4%BA%E6%96%B9%E5%BC%8F"><strong>颜色表示方式</strong></a></li>
+<li><a href="#css%E9%80%89%E6%8B%A9%E5%99%A8"><strong>CSS选择器</strong></a></li>
+<li><a href="#%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B"><strong>盒子模型</strong></a></li>
+<li><a href="#%E5%B8%83%E5%B1%80%E6%A0%87%E7%AD%BE"><strong>布局标签</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E6%A1%88%E4%BE%8B"><strong>案例</strong></a>
+<ul>
+<li><a href="#flex%E5%B8%83%E5%B1%80"><strong>flex布局</strong></a></li>
+<li><a href="#%E8%A1%A8%E5%8D%95%E6%A0%87%E7%AD%BE"><strong>表单标签</strong></a></li>
+<li><a href="#tlias%E6%A1%88%E4%BE%8B"><strong>Tlias案例</strong></a></li>
+</ul>
+</li>
+</ul>
+<br>
+HTML（HyperText Markup Language）：超文本标记语言。</p>
+<ul>
+<li>超文本：超越了文本的限制，比普通文本更强大。除了文字信息，还可以定义图片、音频、视频等内容。</li>
+<li>标记语言：由标签 &quot;&lt;标签名&gt;&quot; 构成的语言</li>
+<li>HTML标签都是预定义好的。例如：使用&lt;h1&gt;展示标题，使用&lt;img&gt;展示图片，使用&lt;video&gt;展示视频。</li>
+<li>HTML代码直接在浏览器中运行，HTML标签由浏览器解析。</li>
+</ul>
+<p>CSS: Cascading Style Sheet，层叠样式表，用于控制页面的样式（表现）。</p>
+<h1 id="html快速入门"><strong>HTML快速入门</strong></h1>
+<p>新建文本文件，后缀名改为 .html。</p>
+<pre><code class="language-html">&lt;html&gt;
+     &lt;head&gt;
+        &lt;title&gt;HTML 快速入门&lt;/title&gt;
+     &lt;/head&gt;
+     &lt;body&gt;
+        &lt;h1&gt;Hello HTML&lt;/h1&gt;
+        &lt;img src=&quot;img/1.png&quot;&gt;
+     &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>其中&lt;html&gt;是根标签，&lt;head&gt;和&lt;body&gt;是子标签。&lt;h1&gt; 标签是一个一级标题的标签。&lt;img&gt; 标签是一个图片标签，用来展示图片，而其中的 src 属性是用来指定要展示的图片。</p>
+<ul>
+<li>&lt;head&gt; : 定义网页的头部，用来存放给浏览器看的信息，如：CSS样式、网页的标题。</li>
+<li>&lt;body&gt; : 定义网页的主体部分，存放给用户看的信息，也是网页的主体内容，如：文字、图片、视频、音频、表格等。</li>
+</ul>
+<h2 id="html中的标签特点"><strong>HTML中的标签特点</strong></h2>
+<ul>
+<li>HTML标签不区分大小写，建议小写</li>
+<li>HTML标签的属性值，采用单引号、双引号都可以，一般写双引号</li>
+<li>HTML语法相对比较松散 (建议大家编写HTML标签的时候尽量严谨一些)</li>
+</ul>
+<h1 id="vscode安装"><strong>VSCode安装</strong></h1>
+<p><a href="https://heuqqdmbyk.feishu.cn/wiki/P8Cbw64UAi3h92kqnUpcfF4cnNg">VSCode安装文档</a><br>
+安装插件后！+enter自动生成网页头部：</p>
+<pre><code class="language-html">&lt;!-- 声明文档的类型为html，注释键为ctrl+/ --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;!-- 字符集 --&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;!-- 网页在移动设备上的显示宽度和缩放比例 --&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;HTML快速入门&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;HTML快速入门&lt;/h1&gt;
+    &lt;img src=&quot;img/1.png&quot;&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h1 id="常见标题与样式"><strong>常见标题与样式</strong></h1>
+<h2 id="css引入方式"><strong>CSS引入方式</strong></h2>
+<p>具体有3种引入方式，语法如下表格所示：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>语法描述</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>行内样式</td>
+<td>在标签内使用style属性，属性值是css属性键值对。</td>
+<td>&lt;h1 style=&quot;xxx:xxx;&quot;&gt;中国新闻网&lt;/h1&gt;</td>
+</tr>
+<tr>
+<td>内部样式</td>
+<td>定义&lt;style&gt;标签，在标签内部定义css样式。</td>
+<td>&lt;style&gt; h1 {...} &lt;/style&gt;</td>
+</tr>
+<tr>
+<td>外部样式</td>
+<td>定义&lt;link&gt;标签，通过href属性引入外部css文件</td>
+<td>&lt;link rel=&quot;stylesheet&quot; href=&quot;css/news.css&quot;&gt;</td>
+</tr>
+</tbody>
+</table>
+<p>对于上述3种引入方式，企业开发的使用情况如下：</p>
+<ul>
+<li>行内样式：会出现大量的代码冗余，不方便后期的维护，所以不常用（常配合JS使用）。</li>
+<li>内部样式：通过定义css选择器，让样式作用于当前页面的指定的标签上。（可以写在页面任何位置，但通常约定写在head标签中）</li>
+<li>外部样式：html和css实现了完全的分离，企业开发常用方式。</li>
+</ul>
+<p>css/news.css：</p>
+<pre><code class="language-css">span{
+  color: gray;
+}
+</code></pre>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;【新思想引领新征程】推进长江十年禁渔 谱写长江大保护新篇章&lt;/title&gt;
+    &lt;!-- 方式二：内部样式
+        定义所有span标签都是灰色字体 --&gt;
+    &lt;style&gt;
+        span{
+            color:gray;
+        }
+    &lt;/style&gt;
+    &lt;!-- 方式三：外部样式 --&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;css/news.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;【新思想引领新征程】推进长江十年禁渔 谱写长江大保护新篇章&lt;/h1&gt;
+    &lt;!-- a  超链接标签：
+            - href: 指定资源访问的url
+            - target: 指定在何处打开资源链接
+                - _self: 默认值，在当前页面打开
+                - _blank: 在空白页面打开
+    --&gt;
+    &lt;a href=&quot;https://www.cctv.com&quot; target=&quot;_blank&quot;&gt;央视网&lt;/a&gt;
+    &lt;!-- 方式一：行内样式
+        没有属性的标签span --&gt;
+    &lt;!-- &lt;span style=&quot;color:gray&quot;&gt;2024年05月15日 20:07&lt;/span&gt; --&gt;
+    &lt;span&gt;2024年05月15日 20:07&lt;/span&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h2 id="颜色表示方式"><strong>颜色表示方式</strong></h2>
+<table>
+<thead>
+<tr>
+<th>表示方式</th>
+<th>属性值</th>
+<th>说明</th>
+<th>取值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>关键字</td>
+<td>颜色英文单词</td>
+<td>red、green、blue</td>
+<td>red、green、blue...</td>
+</tr>
+<tr>
+<td>rgb表示法</td>
+<td>rgb(r, g, b)</td>
+<td>红绿蓝三原色，每项取值范围：0-255</td>
+<td>rgb(0,0,0)、rgb(255,255,255)、rgb(255,0,0)</td>
+</tr>
+<tr>
+<td>rgba表示法</td>
+<td>rgba(r, g, b, a)</td>
+<td>红绿蓝三原色，a表示透明度，取值：0-1</td>
+<td>rgb(0,0,0,0.3)、rgb(255,255,255,0.5)</td>
+</tr>
+<tr>
+<td>十六进制表示法</td>
+<td>#rrggbb#</td>
+<td>开头，将数字转换成十六进制表示</td>
+<td>#000000、#ff0000、#cccccc，简写：#000、#ccc</td>
+</tr>
+</tbody>
+</table>
+<h2 id="css选择器"><strong>CSS选择器</strong></h2>
+<table>
+<thead>
+<tr>
+<th>选择器</th>
+<th>写法</th>
+<th>示例</th>
+<th>示例说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>元素选择器</td>
+<td>元素名称 {...}</td>
+<td>h1 {...}</td>
+<td>选择页面上所有的&lt;h1&gt;标签</td>
+</tr>
+<tr>
+<td>类选择器</td>
+<td>.class属性值 {...}</td>
+<td>.cls {...}</td>
+<td>选择页面上所有class属性为cls的标签</td>
+</tr>
+<tr>
+<td>id选择器</td>
+<td>#id属性值 {...}</td>
+<td>#hid {...}</td>
+<td>选择页面上id属性为hid的标签</td>
+</tr>
+<tr>
+<td>分组选择器</td>
+<td>选择器1,选择器2{...}</td>
+<td>h1,h2 {...}</td>
+<td>选择页面上所有的&lt;h1&gt;和&lt;h2&gt;标签</td>
+</tr>
+<tr>
+<td>属性选择器</td>
+<td>元素名称[属性] {...}</td>
+<td>input[type] {...}</td>
+<td>选择页面上有type属性的&lt;input&gt;标签</td>
+</tr>
+<tr>
+<td>属性选择器</td>
+<td>元素名称[属性名=&quot;值&quot;] {...}</td>
+<td>input[type=&quot;text&quot;] {...}</td>
+<td>选择页面上type属性为text的&lt;input&gt;标签</td>
+</tr>
+<tr>
+<td>后代选择器</td>
+<td>元素1元素2{...}</td>
+<td>form input {...}</td>
+<td>选择&lt;form&gt;标签内的所有&lt;input&gt;标签</td>
+</tr>
+</tbody>
+</table>
+<p>id选择器优先级最高，其次是类选择器，最后是元素选择器。</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;【新思想引领新征程】推进长江十年禁渔 谱写长江大保护新篇章&lt;/title&gt;
+    &lt;style&gt;
+        #time{
+            color: #b2b2b2;
+        }
+        a{
+            /* 设置文本装饰外观*/
+            text-decoration: none;
+        }
+        p{
+            /* 设置行高 */
+            line-height: 2;
+            /* 设置首行缩进 */
+            text-indent: 2em;
+        }
+        #content-container{
+            width:70%;
+            margin-left:auto;
+            margin-right:auto;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id=&quot;content-container&quot;&gt;
+        &lt;h1&gt;【新思想引领新征程】推进长江十年禁渔 谱写长江大保护新篇章&lt;/h1&gt;
+        &lt;a href=&quot;https://www.cctv.com&quot; target=&quot;_blank&quot;&gt;央视网&lt;/a&gt;
+        &lt;span id=&quot;time&quot;&gt;2024年05月15日 20:07&lt;/span&gt;
+        &lt;!-- ----------------------新闻正文------------------------- --&gt;
+        &lt;!-- video标签属性
+                src:视频地址
+                controls:显示播放控件
+                autoplay:自动播放
+                width:视频宽度
+                height:视频高度
+                    单位：
+                        px:像素
+                        %:百分比（相对于父元素的百分比，这里父元素是div，相当于占正文宽度的百分比） 
+        --&gt;
+        &lt;video src=&quot;video/news.mp4&quot; controls width=&quot;100%&quot;&gt;&lt;/video&gt;
+        &lt;!-- &lt;audio src=&quot;audio/news.mp3&quot; controls&gt;&lt;/audio&gt; --&gt;
+        &lt;p&gt;
+            &lt;!-- &lt;b&gt;央视网消息&lt;/b&gt; --&gt;
+            &lt;strong&gt;央视网消息&lt;/strong&gt;
+        （新闻联播）：作为共抓长江大保护的标志性工程，长江十年禁渔今年进入第四年。总书记指出，长江禁渔是为全局计、为子孙谋的重要决策。牢记总书记嘱托，沿江省市持续推进长江水生生物多样性恢复，努力保障退捕渔民就业生活。这段时间，记者深入长江两岸，记录下禁渔工作取得的重要阶段性成效和广大干部群众坚定不移推进长江十年禁渔的扎实行动。&lt;/p&gt;
+        &lt;br&gt;
+        &lt;p&gt;行走在长江沿线，科研人员发现很多可喜现象。&lt;/p&gt;
+        &lt;!-- img标签属性
+                src:图片的访问地址
+                1.绝对路径
+                    1.1绝对磁盘路径（服务器打不开，不推荐）
+                    1.2绝对网络路径 https://p3.img.cctvpic.com/photoworkspace/contentimg/2024/05/15/2024051520034237647.gif
+                2.相对路径
+                    2.1 ./:当前目录(可以省略)
+                    2.2 ../:上一级目录
+                width:图片宽度
+                height:图片高度
+                    --&gt;
+        &lt;img src=&quot;img/1.gif&quot; width=&quot;100%&quot;&gt;
+        &lt;p&gt;
+            在长江南源，一处小头裸裂尻鱼新的栖息地被发现，鱼的数量大约超3万尾，为水生态保护提供了珍贵数据。
+        &lt;/p&gt;
+        &lt;p&gt;
+            在长江中游，追踪显示，人工增殖放流的中华鲟成功入海率已经从45%左右提升至60%以上；鄱阳湖鱼类小型化、低龄化趋势得到遏制，栖息地生存环境得以改善。
+        &lt;/p&gt;
+        &lt;p&gt;
+            在长江下游，今年3月起，南京秦淮河入江口首次出现野生中华绒螯蟹大规模洄游现象，种群数量明显增加。
+        &lt;/p&gt;
+        &lt;img src=&quot;img/2.jpg&quot;  width=&quot;100%&quot;&gt;
+        &lt;p&gt;
+            水生生物资源恢复向好，见证了长江十年禁渔三年多来的阶段性成果。
+        &lt;/p&gt;
+        &lt;p&gt;
+            实施长江十年禁渔，是以同志为核心的党中央从中华民族长远利益出发作出的重要决策。党的十八大以来，总书记多次深入长江沿线考察调研，详细了解长江十年禁渔的实施情况，他指出，要坚定推进长江十年禁渔，巩固好已经取得的成果。
+        &lt;/p&gt;
+        &lt;img src=&quot;img/3.jpg&quot;  width=&quot;100%&quot;&gt;
+        &lt;p&gt;
+            按照部署，自2021年1月1日起，在长江干流、大型通江湖泊、重要支流和长江口部分海域实行为期十年的禁渔，常年禁止天然渔业资源的生产性捕捞。禁渔三年多来，相关评估显示，长江干流和鄱阳湖、洞庭湖水生生物完整性指数由禁渔前最差的“无鱼”提升了两个等级。2022年，长江江豚数量达到1249头，实现历史性止跌回升。长江干流水质连续4年全线保持Ⅱ类。
+        &lt;/p&gt;
+        &lt;p&gt;
+            实施长江十年禁渔，解决好渔民上岸后的生产生活问题，禁渔才有稳定扎实的社会基础。
+        &lt;/p&gt;
+        &lt;img src=&quot;img/4.jpg&quot;  width=&quot;100%&quot;&gt;
+        &lt;p&gt;
+            安徽退捕转产的3万多名渔民，在政府的引导下接受就业培训。在当涂县，免费学习养殖技术，养殖生态螃蟹成了退捕渔民的新选择。
+        &lt;/p&gt;
+        &lt;p&gt;
+            在拥有洞庭湖超六成水域的湖南岳阳，政府帮扶上岸渔民建起养殖场，发展风干鱼产业，还带领他们学习直播带货，拓宽销路。
+        &lt;/p&gt;
+        &lt;p&gt;
+            在渔民退捕上岸的鄱阳湖棠荫岛，当地在继续保护好生态的前提下，正探索规划利用独特的自然资源发展旅游产业。禁渔三年多来，有关部门对23.1万退捕渔民逐一建档立卡，多渠道提升就业、社保水平。
+        &lt;/p&gt;
+        &lt;img src=&quot;img/5.jpg&quot;  width=&quot;100%&quot;&gt;
+        &lt;p&gt;
+            长江十年禁渔实施以来，沿江省市合力攻坚、久久为功，长江大保护不断向纵深推进，持续巩固禁渔成果。下一步，沿江省市还将加强水生生物重要栖息地修复，建立退捕渔民动态精准帮扶服务，完善跨区域、跨部门执法合作机制，确保一江清水绵延后世、惠泽人民。
+        &lt;/p&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h2 id="盒子模型"><strong>盒子模型</strong></h2>
+<p>盒子：页面中所有的元素（标签），都可以看做是一个 盒子，由盒子将页面中的元素包含在一个矩形区域内，通过盒子的视角更方便的进行页面布局。<br>
+盒子模型组成：内容区域（content）、内边距区域（padding）、边框区域（border）、外边距区域（margin）<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250506171945.png" alt="" loading="lazy"></p>
+<h2 id="布局标签"><strong>布局标签</strong></h2>
+<p>实际开发网页中，会大量频繁的使用 div 和 span 这两个没有语义的布局标签。<br>
+<strong>&lt;div&gt;标签：</strong></p>
+<ul>
+<li>一行只显示一个（独占一行）</li>
+<li>宽度默认是父元素的宽度，高度默认由内容撑开</li>
+<li>可以设置宽高（width、height）</li>
+</ul>
+<p><strong>&lt;span&gt;标签：</strong></p>
+<ul>
+<li>一行可以显示多个</li>
+<li>宽度和高度默认由内容撑开</li>
+<li>不可以设置宽高（width、height）</li>
+</ul>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;盒子模型&lt;/title&gt;
+    &lt;style&gt;
+        div {
+            width: 200px;  /* 宽度，默认是内容展示区域 */
+            height: 200px;  /* 高度，默认是内容展示区域 */
+            box-sizing: border-box; /* 指定width height为盒子的高宽 ，盒子包括边框内边距和内容区域*/
+            background-color: aquamarine; /* 背景色 */
+            
+            padding: 20px 20px 20px 20px; /* 内边距, 上 右 下 左 , 边距都一行, 可以简写: padding: 20px;如果只有两个值，前一个指上下，后一个指左右*/ 
+            border: 10px solid red; /* 边框, 宽度 线条类型 颜色 */
+            margin: 30px 30px 30px 30px; /* 外边距, 上 右 下 左 , 边距都一行, 可以简写: margin: 30px;如果只有两个值，前一个指上下，后一个指左右 */
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+        
+    &lt;div&gt;
+        A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A 
+    &lt;/div&gt;
+    
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h1 id="案例"><strong>案例</strong></h1>
+<p>参照Tlias智能学习辅助系统，完成员工管理页面的制作。</p>
+<h2 id="flex布局"><strong>flex布局</strong></h2>
+<p>那在上述的案例代码中，其实我们用到了一种布局模式，叫 flex布局。</p>
+<ul>
+<li>flex是flexible Box的缩写，意为&quot;弹性布局&quot;。采用flex布局的元素，称为Flex容器（container），它的所有子元素自动成为容器成员，称为Flex项目（item）。</li>
+<li>通过给父容器添加flex属性,来控制子元素的位置和排列方式。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250506192855.png" alt="" loading="lazy"></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>取值</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>display</td>
+<td>flex</td>
+<td>使用flex布局</td>
+</tr>
+<tr>
+<td>flex-direction（设置主轴）</td>
+<td>row</td>
+<td>主轴方向为x轴，水平向右。（默认）</td>
+</tr>
+<tr>
+<td>flex-direction</td>
+<td>column</td>
+<td>主轴方向为y轴，垂直向下。</td>
+</tr>
+<tr>
+<td>justify-content（子元素在主轴上的对齐方式）</td>
+<td>flex-start</td>
+<td>从头开始排列</td>
+</tr>
+<tr>
+<td>justify-content</td>
+<td>flex-end</td>
+<td>从尾部开始排列</td>
+</tr>
+<tr>
+<td>justify-content</td>
+<td>center</td>
+<td>在主轴居中对齐</td>
+</tr>
+<tr>
+<td>justify-content</td>
+<td>space-around</td>
+<td>平分剩余空间</td>
+</tr>
+<tr>
+<td>justify-content</td>
+<td>space-between</td>
+<td>先两边贴边，再平分剩余空间</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;title&gt;Document&lt;/title&gt;
+  &lt;style&gt;
+    /* body默认有外边距 */
+    /* body{
+        margin:0;
+    } */
+    #container {
+      display: flex;
+      /* justify-content: space-between; */ /* 先两边贴边，再平分剩余空间 */
+      /* justify-content: flex-start;*/ /* 从头开始排列  */
+      /* justify-content: flex-end; */ /* 从尾开始排列 */
+      /* justify-content: center; */ /* 居中排列 */
+      /* justify-content: space-around; */ /* 两边留白，中间平分，平分剩余空间 */
+      flex-direction: row;/* 设置主轴 */
+      justify-content: space-between;
+      background-color: #aeea6a;
+      width: 400px;
+      height: 300px;
+    }
+
+    #container div {
+      background-color: #e866ef;
+      width: 100px;
+      height: 50px; 
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&quot;container&quot;&gt;
+    &lt;div&gt;Flex Item&lt;/div&gt;
+    &lt;div&gt;Flex Item&lt;/div&gt;
+    &lt;div&gt;Flex Item&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h2 id="表单标签"><strong>表单标签</strong></h2>
+<p>在网页中主要负责数据采集功能，如注册、登录等数据采集。</p>
+<ul>
+<li>表单场景: 表单就是在网页中负责数据采集功能的，如：注册、登录的表单。</li>
+<li>表单标签: &lt;form&gt;</li>
+</ul>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;表单标签&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;!-- form表单：
+            action:表单提交的url地址
+            method:提交方式
+                get:默认，表单数据会出现在url后面，形式：/save?name=ys&amp;age=18
+                特点：
+                    1.如果表单中包含了隐私数据，get方式并不安全，不推荐使用该方式。
+                    2.在浏览器中get请求大小时有限制的，不适合提交大数据量的表单。
+                post:表单会在消息体和请求体中提交到服务器
+                特点：
+                    1.安全。
+                    2.请求大小没有限制。
+            注意：表单项要想能够采集数据，必须设置name属性，表示当前表单项的名字 --&gt;
+    &lt;form action=&quot;/save&quot; method=&quot;post&quot;&gt;
+        姓名:&lt;input type=&quot;text&quot; name=&quot;name&quot;&gt;
+        年龄:&lt;input type=&quot;text&quot; name=&quot;age&quot;&gt;
+        &lt;input type=&quot;submit&quot; value=&quot;提交&quot;&gt;
+    &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<ul>
+<li>表单项标签: 不同类型的input元素、下拉列表、文本域等。
+<ul>
+<li>input: 定义表单项，通过type属性控制输入形式</li>
+<li>select: 定义下拉列表</li>
+<li>textarea: 定义文本域</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>type取值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>text</td>
+<td>默认值，定义单行的输入字段</td>
+</tr>
+<tr>
+<td>password</td>
+<td>定义密码字段</td>
+</tr>
+<tr>
+<td>radio</td>
+<td>定义单选按钮</td>
+</tr>
+<tr>
+<td>checkbox</td>
+<td>定义复选框</td>
+</tr>
+<tr>
+<td>file</td>
+<td>定义文件上传按钮</td>
+</tr>
+<tr>
+<td>date/time/datetime-local</td>
+<td>定义日期/时间/日期时间</td>
+</tr>
+<tr>
+<td>number</td>
+<td>定义数字输入框</td>
+</tr>
+<tr>
+<td>email</td>
+<td>定义邮件输入框</td>
+</tr>
+<tr>
+<td>hidden</td>
+<td>定义隐藏域</td>
+</tr>
+<tr>
+<td>submit / reset / button</td>
+<td>定义提交按钮 / 重置按钮 / 可点击按钮</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;HTML-表单项标签&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;!-- value: 表单项提交的值 --&gt;
+&lt;form action=&quot;/save&quot; method=&quot;post&quot;&gt;
+     姓名: &lt;input type=&quot;text&quot; name=&quot;name&quot;&gt; &lt;br&gt;&lt;br&gt;
+
+     密码: &lt;input type=&quot;password&quot; name=&quot;password&quot;&gt; &lt;br&gt;&lt;br&gt; 
+
+     性别: &lt;input type=&quot;radio&quot; name=&quot;gender&quot; value=&quot;1&quot;&gt; 男
+          &lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;gender&quot; value=&quot;2&quot;&gt; 女 &lt;/label&gt; &lt;br&gt;&lt;br&gt;
+          &lt;!-- 设置了label后点字也可以勾选 --&gt;
+     
+     爱好: &lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;hobby&quot; value=&quot;java&quot;&gt; java &lt;/label&gt;
+          &lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;hobby&quot; value=&quot;game&quot;&gt; game &lt;/label&gt;
+          &lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;hobby&quot; value=&quot;sing&quot;&gt; sing &lt;/label&gt; &lt;br&gt;&lt;br&gt;
+     
+     图像: &lt;input type=&quot;file&quot; name=&quot;image&quot;&gt;  &lt;br&gt;&lt;br&gt;
+
+     生日: &lt;input type=&quot;date&quot; name=&quot;birthday&quot;&gt; &lt;br&gt;&lt;br&gt;
+
+     时间: &lt;input type=&quot;time&quot; name=&quot;time&quot;&gt; &lt;br&gt;&lt;br&gt;
+
+     日期时间: &lt;input type=&quot;datetime-local&quot; name=&quot;datetime&quot;&gt; &lt;br&gt;&lt;br&gt;
+
+     学历: &lt;select name=&quot;degree&quot;&gt;
+               &lt;option value=&quot;&quot;&gt;----------- 请选择 -----------&lt;/option&gt;
+               &lt;option value=&quot;1&quot;&gt;大专&lt;/option&gt;
+               &lt;option value=&quot;2&quot;&gt;本科&lt;/option&gt;
+               &lt;option value=&quot;3&quot;&gt;硕士&lt;/option&gt;
+               &lt;option value=&quot;4&quot;&gt;博士&lt;/option&gt;
+          &lt;/select&gt;  &lt;br&gt;&lt;br&gt;
+
+     描述: &lt;textarea name=&quot;description&quot; cols=&quot;30&quot; rows=&quot;10&quot;&gt;&lt;/textarea&gt;  &lt;br&gt;&lt;br&gt;
+     
+     &lt;input type=&quot;hidden&quot; name=&quot;id&quot; value=&quot;1&quot;&gt;
+
+     &lt;!-- 表单常见按钮 --&gt;
+     &lt;input type=&quot;button&quot; value=&quot;按钮&quot;&gt;
+     &lt;input type=&quot;reset&quot; value=&quot;重置&quot;&gt; 
+     &lt;input type=&quot;submit&quot; value=&quot;提交&quot;&gt;   
+     &lt;br&gt;
+&lt;/form&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h2 id="tlias案例"><strong>Tlias案例</strong></h2>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;zh-CN&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;Tlias智能学习辅助系统&lt;/title&gt;
+    &lt;style&gt;
+      body {
+        margin: 0;
+      }
+
+      /* 顶栏样式 */
+      .header {
+          display: flex;/* 弹性布局 */
+          justify-content: space-between;/* 左右对齐 */
+          align-items: center;
+          background-color: #808080;
+          padding: 10px 20px;
+          box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      }
+      
+      /* 加大加粗标题 */
+      .header h1 {
+          margin: 0;
+          font-size: 24px;
+          font-weight: bold;
+          color:white;
+          /* 设置字体为楷体 */
+          font-family: '楷体';
+      }
+
+      /* 文本链接样式 */
+      .header a {
+          text-decoration: none;
+          color: white;
+          font-size: 16px;
+      }
+
+      /* 搜索表单区域 */
+      .search-form {
+          display: flex;
+          align-items: center;
+          padding: 20px;
+          background-color: #f9f9f9;
+      }
+
+      /* 表单控件样式 */
+      .search-form input[type=&quot;text&quot;], .search-form select {
+          margin-right: 10px;
+          padding: 5px 10px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          width: 200px;
+      }
+
+      /* 按钮样式 */
+      .search-form button {
+          padding: 5px 15px;
+          margin-left: 10px;
+          background-color: #007bff;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+      }
+
+      /* 清空按钮样式 */
+      .search-form button.clear {
+          background-color: #6c757d;
+      }
+
+      .table {
+         min-width: 100%; 
+         border-collapse: collapse;
+         margin: 0 auto;
+      }
+
+      /* 设置表格单元格边框 */
+      .table td, .table th { 
+        border: 1px solid #ddd; 
+        padding: 8px; 
+        text-align: center;
+      }
+      
+      .avatar { 
+        width: 50px; 
+        height: 50px; 
+        object-fit: cover; 
+        border-radius: 50%; 
+      }
+
+       /* 页脚版权区域 */
+      .footer {
+        background-color: #8f8c8c;
+        color: white;
+        text-align: center;
+        padding: 20px 0;
+        margin-top: 30px;
+      }
+ 
+      .footer .company-name {
+        font-size: 1.1em;
+        font-weight: bold;
+      }
+
+      .footer .copyright {
+        font-size: 0.9em;
+      }
+
+      #container{
+        width:80%;
+        margin:0 auto;
+    
+      }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id=&quot;container&quot;&gt;
+        &lt;!-- 顶栏 --&gt;
+        &lt;div class=&quot;header&quot;&gt;
+            &lt;h1&gt;Tlias智能学习辅助系统&lt;/h1&gt;
+            &lt;a href=&quot;#&quot;&gt;退出登录&lt;/a&gt;
+        &lt;/div&gt;
+
+        &lt;!-- 搜索表单区域 --&gt;
+        &lt;form class=&quot;search-form&quot; action=&quot;/search&quot; method=&quot;post&quot;&gt;
+            &lt;label for=&quot;name&quot;&gt;姓名：&lt;/label&gt;
+            &lt;input type=&quot;text&quot; name=&quot;name&quot; placeholder=&quot;请输入姓名&quot; /&gt;
+
+            &lt;label for=&quot;gender&quot;&gt;性别：&lt;/label&gt;
+            &lt;select name=&quot;gender&quot;&gt;
+                &lt;option value=&quot;&quot;&gt;请选择：&lt;/option&gt;
+                &lt;option value=&quot;1&quot;&gt;男&lt;/option&gt;
+                &lt;option value=&quot;2&quot;&gt;女&lt;/option&gt;
+            &lt;/select&gt;
+
+            &lt;label for=&quot;job&quot;&gt;职位：&lt;/label&gt;
+            &lt;select name=&quot;job&quot;&gt;
+                &lt;option value=&quot;&quot;&gt;请选择：&lt;/option&gt;
+                &lt;option value=&quot;1&quot;&gt;班主任&lt;/option&gt;
+                &lt;option value=&quot;2&quot;&gt;讲师&lt;/option&gt;
+                &lt;option value=&quot;3&quot;&gt;学工主管&lt;/option&gt;
+                &lt;option value=&quot;4&quot;&gt;教研主管&lt;/option&gt;
+                &lt;option value=&quot;5&quot;&gt;咨询师&lt;/option&gt;
+            &lt;/select&gt;
+            &lt;button type=&quot;submit&quot;&gt;查询&lt;/button&gt;
+            &lt;button type=&quot;reset&quot; class=&quot;clear&quot;&gt;清空&lt;/button&gt;
+        &lt;/form&gt;
+
+        &lt;table class=&quot;table table-striped table-bordered&quot;&gt;
+            &lt;thead&gt;
+                &lt;!-- 表头 --&gt;
+                &lt;!-- 一行 --&gt;
+                &lt;tr&gt;
+                    &lt;!-- 表头单元格 --&gt;
+                    &lt;th&gt;姓名&lt;/th&gt;
+                    &lt;th&gt;性别&lt;/th&gt;
+                    &lt;th&gt;头像&lt;/th&gt;
+                    &lt;th&gt;职位&lt;/th&gt;
+                    &lt;th&gt;入职日期&lt;/th&gt;
+                    &lt;th&gt;最后操作时间&lt;/th&gt;
+                    &lt;th&gt;操作&lt;/th&gt;
+                &lt;/tr&gt;
+            &lt;/thead&gt;
+            &lt;tbody&gt;
+                &lt;tr&gt;
+                    &lt;!-- 表格单元格 --&gt;
+                    &lt;td&gt;令狐冲&lt;/td&gt;
+                    &lt;td&gt;男&lt;/td&gt;
+                    &lt;td&gt;&lt;img src=&quot;https://via.placeholder.com/50&quot; alt=&quot;令狐冲&quot; class=&quot;avatar&quot;&gt;&lt;/td&gt;
+                    &lt;td&gt;讲师&lt;/td&gt;
+                    &lt;td&gt;2021-03-15&lt;/td&gt;
+                    &lt;td&gt;2023-07-30T12:00:00Z&lt;/td&gt;
+                    &lt;td class=&quot;btn-group&quot;&gt;
+                        &lt;button&gt;编辑&lt;/button&gt;
+                        &lt;button&gt;删除&lt;/button&gt;
+                    &lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt;
+                    &lt;td&gt;任盈盈&lt;/td&gt;
+                    &lt;td&gt;女&lt;/td&gt;
+                    &lt;td&gt;&lt;img src=&quot;https://via.placeholder.com/50&quot; alt=&quot;任盈盈&quot; class=&quot;avatar&quot;&gt;&lt;/td&gt;
+                    &lt;td&gt;学工主管&lt;/td&gt;
+                    &lt;td&gt;2020-04-10&lt;/td&gt;
+                    &lt;td&gt;2023-07-29T15:00:00Z&lt;/td&gt;
+                    &lt;td class=&quot;btn-group&quot;&gt;
+                        &lt;button&gt;编辑&lt;/button&gt;
+                        &lt;button&gt;删除&lt;/button&gt;
+                    &lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt;
+                    &lt;td&gt;岳不群&lt;/td&gt;
+                    &lt;td&gt;男&lt;/td&gt;
+                    &lt;td&gt;&lt;img src=&quot;https://via.placeholder.com/50&quot; alt=&quot;岳不群&quot; class=&quot;avatar&quot;&gt;&lt;/td&gt;
+                    &lt;td&gt;教研主管&lt;/td&gt;
+                    &lt;td&gt;2019-01-01&lt;/td&gt;
+                    &lt;td&gt;2023-07-30T10:00:00Z&lt;/td&gt;
+                    &lt;td class=&quot;btn-group&quot;&gt;
+                        &lt;button&gt;编辑&lt;/button&gt;
+                        &lt;button&gt;删除&lt;/button&gt;
+                    &lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt;
+                    &lt;td&gt;宁中则&lt;/td&gt;
+                    &lt;td&gt;女&lt;/td&gt;
+                    &lt;td&gt;&lt;img src=&quot;https://via.placeholder.com/50&quot; alt=&quot;宁中则&quot; class=&quot;avatar&quot;&gt;&lt;/td&gt;
+                    &lt;td&gt;班主任&lt;/td&gt;
+                    &lt;td&gt;2018-06-01&lt;/td&gt;
+                    &lt;td&gt;2023-07-29T09:00:00Z&lt;/td&gt;
+                    &lt;td class=&quot;btn-group&quot;&gt;
+                        &lt;button&gt;编辑&lt;/button&gt;
+                        &lt;button&gt;删除&lt;/button&gt;
+                    &lt;/td&gt;
+                &lt;/tr&gt;
+            &lt;/tbody&gt;
+        &lt;/table&gt;
+
+        &lt;!-- 页脚版权区域 --&gt;
+        &lt;footer class=&quot;footer&quot;&gt;
+            &lt;p class=&quot;company-name&quot;&gt;江苏传智播客教育科技股份有限公司&lt;/p&gt;
+            &lt;p class=&quot;copyright&quot;&gt;版权所有 Copyright 2006-2024 All Rights Reserved&lt;/p&gt;
+        &lt;/footer&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[数据库定义语言]]></title>
+        <id>https://yyss1014.github.io/post/shu-ju-ku-ding-yi-yu-yan/</id>
+        <link href="https://yyss1014.github.io/post/shu-ju-ku-ding-yi-yu-yan/">
+        </link>
+        <updated>2025-04-30T08:21:45.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li><a href="#%E6%A6%82%E8%BF%B0"><strong>概述</strong></a></li>
+<li><a href="#%E5%91%BD%E5%90%8D%E8%A7%84%E5%AE%9A%E4%B8%8E%E8%A7%84%E8%8C%83"><strong>命名规定与规范</strong></a>
+<ul>
+<li><a href="#%E6%A0%87%E8%AF%86%E7%AC%A6%E5%91%BD%E5%90%8D%E8%A7%84%E5%AE%9A"><strong>标识符命名规定</strong></a></li>
+<li><a href="#%E6%A0%87%E8%AF%86%E7%AC%A6%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83%E5%9F%BA%E4%BA%8E%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E8%A7%84%E8%8C%83%E6%89%8B%E5%86%8C"><strong>标识符命名规范（基于阿里巴巴规范手册）</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E5%BA%93%E7%AE%A1%E7%90%86"><strong>库管理</strong></a>
+<ul>
+<li><a href="#%E5%88%9B%E5%BB%BA%E5%BA%93"><strong>创建库</strong></a></li>
+<li><a href="#%E6%9F%A5%E7%9C%8B%E5%92%8C%E4%BD%BF%E7%94%A8%E5%BA%93"><strong>查看和使用库</strong></a></li>
+<li><a href="#%E4%BF%AE%E6%94%B9%E5%BA%93"><strong>修改库</strong></a></li>
+<li><a href="#%E5%88%A0%E9%99%A4%E5%BA%93"><strong>删除库</strong></a></li>
+</ul>
+</li>
+</ul>
+</p>
+<h1 id="概述"><strong>概述</strong></h1>
+<p>DDL 用于定义和管理数据库的结构，包括库、表、索引、视图等数据库对象的创建、修改和删除。<br>
+DDL 不涉及对数据的操作，而是关注数据库的结构和元数据（容器）。</p>
+<h1 id="命名规定与规范"><strong>命名规定与规范</strong></h1>
+<h2 id="标识符命名规定"><strong>标识符命名规定</strong></h2>
+<ol>
+<li>数据库名、表名不得超过30个字符，变量名限制为29个</li>
+<li>必须只能包含 A–Z, a–z, 0–9, _共63个字符，而且不能数字开头</li>
+<li>数据库名、表名、字段名等对象名中间不能包含空格</li>
+<li>同一个MySQL软件中，数据库不能同名；同一个库中，表不能重名；同一个表中，字段不能重名https://dev.mysql.com/doc/refman/8.0/en/keywords.html</li>
+<li>必须保证你的字段没有和保留字、数据库系统或常用方法冲突。如果坚持使用，请在SQL语句中使用`（着重号）引起来</li>
+</ol>
+<pre><code class="language-sql">可以起的数据库名：
+ 1. mycompanydatabase
+ 2. sales_data
+ 3. Customer_Records_DB
+ 4. ecommerce_DB
+
+不能起的数据库名：
+ 6. my company database
+ 7. sales&amp;data
+ 8. SELECT_db
+ 9. 123_database
+ 10. inventory database v1.0
+</code></pre>
+<h2 id="标识符命名规范基于阿里巴巴规范手册"><strong>标识符命名规范（基于阿里巴巴规范手册）</strong></h2>
+<ol>
+<li>注释应该清晰、简洁地解释 SQL 语句的意图、功能和影响。</li>
+<li>库、表、列名应该使用小写字母，并使用下划线（_)或驼峰命名法。</li>
+<li>库、表、字段名应该简洁明了，具有描述性，反映其所存储数据的含义。</li>
+<li>库名应于对应的程序名一致 例如：程序名为 EcommercePlatform 数据库名命名为 ecommerce_platform&quot;</li>
+<li>表命名最好是遵循 “业务名称_表”的作用  例如：alipay_task 、 force_project、 trade_config</li>
+<li>列名应遵循“表实体_属性”的作用 例如：product_name 或 productName</li>
+</ol>
+<h1 id="库管理"><strong>库管理</strong></h1>
+<h2 id="创建库"><strong>创建库</strong></h2>
+<p>方式1：创建数据库，使用默认的字符集和排序方式</p>
+<pre><code class="language-sql">CREATE DATABASE  数据库名；
+</code></pre>
+<p>方式2：判断并创建默认字符集库（推荐）</p>
+<pre><code class="language-sql">CREATE DATABASE  IF NOT EXISTS 数据库名；
+</code></pre>
+<p>方式3：创建指定字符集库或者排序方式</p>
+<ul>
+<li>字符集和排序规则：<br>
+字符集就是我们常说的编码格式，决定了数据如何编码存储！<br>
+排序规则决定了如何比较和排序存储在数据库中的文本数据。</li>
+<li>常见字符集（Character Set）：<br>
+utf8：早期版本的字符集，最多3字节存储一个字符，3字节无法覆盖全部unicode编码，有显示乱码可能。<br>
+utfmb4（8+默认）：解决utf8的存储限制，使用4字节进行字符存储，可以覆盖更广 Unicode 编码，包括表情符号等等。</li>
+<li>常见排序规则（Collate）：<br>
+utf8mb4_0900_ai_ci：UTF-8 的不区分大小写的排序规则(mysql8+的默认排序规则)。<br>
+utf8mb4_0900_as_cs：UTF-8 的 Unicode 排序规则，区分大小写！</li>
+</ul>
+<pre><code class="language-sql">CREATE DATABASE  数据库名 CHARACTER SET 字符集；
+CREATE DATABASE  数据库名 COLLATE  排序规则； 
+</code></pre>
+<p>方式4：创建指定字符集和排序规则库</p>
+<pre><code class="language-sql">CREATE DATABASE  数据库名 CHARACTER SET 字符集 COLLATE  排序规则； 
+</code></pre>
+<p>MySQL8默认值(不同版本可能会有不同)：<br>
+字符集：utf8mb4  是一种广泛支持各种语言字符的字符集。<br>
+排序规则：utf8mb4_0900_ai_ci 是一种不区分大小写的排序规则</p>
+<pre><code class="language-sql"># 查看默认字符集和排序方式命令
+SHOW VARIABLES LIKE ‘character_set_database’;
+SHOW VARIABLES LIKE 'collation_database';
+</code></pre>
+<h2 id="查看和使用库"><strong>查看和使用库</strong></h2>
+<p>方式1：查看当前所有库</p>
+<pre><code class="language-sql">SHOW DATABASES ；
+</code></pre>
+<p>方式2：查看当前使用库</p>
+<pre><code class="language-sql">SELECT  DATABASE()；
+</code></pre>
+<p>方式3：查看指定库下所有表</p>
+<pre><code class="language-sql">SHOW TABLES FROM 数据库名;
+</code></pre>
+<p>方式4：查看创建库的信息</p>
+<pre><code class="language-sql">SHOW CREATE DATABASE 数据库名;
+</code></pre>
+<p>方式5：切换库/选中库</p>
+<pre><code class="language-sql">USE 数据库名;
+</code></pre>
+<p>注意：要操作表格和数据之前必须先说明是对哪个数据库进行操作，先use库</p>
+<h2 id="修改库"><strong>修改库</strong></h2>
+<p>修改库编码字符集</p>
+<pre><code class="language-sql">ALTER DATABASE 数据库名 CHARACTER SET 字符集； # 修改字符集gbk utf8
+ALTER DATABASE 数据库名 COLLATE 排序方式; #修改排序方式
+ALTER DATABASE 数据库名 CHARACTER SET 字符集 COLLATE 排序方式; # 修改字符集和排序方式
+</code></pre>
+<p>注意：<br>
+DATABASE 不能改名。一些可视化工具可以改名，它是建新库，把所有表复制到新库，再删旧库完成的。</p>
+<h2 id="删除库"><strong>删除库</strong></h2>
+<p>方式1：直接删除库</p>
+<pre><code class="language-sql">DROP DATABASE 数据库名;
+</code></pre>
+<p>方式2：判断并删除库（推荐）</p>
+<pre><code class="language-sql">DROP DATABASE IF EXISTS 数据库名;
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[数据库]]></title>
+        <id>https://yyss1014.github.io/post/shu-ju-ku/</id>
+        <link href="https://yyss1014.github.io/post/shu-ju-ku/">
+        </link>
+        <updated>2025-04-30T06:18:45.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li><a href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%88%86%E7%B1%BB"><strong>数据库分类</strong></a>
+<ul>
+<li><a href="#%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93"><strong>非关系型数据库</strong></a></li>
+<li><a href="#%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93"><strong>关系型数据库</strong></a></li>
+<li><a href="#%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AD%98%E5%82%A8%E8%AE%BE%E8%AE%A1%E8%A7%84%E5%88%99e-r%E6%A8%A1%E5%9E%8B"><strong>关系型数据库存储设计规则（E-R模型）</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F"><strong>数据库管理系统</strong></a>
+<ul>
+<li><a href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%90%AF%E5%8A%A8%E5%92%8C%E5%81%9C%E6%AD%A2"><strong>数据库的启动和停止</strong></a>
+<ul>
+<li><a href="#%E6%96%B9%E5%BC%8F%E4%B8%80%E5%9B%BE%E5%BD%A2%E5%8C%96%E6%96%B9%E5%BC%8F"><strong>方式一：图形化方式</strong></a></li>
+<li><a href="#%E6%96%B9%E5%BC%8F%E4%BA%8C%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%96%B9%E5%BC%8F"><strong>方式二：命令行方式</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E7%BB%93%E6%9E%84%E5%8C%96%E6%9F%A5%E8%AF%A2%E8%AF%AD%E5%8F%A5sql%E6%A6%82%E8%BF%B0"><strong>结构化查询语句（SQL）概述</strong></a></li>
+</ul>
+</p>
+<h1 id="数据库分类"><strong>数据库分类</strong></h1>
+<h2 id="非关系型数据库"><strong>非关系型数据库</strong></h2>
+<p>非关系型数据库并没有统一的存储结构标准，现常见结构有键值、文档、JSON类型等，对高性能需求设计。</p>
+<ul>
+<li>灵活的数据模型：支持多种数据模型，例如键值对、文档型、列族型和图形数据库。</li>
+<li>无固定的表结构：不需要预定义固定的表结构，适应非结构化或半结构化数据。</li>
+<li>高性能读写：少关系型，注重高性能读写能力，适用于大规模数据和高并发访问模型。</li>
+</ul>
+<h2 id="关系型数据库"><strong>关系型数据库</strong></h2>
+<p>数据按照类别进行存储，每个类别分别存储到一个容器中，表和表之间可以建立关系，可以进行关联操作，性能相对一般。</p>
+<ul>
+<li>结构化数据模型：数据以表格形式存储，具有固定的结构。例如：学生和分数分别存储到不同的表</li>
+<li>ACID事务：通过强大的事务支持，保证数据的原子性、一致性、隔离性和持久性。例如：转账失败，钱不损失</li>
+<li>丰富查询语句：支持SQL语句，能进行复杂的关联数据查询。例如：查询学生以及学生的分数</li>
+<li>数据一致性：数据的关系和约束确保数据的一致性和完整性。例如：存储学生数据，保证身份证号唯一且不为空</li>
+</ul>
+<h2 id="关系型数据库存储设计规则e-r模型"><strong>关系型数据库存储设计规则（E-R模型）</strong></h2>
+<p>遵循ER模型</p>
+<ul>
+<li>E（Entity）代表实体类别，关系型数据库中的一类数据，对应数据库的一张表存储</li>
+<li>R（Relationsh）表和表可以维护某种关系，可以通过关系进行多表操作</li>
+</ul>
+<h1 id="数据库管理系统"><strong>数据库管理系统</strong></h1>
+<p>数据库管理系统（DBMS）：是指一种操作和管理数据库的大型软件呢，用户通过数据库操作数据库的数据。</p>
+<h2 id="数据库的启动和停止"><strong>数据库的启动和停止</strong></h2>
+<h3 id="方式一图形化方式"><strong>方式一：图形化方式</strong></h3>
+<ul>
+<li>计算机（点击鼠标右键）》管理（点击）》服务和应用程序（点击）》服务（点击）》MySQL80（点击鼠标右键）==》启动或停止（点击）</li>
+<li>控制面板（点击）》系统和安全（点击）》管理工具（点击）》服务（点击）》MySQL80（点击鼠标右键）==》启动或停止（点击）</li>
+<li>任务栏（点击鼠标右键）》启动任务管理器（点击）》服务（点击）》MySQL80（点击鼠标右键）》启动或停止（点击）</li>
+</ul>
+<h3 id="方式二命令行方式"><strong>方式二：命令行方式</strong></h3>
+<p>必须是系统管理员才能运行下面的命令。</p>
+<pre><code class="language-cmd">启动 MySQL 服务命令：
+net start MySQL80
+
+停止 MySQL 服务命令：
+net stop MySQL80
+</code></pre>
+<h1 id="结构化查询语句sql概述"><strong>结构化查询语句（SQL）概述</strong></h1>
+<p>SQL包括了所有对数据库的操作，主要是由数据定义、数据操纵、数据查询、数据控制、事务控制等SQL语言的使用规定组成。</p>
+<ol>
+<li>创建和修改盛放数据的容器（数据定义DDL）</li>
+<li>表中添加、修改、删除数据（数据操纵DML）</li>
+<li>表中数据多条件查询（数据查询DQL）</li>
+<li>事务启动、提交和回滚（事务控制TCL）</li>
+<li>账号创建、权限控制（数据控制DCL）</li>
+</ol>
+<p>打开cmd命令窗口：</p>
+<pre><code class="language-cmd">登录用户名&gt;mysql -u &lt;username&gt; -p&lt;password&gt; -h &lt;hostname&gt; &lt;databasename&gt; 
+</code></pre>
+<p>解释一下这些参数的含义：<br>
+-u &lt;username&gt;：用于指定你要连接的 MySQL 数据库的用户名。<br>
+-p&lt;password&gt;：表示密码，后面紧跟着密码，中间没有空格。如果你不希望在命令行中显示密码，可以不指定密码，直接 -p，然后在提示下手动输入密码。<br>
+-h &lt;hostname&gt;：用于指定 MySQL 服务器的主机名或者 IP 地址。如果 MySQL 在本地运行，可以用 localhost。<br>
+-P &lt;port&gt;：用于指定连接 MySQL 服务器的端口号，默认情况下是 3306。<br>
+&lt;databasename&gt;：是你要连接的数据库的名称。连接后会默认使用这个数据库。<br>
+SQL注释：</p>
+<pre><code class="language-cmd">单行注释：#注释内容
+单行注释：-- 注释内容    其中--后面的空格必须有
+多行注释：/* 注释内容 */
+</code></pre>
+<p>版本和退出连接：</p>
+<pre><code class="language-cmd">-- 查看版本，命令符号之间空格隔开，每条命令后使用；结束，否则不执行。切记！！
+mysql&gt;select version();  
+-- 退出连接
+mysql&gt; exit; 
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Java高级技术]]></title>
+        <id>https://yyss1014.github.io/post/java-gao-ji-ji-zhu/</id>
+        <link href="https://yyss1014.github.io/post/java-gao-ji-ji-zhu/">
+        </link>
+        <updated>2025-04-23T11:51:08.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li><a href="#%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95"><strong>单元测试</strong></a>
+<ul>
+<li><a href="#junit%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6"><strong>Junit单元测试框架</strong></a></li>
+<li><a href="#junit%E6%A1%86%E6%9E%B6%E5%B8%B8%E8%A7%81%E6%B3%A8%E8%A7%A3"><strong>Junit框架常见注解</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E5%8F%8D%E5%B0%84"><strong>反射</strong></a>
+<ul>
+<li><a href="#%E8%8E%B7%E5%8F%96%E7%B1%BB"><strong>获取类</strong></a></li>
+<li><a href="#%E8%8E%B7%E5%8F%96%E6%9E%84%E9%80%A0%E5%99%A8"><strong>获取构造器</strong></a></li>
+<li><a href="#%E8%8E%B7%E5%8F%96%E7%B1%BB%E7%9A%84%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F"><strong>获取类的成员变量</strong></a></li>
+<li><a href="#%E8%8E%B7%E5%8F%96%E7%B1%BB%E7%9A%84%E6%88%90%E5%91%98%E6%96%B9%E6%B3%95"><strong>获取类的成员方法</strong></a></li>
+<li><a href="#%E5%8F%8D%E5%B0%84%E7%9A%84%E4%BD%9C%E7%94%A8"><strong>反射的作用</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E6%B3%A8%E8%A7%A3"><strong>注解</strong></a>
+<ul>
+<li><a href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3"><strong>自定义注解</strong></a></li>
+<li><a href="#%E5%85%83%E6%B3%A8%E8%A7%A3"><strong>元注解</strong></a></li>
+<li><a href="#%E6%B3%A8%E8%A7%A3%E7%9A%84%E8%A7%A3%E6%9E%90"><strong>注解的解析</strong></a></li>
+<li><a href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><strong>应用场景</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86"><strong>动态代理</strong></a></li>
+</ul>
+</p>
+<h1 id="单元测试"><strong>单元测试</strong></h1>
+<p>针对最小的功能单元（方法），编写测试代码对其进行正确性测试。</p>
+<h2 id="junit单元测试框架"><strong>Junit单元测试框架</strong></h2>
+<p>可以用来对方法进行测试，它是由第三方公司开源出来的（很多开发工具已经集成了Junit框架，比如IDEA）<br>
+<strong>优点：</strong></p>
+<ul>
+<li>可以灵活的编写测试代码，可以针对某个方法执行测试，也支持一键完成对全部方法的自动化测试，且各自独立。</li>
+<li>不需要程序员去分析测试的结果，会自动生成测试报告出来。</li>
+</ul>
+<p><strong>步骤：</strong><br>
+将Junit框架的jar包倒入到项目中<br>
+为需要测试的业务类，定义对应的测试类，并为每个业务方法，编写对应的测试方法<br>
+测试方法上必须声明@Test注解，然后在测试方法中，编写代码调用被测试的业务方法进行测试<br>
+选中测试方法，右键选择JUnit运行，如果测试通过是绿色，如果测试失败则是红色。</p>
+<pre><code class="language-java">public class StringUtil {
+    public static void printNumber(String name){
+        if(name == null){
+            System.out.println(0);
+            return;
+        }
+        System.out.println(&quot;名字长度是：&quot;+name.length());
+    }
+    public static int getMaxIndex(String data){
+        if(data==null){
+            return -1;
+        }
+        return data.length()-1;
+    }
+}
+</code></pre>
+<pre><code class="language-java">package com.ys.d1_file;
+
+import org.junit.Assert;
+import org.junit.Test;
+
+public class StringUtilTest {
+    @Test//测试方法
+    public void testPrintNumber(){
+        StringUtil.printNumber(&quot;admin&quot;);
+        StringUtil.printNumber(null);
+    }
+    @Test
+    public void testGetMaxIndex(){
+        int index1=StringUtil.getMaxIndex(null);
+        System.out.println(index1);
+
+        int index2=StringUtil.getMaxIndex(&quot;admin&quot;);
+        System.out.println(index2);
+
+        //断言机制：程序员可以通过预测业务方法的结果
+        Assert.assertEquals(&quot;方法内部有bug&quot;,4,index2);
+    }
+}
+</code></pre>
+<h2 id="junit框架常见注解"><strong>Junit框架常见注解</strong></h2>
+<pre><code class="language-java">public class StringUtilTest {
+    @Before//用来修饰一个实例方法，该方法会在每一个测试方法执行前执行一次
+    public void test1(){
+        System.out.println(&quot;----&gt;test1 Before 执行了----&quot;);
+    }
+
+    @BeforeClass//用来修饰一个静态方法,该方法会在所有测试方法执行前只执行一次
+    public static void test11(){
+        System.out.println(&quot;----&gt;test11 BeforeClass 执行了----&quot;);
+    }
+
+    @After//用来修饰一个实例方法，该方法会在每一个测试方法执行后执行一次
+    public void test2(){
+        System.out.println(&quot;----&gt;test2 After 执行了----&quot;);
+    }
+
+    @AfterClass//用来修饰一个静态方法,该方法会在所有测试方法执行后只执行一次
+    public static void test22(){
+        System.out.println(&quot;----&gt;test22 AfterClass 执行了----&quot;);
+    }
+
+    @Test//测试方法
+    public void testPrintNumber(){
+        StringUtil.printNumber(&quot;admin&quot;);
+        StringUtil.printNumber(null);
+    }
+
+    @Test
+    public void testGetMaxIndex(){
+        int index1=StringUtil.getMaxIndex(null);
+        System.out.println(index1);
+
+        int index2=StringUtil.getMaxIndex(&quot;admin&quot;);
+        System.out.println(index2);
+
+        //断言机制：程序员可以通过预测业务方法的结果
+        Assert.assertEquals(&quot;方法内部有bug&quot;,4,index2);
+    }
+}
+</code></pre>
+<h1 id="反射"><strong>反射</strong></h1>
+<p>加载类，并允许以编程方式解剖类中的各种成分（成员变量，方法，构造器等）。</p>
+<h2 id="获取类"><strong>获取类</strong></h2>
+<p>获取class对象的三种方式：</p>
+<ul>
+<li>Class c1=类名.class</li>
+<li>调用Class提供方法：public static Class&lt;?&gt; forName(String className)</li>
+<li>Object提供方法：public final native Class&lt;?&gt; getClass();</li>
+</ul>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws ClassNotFoundException {
+        Class c1=Student.class;
+        System.out.println(c1.getName());//全类名
+        System.out.println(c1.getSimpleName());//简名：Student
+
+        Class c2=Class.forName(&quot;com.ys.d1_file.Student&quot;);
+        System.out.println(c1==c2);
+
+        Student s=new Student();
+        Class c3=s.getClass();
+        System.out.println(c3==c2);
+
+    }
+}
+</code></pre>
+<h2 id="获取构造器"><strong>获取构造器</strong></h2>
+<pre><code class="language-java">public class Test2Constructor {
+    @Test
+    public void testGetConstructors(){
+        //必须先得到这个类的class对象
+        Class c=Student.class;
+        //获取类的全部构造器
+        //Constructor[] constructors=c.getConstructors();//只能获取public修饰的
+        Constructor[] constructors=c.getDeclaredConstructors();//只要存在就能拿到
+        //遍历数组中的每个构造器对象
+        for (Constructor constructor : constructors) {
+            System.out.println(constructor.getName()+&quot;:&quot;+constructor.getParameterCount());
+        }
+    }
+
+    @Test
+    public void testGetConstructor() throws NoSuchMethodException {
+        Class c=Student.class;
+        //Constructor constructor=c.getConstructor();//获取某个构造器，public修饰的
+        Constructor constructor=c.getDeclaredConstructor();//只要存在就能拿到
+        System.out.println(constructor.getName()+&quot;:&quot;+constructor.getParameterCount());
+
+        Constructor constructor2=c.getDeclaredConstructor(String.class,int.class,double.class);
+        System.out.println(constructor2.getName()+&quot;:&quot;+constructor2.getParameterCount());
+    }
+}
+</code></pre>
+<p>获取类构造器的作用：</p>
+<pre><code class="language-java">@Test
+    public void testGetConstructor() throws Exception {
+        Class c=Student.class;
+        //Constructor constructor=c.getConstructor();//获取某个构造器，public修饰的
+        Constructor constructor=c.getDeclaredConstructor();//只要存在就能拿到
+        System.out.println(constructor.getName()+&quot;:&quot;+constructor.getParameterCount());
+
+        //设置为true，表示禁止检查访问控制（暴力反射），可以访问private构造器
+        constructor.setAccessible(true);
+        //调用此构造器对象表示的构造器，并传入参数
+        Student student=(Student) constructor.newInstance();
+        System.out.println(student);
+
+        Constructor constructor2=c.getDeclaredConstructor(String.class,int.class,double.class);
+        System.out.println(constructor2.getName()+&quot;:&quot;+constructor2.getParameterCount());
+        Student student2=(Student) constructor2.newInstance(&quot;John&quot;,27,99.0);
+        System.out.println(student2);
+    }
+</code></pre>
+<h2 id="获取类的成员变量"><strong>获取类的成员变量</strong></h2>
+<pre><code class="language-java">public class Test3Field {
+    @Test
+    public void testGetField() throws Exception {
+        //反射第一步：获得类的Class对象
+        Class c = Student.class;
+        //获取类的全部成员变量
+        Field[] fields=c.getDeclaredFields();
+        //遍历这个成员变量数组
+        for (Field field : fields) {
+            System.out.println(field.getName()+&quot;:&quot;+field.getType());
+        }
+        //定位某个成员变量
+        Field fName=c.getDeclaredField(&quot;name&quot;);
+        System.out.println(fName.getName()+&quot;:&quot;+fName.getType());
+
+        //赋值
+        Student stu=new Student();
+        fName.setAccessible(true);//禁止访问控制权限
+        fName.set(stu,&quot;John&quot;);
+        System.out.println(stu);
+        //取值
+        String name=(String)fName.get(stu);
+        System.out.println(name);
+    }
+}
+</code></pre>
+<h2 id="获取类的成员方法"><strong>获取类的成员方法</strong></h2>
+<pre><code class="language-java">public class Test3Method {
+    @Test
+    public void testGetMethod() throws Exception {
+        Class c = Student.class;
+        //获取类的全部成员方法
+        Method[] methods=c.getDeclaredMethods();
+        //遍历这个数组中的每个方法对象
+        for (Method method : methods) {
+            System.out.println(method.getName()+&quot;:&quot;+method.getParameterCount()+&quot;:&quot;+method.getReturnType());
+        }
+        //获取某个方法对象
+        Method equals=c.getDeclaredMethod(&quot;equals&quot;, Object.class);
+        System.out.println(equals.getName()+&quot;:&quot;+equals.getParameterCount()+&quot;:&quot;+equals.getReturnType());
+
+        Method setname=c.getDeclaredMethod(&quot;setName&quot;, String.class);
+        System.out.println(setname.getName()+&quot;:&quot;+setname.getParameterCount()+&quot;:&quot;+setname.getReturnType());
+
+        Student stu=new Student();
+        setname.setAccessible(true);
+        Object rs=setname.invoke(stu,&quot;John&quot;);//接返回值
+        System.out.println(rs);
+
+    }
+}
+</code></pre>
+<h2 id="反射的作用"><strong>反射的作用</strong></h2>
+<ul>
+<li>基本作用：可以得到一个类的全部成分并操作</li>
+<li>破坏封装性</li>
+<li>适合做框架<br>
+<strong>案例</strong><br>
+对于任意一个对象，该框架都可以把对象的字段名和对应的值保存到文件中去。</li>
+</ul>
+<pre><code class="language-java">public class ObjectFrame {
+    public static void saveObject(Object obj) throws Exception {
+        PrintStream ps=new PrintStream(new FileOutputStream(&quot;D:\\codetest\\javasepro\\file-io-app\\src\\data.txt&quot;,true));
+        Class c=obj.getClass();
+        String cName=c.getSimpleName();
+        ps.println(&quot;-----------&quot;+cName+&quot;-----------&quot;);
+        Field[] fields=c.getDeclaredFields();
+        for (Field field : fields) {
+            String name = field.getName();
+            field.setAccessible(true);
+            String value=field.get(obj)+&quot;&quot;;
+            ps.println(name+&quot;=&quot;+value);
+        }
+        ps.close();
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test5Frame {
+    @Test
+    public void save() throws Exception {
+        Student s = new Student(&quot;易遇&quot;, 27, '男', 185.3, &quot;姑姑&quot;);
+        Teacher t = new Teacher(&quot;柏源&quot;, 999.9);
+        ObjectFrame.saveObject(s);
+        ObjectFrame.saveObject(t);
+    }
+}
+</code></pre>
+<h1 id="注解"><strong>注解</strong></h1>
+<p>java里的特殊标记，比如@Override、@Test等，让其他程序根据注解信息决定怎么执行该程序。</p>
+<h2 id="自定义注解"><strong>自定义注解</strong></h2>
+<p>自己定义注解，如果注解中只有一个value属性，使用注解时，value名称可以不写。</p>
+<pre><code class="language-java">@Mytest1(aaa=&quot;易遇&quot;,ccc={&quot;HTML&quot;,&quot;Java&quot;})
+@Mytest2(&quot;顾时夜&quot;)
+public class AnnotationTest1 {
+    @Mytest1(aaa=&quot;柏源&quot;, bbb=false, ccc={&quot;Python&quot;, &quot;前端&quot;, &quot;Java&quot;})
+    public void test1(){}
+
+    public static void main(String[] args) {
+
+    }
+}
+</code></pre>
+<pre><code class="language-java">public @interface Mytest1 {
+    String aaa();
+    boolean bbb() default true;
+    String[] ccc();
+}
+</code></pre>
+<pre><code class="language-java">public @interface Mytest2 {
+    String value();
+    int age() default 23;
+}
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250424170959.png" alt="" loading="lazy"></figure>
+<ul>
+<li>注解本质是一个接口，Java中所有注解都是继承了Annotation接口的。</li>
+<li>@注解(...)实际上就是一个实现类对象，实现了该注解以及Annotation接口。</li>
+</ul>
+<h2 id="元注解"><strong>元注解</strong></h2>
+<p>修饰注解的注解。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250424172142.png" alt="" loading="lazy"><br>
+SOURCE：编译成class文件里不存在。</p>
+<pre><code class="language-java">@Target({ElementType.TYPE, ElementType.METHOD})
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Mytest1 {
+
+}
+</code></pre>
+<h2 id="注解的解析"><strong>注解的解析</strong></h2>
+<p>判断类上，方法上是否存在注解，并把注解里的内容解析出来。<br>
+Class,Method,Field,Constructor都实现了AnnotatedElement接口，它们都有解析注解的能力。</p>
+<pre><code class="language-java">@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.TYPE,ElementType.METHOD})
+public @interface MyTest1 {
+    String value();
+    double aaa() default 100;
+    String[] bbb();
+}
+</code></pre>
+<pre><code class="language-java">@MyTest1(value = &quot;蜘蛛精&quot;, aaa=99.5, bbb = {&quot;至尊宝&quot;, &quot;黑马&quot;})
+@MyTest2
+public class Demo {
+    @MyTest1(value = &quot;孙悟空&quot;, aaa=199.9, bbb = {&quot;紫霞&quot;, &quot;牛夫人&quot;})
+    public void test1(){}
+}
+</code></pre>
+<pre><code class="language-java">public class AnnotationTest1 {
+    @Test
+    public void parseClass(){
+        Class c = Demo.class;
+        //解析类上的注释
+        //判断类上是否包含了某个注释
+        if (c.isAnnotationPresent(MyTest1.class)) {
+            //Annotation myTest1 = c.getDeclaredAnnotation(MyTest1.class);//多态写法
+            MyTest1 myTest1 = (MyTest1) c.getDeclaredAnnotation(MyTest1.class);
+            System.out.println(myTest1.value());
+            System.out.println(myTest1.aaa());
+            System.out.println(Arrays.toString(myTest1.bbb()));
+        }
+    }
+    @Test
+    public void parseMethod() throws NoSuchMethodException {
+        Class c = Demo.class;
+        Method m=c.getDeclaredMethod(&quot;test1&quot;);
+        //解析类上的注释
+        //判断类上是否包含了某个注释
+        if (m.isAnnotationPresent(MyTest1.class)) {
+            //Annotation myTest1 = c.getDeclaredAnnotation(MyTest1.class);//多态写法
+            MyTest1 myTest1 = (MyTest1) m.getDeclaredAnnotation(MyTest1.class);
+            System.out.println(myTest1.value());
+            System.out.println(myTest1.aaa());
+            System.out.println(Arrays.toString(myTest1.bbb()));
+        }
+    }
+}
+</code></pre>
+<h2 id="应用场景"><strong>应用场景</strong></h2>
+<p>模拟Junit框架，只要加了MyTest注解，就会触发方法执行。</p>
+<pre><code class="language-java">@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface MyTest {
+}
+</code></pre>
+<pre><code class="language-java">public class AnnotationTest1 {
+    //@MyTest
+    public void test1() {
+        System.out.println(&quot;===test1===&quot;);
+    }
+
+    @MyTest
+    public void test2() {
+        System.out.println(&quot;===test2===&quot;);
+    }
+
+    @MyTest
+    public void test3() {
+        System.out.println(&quot;===test3===&quot;);
+    }
+
+    public static void main(String[] args) throws Exception {
+        AnnotationTest1 a=new AnnotationTest1();
+        Class c = AnnotationTest1.class;
+        Method[] methods = c.getDeclaredMethods();
+        for (Method method : methods) {
+            if (method.isAnnotationPresent(MyTest.class)) {
+                method.invoke(a);
+            }
+        }
+    }
+}
+</code></pre>
+<h1 id="动态代理"><strong>动态代理</strong></h1>
+<pre><code class="language-java">public interface Star {
+    String sing(String name);
+    void dance();
+}
+public class BigStar implements Star{
+    private String name;
+
+    public BigStar(String name) {
+        this.name = name;
+    }
+
+    public String sing(String name) {
+        System.out.println(this.name+&quot;正在唱：&quot;+name);
+        return &quot;谢谢&quot;;
+    }
+    public void dance(){
+        System.out.println(this.name+&quot;正在优美地跳舞~&quot;);
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class ProxyUtil {
+    public static Star createProxy(BigStar bigstar){
+        /*public static Object newProxyInstance(ClassLoader loader,
+                Class&lt;?&gt;[] interfaces,
+                InvocationHandler h)
+                参数1：用来加载一个类加载器
+                参数2：指定生成的代理长什么样子，也就是有哪些方法
+                参数3：用来指定生成的代理对象要干什么事情
+                */
+        Star starProxy=(Star) Proxy.newProxyInstance(ProxyUtil.class.getClassLoader()
+                ,new Class[]{Star.class},new InvocationHandler() {
+                    @Override
+                    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                        //Object proxy是动态生成的代理对象本身，也就是通过 Proxy.newProxyInstance() 创建的那个对象。
+                        //代理对象要做的事情，会在这里写代码
+                        if(method.getName().equals(&quot;sing&quot;)){
+                            System.out.println(&quot;准备话筒，收钱20万&quot;);
+                        }else if(method.getName().equals(&quot;dance&quot;)){
+                            System.out.println(&quot;准备场地，收钱100万&quot;);
+                        }
+                        return method.invoke(bigstar,args);
+                    }
+                });
+        return starProxy;
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        BigStar s=new BigStar(&quot;杨超越&quot;);
+        Star starProxy=ProxyUtil.createProxy(s);
+
+        String rs=starProxy.sing(&quot;好日子&quot;);
+        System.out.println(rs);
+
+        starProxy.dance();
+    }
+}
+</code></pre>
+<p><strong>案例：使用代理优化业务类</strong></p>
+<pre><code class="language-java">public interface UserService {
+    // 登录功能
+    void login(String loginName,String passWord) throws Exception;
+    // 删除用户
+    void deleteUsers() throws Exception;
+    // 查询用户，返回数组的形式。
+    String[] selectUsers() throws Exception;
+}
+</code></pre>
+<pre><code class="language-java">public class UserServiceImpl implements UserService{
+    @Override
+    public void login(String loginName, String passWord) throws Exception {
+        if(&quot;admin&quot;.equals(loginName) &amp;&amp; &quot;123456&quot;.equals(passWord)){
+            System.out.println(&quot;您登录成功，欢迎光临本系统~&quot;);
+        }else {
+            System.out.println(&quot;您登录失败，用户名或密码错误~&quot;);
+        }
+        Thread.sleep(1000);
+    }
+
+    @Override
+    public void deleteUsers() throws Exception{
+        System.out.println(&quot;成功删除了1万个用户~&quot;);
+        Thread.sleep(1500);
+    }
+
+    @Override
+    public String[] selectUsers() throws Exception{
+
+        System.out.println(&quot;查询出了3个用户&quot;);
+        String[] names = {&quot;张全蛋&quot;, &quot;李二狗&quot;, &quot;牛爱花&quot;};
+        Thread.sleep(500);
+
+        return names;
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class ProxyUtil {
+    public static UserService createProxy(UserService userService){
+        UserService userServiceProxy = (UserService) Proxy.newProxyInstance(ProxyUtil.class.getClassLoader()
+                , new Class[]{UserService.class}, new InvocationHandler() {
+                    @Override
+                    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                        if(method.getName().equals(&quot;login&quot;)||method.getName().equals(&quot;deleteUsers&quot;)
+                        ||method.getName().equals(&quot;selectUsers&quot;)){
+                            long start = System.currentTimeMillis();
+                            Object rs = method.invoke(userService, args);
+                            long end = System.currentTimeMillis();
+                            System.out.println(method.getName()+&quot;方法执行耗时：&quot;+(end-start)/1000.0+&quot;s&quot;);
+                            return rs;
+                        }else {
+                            return method.invoke(userService, args);
+                        }
+                    }
+                });
+        return userServiceProxy;
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws Exception{
+        // 1、创建用户业务对象。
+        UserService userService = ProxyUtil.createProxy(new UserServiceImpl());
+
+        // 2、调用用户业务的功能。
+        userService.login(&quot;admin&quot;, &quot;123456&quot;);
+        System.out.println(&quot;----------------------------------------------------&quot;);
+
+        userService.deleteUsers();
+        System.out.println(&quot;----------------------------------------------------&quot;);
+
+        String[] names = userService.selectUsers();
+        System.out.println(&quot;查询到的用户是：&quot; + Arrays.toString(names));
+        System.out.println(&quot;----------------------------------------------------&quot;);
+
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[网络通信]]></title>
+        <id>https://yyss1014.github.io/post/wang-luo-tong-xin/</id>
+        <link href="https://yyss1014.github.io/post/wang-luo-tong-xin/">
+        </link>
+        <updated>2025-04-18T07:49:41.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li><a href="#%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E4%B8%89%E8%A6%81%E7%B4%A0"><strong>网络通信三要素</strong></a>
+<ul>
+<li><a href="#ip"><strong>IP</strong></a>
+<ul>
+<li><a href="#inetaddress"><strong>InetAddress</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E7%AB%AF%E5%8F%A3%E5%8F%B7"><strong>端口号</strong></a></li>
+<li><a href="#%E5%8D%8F%E8%AE%AE"><strong>协议</strong></a>
+<ul>
+<li><a href="#%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE"><strong>通信协议</strong></a></li>
+<li><a href="#%E4%BC%A0%E8%BE%93%E5%B1%82%E7%9A%84%E4%B8%A4%E4%B8%AA%E9%80%9A%E8%AE%AF%E5%8D%8F%E8%AE%AE"><strong>传输层的两个通讯协议</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#udp%E9%80%9A%E4%BF%A1"><strong>UDP通信</strong></a>
+<ul>
+<li><a href="#%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8"><strong>快速入门</strong></a></li>
+<li><a href="#%E5%A4%9A%E5%8F%91%E5%A4%9A%E6%94%B6"><strong>多发多收</strong></a></li>
+</ul>
+</li>
+<li><a href="#tcp"><strong>TCP</strong></a>
+<ul>
+<li><a href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%BC%80%E5%8F%91"><strong>客户端开发</strong></a></li>
+<li><a href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF%E7%9A%84%E5%BC%80%E5%8F%91"><strong>服务端的开发</strong></a></li>
+<li><a href="#%E5%A4%9A%E5%8F%91%E5%A4%9A%E6%94%B6-2"><strong>多发多收</strong></a></li>
+<li><a href="#%E6%94%AF%E6%8C%81%E4%B8%8E%E5%A4%9A%E4%B8%AA%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%90%8C%E6%97%B6%E9%80%9A%E4%BF%A1"><strong>支持与多个客户端同时通信</strong></a></li>
+<li><a href="#%E7%BB%BC%E5%90%88%E6%A1%88%E4%BE%8B"><strong>综合案例</strong></a>
+<ul>
+<li><a href="#%E7%BE%A4%E8%81%8A"><strong>群聊</strong></a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%AE%80%E6%98%93%E7%89%88%E7%9A%84bs%E6%9E%B6%E6%9E%84"><strong>实现一个简易版的BS架构</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</p>
+<h1 id="网络通信三要素"><strong>网络通信三要素</strong></h1>
+<h2 id="ip"><strong>IP</strong></h2>
+<p>全称“互联网协议地址”，是分配给上网设备的唯一标志。</p>
+<ul>
+<li>IP地址有两种形式：IPv4、IPv6<br>
+IPv4：4字节32位<br>
+IPv6：共128位，分为8段表示，每段每四位编码成一个十六进制位表示，数之间用冒号分开。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250418160352.png" alt="" loading="lazy"></li>
+<li>公网IP，内网IP<br>
+公网IP：可以连接互联网的IP地址；内网IP：也叫局域网IP，只能组织机构内部使用。<br>
+192.168.开头的就是常见的局域网地址，范围即为192.168.0.0--192.168.255.255，专门为组织机构内部使用。</li>
+<li>特殊IP地址<br>
+127.0.0.1、localhost：代表本机IP，只会寻找当前所在的主机。</li>
+<li>IP常用命令<br>
+ipconfig：查看本机IP地址。<br>
+ping IP地址：检查网络是否连通。</li>
+</ul>
+<h3 id="inetaddress"><strong>InetAddress</strong></h3>
+<p>代表IP地址。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws IOException {
+        //获取本机IP地址的对象
+        InetAddress ip1=InetAddress.getLocalHost();
+        System.out.println(ip1.getHostAddress());
+        System.out.println(ip1.getHostName());
+
+        //获取指定IP或者域名IP地址对象
+        InetAddress ip2=InetAddress.getByName(&quot;www.baidu.com&quot;);
+        System.out.println(ip2.getHostAddress());
+        System.out.println(ip2.getHostName());
+
+        //ping www.baidu.com
+        System.out.println(ip2.isReachable(6000));
+    }
+}
+</code></pre>
+<h2 id="端口号"><strong>端口号</strong></h2>
+<p>标记正在计算机设备上运行的应用程序的，被规定为一个16位的二进制，范围是0~65535。</p>
+<ul>
+<li>周知端口：0~1023，被预先定义的知名应用占用（如HTTP占用80，FTP占用21）</li>
+<li>注册端口：1024~49151，分配给用户进程或某些应用程序。</li>
+<li>动态端口：49152到65535，之所以称为动态端口，是因为它一般不固定分配某种进程，而是动态分配。<br>
+注意：我们自己开发的程序一般选择使用注册端口，且一个设备中不能出现两个程序的端口号一样，否则出错。</li>
+</ul>
+<h2 id="协议"><strong>协议</strong></h2>
+<h3 id="通信协议"><strong>通信协议</strong></h3>
+<p>网络上通信的设备，事先规定的连接规则，以及传输数据的规则被称为网络通信协议。</p>
+<ul>
+<li>OSI网络参考模型：全球网络互联标准。</li>
+<li>TCP/IP网络模型：事实上的国际标准。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250419161710.png" alt="" loading="lazy"></li>
+</ul>
+<h3 id="传输层的两个通讯协议"><strong>传输层的两个通讯协议</strong></h3>
+<p>UDP：用户数据报协议；TCP：传输控制协议。<br>
+UDP协议</p>
+<ul>
+<li>特点：无连接、不可靠通信。</li>
+<li>不事先建立连接，数据按照包发，一包数据包含：自己的IP、程序端口，目的地IP、程序端口和数据（限制在64KB内）等。</li>
+<li>发送方不管对方是否在线，数据中间丢失也不管，如果接收方收到数据也不返回确认，故是不可靠的。</li>
+</ul>
+<p>TCP协议</p>
+<ul>
+<li>特点：面向连接、可靠通信。</li>
+<li>TCP的最终目的：要保证在不可靠的信道上实现可靠的传输。</li>
+<li>TCP主要有三个步骤实现可靠传输：三次握手建立连接，传输数据进行确认，四次挥手断开连接。</li>
+</ul>
+<p><strong>三次握手建立可靠连接</strong><br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250419172153.png" alt="" loading="lazy"><br>
+<strong>四次挥手断开连接</strong><br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250419172852.png" alt="" loading="lazy"></p>
+<h1 id="udp通信"><strong>UDP通信</strong></h1>
+<h2 id="快速入门"><strong>快速入门</strong></h2>
+<pre><code class="language-java">public class Server {
+    public static void main(String[] args) throws Exception {
+        //创建一个服务器对象（接收数据的人）注册端口
+        DatagramSocket socket=new DatagramSocket(6666);
+        //创建一个数据包对象，用于接收数据的
+        byte[] buffer=new byte[1024*64];//64KB.
+        DatagramPacket packet=new DatagramPacket(buffer,buffer.length);
+        //开始正式使用数据包来接收客户端发来的数据
+        socket.receive(packet);
+        //从字节数组中，把刚收到的数据直接打印出来
+        //接收多少就倒出多少
+        //获取本次数据包接收了多少数据
+        int len=packet.getLength();
+        String rs=new String(buffer,0,len);
+        System.out.println(rs);
+
+        System.out.println(packet.getAddress().getHostAddress());
+        System.out.println(packet.getPort());
+        socket.close();
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Client {
+    public static void main(String[] args) throws Exception {
+        //创建客户端对象（发数据的人）
+        DatagramSocket socket=new DatagramSocket();//客户端端口
+        //创建数据包对象封装要发出去的数据
+        //public DatagramPacket(byte buf[], int offset, int length,
+        //                          InetAddress address, int port)
+        //参数一：封装要发出去的数据
+        //参数二：发出去的数据大小
+        //参数三：服务器的IP地址
+        //参数四：服务端程序的端口
+        byte[] bytes=&quot;我是快乐的客户端，我爱你abc&quot;.getBytes();
+        DatagramPacket packet=new DatagramPacket(bytes,bytes.length
+                , InetAddress.getLocalHost(),6666);
+        //开始发送这个数据包的数据出去了
+        socket.send(packet);
+        System.out.println(&quot;客户端数据发送完毕&quot;);
+        socket.close();//释放资源
+    }
+}
+</code></pre>
+<p>先启动服务端（接收数据），再启动客户端（发送数据）。</p>
+<h2 id="多发多收"><strong>多发多收</strong></h2>
+<pre><code class="language-java">public class Server {
+    public static void main(String[] args) throws Exception {
+        //创建一个服务器对象（接收数据的人）注册端口
+        DatagramSocket socket=new DatagramSocket(6666);
+        //创建一个数据包对象，用于接收数据的
+        byte[] buffer=new byte[1024*64];//64KB.
+        DatagramPacket packet=new DatagramPacket(buffer,buffer.length);
+        //开始正式使用数据包来接收客户端发来的数据
+        while (true) {
+            socket.receive(packet);
+            //从字节数组中，把刚收到的数据直接打印出来
+            //接收多少就倒出多少
+            //获取本次数据包接收了多少数据
+            int len=packet.getLength();
+            String rs=new String(buffer,0,len);
+            System.out.println(rs);
+
+            System.out.println(packet.getAddress().getHostAddress());
+            System.out.println(packet.getPort());
+            System.out.println(&quot;------------&quot;);
+        }
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Client {
+    public static void main(String[] args) throws Exception {
+        //创建客户端对象（发数据的人）
+        DatagramSocket socket=new DatagramSocket();
+        //创建数据包对象封装要发出去的数据
+        //public DatagramPacket(byte buf[], int offset, int length,
+        //                          InetAddress address, int port)
+        //参数一：封装要发出去的数据
+        //参数二：发出去的数据大小
+        //参数三：服务器的IP地址
+        //参数四：服务端程序的端口
+        Scanner sc=new Scanner(System.in);
+        while (true) {
+            System.out.println(&quot;请说：&quot;);
+            String msg=sc.nextLine();
+            //一旦发现用户输出的exit，退出客户端
+            if(&quot;bye&quot;.equals(msg)){
+                System.out.println(&quot;欢迎下次光临！&quot;);
+                socket.close();
+                break;
+            }
+            byte[] bytes=msg.getBytes();
+            DatagramPacket packet=new DatagramPacket(bytes,bytes.length
+                    , InetAddress.getLocalHost(),6666);
+            //开始发送这个数据包的数据出去了
+            socket.send(packet);
+        }
+    }
+}
+</code></pre>
+<h1 id="tcp"><strong>TCP</strong></h1>
+<h2 id="客户端开发"><strong>客户端开发</strong></h2>
+<p>通过java.net包下的Socket类实现的。</p>
+<pre><code class="language-java">public class Client {
+    public static void main(String[] args) throws Exception {
+        //创建Socket对象，同时请求与服务端程序的连接
+        Socket socket=new Socket(&quot;127.0.0.1&quot;, 8888);
+        //从socket通信管道中得到一个字节输出流，用来发数据给服务端程序
+        OutputStream os=socket.getOutputStream();
+        //把低级的字节输出流包装成数据输出流
+        DataOutputStream dos=new DataOutputStream(os);
+        //开始写数据出去了
+        dos.writeUTF(&quot;hello&quot;);
+        dos.close();
+
+        socket.close();//释放连接资源
+    }
+}
+</code></pre>
+<h2 id="服务端的开发"><strong>服务端的开发</strong></h2>
+<p>服务端是通过java.net包下的ServerSocket类来实现的。</p>
+<pre><code class="language-java">public class Server {
+    public static void main(String[] args) throws Exception {
+        System.out.println(&quot;Server starting...&quot;);
+        //创建ServerSocket的对象，同时为服务端注册窗口
+        ServerSocket severSocket = new ServerSocket(8888);
+        //使用severSocket对象，调用一个accept方法，等待客户端的连接请求
+        Socket socket = severSocket.accept();
+        //从socket通道中得到一个字节输入流
+        InputStream is = socket.getInputStream();
+        //把原始的字节输入流包装成数据输入流
+        DataInputStream dis = new DataInputStream(is);
+        //使用数据输入流读取客户端发送过来的消息
+        String rs = dis.readUTF();
+        System.out.println(rs);
+        //其实我们可以获取客户端的IP地址
+        System.out.println(socket.getRemoteSocketAddress());
+
+        dis.close();
+        socket.close();
+
+    }
+}
+</code></pre>
+<h2 id="多发多收-2"><strong>多发多收</strong></h2>
+<pre><code class="language-java">public class Server {
+    public static void main(String[] args) throws Exception {
+        System.out.println(&quot;Server starting...&quot;);
+        //创建ServerSocket的对象，同时为服务端注册窗口
+        ServerSocket severSocket = new ServerSocket(8888);
+        //使用severSocket对象，调用一个accept方法，等待客户端的连接请求
+        Socket socket = severSocket.accept();
+        //从socket通道中得到一个字节输入流
+        InputStream is = socket.getInputStream();
+        //把原始的字节输入流包装成数据输入流
+        DataInputStream dis = new DataInputStream(is);
+        while (true) {
+            try {
+                //使用数据输入流读取客户端发送过来的消息
+                String rs = dis.readUTF();
+                System.out.println(rs);
+            } catch (IOException e) {
+                System.out.println(socket.getRemoteSocketAddress()+&quot;离线了！&quot;);
+                //返回的是客户端的源IP和源端口
+                dis.close();
+                socket.close();
+                break;
+            }
+        }
+
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Client {
+    public static void main(String[] args) throws Exception {
+        //创建Socket对象，同时请求与服务端程序的连接
+        Socket socket=new Socket(&quot;127.0.0.1&quot;, 8888);
+        //从socket通信管道中得到一个字节输出流，用来发数据给服务端程序
+        OutputStream os=socket.getOutputStream();
+        //把低级的字节输出流包装成数据输出流
+        DataOutputStream dos=new DataOutputStream(os);
+        Scanner sc=new Scanner(System.in);
+        //开始写数据出去了
+        while (true) {
+            System.out.println(&quot;请说：&quot;);
+            String msg=sc.nextLine();
+
+            //一旦用户输出了exit，就退出客户端程序
+            if(&quot;bye&quot;.equals(msg)){
+                System.out.println(&quot;欢迎你下次光临&quot;);
+                dos.close();
+                socket.close();
+                break;
+            }
+            dos.writeUTF(msg);
+            dos.flush();
+        }
+    }
+}
+</code></pre>
+<h2 id="支持与多个客户端同时通信"><strong>支持与多个客户端同时通信</strong></h2>
+<p>多线程实现：</p>
+<pre><code class="language-java">public class Server {
+    public static void main(String[] args) throws Exception {
+        System.out.println(&quot;Server starting...&quot;);
+        //创建ServerSocket的对象，同时为服务端注册窗口
+        ServerSocket severSocket = new ServerSocket(8888);
+        while (true) {
+            //使用severSocket对象，调用一个accept方法，等待客户端的连接请求
+            Socket socket = severSocket.accept();
+
+            System.out.println(&quot;有人上线了：&quot; + socket.getRemoteSocketAddress());
+
+            //把这个客户端对应的socket通信管道，交给一个独立的线程负责处理
+            new ServerReaderThread(socket).start();
+        }
+
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class ServerReaderThread extends Thread {
+    private Socket socket;
+    public ServerReaderThread(Socket socket) {
+        this.socket = socket;
+    }
+
+    @Override
+    public void run() {
+        try {
+            InputStream is = socket.getInputStream();
+            DataInputStream dis = new DataInputStream(is);
+            while (true) {
+                try {
+                    String rs = dis.readUTF();
+                    System.out.println(rs);
+                } catch (IOException e) {
+                    System.out.println(&quot;有人下线了：&quot;+socket.getRemoteSocketAddress());
+                    dis.close();
+                    socket.close();
+                    break;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+}
+</code></pre>
+<h2 id="综合案例"><strong>综合案例</strong></h2>
+<h3 id="群聊"><strong>群聊</strong></h3>
+<pre><code class="language-java">public class Server {
+    public static List&lt;Socket&gt; onlineSockets = new ArrayList&lt;Socket&gt;();
+    public static void main(String[] args) throws Exception {
+        System.out.println(&quot;Server starting...&quot;);
+        //创建ServerSocket的对象，同时为服务端注册窗口
+        ServerSocket severSocket = new ServerSocket(8888);
+        while (true) {
+            //使用severSocket对象，调用一个accept方法，等待客户端的连接请求
+            Socket socket = severSocket.accept();
+            onlineSockets.add(socket);
+            System.out.println(&quot;有人上线了：&quot; + socket.getRemoteSocketAddress());
+
+            //把这个客户端对应的socket通信管道，交给一个独立的线程负责处理
+            new ServerReaderThread(socket).start();
+        }
+
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class ServerReaderThread extends Thread {
+    private Socket socket;
+    public ServerReaderThread(Socket socket) {
+        this.socket = socket;
+    }
+
+    @Override
+    public void run() {
+        try {
+            InputStream is = socket.getInputStream();
+            DataInputStream dis = new DataInputStream(is);
+            while (true) {
+                try {
+                    String msg = dis.readUTF();
+                    System.out.println(msg);
+                    //把消息分发给全部客户端
+                    sendMsgToAll(msg);
+                } catch (IOException e) {
+                    System.out.println(&quot;有人下线了：&quot;+socket.getRemoteSocketAddress());
+                    Server.onlineSockets.remove(socket);
+                    dis.close();
+                    socket.close();
+                    break;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void sendMsgToAll(String msg) throws IOException {
+        //发送给全部在线的管道接收
+        for (Socket onlineSocket : Server.onlineSockets) {
+            OutputStream os = onlineSocket.getOutputStream();
+            DataOutputStream dos = new DataOutputStream(os);
+            dos.writeUTF(msg);
+            dos.flush();
+
+        }
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Client {
+    public static void main(String[] args) throws Exception {
+        //创建Socket对象，同时请求与服务端程序的连接
+        Socket socket=new Socket(&quot;127.0.0.1&quot;, 8888);
+
+        //创建一个独立的线程，负责随机从socket中接收服务端发来的消息
+        new ClientReaderThread( socket).start();
+
+        //从socket通信管道中得到一个字节输出流，用来发数据给服务端程序
+        OutputStream os=socket.getOutputStream();
+        //把低级的字节输出流包装成数据输出流
+        DataOutputStream dos=new DataOutputStream(os);
+        Scanner sc=new Scanner(System.in);
+        //开始写数据出去了
+        while (true) {
+            System.out.println(&quot;请说：&quot;);
+            String msg=sc.nextLine();
+
+            //一旦用户输出了exit，就退出客户端程序
+            if(&quot;bye&quot;.equals(msg)){
+                System.out.println(&quot;欢迎你下次光临&quot;);
+                dos.close();
+                socket.close();
+                break;
+            }
+            dos.writeUTF(msg);
+            dos.flush();
+        }
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class ClientReaderThread extends Thread {
+    private Socket socket;
+    public ClientReaderThread(Socket socket) {
+        this.socket = socket;
+    }
+
+    @Override
+    public void run() {
+        try {
+            InputStream is = socket.getInputStream();
+            DataInputStream dis = new DataInputStream(is);
+            while (true) {
+                try {
+                    String msg = dis.readUTF();
+                    System.out.println(msg);
+                } catch (IOException e) {
+                    System.out.println(&quot;您下线了：&quot;+socket.getRemoteSocketAddress());//服务端口
+                    dis.close();
+                    socket.close();
+                    break;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+}
+</code></pre>
+<h3 id="实现一个简易版的bs架构"><strong>实现一个简易版的BS架构</strong></h3>
+<p>服务器必须给浏览器响应http协议规定的格式，否则浏览器不识别返回的数据。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250423165412.png" alt="" loading="lazy"></p>
+<pre><code class="language-java">public class Server {
+    public static void main(String[] args) throws Exception {
+        System.out.println(&quot;Server starting...&quot;);
+        //创建ServerSocket的对象，同时为服务端注册窗口
+        ServerSocket severSocket = new ServerSocket(8080);
+        while (true) {
+            //使用severSocket对象，调用一个accept方法，等待客户端的连接请求
+            Socket socket = severSocket.accept();
+            System.out.println(&quot;有人上线了：&quot; + socket.getRemoteSocketAddress());
+
+            //把这个客户端对应的socket通信管道，交给一个独立的线程负责处理
+            new ServerReaderThread(socket).start();
+        }
+
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class ServerReaderThread extends Thread {
+    private Socket socket;
+    public ServerReaderThread(Socket socket) {
+        this.socket = socket;
+    }
+
+    @Override
+    public void run() {
+        //立即响应一个网页内容：”hello“给浏览器展示
+        try {
+            OutputStream os=socket.getOutputStream();
+            PrintStream ps=new PrintStream(os);
+            ps.println(&quot;HTTP/1.1 200 OK&quot;);
+            ps.println(&quot;Content-Type: text/html; charset=UTF-8&quot;);
+            ps.println();//必须换行
+            ps.println(&quot;&lt;div style='color:red;font-size:120px;text-align:center'&gt;Hello World&lt;/div&gt;&quot;);
+            ps.close();
+
+
+            socket.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+</code></pre>
+<p>使用线程池进行优化：<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250423170155.png" alt="" loading="lazy"></p>
+<pre><code class="language-java">public class Server {
+    public static void main(String[] args) throws Exception {
+        System.out.println(&quot;Server starting...&quot;);
+        //创建ServerSocket的对象，同时为服务端注册窗口
+        ServerSocket severSocket = new ServerSocket(8080);
+
+        //创建一个线程池，负责处理通信管道的任务
+        ThreadPoolExecutor pool=new ThreadPoolExecutor(16*2,16*2,0, TimeUnit.SECONDS
+                ,new ArrayBlockingQueue&lt;&gt;(8), Executors.defaultThreadFactory()
+                ,new ThreadPoolExecutor.AbortPolicy());//新任务来了没法处理抛异常
+
+        while (true) {
+            //使用severSocket对象，调用一个accept方法，等待客户端的连接请求
+            Socket socket = severSocket.accept();
+            System.out.println(&quot;有人上线了：&quot; + socket.getRemoteSocketAddress());
+
+            //把这个客户端对应的socket通信管道，交给一个独立的线程负责处理
+            pool.execute(new ServerReaderThread(socket));
+        }
+
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[多线程]]></title>
+        <id>https://yyss1014.github.io/post/duo-xian-cheng/</id>
+        <link href="https://yyss1014.github.io/post/duo-xian-cheng/">
+        </link>
+        <updated>2025-04-03T02:53:35.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li><a href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%88%9B%E5%BB%BA"><strong>多线程创建</strong></a>
+<ul>
+<li><a href="#%E7%BB%A7%E6%89%BFthread%E7%B1%BB"><strong>继承Thread类</strong></a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0runnable%E6%8E%A5%E5%8F%A3"><strong>实现Runnable接口</strong></a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0callable%E6%8E%A5%E5%8F%A3"><strong>实现Callable接口</strong></a></li>
+</ul>
+</li>
+<li><a href="#thread%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><strong>Thread常用方法</strong></a></li>
+<li><a href="#%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98"><strong>线程安全问题</strong></a></li>
+<li><a href="#%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5"><strong>线程同步</strong></a>
+<ul>
+<li><a href="#%E5%90%8C%E6%AD%A5%E4%BB%A3%E7%A0%81%E5%9D%97"><strong>同步代码块</strong></a></li>
+<li><a href="#%E5%90%8C%E6%AD%A5%E6%96%B9%E6%B3%95"><strong>同步方法</strong></a></li>
+<li><a href="#lock%E9%94%81"><strong>Lock锁</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E7%BA%BF%E7%A8%8B%E9%80%9A%E4%BF%A1"><strong>线程通信</strong></a></li>
+<li><a href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0"><strong>线程池</strong></a>
+<ul>
+<li><a href="#%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B%E6%B1%A0"><strong>创建线程池</strong></a></li>
+<li><a href="#%E5%A4%84%E7%90%86runnable%E4%BB%BB%E5%8A%A1"><strong>处理Runnable任务</strong></a></li>
+<li><a href="#%E5%A4%84%E7%90%86callable%E4%BB%BB%E5%8A%A1"><strong>处理Callable任务</strong></a></li>
+<li><a href="#executors"><strong>Executors</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E5%B9%B6%E5%8F%91%E5%92%8C%E5%B9%B6%E8%A1%8C"><strong>并发和并行</strong></a></li>
+<li><a href="#%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><strong>线程的生命周期</strong></a></li>
+<li><a href="#%E4%B9%90%E8%A7%82%E9%94%81"><strong>乐观锁</strong></a></li>
+</ul>
+<br>
+线程(Thread)是程序内部执行的流程。多线程是指从软硬件上实现的多条执行流程的技术（多条执行线程由CPU负责调度执行）。</p>
+<h1 id="多线程创建"><strong>多线程创建</strong></h1>
+<h2 id="继承thread类"><strong>继承Thread类</strong></h2>
+<p>继承Thread类，启动线程必须用start方法，而不是run方法。不要把主线程任务放在启动任务之前。</p>
+<pre><code class="language-java">public class MyThread extends Thread {
+    //必须重写run方法
+    @Override
+    public void run() {
+        //描述线程执行任务
+        for (int i = 1; i &lt;= 5; i++) {
+            System.out.println(&quot;子线程MyThread线程输出：&quot;+i);
+        }
+    }
+}
+public class Test {
+    public static void main(String[] args) {
+        //创建MyThread线程的对象代表一个线程
+        Thread t=new MyThread();
+        //启动线程(自动执行run方法）
+        t.start();
+        for (int i = 1; i &lt;= 5; i++) {
+            System.out.println(&quot;主线程输出：&quot;+i);
+        }
+    }
+}
+</code></pre>
+<p>输出结果是不规律但是同时运行的。</p>
+<pre><code class="language-java">子线程MyThread线程输出：1
+子线程MyThread线程输出：2
+子线程MyThread线程输出：3
+主线程输出：1
+主线程输出：2
+子线程MyThread线程输出：4
+主线程输出：3
+子线程MyThread线程输出：5
+主线程输出：4
+主线程输出：5
+</code></pre>
+<h2 id="实现runnable接口"><strong>实现Runnable接口</strong></h2>
+<p>可以继续继承其他类，实现其他接口，扩展性强。</p>
+<pre><code class="language-java">public class MyRunnable implements Runnable {
+    @Override
+    public void run() {
+        for (int i = 1; i &lt;= 5; i++) {
+            System.out.println(&quot;子线程MyThread线程输出：&quot;+i);
+        }
+    }
+}
+public class Test {
+    public static void main(String[] args) {
+        Runnable target=new MyRunnable();
+        //把任务对象交给一个线程对象去处理
+        new Thread(target).start();
+        for (int i = 1; i &lt;= 5; i++) {
+            System.out.println(&quot;主线程输出：&quot;+i);
+        }
+    }
+}
+</code></pre>
+<p>匿名内部类写法：</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        Runnable target = new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 1; i &lt;=5 ; i++) {
+                    System.out.println(&quot;子线程1输出：&quot;+i);
+                }
+            }
+        };
+        new Thread(target).start();
+
+        //简化形式1：
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 1; i &lt;=5 ; i++) {
+                    System.out.println(&quot;子线程2输出：&quot;+i);
+                }
+            }
+        }).start();
+
+        //简化形式2：
+        new Thread(() -&gt; {
+            for (int i = 1; i &lt;= 5; i++) {
+                System.out.println(&quot;子线程3输出：&quot; + i);
+            }
+        }).start();
+        
+        for (int i = 1; i &lt;=5 ; i++) {
+            System.out.println(&quot;主线程main输出：&quot;+i);
+        }
+    }
+}
+</code></pre>
+<h2 id="实现callable接口"><strong>实现Callable接口</strong></h2>
+<p>可以在线程执行完毕后去获取线程执行的结果。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        Callable&lt;String&gt; call=new MyCallable(100);
+        //把Callable的对象封装成FutrueTask对象(任务对象）
+        //是一个任务对象，实现了Runnable接口
+        //可以在线程执行完毕后，用未来任务对象调用get方法获取线程执行完毕后的结果
+        FutureTask&lt;String&gt; f1=new FutureTask&lt;String&gt;(call);
+        //把任务交给一个Thread对象
+        new Thread(f1).start();
+
+        Callable&lt;String&gt; call2=new MyCallable(200);
+        FutureTask&lt;String&gt; f2=new FutureTask&lt;String&gt;(call2);
+        new Thread(f2).start();
+
+        //获取线程执行完毕后返回的结果
+        //如果执行到这，假如上面的线程还没有执行完毕
+        //这里的代码会暂停，等待上面的线程执行完毕后才会获取结果
+        String rs=f1.get();
+        System.out.println(rs);
+
+        String rs2=f2.get();
+        System.out.println(rs2);
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class MyCallable implements Callable&lt;String&gt; {
+    private int n;
+
+    public MyCallable(int n) {
+        this.n = n;
+    }
+
+    //重写call方法
+    @Override
+    public String call() throws Exception {
+        //描述线程的任务，返回线程执行返回的结果
+        //需求：求1-n的和返回
+        int sum = 0;
+        for (int i = 1; i &lt;= n; i++) {
+            sum+=i;
+        }
+        return &quot;线程求和1-&quot;+n+&quot;的和是&quot;+sum;
+    }
+}
+</code></pre>
+<h1 id="thread常用方法"><strong>Thread常用方法</strong></h1>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        Thread t1=new MyThread(&quot;1号线程&quot;);
+        //t1.setName(&quot;1号线程&quot;);
+        t1.start();
+        System.out.println(t1.getName());//Thread-0
+
+        Thread t2 =new MyThread(&quot;2号线程&quot;);
+        //t2.setName(&quot;2号线程&quot;);
+        t2.start();
+        System.out.println(t2.getName());//Thread-1
+        //主线程对象的名字
+        //哪个线程执行它，它就会得到哪个线程对象
+        Thread m=Thread.currentThread();
+        System.out.println(m.getName());//main
+
+        for(int i=1;i&lt;=3;i++){
+            System.out.println(&quot;main线程输出：&quot;+i);
+        }
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class MyThread extends Thread {
+    public MyThread(String name) {
+        super(name);//为当前线程设置名字
+    }
+    //必须重写run方法
+    @Override
+    public void run() {
+        //描述线程执行任务
+        Thread t=Thread.currentThread();
+        for (int i = 1; i &lt;= 3; i++) {
+            System.out.println(t.getName()+&quot;输出：&quot;+i);
+        }
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test2 {
+    public static void main(String[] args) throws InterruptedException {
+        for (int i = 1; i &lt;= 5; i++) {
+            System.out.println(i);
+            //休眠5秒
+            if(i==3){
+                //会让当前执行的线程暂停5秒
+                Thread.sleep(5000);
+            }
+        }
+        //join方法作用，让当前调用的方法先执行完
+        Thread t1=new MyThread(&quot;1号线程&quot;);
+        t1.start();
+        t1.join();
+        Thread t2=new MyThread(&quot;2号线程&quot;);
+        t2.start();
+        t2.join();
+        Thread t3=new MyThread(&quot;3号线程&quot;);
+        t3.start();
+        t3.join();
+    }
+}
+</code></pre>
+<h1 id="线程安全问题"><strong>线程安全问题</strong></h1>
+<p>多个线程，同时操作一个共享资源的时候，可能会出现业务安全问题。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        Account acc=new Account(&quot;ICBC-110&quot;,100000);
+        new DrawThread(acc,&quot;小明&quot;).start();
+        new DrawThread(acc,&quot;小红&quot;).start();
+    }
+}
+public class DrawThread extends Thread{
+    private Account acc;
+    public DrawThread(Account acc,String name){
+        super(name);
+        this.acc = acc;
+    }
+    @Override
+    public void run() {
+        //取钱
+        acc.drawMoney(100000);
+    }
+}
+public class Account {
+    private String cardId;
+    private double money;
+
+    public Account(String cardId, double money) {
+        this.cardId = cardId;
+        this.money = money;
+    }
+
+    public Account() {
+    }
+
+    public void drawMoney(double money) {
+        //取钱人的名字
+        String name=Thread.currentThread().getName();
+        //判断余额是否足够
+        if(this.money&gt;=money){
+            System.out.println(name+&quot;来取钱&quot;+money+&quot;成功！&quot;);
+            this.money-=money;
+            System.out.println(name+&quot;取钱后余额：&quot;+this.money);
+        }else{
+            System.out.println(name+&quot;来取钱，~&quot;);
+        }
+    }
+
+    public String getCardId() {
+        return cardId;
+    }
+
+    public void setCardId(String cardId) {
+        this.cardId = cardId;
+    }
+
+    public double getMoney() {
+        return money;
+    }
+
+    public void setMoney(double money) {
+        this.money = money;
+    }
+}
+</code></pre>
+<pre><code class="language-java">小红来取钱100000.0成功！
+小明来取钱100000.0成功！
+小红取钱后余额：0.0
+小明取钱后余额：-100000.0
+</code></pre>
+<h1 id="线程同步"><strong>线程同步</strong></h1>
+<p>解决线程安全问题的方案。<br>
+加锁：每次只允许一个线程加锁，加锁后才能进入访问，访问完毕后自动解锁，然后其他线程才能加锁进来。</p>
+<h2 id="同步代码块"><strong>同步代码块</strong></h2>
+<p>把访问共享资源的核心代码上锁，以此保证线程安全。每次只允许一个线程加锁后进入，执行完毕后自动解锁，其他线程才可以进来执行。</p>
+<pre><code class="language-java">public static void test(){
+        synchronized(Account.class){}//字节码文件，只有一份文件
+    }
+    public void drawMoney(double money) {
+        //取钱人的名字
+        String name=Thread.currentThread().getName();
+        //判断余额是否足够
+        synchronized (this) {
+            if(this.money&gt;=money){
+                System.out.println(name+&quot;来取钱&quot;+money+&quot;成功！&quot;);
+                this.money-=money;
+                System.out.println(name+&quot;取钱后余额：&quot;+this.money);
+            }else{
+                System.out.println(name+&quot;来取钱，余额不足~&quot;);
+            }
+        }
+    }
+</code></pre>
+<ul>
+<li>建议使用共享资源作为锁对象，对于实例方法建议使用this作为锁对象。</li>
+<li>对于静态方法建议使用字节码作为锁对象。</li>
+</ul>
+<h2 id="同步方法"><strong>同步方法</strong></h2>
+<p>把访问共享资源的核心方法给上锁，以此保证线程安全。</p>
+<pre><code class="language-java">public synchronized void drawMoney(double money) {
+        //取钱人的名字
+        String name = Thread.currentThread().getName();
+        //判断余额是否足够
+        if (this.money &gt;= money) {
+            System.out.println(name + &quot;来取钱&quot; + money + &quot;成功！&quot;);
+            this.money -= money;
+            System.out.println(name + &quot;取钱后余额：&quot; + this.money);
+        } else {
+            System.out.println(name + &quot;来取钱，余额不足~&quot;);
+        }
+    }
+</code></pre>
+<p>锁的范围越小性能越好。</p>
+<h2 id="lock锁"><strong>Lock锁</strong></h2>
+<p>Lock锁是jdk5开始提供的一个新的锁定操作，通过它可以创建出锁对象进行加锁和解锁，更灵活，更方便，更强大。Lock是接口，不能创建对象，可以采用它的实现类创建对象。</p>
+<pre><code class="language-java">public class Account {
+    private String cardId;
+    private double money;
+    //创建一个锁对象
+    private final Lock lk = new ReentrantLock();//final防止被替换
+
+    public Account(String cardId, double money) {
+        this.cardId = cardId;
+        this.money = money;
+    }
+
+    public Account() {
+    }
+
+    public void drawMoney(double money) {
+        //取钱人的名字
+        String name = Thread.currentThread().getName();
+        try {
+            lk.lock();
+            //判断余额是否足够
+            if (this.money &gt;= money) {
+                System.out.println(name + &quot;来取钱&quot; + money + &quot;成功！&quot;);
+                this.money -= money;
+                System.out.println(name + &quot;取钱后余额：&quot; + this.money);
+            } else {
+                System.out.println(name + &quot;来取钱，余额不足~&quot;);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            lk.unlock();
+        }
+    }
+
+    public String getCardId() {
+        return cardId;
+    }
+
+    public void setCardId(String cardId) {
+        this.cardId = cardId;
+    }
+
+    public double getMoney() {
+        return money;
+    }
+
+    public void setMoney(double money) {
+        this.money = money;
+    }
+}
+</code></pre>
+<h1 id="线程通信"><strong>线程通信</strong></h1>
+<p>当多个线程共同操作共享资源时，线程间通过某种方式互相告知自己的状态，以互相协调，并避免无效的资源争夺。</p>
+<pre><code class="language-java">public class ThreadTest {
+    public static void main(String[] args) {
+        Desk desk = new Desk();
+        //3个生产者线程
+        new Thread(() -&gt; {
+            while (true) {
+                desk.put();
+            }
+        },&quot;厨师1&quot;).start();
+        new Thread(() -&gt; {
+            while (true) {
+                desk.put();
+            }
+        },&quot;厨师2&quot;).start();
+        new Thread(() -&gt; {
+            while (true) {
+                desk.put();
+            }
+        },&quot;厨师3&quot;).start();
+        //2个消费者线程
+        new Thread(() -&gt; {
+            while (true) {
+                desk.get();
+            }
+        },&quot;吃货1&quot;).start();
+        new Thread(() -&gt; {
+            while (true) {
+                desk.get();
+            }
+        },&quot;吃货2&quot;).start();
+
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Desk {
+    private List&lt;String&gt; list=new ArrayList&lt;&gt;();
+
+    public synchronized void put(){
+        try {
+            String name=Thread.currentThread().getName();
+            if(list.size()==0){
+                list.add(name+&quot;做的肉包子&quot;);
+                System.out.println(name+&quot;做了一个肉包子&quot;);
+                Thread.sleep(2000);
+
+                //等待自己，唤醒别人
+                this.notifyAll();
+                this.wait();
+            }else{
+                this.notifyAll();
+                this.wait();
+            }
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public synchronized void get() {
+        String name=Thread.currentThread().getName();
+        try {
+            if(list.size()==1){
+                System.out.println(name+&quot;吃了：&quot; + list.get(0));
+                list.clear();
+                Thread.sleep(1000);
+                this.notifyAll();
+                this.wait();
+            }else{
+                this.notifyAll();
+                this.wait();
+            }
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+</code></pre>
+<h1 id="线程池"><strong>线程池</strong></h1>
+<p>线程池是一个可以复用线程的技术。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250408105424.png" alt="" loading="lazy"></p>
+<h2 id="创建线程池"><strong>创建线程池</strong></h2>
+<p>jdk5.0创建了代表线程的接口ExecutorService。<br>
+实现类ThreadPoolExecutor构造器。</p>
+<pre><code class="language-java">public ThreadPoolExecutor(int corePoolSize,
+                              int maximumPoolSize,
+                              long keepAliveTime,
+                              TimeUnit unit,
+                              BlockingQueue&lt;Runnable&gt; workQueue,
+                              ThreadFactory threadFactory,
+                              RejectedExecutionHandler handler)
+</code></pre>
+<ul>
+<li>参数一：corePoolSize：指定核心线程的数量（正式工）</li>
+<li>参数二：maximumPoolSize：指定线程池的最大线程数量（最大员工数包括正式工和临时工）</li>
+<li>参数三：keepAliveTime：指定临时线程的存活时间（临时工多久被开除）</li>
+<li>参数四：unit：指定临时线程存活的时间单位</li>
+<li>参数五：workQueue：指定线程池的任务队列（客人排队的地方）</li>
+<li>参数六：threadFactory：指定线程池的线程工厂</li>
+<li>参数七：handler：指定线程池的任务拒绝策略</li>
+</ul>
+<pre><code class="language-java">public class ThreadTest {
+    public static void main(String[] args) {
+        ExecutorService pool=new ThreadPoolExecutor(3, 5, 8,
+                TimeUnit.SECONDS, new ArrayBlockingQueue&lt;&gt;(4),//最多缓存4个任务
+                Executors.defaultThreadFactory(), new ThreadPoolExecutor.AbortPolicy()
+                //新任务来了没法处理抛异常
+        );
+    }
+}
+</code></pre>
+<p>新任务提交时发现核心线程都在忙，任务队列也满了，并且还可以创建临时线程，才会创建临时线程。<br>
+新任务提交时发现核心线程和临时线程都在忙，任务队列也满了，才会拒绝任务。</p>
+<h2 id="处理runnable任务"><strong>处理Runnable任务</strong></h2>
+<pre><code class="language-java">public class MyRunnable implements Runnable {
+    @Override
+    public void run() {
+        System.out.println(Thread.currentThread().getName()+&quot;输出666&quot;);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+</code></pre>
+<h2 id="处理callable任务"><strong>处理Callable任务</strong></h2>
+<pre><code class="language-java">public class MyCallable implements Callable&lt;String&gt; {
+    private int n;
+
+    public MyCallable(int n) {
+        this.n = n;
+    }
+
+    //重写call方法
+    @Override
+    public String call() throws Exception {
+        //描述线程的任务，返回线程执行返回的结果
+        //需求：求1-n的和返回
+        int sum = 0;
+        for (int i = 1; i &lt;= n; i++) {
+            sum+=i;
+        }
+        return Thread.currentThread().getName()+&quot;求和1-&quot;+n+&quot;的和是&quot;+sum;
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class ThreadTest {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        ExecutorService pool = new ThreadPoolExecutor(3, 5, 8,
+                TimeUnit.SECONDS, new ArrayBlockingQueue&lt;&gt;(4),//最多缓存4个任务
+                Executors.defaultThreadFactory(), new ThreadPoolExecutor.AbortPolicy()
+                //新任务来了没法处理抛异常
+        );
+        Future&lt;String&gt; f1=pool.submit(new MyCallable(100));
+        //FutureTask是Future接口的实现类，是一种多态写法
+        Future&lt;String&gt; f2=pool.submit(new MyCallable(200));
+        Future&lt;String&gt; f3=pool.submit(new MyCallable(300));
+        Future&lt;String&gt; f4=pool.submit(new MyCallable(400));
+
+        System.out.println(f1.get());
+        System.out.println(f2.get());
+        System.out.println(f3.get());
+        System.out.println(f4.get());
+    }
+}
+</code></pre>
+<h2 id="executors"><strong>Executors</strong></h2>
+<p>是一个线程池的工具类，提供了很多静态方法用于返回不同特点的线程池对象。这些方法的底层，都是通过线程池的实现类ThreadPoolExecutor创建的线程池对象。</p>
+<pre><code class="language-java">//新建固定数量的线程池
+ExecutorService pool =Executors.newFixedThreadPool(23);
+//核心线程数量配置多少呢？
+//计算密集型的任务，核心线程数量=CPU数量+1
+//IO密集型的任务，核心线程数量=CPU数量*2
+</code></pre>
+<p>大型并发系统环境中使用Executors如果不注意可能会出现系统风险。建议通过ThreadPoolExecutor方式。</p>
+<h1 id="并发和并行"><strong>并发和并行</strong></h1>
+<p>正在运行的程序和软件是一个独立的进程。线程是属于进程的，一个进程可以同时运行很多个线程。<br>
+进程中的多个线程是并发和并行执行的。<br>
+<strong>并发的含义</strong><br>
+进程中的线程是由CPU负责调度执行的，但CPU能同时处理线程的数量有限，为了保证全部线程都能往前执行，CPU会轮询为系统的每个线程服务，由于CPU切换的速度很快，给我们的感觉这些线程在同时执行，这就是并发。<br>
+<strong>并行的理解</strong><br>
+在同一个时刻，同时有多个线程被CPU（多核）调度执行。<br>
+<strong>多线程是并发和并行同时执行的。</strong><br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250408164413.png" alt="" loading="lazy"><br>
+一共8861个线程，不同时刻每22个线程进行切换称为并发，同一时刻有22个线程在执行称为并行。</p>
+<h1 id="线程的生命周期"><strong>线程的生命周期</strong></h1>
+<p>java为线程定义了6种状态。</p>
+<pre><code class="language-java">public enum State {
+        NEW,
+        RUNNABLE,
+        BLOCKED,
+        WAITING,
+        TIMED_WAITING,
+        TERMINATED;
+    }
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250408165148.png" alt="" loading="lazy"></figure>
+<h1 id="乐观锁"><strong>乐观锁</strong></h1>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        //悲观锁：一上来就加锁，没有安全感，每次只能一个线程访问完毕后再解锁，线程安全性能较差
+        //乐观锁：一开始不上锁，认为没有问题，大家一起跑，等要出现线程安全问题才开始控制。线程安全，性能较好。
+
+        Runnable target = new MyRunnable();
+        for (int i = 0; i &lt; 100; i++) {
+            new Thread(target).start();
+        }
+    }
+}
+public class MyRunnable implements Runnable {
+    private int count;
+    @Override
+    public void run() {
+        for (int i = 0; i &lt; 100; i++) {
+            synchronized (this) {
+                System.out.println(Thread.currentThread().getName()+&quot;count：&quot; + (++count));
+            }
+        }
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test2 {
+    public static void main(String[] args) {
+        //悲观锁：一上来就加锁，没有安全感，每次只能一个线程访问完毕后再解锁，线程安全性能较差
+        //乐观锁：一开始不上锁，认为没有问题，大家一起跑，等要出现线程安全问题才开始控制。线程安全，性能较好。
+
+        Runnable target = new MyRunnable2();
+        for (int i = 0; i &lt; 100; i++) {
+            new Thread(target).start();
+        }
+    }
+}
+public class MyRunnable2 implements Runnable {
+    //整数修改的乐观锁，原子类实现的
+    private AtomicInteger count = new AtomicInteger();
+    @Override
+    public void run() {
+        for (int i = 0; i &lt; 100; i++) {
+            System.out.println(Thread.currentThread().getName()+&quot;count：&quot; + count.incrementAndGet());
+        }
+    }
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[MODGS]]></title>
+        <id>https://yyss1014.github.io/post/bu-yao-zai-tuo-yan-liao/</id>
+        <link href="https://yyss1014.github.io/post/bu-yao-zai-tuo-yan-liao/">
+        </link>
+        <updated>2025-04-02T13:23:49.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li><a href="#%E5%85%89%E6%B5%81"><strong>光流</strong></a>
+<ul>
+<li><a href="#%E4%BC%A0%E7%BB%9F%E5%85%89%E6%B5%81%E7%AE%97%E6%B3%95"><strong>传统光流算法</strong></a>
+<ul>
+<li><a href="#lk%E7%AE%97%E6%B3%95"><strong>LK算法</strong></a></li>
+<li><a href="#lk%E9%87%91%E5%AD%97%E5%A1%94%E7%AE%97%E6%B3%95"><strong>LK金字塔算法</strong></a></li>
+<li><a href="#hs%E7%AE%97%E6%B3%95"><strong>HS算法</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E5%9F%BA%E4%BA%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%85%89%E6%B5%81%E7%AE%97%E6%B3%95"><strong>基于深度学习的光流算法</strong></a>
+<ul>
+<li><a href="#flow-net"><strong>Flow Net</strong></a></li>
+<li><a href="#raft"><strong>RAFT</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#3d%E9%AB%98%E6%96%AF"><strong>3D高斯</strong></a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81"><strong>代码</strong></a>
+<ul>
+<li><a href="#%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83"><strong>配置环境</strong></a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81%E7%90%86%E8%A7%A3"><strong>代码理解</strong></a></li>
+</ul>
+</li>
+<li><a href="#nvpsimplified"><strong>NVPSimplified</strong></a>
+<ul>
+<li><a href="#forward"><strong>forward</strong></a>
+<ul>
+<li><a href="#y-self_affine_inputt-y"><strong>y = self._affine_input(t, y)</strong></a></li>
+<li><a href="#for-i-in-selflayer_idx"><strong>for i in self.layer_idx:</strong></a>
+<ul>
+<li><a href="#%E5%85%88%E4%B8%80%E5%B1%82mlp"><strong>先一层MLP</strong></a></li>
+<li><a href="#%E4%B8%80%E5%B1%82couplinglayer%E8%80%A6%E5%90%88%E5%B1%82"><strong>一层CouplingLayer（耦合层）</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#inverse"><strong>inverse</strong></a></li>
+</ul>
+</li>
+<li><a href="#stage1"><strong>stage1</strong></a></li>
+<li><a href="#stage2"><strong>stage2</strong></a></li>
+</ul>
+</p>
+<h1 id="光流"><strong>光流</strong></h1>
+<p>光流是一个有关物体运动的概念，指在一帧视频图像中，代表同一目标的像素点到下一帧的移动量，用向量表示。<br>
+先看个大概：<br>
+<a href="https://zhuanlan.zhihu.com/p/660866515">光流算法：从传统算法到深度学习</a></p>
+<h2 id="传统光流算法"><strong>传统光流算法</strong></h2>
+<h3 id="lk算法"><strong>LK算法</strong></h3>
+<p>亮度不变假设：运动物体的灰度在很短的间隔时间内保持不变。<br>
+孔径问题(Aperture Problem)，注意求偏导是对当前帧求偏导。<br>
+<a href="https://blog.csdn.net/leviopku/article/details/121773298">经典光流算法Lucas-Kanade（有图助理解）</a></p>
+<h3 id="lk金字塔算法"><strong>LK金字塔算法</strong></h3>
+<p><a href="https://zhuanlan.zhihu.com/p/650196385">LK金字塔光流算法详解</a></p>
+<h3 id="hs算法"><strong>HS算法</strong></h3>
+<p>光流场平滑假设：场景中属于同一物体的像素形成光流场向量应当十分平滑，只有在物体边界的地方才会出现光流的突变，但这只占图像的一小部分。总体来看图像的光流场应当是平滑的。<br>
+<a href="https://blog.csdn.net/plateros/article/details/102931138">计算机视觉大型攻略 —— 光流（1）基本原理和经典算法</a></p>
+<h2 id="基于深度学习的光流算法"><strong>基于深度学习的光流算法</strong></h2>
+<h3 id="flow-net"><strong>Flow Net</strong></h3>
+<p><a href="https://zhuanlan.zhihu.com/p/124400267">基于FlowNet的光流估计</a></p>
+<h3 id="raft"><strong>RAFT</strong></h3>
+<p>光流可视化<br>
+<a href="https://blog.csdn.net/qq_33757398/article/details/106332814">一文搞懂光流 光流的生成，可视化以及映射（warp）</a><br>
+GRU<br>
+<a href="%E5%8F%B2%E4%B8%8A%E6%9C%80%E8%AF%A6%E7%BB%86%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%AE%B2%E8%A7%A3%EF%BC%88RNN/LSTM/GRU%EF%BC%89">史上最详细循环神经网络讲解（RNN/LSTM/GRU）</a><br>
+<a href="https://zhuanlan.zhihu.com/p/32085405">人人都能看懂的LSTM</a><br>
+<a href="https://zhuanlan.zhihu.com/p/32481747">人人都能看懂的GRU</a><br>
+最后还是看源码吧：<br>
+<a href="https://zhuanlan.zhihu.com/p/623489787">以RAFT模型代码为例的光流相关问题总结</a></p>
+<h1 id="3d高斯"><strong>3D高斯</strong></h1>
+<p><a href="https://www.bilibili.com/video/BV1zi421v7Dr/?spm_id_from=333.1387.favlist.content.click&amp;vd_source=906aff1cc5a8e26730933b6cc846bcdb">【较真系列】讲人话-3d gaussian splatting全解(原理+代码+公式)【1】 捏雪球<br>
+</a></p>
+<h1 id="代码"><strong>代码</strong></h1>
+<h2 id="配置环境"><strong>配置环境</strong></h2>
+<p>按照3d高斯的说明文件配置环境：</p>
+<pre><code class="language-python">conda env create --file environment.yml
+</code></pre>
+<p>按照MoDGS的requirements文件下载其他库：</p>
+<pre><code class="language-python">pip install -r requirements.txt
+</code></pre>
+<p>最后还漏了pytorch3d库和av库，按指令装好：</p>
+<pre><code class="language-python">pip install av
+conda install https://anaconda.org/pytorch3d/pytorch3d/0.7.1/download/linux-64/pytorch3d-0.7.1-py37_cu116_pyt1121.tar.bz2
+</code></pre>
+<h2 id="代码理解"><strong>代码理解</strong></h2>
+<p>RealNVP 是一种基于耦合层（Coupling Layer） 的归一化流（Normalizing Flow）模型，其核心思想是通过可逆的分层变换将简单分布（如高斯分布）映射到复杂分布。<br>
+<a href="https://zhuanlan.zhihu.com/p/337044893">蒙特卡洛积分与重要性采样</a><br>
+<a href="https://zhuanlan.zhihu.com/p/41912710">细水长flow之NICE：流模型的基本概念与实现</a><br>
+<a href="https://zhuanlan.zhihu.com/p/43048337">RealNVP与Glow：流模型的传承与升华</a></p>
+<h1 id="nvpsimplified"><strong>NVPSimplified</strong></h1>
+<p>这篇代码里用到NVPSimplified，它的每一层 CouplingLayer 都是设计上就保证可逆的：它对输入的某一部分变量保持不变，对另一部分变量进行 仿射变换（scale &amp; shift），并且这种变换可以 显式求反函数。三个参数分别是时间，在本代码中利用神经网络GaborNet生成的时间特征和点云位置。<br>
+思想：把每帧里动来动去的点都对齐回 canonical 状态</p>
+<h2 id="forward"><strong>forward</strong></h2>
+<pre><code class="language-python">    def forward(self, t, feat, x):
+        y = x
+        if self.affine:
+            y = self._affine_input(t, y)
+        for i in self.layer_idx:
+            feat_i = self.code_projectors[i](feat)
+            feat_i = self._expand_features(feat_i, y)
+            l1 = self.layers1[i]
+            y, _ = self._call(l1, feat_i, y)
+        return y
+</code></pre>
+<h3 id="y-self_affine_inputt-y"><strong>y = self._affine_input(t, y)</strong></h3>
+<pre><code class="language-python">def _affine_input(self, t, x, inverse=False):
+    depth = x[..., -1]  # 取出 z 坐标（depth）[B, N]
+    net_in = torch.stack([t.expand_as(depth), depth], dim=-1)  #组合成 net_in ∈ [B, N, 2]，表示每个点的 (time, depth) 信息
+    affine = self.get_affine(self.affine_mlp(net_in), inverse=inverse)  # [B, N, 3, 3]
+    '''
+        self.affine_mlp = pe_relu.MLP(input_dim=2,
+                                                   hidden_size=256,
+                                                   n_layers=2,
+                                                   skip_layers=[],
+                                                   use_pe=True,
+                                                   pe_dims=[1],
+                                                   pe_freq=pe_freq,
+                                                   output_dim=5).to(device)
+        '''
+    xy = x[..., :2]  # 点云xy坐标[B, N, 2]
+    xy = apply_homography(affine, xy)  #将仿射矩阵应用到 x, y 坐标上 [B, N, 2]
+    x = torch.cat([xy, depth.unsqueeze(-1)], dim=-1)  # 与原始的 z（depth）拼接[B, N, 3]
+    return x
+</code></pre>
+<p>其中：</p>
+<pre><code class="language-python">affine = self.get_affine(self.affine_mlp(net_in), inverse=inverse)  # [B, N, 3, 3]
+</code></pre>
+<p>self.affine_mlp从每个点的 [时间t, 深度z] 输入中预测出该点的仿射变换参数 [angle, scale1, tx, scale2, ty]，self.get_affine从而构造点的仿射矩阵。</p>
+<pre><code class="language-python">[ a  b  tx ]
+[ c  d  ty ]
+[ 0  0   1 ]
+a = cos(angle) * scale1
+b = -sin(angle) * scale1
+c = sin(angle) * scale2
+d = cos(angle) * scale2
+</code></pre>
+<pre><code class="language-python">    def get_affine(self, theta, inverse=False):
+        &quot;&quot;&quot;
+        expands the 5 parameters into 3x3 affine transformation matrix
+        :param theta (..., 5)
+        :returns mat (..., 3, 3)
+        &quot;&quot;&quot;
+        angle = theta[..., 0:1]
+        scale1 = torch.exp(theta[..., 1:2])
+        scale2 = torch.exp(theta[..., 3:4])
+        cos = torch.cos(angle)
+        sin = torch.sin(angle)
+        a = cos * scale1
+        b = -sin * scale1
+        c = sin * scale2
+        d = cos * scale2
+        tx = theta[..., 2:3]
+        ty = theta[..., 4:5]
+        zeros = torch.zeros_like(a)
+        ones = torch.ones_like(a)
+        if inverse:
+            return self.invert_affine(a, b, c, d, tx, ty, zeros, ones)
+        else:
+            return torch.cat([a, b, tx, c, d, ty, zeros, zeros, ones], dim=-1).reshape(*theta.shape[:-1], 3, 3)
+</code></pre>
+<h3 id="for-i-in-selflayer_idx"><strong>for i in self.layer_idx:</strong></h3>
+<p>layer_idx=4，一共4次</p>
+<h4 id="先一层mlp"><strong>先一层MLP</strong></h4>
+<p>先用MLP变换一次时间特征[B,128]-&gt;[B,128]</p>
+<pre><code class="language-python">        feat_i = self.code_projectors[i](feat)       # 投影特征
+        '''
+        self.code_projectors.append(
+                MLP(
+                    feature_dims,
+                    feature_dims,
+                    code_proj_hidden_size,
+                    bn=normalization,
+                    act=activation,
+                )
+            )
+        '''
+</code></pre>
+<pre><code class="language-python">        feat_i = self._expand_features(feat_i, y)     # 将 [B, 128] 扩展为 [B, N, 128]
+        '''
+        def _expand_features(self, F, x):
+    B, N, _ = x.shape               # 获取点云的 batch size 和点数
+    return F.unsqueeze(1).expand(B, N, -1)
+    '''
+</code></pre>
+<h4 id="一层couplinglayer耦合层"><strong>一层CouplingLayer（耦合层）</strong></h4>
+<pre><code class="language-python">        l1 = self.layers1[i]
+</code></pre>
+<p>layers1：</p>
+<pre><code class="language-python">        input_dims = 3
+        i = 0
+        mask_selection = []
+        while i &lt; n_layers:
+            mask_selection.append(torch.randperm(input_dims))
+            i += input_dims
+        mask_selection = torch.cat(mask_selection) ## 2024年3月26日10:58:20：【0,1,2,0,2,1】'240326_105658'
+        # 每一层都需要一个随机的掩码（mask），指定输入的哪些维度参与变换。
+
+        for i in self.layer_idx:
+            # get mask
+            mask2 = torch.zeros(input_dims, device=device)
+            mask2[mask_selection[i]] = 1 #mask2 表示：哪些维度将被更新
+            mask1 = 1 - mask2  # mask1 表示：哪些维度保持不变
+
+
+            # get transformation
+            map_st = nn.Sequential(
+                MLP(
+                    proj_dims + feature_dims,
+                    2,
+                    hidden_size,
+                    bn=normalization,
+                    act=activation,
+                    )
+            )# 构造变换网络（map_st），一个小型 MLP，用于预测仿射变换参数 s 和 t
+
+            proj = get_projection_layer(proj_dims=proj_dims, type=proj_type, pe_freq=pe_freq)# 构造投影层
+            # self.layers1.append(CouplingLayer(map_st, proj, mask1[None, None, None]))
+            self.layers1.append(CouplingLayer(map_st, proj, mask1[ None, None])) # mask1[ None, None]给 mask1 的前面加两个维度
+</code></pre>
+<pre><code class="language-python">class CouplingLayer(nn.Module):
+    def __init__(self, map_st, projection, mask):
+        super().__init__()
+        self.map_st = map_st
+        self.projection = projection
+        # self.mask = mask ## 
+        self.register_buffer(&quot;mask&quot;, mask)
+
+    def forward(self, F, y):
+        y1 = y * self.mask# 举个例子，xyz中是y维度被更新，这里把 y 的部分维度屏蔽掉（乘 0）
+        F_y1 = torch.cat([F, self.projection(y[..., self.mask.squeeze().bool()])], dim=-1)#这里把没有被屏蔽的[x,z]拿出来，维度为[B,N,2]，经过一个带 positional encoding 的小 MLP 映射变成[B,N,256]，再与前面得到的时间特征[B,N,128]拼接，变成[B,N,384]
+        st = self.map_st(F_y1)# 用 map_st（一个小的 MLP）对 F_y1 做预测，输出两个通道分别代表 scale 和 translation。输出: [B, N, 2]
+        s, t = torch.split(st, split_size_or_sections=1, dim=-1)
+        s = torch.clamp(s, min=-8, max=8)
+        x = y1 + (1 - self.mask) * ((y - t) * torch.exp(-s))
+        ldj = (-s).sum(-1)#不是用 Flow 建模分布，忽略
+
+        return x, ldj
+</code></pre>
+<p>如果简写为[x,y,z]的话：</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><msup><mi>x</mi><mo mathvariant="normal">′</mo></msup><mo separator="true">,</mo><msup><mi>z</mi><mo mathvariant="normal">′</mo></msup><mo>]</mo><mo>=</mo><mo>[</mo><mi>x</mi><mo separator="true">,</mo><mi>z</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">[x&#x27;,z&#x27;]=[x,z]
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.051892em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.801892em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.801892em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathdefault">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.04398em;">z</span><span class="mclose">]</span></span></span></span></span></p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>y</mi><mo mathvariant="normal">′</mo></msup><mo>=</mo><mo>(</mo><mi>y</mi><mo>−</mo><mi>t</mi><mo>)</mo><mo>∗</mo><mi>e</mi><mi>x</mi><mi>p</mi><mo>(</mo><mo>−</mo><mi>s</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">y&#x27;=(y-t)*exp(-s)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.996332em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.801892em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">t</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">e</span><span class="mord mathdefault">x</span><span class="mord mathdefault">p</span><span class="mopen">(</span><span class="mord">−</span><span class="mord mathdefault">s</span><span class="mclose">)</span></span></span></span></span></p>
+<p>t和s的取值是由[x,z]训练出来的，是关于未被变换的维度的函数。<br>
+对于耦合层的逆向过程，只需要对刚才变换的那一部分“逆操作”即可，显然每一步都是可逆的。</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>y</mi><mo>=</mo><msup><mi>y</mi><mo mathvariant="normal">′</mo></msup><mo>∗</mo><mi>e</mi><mi>x</mi><mi>p</mi><mo>(</mo><mi>s</mi><mo>)</mo><mo>+</mo><mi>t</mi></mrow><annotation encoding="application/x-tex">y=y&#x27;*exp(s)+t
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.996332em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.801892em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">e</span><span class="mord mathdefault">x</span><span class="mord mathdefault">p</span><span class="mopen">(</span><span class="mord mathdefault">s</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord mathdefault">t</span></span></span></span></span></p>
+<pre><code class="language-python">        y, _ = self._call(l1, feat_i, y)
+</code></pre>
+<p>所以整个前向传播过程（gpt）：</p>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>affine（可选)</td>
+<td>对点坐标做刚性或仿射变换，对点整体施加旋转、缩放、平移</td>
+</tr>
+<tr>
+<td>code_projectors</td>
+<td>提取时间（或序列）特征</td>
+</tr>
+<tr>
+<td>_expand_features</td>
+<td>将时间特征广播到每个点</td>
+</tr>
+<tr>
+<td>CouplingLayer</td>
+<td>每个点位置由时间控制进行扭曲、变形</td>
+</tr>
+</tbody>
+</table>
+<h2 id="inverse"><strong>inverse</strong></h2>
+<pre><code class="language-python">    def inverse(self, t, feat, y):
+        x = y
+        for i in reversed(self.layer_idx):
+            feat_i = self.code_projectors[i](feat)
+            feat_i = self._expand_features(feat_i, x)
+            l1 = self.layers1[i]
+            x, _ = self._call(l1.inverse, feat_i, x)
+        if self.affine:
+            x = self._affine_input(t, x, inverse=True)
+        return x
+</code></pre>
+<p>forward	观察坐标 → 规范坐标	把某一时刻的点 x 映射到一个参考帧下的位置 y（用于统一渲染）<br>
+inverse	规范坐标 → 观察坐标	从参考帧的 y 推出这个点在时间 t 的实际位置 x（用于训练对齐）<br>
+这个过程是可逆的。</p>
+<h1 id="stage1"><strong>stage1</strong></h1>
+<p>stage1在训练Neural_InverseTrajectory_Trainer是一个用于生成时间特征的神经网络GaborNet 和神经网络模型NVPSimplified 的混合。NVPSimplified使用位置编码、特征提取和映射机制，将时间帧的坐标映射到标准空间。<br>
+从当前时刻的点云位置映射到规范空间，再从规范空间映射到下一帧点云，第一个损失函数是推测的下一帧点云和真实的下一帧点云位置的l2距离。</p>
+<pre><code class="language-python">def train_exhautive_one_step(self,step,data):
+        &quot;&quot;&quot;used for point track model version 4.0
+        &quot;&quot;&quot;
+        self.optimizer.zero_grad()
+        x = data[&quot;pcd&quot;] #
+        t= data[&quot;time&quot;] #当前帧时间
+        fromTo = data[&quot;fromTo&quot;][0] #例如'00001_00002'
+        next_time = data[&quot;target_gt&quot;][&quot;time&quot;] # 下一帧的时间戳
+        next_pcd = data[&quot;target_gt&quot;][&quot;pcd&quot;]
+        next_msk= data[&quot;target_gt&quot;][&quot;pcd_target_msk&quot;]# 有效点mask（哪些点被追踪到了）
+        
+        x_canno_msked, time_feature = self.forward_to_canonical(x[next_msk].unsqueeze(0),t)
+        next_xyz_pred_msked = self.inverse_other_t(x_canno_msked,next_time)
+        flow_loss= l2_loss(next_xyz_pred_msked,next_pcd[next_msk].unsqueeze(0)
+        
+        
+        loss=0.0
+        loss = flow_loss
+</code></pre>
+<p>梯度裁剪，防止梯度爆炸，本次训练没用。</p>
+<pre><code class="language-python">        # loss = torch.nn.functional.mse_loss(x_pred, x)
+        if self.args.grad_clip &gt; 0:
+            for param in self.learnable_params:
+                grad_norm = torch.nn.utils.clip_grad_norm_(param, self.args.grad_clip)
+                if grad_norm &gt; self.args.grad_clip:
+                    print(&quot;Warning! Clip gradient from {} to {}&quot;.format(grad_norm, self.args.grad_clip))
+</code></pre>
+<p>第二个损失函数是当前帧预测的光流（预测的下一帧位置减当前帧位置）损失，每个点的 flow 与其邻居 flow 的差异越小越好。</p>
+<pre><code class="language-python">        if self.args.local_smoothness_loss&gt;0:
+            index = None
+            if fromTo in  self.precompute_index:
+                index = self.precompute_index[fromTo].cuda()
+            pcd = x[next_msk]
+            flow = next_xyz_pred_msked - pcd
+            dic= self.get_local_smoothness_loss(pcd,flow.squeeze(0),index,self.args.neighbor_K)
+            
+            loss += self.args.local_smoothness_loss*dic[&quot;loss&quot;]
+            if not fromTo  in  self.precompute_index:
+                self.precompute_index[fromTo]=dic[&quot;index&quot;].cpu()
+        if self.args.local_smoothness_loss:    
+            self.scalars_to_log['localSmoothness_loss'] = dic[&quot;loss&quot;].detach().item()
+        self.scalars_to_log['flow_loss'] = flow_loss.detach().item())
+···
+</code></pre>
+<p>计算局部 flow 平滑损失，每个点的 flow 与其邻居 flow 的差异越小越好。</p>
+<pre><code class="language-python">    def get_local_smoothness_loss(self,pcd,flow,index=None,neighbor_K=10,loss_type=&quot;l2&quot;):
+        if index is None:
+            pairwise_dist = knn_points(pcd.unsqueeze(0), pcd.unsqueeze(0), K=neighbor_K, return_sorted=False)
+            index = pairwise_dist.idx
+        neighbor_flows = knn_gather(flow.unsqueeze(0), index)#neighbor_K)
+        neighbor_flows=neighbor_flows[:,:,1:,:] ## remove the first point which is the point itself
+        if loss_type==&quot;l1&quot;:
+            loss = torch.mean(torch.abs(flow.unsqueeze(0).unsqueeze(2)-neighbor_flows))
+        else:
+            loss = torch.mean(torch.square(flow.unsqueeze(0).unsqueeze(2)-neighbor_flows))   
+            # loss = torch.mean(torch.square(flow.unsqueeze(0).unsqueeze(2)-neighbor_flows))
+        return {&quot;loss&quot;:loss,&quot;index&quot;:index}
+        # pass 
+</code></pre>
+<pre><code class="language-python">    def forward_to_canonical(self, x,t): 
+        &quot;&quot;&quot; 
+        从时间t帧的点坐标x转换到时间t0的标准空间点坐标。
+            [B, N, 3] -&gt; [B,N,3]
+            
+        t：##torch.Size([B, 1])
+        x：##torch.Size([B, N, 3])
+        &quot;&quot;&quot;
+
+        # GaborNet 是一种带有Gabor 激活函数的神经网络
+        &quot;&quot;&quot;
+        self.feature_mlp = GaborNet(
+        in_size=1,
+        hidden_size=256,
+        n_layers=2,
+        alpha=4.5,
+        out_size=128
+        ).to(self.device)
+        &quot;&quot;&quot;
+        time_feature = self.feature_mlp(t)#torch.Size([B, feature_dim])
+
+
+        # 将一个点（x）从某一时间帧（t）对应的观察坐标系中，映射到“标准空间”（canonical space）中
+        '''
+        self.deform_mlp = NVPSimplified(n_layers=4,
+                                        feature_dims=128,
+                                        hidden_size=[256, 256, 256],
+                                        proj_dims=256,
+                                        code_proj_hidden_size=[],
+                                        proj_type='fixed_positional_encoding',
+                                        pe_freq=training_args.pe_freq,
+                                        normalization=False,
+                                        affine=False,
+                                        ).to(self.device)
+        '''
+        x = self.deform_mlp(t,time_feature,x)
+        
+        return x,time_feature
+</code></pre>
+<pre><code class="language-python">       def inverse_cycle_t(self, x,t, time_feature):
+       &quot;&quot;&quot;反向到同一个时刻,这个时候用在fwd时间步得到的time feature ，不用再次计算。
+
+       Args:
+           x (_type_): _description_
+           t (_type_): _description_
+           time_feature (_type_): _description_
+
+       Returns:
+           _type_: _description_
+       &quot;&quot;&quot;
+       x = self.deform_mlp.inverse(t,time_feature,x)
+       return x
+</code></pre>
+<h1 id="stage2"><strong>stage2</strong></h1>
+<p>准备好进入优化流程：</p>
+<pre><code class="language-python">print(f&quot;Optimizing outdir:{outdir}&quot;)
+</code></pre>
+<p>把点云的位置从观察坐标（observation frame）转换到标准坐标系（canonical frame），这里应该用了stage1训练好的Neural_InverseTrajectory_Trainer，我第一次跑的时候没传参，第二次跑传了结果没变，可能是我传错了。</p>
+<pre><code class="language-python">init_pcd = get_gaussians_init_pcd(timePcddataset,net_trainer,number_init_pnts=300000) #net_trainer= Neural_InverseTrajectory_Trainer
+</code></pre>
+<p>get_gaussians_init_pcd：</p>
+<pre><code class="language-python">def get_gaussians_init_pcd(dataset:BaseCorrespondenceDataset,trainer:Neural_InverseTrajectory_Trainer,mode=&quot;average&quot;,number_init_pnts=-1,save_pcd=False):
+    &quot;&quot;&quot;_summary_
+
+    Args:
+        table (_type_): _description_
+        mask (_type_): _description_
+        N_se (_type_): _description_
+        net_query_fn (_type_): _description_
+    &quot;&quot;&quot;
+    print(&quot;Get Canonical Space PCD...&quot;)
+    # 将 trainer 模式设为 eval（推理模式），避免梯度计算
+    trainer.to_eval()
+    network_query_fn_2canno = lambda inputs, times : trainer.forward_to_canonical(inputs.unsqueeze(0), times.unsqueeze(-1))
+        with torch.no_grad():
+            ···
+               elif isinstance(dataset,ExhaustiveFlowPairsDataset):
+            print(&quot;Get Canonical Space PCD from ExhaustiveFlowPairsDataset&quot;)
+            
+            pcd_pairs = dataset.time_pcd # 点云
+            T = len(pcd_pairs) # 帧数
+            canonical_list = []
+            for index , item in tqdm(enumerate(pcd_pairs)):
+                pcd_t =  item[&quot;pcd&quot;] # [N,6]
+                #  校验 frame_id 与遍历索引是否一致
+                assert int(item[&quot;frame_id&quot;])/dataset.PCD_INTERVAL==index,&quot;error&quot;  ### 在Exhaustive paring的时候 frame_id 存储的是 image_id 比如 &quot;000000&quot;, &quot;000001&quot;, &quot;000002&quot;...
+                time_t = int(item[&quot;frame_id&quot;])/dataset.PCD_INTERVAL/float(T)
+                time_t = torch.Tensor([time_t])
+                # 前面定义的network_query_fn_2canno函数在这把点云位置转换到标准空间
+                xyz_cano ,_= network_query_fn_2canno(pcd_t[:,:3].cuda(),time_t.cuda()) #[1,N,3]
+                rgb_cano = pcd_t[:,3:6]
+                canonical_list.append(torch.cat([xyz_cano.cpu().squeeze(0),rgb_cano.cpu()],1)) #[N,6]
+                # break
+            xyzrgb=torch.cat(canonical_list,0)    #[N*T,6]
+            # xyzrgb = torch.stack(canonical_list,0)
+            ## save the pcd
+            assert xyzrgb.dim()==2,&quot;error&quot;
+    ···
+</code></pre>
+<p>使用 init_pcd 初始化高斯模型点云坐标（变换好的标准空间坐标）、颜色、特征（SH分量），并通过一系列计算得到与场景相关的属性（如缩放、旋转、不透明度）。</p>
+<pre><code class="language-python">gaussians.create_from_pcd(init_pcd, scene.cameras_extent)
+</code></pre>
+<p>gaussians在前面的定义：</p>
+<pre><code class="language-python">ModelClass=GaussianModelTypes[args.gs_model_version]
+
+    if args.gs_model_version==&quot;TimeTable_GaussianModel&quot;:
+        
+        gaussians =ModelClass(args.TimePcd_dir,table_frame_interval=args.PointTrack_frame_interval)
+    elif args.gs_model_version==&quot;PointTrackIsotropicGaussianModel&quot;:
+        gaussians =ModelClass(dataset_args.sh_degree)
+    elif args.gs_model_version==&quot;Original_GaussianModel&quot;:
+        gaussians =ModelClass(dataset_args.sh_degree) # 3
+    else:
+        raise NotImplementedError(&quot;Not implemented yet&quot;)
+</code></pre>
+<p>初始化3d高斯训练所需的配置或参数，启动训练模式：</p>
+<pre><code class="language-python">gaussians.training_setup(opt)
+</code></pre>
+<pre><code class="language-python">resume_step =1#testing_iterations.remove(15000)
+
+    timePcddataset.clean()
+    del init_pcd,
+    torch.cuda.empty_cache()
+    bg_color = [1, 1, 1] if dataset_args.white_background else [0, 0, 0] # 设置背景颜色
+    background = torch.tensor(bg_color, dtype=torch.float32, device=&quot;cuda&quot;)
+
+    black_bg =  torch.tensor([0, 0, 0], dtype=torch.float32, device=&quot;cuda&quot;)
+</code></pre>
+<p>Neural_InverseTrajectory_Trainer启动训练模式：</p>
+<pre><code class="language-python">net_trainer.to_trainning()
+idx_stack = None
+    progress_bar = tqdm(range(resume_step, args.stageCoTrain_max_steps), desc=&quot;Training progress&quot;)
+    
+    iter_start = torch.cuda.Event(enable_timing = True)
+    iter_end = torch.cuda.Event(enable_timing = True)
+    ema_loss_for_log = 0.0
+</code></pre>
+<p>整个训练过程，3d高斯和Neural_InverseTrajectory_Trainer同时训练优化：</p>
+<pre><code class="language-python">    for iteration in range(resume_step,args.stageCoTrain_max_steps+1,1):
+        # for idx,data in enumerate(dataloader):
+        iter_start.record()    # 开始记录迭代开始时间
+        # if (iteration+1) % 3000==0 and args.all_SH:
+        #     print(&quot;SHdegree up&quot;)
+        #     gaussians.oneupSHdegree()
+        # ## NOTE: Canceling SHdegree up
+        
+        if not idx_stack:
+            # viewpoint_stack = scene.getTrainCameras().copy()
+            # viewpoint_PCD_stack = copy.deepcopy(scene.getCoTrainingCameras())
+            # 从场景中获得了一组训练相机（或视角）与点云对
+            viewpoint_PCD_stack = scene.getCoTrainingCameras() ## FIXME :canceled copy.deepcopy exhaustive pairs occupy too much memory
+            if scene.is_overfit_aftergrowth:
+                
+                idx_stack = scene.getOverfitIdxStack(iteration=iteration)
+            else:
+                idx_stack = torch.randperm(len(viewpoint_PCD_stack)).tolist()
+
+        idx = idx_stack.pop()
+        viewpoint,pcd_pair  = viewpoint_PCD_stack[idx]
+        
+        #### Predict Gaussian position. 
+        xyz= gaussians.get_xyz
+        # time = viewpoint_time.unsqueeze(0)(viewpoint.time, pcd_pair[&quot;time&quot;])
+        time = viewpoint.time.unsqueeze(0)
+        
+        predicted_xyz= net_trainer.inverse_other_t(xyz.unsqueeze(0),time.unsqueeze(0))
+        ###
+
+        ## Render using Gaussian
+        bg = torch.rand((3), device=&quot;cuda&quot;) if args.random_background else background
+        render_pkg = renderFunc(viewpoint, gaussians, pipe, bg, override_color = None, specified_xyz=predicted_xyz,
+                            )
+        
+        # render_pkg = original_render(viewpoint, gaussians, pipe, background, override_color = None,specified_xyz=predicted_xyz)
+        image, viewspace_point_tensor, visibility_filter, radii = render_pkg[&quot;render&quot;], render_pkg[ &quot;viewspace_points&quot;], render_pkg[&quot;visibility_filter&quot;], render_pkg[&quot;radii&quot;]
+        render_depth,render_alpha = render_pkg[&quot;depth&quot;],render_pkg[&quot;alpha&quot;]
+        
+        depth_mask = viewpoint.depth &gt; 0
+        mask = viewpoint.mask
+        if mask is not None:
+            mask = mask[None].to(image) ##(3,H,w)--&gt;(1,H,w)
+        ### Calculate Loss
+        gt_image = viewpoint.original_image.cuda()
+        Ll1 = opt.lambda_recon*l1_loss(image, gt_image)
+        Lssim = opt.lambda_dssim*(1.0 - ssim(image, gt_image))
+        loss = Ll1 + Lssim  
+
+
+        L2d_render_flow= None
+            # L2d_render_flow= torch.Tensor([0.0]).cuda()
+
+
+            
+
+        if opt.lambda_depthOderLoss&gt;0:    
+            # depth_mask = viewpoint.depth &gt; 0
+            
+
+            LdepthOrder = get_depth_order_loss(render_depth,viewpoint.depth,depth_mask,method_name=args.depth_order_loss_type
+                                        ,alpha=args.Alpha_tanh
+                                        )
+        
+            loss += opt.lambda_depthOderLoss*LdepthOrder   
+        else:
+            LdepthOrder= None
+
+        
+        # loss = Ll1 + Lssim + opt.lambda_gs_approx_flow*Lgs_flow +opt.lambda_pcd_flow*Lpcd_flow +\
+        #     opt.lambda_depth_plane*Ldepthplane+ opt.lambda_opacity_sparse*LsparseOpacity + opt.lambda_depthloss*Ldepth +\
+        #         opt.lambda_2dflowloss*L2d_render_flow
+        ### Calculate Loss
+        loss.backward()
+        
+        
+        
+        iter_end.record()
+        loss_dict= {&quot;Ll1&quot;:Ll1,&quot;Lssim&quot;:Lssim,
+                    &quot;LdepthOrder&quot;:LdepthOrder,
+                    &quot;loss_total&quot;:loss}
+        
+        ## record error information
+        if iteration &gt; opt.custom_densification_start and \
+            iteration &lt; opt.custom_densification_end:
+            info_dict = {&quot;render&quot;:image.detach(),&quot;render_depth&quot;:render_depth.detach(),&quot;render_alpha&quot;:render_alpha.detach(),}
+        
+        
+        with torch.no_grad():
+
+               
+            ema_loss_for_log = 0.4 * loss.item() + 0.6 * ema_loss_for_log
+            if iteration % 10 == 0:
+                progress_bar.set_postfix({&quot;Loss&quot;: f&quot;{ema_loss_for_log:.{7}f}&quot;})
+                progress_bar.update(10)
+            if iteration == args.stageCoTrain_max_steps:
+                progress_bar.close()
+                
+            net_trainer.log(iteration,writer) ## log lr of deform and feature mlp   
+            # training_report(writer, iteration, Ll1, loss, l1_loss, iter_start.elapsed_time(iter_end), testing_iterations, scene, original_render, (pipe, background))  
+            cotraining_report(writer, iteration, loss_dict, iter_start.elapsed_time(iter_end), testing_iterations, scene,renderFunc, (pipe, background))
+            # Densification
+            if iteration &lt; opt.densify_until_iter:
+                # Keep track of max radii in image-space for pruning
+                gaussians.max_radii2D[visibility_filter] = torch.max(gaussians.max_radii2D[visibility_filter], radii[visibility_filter])
+                gaussians.add_densification_stats(viewspace_point_tensor, visibility_filter)
+            
+                if iteration &gt; opt.densify_from_iter and iteration % opt.densification_interval == 0:
+                    size_threshold = 20 if iteration &gt; opt.opacity_reset_interval else None
+                    gaussians.densify_and_prune(opt.densify_grad_threshold, 0.005, scene.cameras_extent, size_threshold)
+                
+                if iteration % opt.opacity_reset_interval == 0 or (dataset_args.white_background and iteration == opt.densify_from_iter):
+                    gaussians.reset_opacity()
+                    
+            ## custom Densification for Mono3D GS region that are underconstructed.
+
+            # Optimizer iteration
+            if iteration &lt; args.stageCoTrain_max_steps: ## FUCK YOU 
+                # Optimizer step
+                # if iteration &lt; opt.iterations:
+                #step
+                gaussians.optimizer.step()
+                net_trainer.optimizer.step()
+                ## zero grad
+                gaussians.optimizer.zero_grad(set_to_none=True)
+                net_trainer.optimizer.zero_grad()
+                ## update lr rate
+                net_trainer.scheduler.step()
+                # net_trainer.update_learning_rate(iteration) TODO: update learning rate   
+                gaussians.update_learning_rate(iteration)
+            if (iteration in saving_iterations):
+                print(&quot;\n[ITER {}] Saving Gaussians&quot;.format(iteration))
+                scene.save(iteration)
+            
+            if (iteration in checkpoint_iterations):
+                print(&quot;\n[ITER {}] Saving Checkpoint&quot;.format(iteration))
+                torch.save((gaussians.capture(), iteration), os.path.join(scene.model_path,args.timestamp) + &quot;/chkpnt&quot; + str(iteration) + &quot;.pth&quot;)
+                net_trainer.save_model(iteration)
+            
+            
+        iteration+=1
+    # return trainer
+    try: 
+        evaluation_on_metricCam( scene,net_trainer,gaussians,args,pipe,renderFunc,black_bg)
+    except Exception  as e:
+        pass
+    pass 
+</code></pre>
+<p>过程中：</p>
+<pre><code class="language-python">#### Predict Gaussian position. 
+        xyz= gaussians.get_xyz
+        # time = viewpoint_time.unsqueeze(0)(viewpoint.time, pcd_pair[&quot;time&quot;])
+        time = viewpoint.time.unsqueeze(0)
+        
+        predicted_xyz= net_trainer.inverse_other_t(xyz.unsqueeze(0),time.unsqueeze(0))
+        ###
+        ## Render using Gaussian
+        bg = torch.rand((3), device=&quot;cuda&quot;) if args.random_background else background
+        render_pkg = renderFunc(viewpoint, gaussians, pipe, bg, override_color = None, specified_xyz=predicted_xyz,
+                            )
+        
+        # render_pkg = original_render(viewpoint, gaussians, pipe, background, override_color = None,specified_xyz=predicted_xyz)
+        image, viewspace_point_tensor, visibility_filter, radii = render_pkg[&quot;render&quot;], render_pkg[ &quot;viewspace_points&quot;], render_pkg[&quot;visibility_filter&quot;], render_pkg[&quot;radii&quot;]
+        render_depth,render_alpha = render_pkg[&quot;depth&quot;],render_pkg[&quot;alpha&quot;]
+        
+        depth_mask = viewpoint.depth &gt; 0
+        mask = viewpoint.mask
+        if mask is not None:
+            mask = mask[None].to(image) ##(3,H,w)--&gt;(1,H,w)
+        ### Calculate Loss
+        gt_image = viewpoint.original_image.cuda()
+        Ll1 = opt.lambda_recon*l1_loss(image, gt_image)
+        Lssim = opt.lambda_dssim*(1.0 - ssim(image, gt_image))
+        loss = Ll1 + Lssim
+</code></pre>
+<p>理解一下这个训练步骤：<br>
+拿到标准空间坐标：</p>
+<pre><code class="language-python">#### Predict Gaussian position. 
+        xyz= gaussians.get_xyz
+</code></pre>
+<p>随机到的帧：</p>
+<pre><code class="language-python"># time = viewpoint_time.unsqueeze(0)(viewpoint.time, pcd_pair[&quot;time&quot;])
+time = viewpoint.time.unsqueeze(0)
+</code></pre>
+<p>利用Neural_InverseTrajectory_Trainer反推当前帧点云位置：</p>
+<pre><code class="language-python">predicted_xyz= net_trainer.inverse_other_t(xyz.unsqueeze(0),time.unsqueeze(0))
+</code></pre>
+<p>利用高斯模型参数和推导出的位置渲染该帧图像，计算和真实图像间的损失：</p>
+<pre><code class="language-python">## Render using Gaussian
+        bg = torch.rand((3), device=&quot;cuda&quot;) if args.random_background else background
+        render_pkg = renderFunc(viewpoint, gaussians, pipe, bg, override_color = None, specified_xyz=predicted_xyz,
+                            )
+        
+        # render_pkg = original_render(viewpoint, gaussians, pipe, background, override_color = None,specified_xyz=predicted_xyz)
+        image, viewspace_point_tensor, visibility_filter, radii = render_pkg[&quot;render&quot;], render_pkg[ &quot;viewspace_points&quot;], render_pkg[&quot;visibility_filter&quot;], render_pkg[&quot;radii&quot;]
+        render_depth,render_alpha = render_pkg[&quot;depth&quot;],render_pkg[&quot;alpha&quot;]
+        
+        depth_mask = viewpoint.depth &gt; 0
+        mask = viewpoint.mask
+        if mask is not None:
+            mask = mask[None].to(image) ##(3,H,w)--&gt;(1,H,w)
+        ### Calculate Loss
+        gt_image = viewpoint.original_image.cuda()
+        Ll1 = opt.lambda_recon*l1_loss(image, gt_image)
+        Lssim = opt.lambda_dssim*(1.0 - ssim(image, gt_image))
+        loss = Ll1 + Lssim
+</code></pre>
+<p>整个过程优化两个模型的参数。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[特殊文件]]></title>
+        <id>https://yyss1014.github.io/post/te-shu-wen-jian/</id>
+        <link href="https://yyss1014.github.io/post/te-shu-wen-jian/">
+        </link>
+        <updated>2025-03-25T02:39:28.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li><a href="#%E5%B1%9E%E6%80%A7%E6%96%87%E4%BB%B6"><strong>属性文件</strong></a></li>
+<li><a href="#xml"><strong>XML</strong></a>
+<ul>
+<li><a href="#%E8%AF%AD%E6%B3%95%E8%A7%84%E5%88%99"><strong>语法规则</strong></a></li>
+<li><a href="#dom4j"><strong>Dom4j</strong></a></li>
+<li><a href="#xml%E6%96%87%E4%BB%B6%E7%BC%96%E5%86%99"><strong>XML文件编写</strong></a></li>
+<li><a href="#%E7%BA%A6%E6%9D%9F%E6%96%87%E6%A1%A3"><strong>约束文档</strong></a>
+<ul>
+<li><a href="#dtd"><strong>DTD</strong></a></li>
+<li><a href="#schema"><strong>schema</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E6%97%A5%E5%BF%97%E6%8A%80%E6%9C%AF"><strong>日志技术</strong></a>
+<ul>
+<li><a href="#logback"><strong>Logback</strong></a></li>
+<li><a href="#%E6%A0%B8%E5%BF%83%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><strong>核心配置文件</strong></a></li>
+<li><a href="#%E6%97%A5%E5%BF%97%E7%BA%A7%E5%88%AB"><strong>日志级别</strong></a></li>
+</ul>
+</li>
+</ul>
+</p>
+<h1 id="属性文件"><strong>属性文件</strong></h1>
+<p><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250325112328.png" alt="" loading="lazy"><br>
+是一个Map集合，但一般不会当集合使用，Properties是用来代表属性文件的，通过Properties可以读写属性文件的内容。<br>
+读取：</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws IOException {
+        Properties prop = new Properties();
+        System.out.println(prop);
+
+        prop.load(new FileReader(&quot;file-io-app\\src\\users.properties&quot;));
+        System.out.println(prop);
+        System.out.println(prop.getProperty(&quot;赵敏&quot;));
+
+        Set&lt;String&gt; keys = prop.stringPropertyNames();
+        for (String key : keys) {
+            String value = prop.getProperty(key);
+            System.out.println(key + &quot;=&quot; + value);
+        }
+
+        prop.forEach((key, value) -&gt; {
+            System.out.println(key + &quot;=&quot; + value);
+        });
+    }
+}
+</code></pre>
+<p>写入：</p>
+<pre><code class="language-java">public class Test2 {
+    public static void main(String[] args) throws IOException {
+        Properties properties = new Properties();
+        properties.setProperty(&quot;张无忌&quot;, &quot;minmin&quot;);
+        properties.setProperty(&quot;殷素素&quot;, &quot;cuishan&quot;);
+        properties.setProperty(&quot;张翠山&quot;, &quot;susu&quot;);
+
+        properties.store(new FileWriter(&quot;file-io-app\\src\\users2.properties&quot;)
+                ,&quot;i saved many users&quot;);
+        //管道不用关，它作为参数方法内部会关闭
+    }
+}
+</code></pre>
+<p>文件每一行都是键值对是属性文件，无所谓文件后缀。</p>
+<h1 id="xml"><strong>XML</strong></h1>
+<p>本质上是一种特殊的数据格式，可以用来存储复杂的数据结构，和数据关系。</p>
+<ul>
+<li>XML中的“&lt;标签名&gt;”称为一个标签或一个元素，一般是成对出现的。</li>
+<li>XML中的标签名可以自己定义，但必须要正确的嵌套。</li>
+<li>XML中只有一个根标签。</li>
+<li>XML中的标签可以有属性。</li>
+<li>如果一个文件中放置的是XML格式的数据，这个文件就是XML文件，后缀一般要写成.xml。</li>
+</ul>
+<h2 id="语法规则"><strong>语法规则</strong></h2>
+<p>XML中书写&quot;&lt;&quot;、&quot;&amp;&quot;等，可能会出现冲突，导致报错，此时可以用如下特殊字符替代。</p>
+<pre><code class="language-java">&amp;lt; &lt; 小于
+&amp;gt; &gt; 大于
+&amp;amp; &amp; 和号
+&amp;apos; ' 单引号
+&amp;aqos; &quot; 双引号
+</code></pre>
+<p>XML中可以写一个叫CDATA的数据区,<![CDATA[内容 ]]]]><![CDATA[>，里面的内容可以随便写。</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;!-- 注释：以上抬头声明必须放在第一行，必须有--&gt;
+&lt;!-- 根标签只能有一个--&gt;
+&lt;users&gt;
+    &lt;user id=&quot;1&quot; desc=&quot;第一个用户&quot;&gt;
+        &lt;name&gt;张无忌&lt;/name&gt;
+        &lt;sex&gt;男&lt;/sex&gt;
+        &lt;地址&gt;光明顶&lt;/地址&gt;
+        &lt;password&gt;minmin&lt;/password&gt;
+        &lt;data&gt;3&amp;lt;2&amp;amp;&amp;amp;5&gt;4&lt;/data&gt;
+        &lt;data1&gt;&lt;!-- CD+Enter--&gt;
+            &lt;![CDATA[
+            3&lt;2&amp;&amp;5&gt;4
+            ]]&gt;
+        &lt;/data1&gt;
+    &lt;/user&gt;
+    &lt;people&gt;很多人&lt;/people&gt;
+    &lt;user id=&quot;2&quot;&gt;
+        &lt;name&gt;敏敏&lt;/name&gt;
+        &lt;sex&gt;女&lt;/sex&gt;
+        &lt;地址&gt;光明顶&lt;/地址&gt;
+        &lt;password&gt;wuji&lt;/password&gt;
+    &lt;/user&gt;
+&lt;/users&gt;
+</code></pre>
+<h2 id="dom4j"><strong>Dom4j</strong></h2>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws DocumentException {
+        SAXReader saxReader = new SAXReader();
+        //使用saxReader对象把需要解析的XML文件读成一个Document对象。
+        Document document=
+                saxReader.read(&quot;file-io-app\\src\\helloworld.xml&quot;);
+        //从文档对象中解析XML文件中的全部数据
+        Element root=document.getRootElement();//获得根元素对象
+        System.out.println(root.getName());
+        //获得当前元素下的所有子元素
+        List&lt;Element&gt; elements =root.elements(&quot;user&quot;);
+        for(Element element: elements){
+            System.out.println(element.getName());//user
+        }
+        //获得当前元素下的某个子元素
+        Element people =root.element(&quot;people&quot;);
+        System.out.println(people.getText());//很多人
+
+        //如果下面有很多子元素user，默认获取第一个
+        Element user=root.element(&quot;user&quot;);
+        System.out.println(user.elementText(&quot;name&quot;));//张无忌
+
+        //获取元素的属性信息
+        System.out.println(user.attributeValue(&quot;id&quot;));//1
+        Attribute id=user.attribute(&quot;id&quot;);
+        System.out.println(id.getName());//id
+        System.out.println(id.getValue());//1
+
+        List&lt;Attribute&gt; attributes = user.attributes();
+        for(Attribute attribute: attributes){
+            System.out.println(attribute.getName()+&quot;:&quot;+attribute.getValue());
+        }
+
+        //获取全部的文本内容：获取当前元素下的子元素文本值
+        System.out.println(user.elementText(&quot;name&quot;));
+        System.out.println(user.elementText(&quot;地址&quot;));
+        System.out.println(user.elementTextTrim(&quot;地址&quot;));//取出文本去除前后空格
+        System.out.println(user.elementText(&quot;password&quot;));
+
+        Element data=user.element(&quot;data&quot;);
+        System.out.println(data.getText());
+
+    }
+}
+</code></pre>
+<h2 id="xml文件编写"><strong>XML文件编写</strong></h2>
+<p>推荐直接把程序中的数据拼接成XML格式，用IO流写出去。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws DocumentException {
+        StringBuilder sb=new StringBuilder();
+        sb.append(&quot;&lt;?xml version=\&quot;1.0\&quot; encoding=\&quot;UTF-8\&quot;?&gt;\r\n&quot;);
+        sb.append(&quot;&lt;book&gt;\r\n&quot;);
+        sb.append(&quot;\t&lt;name&gt;&quot;).append(&quot;从入门到跑路&quot;).append(&quot;&lt;/name&gt;\r\n&quot;);
+        sb.append(&quot;\t&lt;author&gt;&quot;).append(&quot;dlei&quot;).append(&quot;&lt;/author&gt;\r\n&quot;);
+        sb.append(&quot;\t&lt;price&gt;&quot;).append(999.99).append(&quot;&lt;/price&gt;\r\n&quot;);
+        sb.append(&quot;&lt;/book&gt;&quot;);
+
+        try (BufferedWriter bw=new BufferedWriter(new FileWriter(&quot;file-io-app/src/book.xml&quot;));
+        ){
+            bw.write(sb.toString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+</code></pre>
+<h2 id="约束文档"><strong>约束文档</strong></h2>
+<p>专门用来限制xml书写格式的文档。</p>
+<h3 id="dtd"><strong>DTD</strong></h3>
+<p>后缀必须是.dtd，需要在编写的xml文件中导入该dtd约束文档，按照约束内容编写xml文件的标签。</p>
+<pre><code class="language-xml">&lt;!ELEMENT 书架 (书+)&gt;&lt;!-- 根元素叫书架，下面的一个或多个子元素叫书--&gt;
+&lt;!ELEMENT 书 (书名,作者,售价)&gt;&lt;!-- 子元素下的元素名--&gt;
+&lt;!ELEMENT 书名 (#PCDATA)&gt;&lt;!-- 子元素下放内容--&gt;
+&lt;!ELEMENT 作者 (#PCDATA)&gt;
+&lt;!ELEMENT 售价 (#PCDATA)&gt;
+</code></pre>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;!DOCTYPE 书架 SYSTEM &quot;data.dtd&quot;&gt;
+&lt;书架&gt;
+    &lt;书&gt;
+        &lt;书名&gt;从入门到删库&lt;/书名&gt;
+        &lt;作者&gt;小猫&lt;/作者&gt;
+        &lt;售价&gt;很便宜&lt;/售价&gt;
+    &lt;/书&gt;
+    &lt;书&gt;
+        &lt;书名&gt;从入门到删库&lt;/书名&gt;
+        &lt;作者&gt;小猫&lt;/作者&gt;
+        &lt;售价&gt;9.9&lt;/售价&gt;
+    &lt;/书&gt;
+    &lt;书&gt;
+        &lt;书名&gt;从入门到删库&lt;/书名&gt;
+        &lt;作者&gt;小猫&lt;/作者&gt;
+        &lt;售价&gt;9.9&lt;/售价&gt;
+    &lt;/书&gt;
+&lt;/书架&gt;
+</code></pre>
+<h3 id="schema"><strong>schema</strong></h3>
+<p>可以约束XML文件的编写和数据类型。后缀必须是.xsd，需要在编写的xml文件中导入该schema约束文档，按照约束内容编写xml文件的标签。</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;schema xmlns=&quot;http://www.w3.org/2001/XMLSchema&quot;
+        targetNamespace=&quot;http://www.itcast.cn&quot;
+        elementFormDefault=&quot;qualified&quot; &gt;
+    &lt;!-- targetNamespace:申明约束文档的地址（命名空间）--&gt;
+    &lt;element name='书架'&gt;
+        &lt;!-- 写子元素 --&gt;
+        &lt;complexType&gt;
+            &lt;!-- maxOccurs='unbounded': 书架下的子元素可以有任意多个！--&gt;
+            &lt;sequence maxOccurs='unbounded'&gt;
+                &lt;element name='书'&gt;
+                    &lt;!-- 写子元素 --&gt;
+                    &lt;complexType&gt;
+                        &lt;sequence&gt;
+                            &lt;element name='书名' type='string'/&gt;
+                            &lt;element name='作者' type='string'/&gt;
+                            &lt;element name='售价' type='double'/&gt;
+                        &lt;/sequence&gt;
+                    &lt;/complexType&gt;
+                &lt;/element&gt;
+            &lt;/sequence&gt;
+        &lt;/complexType&gt;
+    &lt;/element&gt;
+&lt;/schema&gt;
+</code></pre>
+<pre><code class="language-java">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;书架 xmlns=&quot;http://www.itcast.cn&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xsi:schemaLocation=&quot;http://www.itcast.cn data.xsd&quot;&gt;
+    &lt;!-- xmlns=&quot;http://www.itcast.cn&quot;  基本位置
+         xsi:schemaLocation=&quot;http://www.itcast.cn books02.xsd&quot; 具体的位置 --&gt;
+   &lt;书&gt;
+       &lt;书名&gt;从入门到删除&lt;/书名&gt;
+       &lt;作者&gt;dlei&lt;/作者&gt;
+       &lt;售价&gt;9.9&lt;/售价&gt;
+   &lt;/书&gt;
+    &lt;书&gt;
+        &lt;书名&gt;从入门到删除&lt;/书名&gt;
+        &lt;作者&gt;dlei&lt;/作者&gt;
+        &lt;售价&gt;0.9&lt;/售价&gt;
+    &lt;/书&gt;
+&lt;/书架&gt;
+</code></pre>
+<h1 id="日志技术"><strong>日志技术</strong></h1>
+<p>将系统执行的信息，方便的记录到指定的位置（控制台、文件、数据库中）。可以随时以开关的形式控制日志的启停，无需侵入到源代码中进行修改。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250328170133.png" alt="" loading="lazy"><br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250328170437.png" alt="" loading="lazy"></p>
+<h2 id="logback"><strong>Logback</strong></h2>
+<ul>
+<li>导入Logback框架（三个模块）到项目中。</li>
+<li>将Logback框架核心配置文件logback.xml直接拷贝到src目录下。日志文件保存的位置在配置文件中声明。</li>
+<li>创建Logback框架提供的Logger对象，然后用Logger对象调用其提供的方法就可以记录系统的日志信息。</li>
+</ul>
+<pre><code class="language-java">public class Test {
+    public static final Logger LOGGER = LoggerFactory.getLogger(&quot;Test&quot;);
+    public static void main(String[] args) {
+        //while (true) {
+        try {
+            LOGGER.info(&quot;chu法方法开始执行~~~&quot;);
+            chu(10, 0);
+            LOGGER.info(&quot;chu法方法执行成功~~~&quot;);
+        } catch (Exception e) {
+            LOGGER.error(&quot;chu法方法执行失败了，出现了bug~~~&quot;);
+        }
+    }
+
+    public static void chu(int a, int b) {
+        LOGGER.debug(&quot;参数a:&quot; + a);
+        LOGGER.debug(&quot;参数b:&quot; + b);
+        int c = a / b;
+        LOGGER.info(&quot;结果是：&quot; + c);
+    }
+}
+/*2025-03-28 17:16:07.272 [INFO ]  Test [main] : chu法方法开始执行~~~
+2025-03-28 17:16:07.274 [DEBUG]  Test [main] : 参数a:10
+2025-03-28 17:16:07.274 [DEBUG]  Test [main] : 参数b:0
+2025-03-28 17:16:07.274 [ERROR]  Test [main] : chu法方法执行失败了，出现了bug~~~*/
+</code></pre>
+<h2 id="核心配置文件"><strong>核心配置文件</strong></h2>
+<p>对LogBack日志框架进行控制。</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;configuration&gt;
+   &lt;!--
+       CONSOLE ：表示当前的日志信息是可以输出到控制台的。
+   --&gt;
+   &lt;appender name=&quot;CONSOLE&quot; class=&quot;ch.qos.logback.core.ConsoleAppender&quot;&gt;
+       &lt;!--输出流对象 默认 System.out 改为 System.err--&gt;
+       &lt;target&gt;System.out&lt;/target&gt;&lt;!--输出到控制台的方式：打印--&gt;
+       &lt;encoder&gt;
+           &lt;!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度
+               %msg：日志消息，%n是换行符--&gt;
+           &lt;pattern&gt;%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level]  %c [%thread] : %msg%n&lt;/pattern&gt;
+       &lt;/encoder&gt;
+   &lt;/appender&gt;
+
+   &lt;!-- File是输出的方向通向文件的 --&gt;
+   &lt;appender name=&quot;FILE&quot; class=&quot;ch.qos.logback.core.rolling.RollingFileAppender&quot;&gt;
+       &lt;encoder&gt;
+           &lt;pattern&gt;%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n&lt;/pattern&gt;
+           &lt;charset&gt;utf-8&lt;/charset&gt;&lt;!--字符集编码--&gt;
+       &lt;/encoder&gt;
+       &lt;!--日志输出路径--&gt;
+       &lt;file&gt;D:/log/itheima-data.log&lt;/file&gt;
+       &lt;!--指定日志文件拆分和压缩规则--&gt;
+       &lt;rollingPolicy
+               class=&quot;ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy&quot;&gt;
+           &lt;!--通过指定压缩文件名称，来确定分割文件方式--&gt;
+           &lt;fileNamePattern&gt;D:/log/itheima-data-%i-%d{yyyy-MM-dd}-.log.gz&lt;/fileNamePattern&gt;
+           &lt;!--文件拆分大小--&gt;
+           &lt;!--文件大小到达1MB，把文件压缩到一个新的日志文件，重新记录日志--&gt;
+           &lt;maxFileSize&gt;1MB&lt;/maxFileSize&gt;
+       &lt;/rollingPolicy&gt;
+   &lt;/appender&gt;
+
+   &lt;!--
+       1、控制日志的输出情况：如，开启日志ALL，取消日志OFF
+   --&gt;
+   &lt;root level=&quot;debug&quot;&gt;
+       &lt;appender-ref ref=&quot;CONSOLE&quot;/&gt;&lt;!--声明后会输出到对应位置--&gt;
+       &lt;appender-ref ref=&quot;FILE&quot; /&gt;
+   &lt;/root&gt;
+&lt;/configuration&gt;
+</code></pre>
+<h2 id="日志级别"><strong>日志级别</strong></h2>
+<p>日志信息的类型，日志都会分级别。常见日志级别如下（优先级依次升高）：</p>
+<table>
+<thead>
+<tr>
+<th>日志级别</th>
+<th>声明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>trace</td>
+<td>追踪，指明程序运行轨迹</td>
+</tr>
+<tr>
+<td>debug</td>
+<td>调试，实际应用中一般将其作为最低级别，而trace很少使用</td>
+</tr>
+<tr>
+<td>info</td>
+<td>输出重要的运行信息，数据连接、网络连接、IO操作等，使用较多</td>
+</tr>
+<tr>
+<td>warn</td>
+<td>警告信息，可能会发生问题，使用较多</td>
+</tr>
+<tr>
+<td>error</td>
+<td>错误信息，使用较多</td>
+</tr>
+</tbody>
+</table>
+<p>只有日志级别是大于等于核心配置文件配置的日志级别才会被记录，否则不记录。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[IO流]]></title>
+        <id>https://yyss1014.github.io/post/io-liu/</id>
+        <link href="https://yyss1014.github.io/post/io-liu/">
+        </link>
+        <updated>2025-03-23T11:11:46.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li><a href="#%E5%AD%97%E8%8A%82%E6%B5%81"><strong>字节流</strong></a>
+<ul>
+<li><a href="#fileinputstream"><strong>FileInputStream</strong></a></li>
+<li><a href="#fileoutputstream"><strong>FileOutputStream</strong></a></li>
+<li><a href="#%E6%A1%88%E4%BE%8B%E6%96%87%E4%BB%B6%E5%A4%8D%E5%88%B6"><strong>案例：文件复制</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E9%87%8A%E6%94%BE%E8%B5%84%E6%BA%90%E7%9A%84%E6%96%B9%E5%BC%8F"><strong>释放资源的方式</strong></a>
+<ul>
+<li><a href="#try-catch-finally"><strong>try-catch-finally</strong></a></li>
+<li><a href="#try-with-resource"><strong>try-with-resource</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E5%AD%97%E7%AC%A6%E6%B5%81"><strong>字符流</strong></a>
+<ul>
+<li><a href="#filereader"><strong>FileReader</strong></a></li>
+<li><a href="#filewriter"><strong>FileWriter</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E7%BC%93%E5%86%B2%E6%B5%81"><strong>缓冲流</strong></a>
+<ul>
+<li><a href="#%E5%AD%97%E8%8A%82%E7%BC%93%E5%86%B2%E6%B5%81"><strong>字节缓冲流</strong></a></li>
+<li><a href="#%E5%AD%97%E7%AC%A6%E7%BC%93%E5%86%B2%E6%B5%81"><strong>字符缓冲流</strong></a>
+<ul>
+<li><a href="#%E5%AD%97%E7%AC%A6%E7%BC%93%E5%86%B2%E8%BE%93%E5%85%A5%E6%B5%81"><strong>字符缓冲输入流</strong></a></li>
+<li><a href="#%E5%AD%97%E7%AC%A6%E7%BC%93%E5%86%B2%E8%BE%93%E5%87%BA%E6%B5%81"><strong>字符缓冲输出流</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E6%A1%88%E4%BE%8B"><strong>案例</strong></a></li>
+<li><a href="#%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90"><strong>性能分析</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E8%BD%AC%E6%8D%A2%E6%B5%81"><strong>转换流</strong></a>
+<ul>
+<li><a href="#%E5%AD%97%E7%AC%A6%E8%BE%93%E5%85%A5%E8%BD%AC%E6%8D%A2%E6%B5%81"><strong>字符输入转换流</strong></a></li>
+<li><a href="#%E5%AD%97%E7%AC%A6%E8%BE%93%E5%87%BA%E8%BD%AC%E6%8D%A2%E6%B5%81"><strong>字符输出转换流</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E6%89%93%E5%8D%B0%E6%B5%81"><strong>打印流</strong></a>
+<ul>
+<li><a href="#%E5%AD%97%E8%8A%82%E8%BE%93%E5%87%BA%E6%B5%81"><strong>字节输出流</strong></a></li>
+<li><a href="#%E5%AD%97%E7%AC%A6%E8%BE%93%E5%87%BA%E6%B5%81"><strong>字符输出流</strong></a></li>
+<li><a href="#%E8%BE%93%E5%87%BA%E8%AF%AD%E5%8F%A5%E7%9A%84%E9%87%8D%E5%AE%9A%E5%90%91"><strong>输出语句的重定向</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E6%B5%81"><strong>数据流</strong></a></li>
+<li><a href="#%E5%BA%8F%E5%88%97%E5%8C%96%E6%B5%81"><strong>序列化流</strong></a></li>
+<li><a href="#%E6%A1%86%E6%9E%B6"><strong>框架</strong></a></li>
+</ul>
+<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250323191953.png" alt="" loading="lazy"></p>
+<h1 id="字节流"><strong>字节流</strong></h1>
+<h2 id="fileinputstream"><strong>FileInputStream</strong></h2>
+<p>以内存为基准，把磁盘文件中的数据以字节的形式读入到内存中。<br>
+一次读取一个字节：</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws Exception {
+       //创建文件字节输入流管道，与源文件接通
+        //InputStream is= new FileInputStream(new File(&quot;file-io-app\\src\\ys.txt&quot;));
+        //简化写法，推荐使用
+        InputStream is= new FileInputStream(&quot;file-io-app\\src\\ys.txt&quot;);
+        //开始读取文件的字节数据
+        /*int b1=is.read();
+        System.out.println((char)b1);//a
+        int b2=is.read();
+        System.out.println((char)b2);//b
+        int b3=is.read();// 没有数据了，返回-1
+        System.out.println(b3);*/
+        //循环改造上述代码
+        int b;
+        //先看等号右边
+        while((b=is.read())!=-1){
+            System.out.print((char)b);
+        }
+        //每次读取文件数据时，内存中的程序调用硬件资源读取硬盘中的数据，性能很差
+        //流使用完毕后必须关闭，释放系统资源
+        is.close();
+    }
+}
+</code></pre>
+<p>一次读取多个字节：</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws Exception {
+       //创建一个字节输入流对象
+        InputStream is=new FileInputStream(&quot;file-io-app\\src\\ys.txt&quot;);//abc66
+        //开始读取文件中的字节数据，每次读取多个字节
+        byte[] buffer =new byte[3];
+        int len=is.read(buffer);
+        String rs=new String(buffer);
+        System.out.println(&quot;当前读取的字节数量：&quot;+len);
+        System.out.println(rs);
+
+        //buffer=[abc]
+        //buffer=[66c]
+        //读取多少就倒出多少
+        int len2 =is.read(buffer);
+        String rs2 =new String(buffer,0,len2);
+        System.out.println(&quot;当前读取的字节数量：&quot;+ len2);
+        System.out.println(rs2);
+        int len3 =is.read(buffer);
+        System.out.println(len3);//-1
+        String rs3 =new String(buffer);
+        System.out.println(rs3);//66c
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws Exception {
+       //创建一个字节输入流对象
+        InputStream is=new FileInputStream(&quot;file-io-app\\src\\ys.txt&quot;);//abc66
+        //循环改造
+        byte[] buffer =new byte[3];
+        int len;
+        while((len=is.read(buffer))!=-1){
+            String rs = new String(buffer, 0, len);
+            System.out.println(rs);
+        }
+        //性能得到了明显提升
+        //也不能避免汉字乱码
+        is.close();
+    }
+}
+</code></pre>
+<p>一次读取完全部字节：</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws Exception {
+        //一次性读取完文件的全部字节到一个字节数组里
+        //创建一个字节输入流管道与源文件接通
+        InputStream is=new FileInputStream(&quot;file-io-app\\src\\ys.txt&quot;);
+//        File f=new File(&quot;file-io-app\\src\\ys.txt&quot;);
+//        long size=f.length();
+//        byte[] buffer =new byte[(int)size];
+//
+//        int len=is.read(buffer);
+//        System.out.println(new String(buffer));
+//
+//        System.out.println(size);
+//        System.out.println(len);
+        byte[] buffer= is.readAllBytes();//如果文件太大会抛出内存溢出异常
+        System.out.println(new String(buffer));
+    }
+}
+</code></pre>
+<h2 id="fileoutputstream"><strong>FileOutputStream</strong></h2>
+<p>以内存为基准，把内存中的数据以字节的形式写出到文件中。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws Exception {
+        //创建一个字节输出流管道与目标文件接通
+        //写数据前会把原来数据清空，覆盖管道
+        /*OutputStream os =
+                new FileOutputStream(&quot;file-io-app\\src\\ys.txt&quot;);*/
+        //追加数据的管道
+        OutputStream os =
+                new FileOutputStream(&quot;file-io-app\\src\\ys.txt&quot;,true);
+        //文件可以自动生成
+        //开始写字节数据了
+        os.write(97);
+        os.write('b');
+        //os.write('颜');//[ooo]默认只能写一个字节，第一个o
+
+        byte[] bytes = &quot;我爱你中国&quot;.getBytes();
+        os.write(bytes);
+        os.write(bytes,0,15);
+        //换行&quot;\r\n&quot;
+        os.write(&quot;\r\n&quot;.getBytes());
+        os.close();
+    }
+}
+</code></pre>
+<h2 id="案例文件复制"><strong>案例：文件复制</strong></h2>
+<p>字节流适合一切文件的复制操作。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws Exception {
+        //需求：复制照片
+        InputStream is=new FileInputStream(&quot;C:\\Users\\adminys\\Pictures\\Screenshots\\屏幕截图 2025-02-23 154218.png&quot;);
+        OutputStream os=new FileOutputStream(&quot;C:\\Users\\adminys\\Desktop\\picture.png&quot;);
+        byte[] buffer =new byte[1024];//1KB
+        int len;
+        while((len=is.read(buffer))!=-1){
+            os.write(buffer,0,len);
+        }
+        //后创建的流先关掉
+        os.close();
+        is.close();
+        System.out.println(&quot;复制完成&quot;);
+    }
+}
+</code></pre>
+<h1 id="释放资源的方式"><strong>释放资源的方式</strong></h1>
+<h2 id="try-catch-finally"><strong>try-catch-finally</strong></h2>
+<p>无论try中的程序是正常执行了，还是出现异常，最后一定会执行finally代码区，除非JVM终止。一版用于程序执行完后释放资源的操作。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws Exception {
+        try{
+            System.out.println(10/0);
+            return;
+            //System.exit(0);//虚拟机
+        }catch(Exception e){
+            e.printStackTrace();//打印异常信息
+        }finally{
+            System.out.println(&quot;===finally执行了一次===&quot;);
+        }
+        System.out.println(chu(10,2));//111
+    }
+    public static int chu(int a,int b){
+        try {
+            return a/b;
+        }catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }finally{
+            //千万不要在finally返回数据
+            return 111;
+        }
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args){
+        InputStream is=null;
+        OutputStream os=null;
+        try {
+            //需求：复制照片
+            is=new FileInputStream(&quot;C:\\Users\\adminys\\Pictures\\Screenshots\\屏幕截图 2025-02-23 154218.png&quot;);
+            os=new FileOutputStream(&quot;C:\\Users\\adminys\\Desktop\\picture.png&quot;);
+            byte[] buffer =new byte[1024];//1KB
+            int len;
+            while((len=is.read(buffer))!=-1){
+                os.write(buffer,0,len);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            //完成资源释放
+            try {
+                if(os!=null)os.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                if(is!=null)is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            System.out.println(&quot;复制完成&quot;);
+        }
+    }
+}
+</code></pre>
+<h2 id="try-with-resource"><strong>try-with-resource</strong></h2>
+<p>JDK7开始提供了更简单的资源释放方案。资源使用完毕后会自动使用close()。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        // 使用 try-with-resources 自动关闭资源
+        try (InputStream is = new FileInputStream(&quot;C:\\Users\\adminys\\Pictures\\Screenshots\\屏幕截图 2025-02-23 154218.png&quot;);
+             OutputStream os = new FileOutputStream(&quot;C:\\Users\\adminys\\Desktop\\picture.png&quot;);
+             MyConnection conn = new MyConnection()
+             ) { // 确保 MyConnection 实现 AutoCloseable
+
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = is.read(buffer)) != -1) {
+                os.write(buffer, 0, len);
+            }
+            System.out.println(&quot;复制完成&quot;);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+// MyConnection 需实现 AutoCloseable
+class MyConnection implements AutoCloseable {
+    @Override
+    public void close() throws Exception {
+        System.out.println(&quot;释放了与某个硬件的连接资源&quot;);
+    }
+}
+</code></pre>
+<h1 id="字符流"><strong>字符流</strong></h1>
+<h2 id="filereader"><strong>FileReader</strong></h2>
+<p>以内存为基准，可以把文件中的数据以字符的形式读入到内存中去。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        try (//创建一个文件字符输入流管道与源文件接通
+                Reader fr = new FileReader(&quot;file-io-app\\src\\ys01.txt&quot;);
+        ) {
+            //读取文本文件的内容
+//            int c;
+//            while ((c = fr.read()) != -1) {
+//                System.out.print((char) c);
+//            }
+            //每次读取一个字符的形式，性能比较差
+            char[] buffer = new char[3];
+            int len ;
+            while ((len = fr.read(buffer)) != -1) {
+                System.out.print(new String(buffer, 0, len));
+            }
+            //性能比较不错
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<h2 id="filewriter"><strong>FileWriter</strong></h2>
+<p>以内存为基准，可以把内存中的数据以字符的形式写出到文件中去。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        try (
+                //创建一个文件字符输出流管道与目标文件接通
+                //覆盖管道
+                //Writer fw = new FileWriter(&quot;file-io-app\\src\\ys01.txt&quot;);
+                //追加数据的管道
+                Writer fw = new FileWriter(&quot;file-io-app\\src\\ys01.txt&quot;,true);
+                ){
+            fw.write('a');
+            fw.write(97);
+            fw.write('硕');
+            //写一个字符串
+            fw.write(&quot;我爱你中国abc&quot;);
+            //写一个字符串的一部分
+            fw.write(&quot;我爱你中国abc&quot;,0,5);
+            //写一个字符数组进去
+            char[] buffer={'黑','马','a','b','c'};
+            fw.write(buffer);
+            //写字符串数组的一部分进去
+            fw.write(buffer,0,2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<p>字符输出流写出数据后，必须刷新流，或者关闭流，写出去得到数据才能生效。写出的数据先保存在缓冲区中，再通过系统调用，只要调用一次，就可以把数据写到文件中。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws IOException {
+        Writer fw = new FileWriter(&quot;file-io-app\\src\\ys01.txt&quot;,true);
+        fw.write('a');
+        fw.write('b');
+        fw.write('c');
+        fw.write('d');
+        fw.write(&quot;\r\n&quot;);
+
+        fw.write(&quot;我爱你中国&quot;);
+        fw.write(&quot;\r\n&quot;);
+        fw.write(&quot;我爱你中国&quot;);
+//        fw.flush();
+//        fw.write(&quot;张三&quot;);
+//        fw.flush();
+        fw.close();//关闭流，包含刷新操作
+    }
+}
+</code></pre>
+<h1 id="缓冲流"><strong>缓冲流</strong></h1>
+<figure data-type="image" tabindex="1"><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250324151929.png" alt="" loading="lazy"></figure>
+<h2 id="字节缓冲流"><strong>字节缓冲流</strong></h2>
+<p>提高字节流读写数据的性能。<br>
+原理：字节缓冲输入流自带了8KB缓冲池；字节缓冲输出流也自带了8KB缓冲池。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws IOException {
+        try (
+                InputStream is = new FileInputStream(&quot;file-io-app/src/ys01.txt&quot;);
+                // 1、定义一个字节缓冲输入流包装原始的字节输入流
+                InputStream bis = new BufferedInputStream(is,8192*2);
+
+                OutputStream os = new FileOutputStream(&quot;file-io-app/src/ys01_bak.txt&quot;);
+                // 2、定义一个字节缓冲输出流包装原始的字节输出流
+                OutputStream bos = new BufferedOutputStream(os,8192*2);
+        ){
+
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = bis.read(buffer)) != -1){
+                bos.write(buffer, 0, len);
+            }
+            System.out.println(&quot;复制完成！！&quot;);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<h2 id="字符缓冲流"><strong>字符缓冲流</strong></h2>
+<h3 id="字符缓冲输入流"><strong>字符缓冲输入流</strong></h3>
+<p>原理：字符缓冲输入流自带了8KB的字符缓冲池（8192个字符）。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws IOException {
+        try (
+                Reader fr = new FileReader(&quot;file-io-app/src/ys01.txt&quot;);
+                // 创建一个字符缓冲输入流包装原始的字符输入流
+                BufferedReader br = new BufferedReader(fr);
+                //不用多态，需要用到BufferedReader特有功能
+        ){
+//            char[] buffer = new char[3];
+//            int len;
+//            while ((len = br.read(buffer)) != -1){
+//                System.out.print(new String(buffer, 0, len));
+//            }
+//            System.out.println(br.readLine());
+//            System.out.println(br.readLine());
+//            System.out.println(br.readLine());
+//            System.out.println(br.readLine());//null，没有内容
+            String line;
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<h3 id="字符缓冲输出流"><strong>字符缓冲输出流</strong></h3>
+<p>原理：字符缓冲输出流自带了8KB的字符缓冲池（8192个字符）。（原始的字符缓冲输出流也自带缓冲池，只是不大）</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws IOException {
+        try (
+                Writer fw = new FileWriter(&quot;file-io-app\\src\\ys01.txt&quot;, true);
+                //创建一个字符缓冲输出流包装原始的字符输出流
+                BufferedWriter bw = new BufferedWriter(fw);
+        ) {
+            bw.write('a');
+            bw.write('b');
+            bw.write('c');
+            bw.write('d');
+            bw.write(&quot;\r\n&quot;);
+
+            bw.write(&quot;我爱你中国&quot;);
+            bw.write(&quot;\r\n&quot;);
+            bw.write(&quot;我爱你中国&quot;);
+            bw.newLine();//换行
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<h2 id="案例"><strong>案例</strong></h2>
+<p>把出师表的文章顺序恢复到新文件。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws IOException {
+        try (
+                Reader fr = new FileReader(&quot;file-io-app/src/csb.txt&quot;);
+                // 创建一个字符缓冲输入流包装原始的字符输入流
+                BufferedReader br = new BufferedReader(fr);
+                Writer fw = new FileWriter(&quot;file-io-app\\src\\ys01.txt&quot;);
+                //创建一个字符缓冲输出流包装原始的字符输出流
+                BufferedWriter bw = new BufferedWriter(fw);
+        ){
+            String line;
+            List&lt;String&gt; list = new ArrayList&lt;String&gt;();
+            while ((line = br.readLine()) != null) {
+                list.add(line);
+            }
+            Collections.sort(list);
+            System.out.println(list);
+            for (String s : list) {
+                bw.write(s);
+                bw.newLine();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<h2 id="性能分析"><strong>性能分析</strong></h2>
+<pre><code class="language-java">public class Test {
+    // 复制的视频路径
+    private static final String SRC_FILE = &quot;C:\\Users\\adminys\\Desktop\\ys.mp4&quot;;
+    // 复制到哪个目的地
+    private static final String DEST_FILE = &quot;C:\\Users\\adminys\\Desktop\\&quot;;
+
+    public static void main(String[] args) throws IOException {
+        //copy01();//太慢
+        copy02();//低级字节流使用字节数组复制耗时：1.038s，如果字节数组比较大，性能也很好
+        copy03();//缓冲流一个一个字节复制耗时：1.762s
+        copy04();//缓冲流使用字节数组复制耗时：0.168s
+        //字节数组越大越好，但大到一定程度性能提升不大
+    }
+    private static void copy01() {
+        long startTime = System.currentTimeMillis();
+        try (
+                InputStream is = new FileInputStream(SRC_FILE);
+                OutputStream os = new FileOutputStream(DEST_FILE + &quot;1.mp4&quot;);
+        ){
+
+            int b;
+            while ((b = is.read()) != -1){
+                os.write(b);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        long endTime = System.currentTimeMillis();
+        System.out.println(&quot;低级字节流一个一个字节复制耗时：&quot; + (endTime - startTime) / 1000.0 + &quot;s&quot;);
+    }
+
+    private static void copy02() {
+        long startTime = System.currentTimeMillis();
+        try (
+                InputStream is = new FileInputStream(SRC_FILE);
+                OutputStream os = new FileOutputStream(DEST_FILE + &quot;2.mp4&quot;);
+        ){
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = is.read(buffer)) != -1){
+                os.write(buffer, 0, len);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        long endTime = System.currentTimeMillis();
+        System.out.println(&quot;低级字节流使用字节数组复制耗时：&quot; + (endTime - startTime) / 1000.0 + &quot;s&quot;);
+    }
+
+    private static void copy03() {
+        long startTime = System.currentTimeMillis();
+        try (
+                InputStream is = new FileInputStream(SRC_FILE);
+                BufferedInputStream bis = new BufferedInputStream(is);
+                OutputStream os = new FileOutputStream(DEST_FILE + &quot;3.mp4&quot;);
+                BufferedOutputStream bos = new BufferedOutputStream(os);
+        ){
+
+            int b;
+            while ((b = bis.read()) != -1){
+                bos.write(b);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        long endTime = System.currentTimeMillis();
+        System.out.println(&quot;缓冲流一个一个字节复制耗时：&quot; + (endTime - startTime) / 1000.0 + &quot;s&quot;);
+    }
+
+    private static void copy04() {
+        long startTime = System.currentTimeMillis();
+        try (
+                InputStream is = new FileInputStream(SRC_FILE);
+                BufferedInputStream bis = new BufferedInputStream(is);
+                OutputStream os = new FileOutputStream(DEST_FILE + &quot;4.mp4&quot;);
+                BufferedOutputStream bos = new BufferedOutputStream(os);
+        ){
+            byte[] buffer = new byte[1024]; // 32KB
+            int len;
+            while ((len = bis.read(buffer)) != -1){
+                bos.write(buffer, 0, len);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        long endTime = System.currentTimeMillis();
+        System.out.println(&quot;缓冲流使用字节数组复制耗时：&quot; + (endTime - startTime) / 1000.0 + &quot;s&quot;);
+    }
+}
+</code></pre>
+<h1 id="转换流"><strong>转换流</strong></h1>
+<p>如果代码编码和被读取的文本文件编码是一致的，使用字符流读取文本文件时不会出现乱码。不然会出现乱码。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250324164928.png" alt="" loading="lazy"></p>
+<h2 id="字符输入转换流"><strong>字符输入转换流</strong></h2>
+<p>解决思路：先获取文件的原始字节流，再将其按真实的字符集编码转换成字符输入流。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws FileNotFoundException {
+        try (
+                //代码编码UTF-8，文件编码GBK
+                InputStream is=new FileInputStream(&quot;file-io-app\\src\\ys01_bak.txt&quot;);
+                Reader isr=new InputStreamReader(is,&quot;GBK&quot;);//第二给参数默认为代码编码
+                BufferedReader br=new BufferedReader(isr);
+                ) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<h2 id="字符输出转换流"><strong>字符输出转换流</strong></h2>
+<p>解决思路：获取字节输出流，再按照指定的字符集编码将其转换为字符输出流。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws FileNotFoundException {
+        try (
+                OutputStream os=new FileOutputStream(&quot;file-io-app\\src\\ys01_bak.txt&quot;);
+                Writer osw=new OutputStreamWriter(os,&quot;GBK&quot;);
+                BufferedWriter bw=new BufferedWriter(osw);
+                ) {
+            bw.write(&quot;我爱你中国abc&quot;);
+            bw.write(&quot;我爱你中国123&quot;);
+            } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<h1 id="打印流"><strong>打印流</strong></h1>
+<p>打印流可以实现更加方便更高效地打印数据出去。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250324171138.png" alt="" loading="lazy"></p>
+<h2 id="字节输出流"><strong>字节输出流</strong></h2>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws FileNotFoundException {
+        try (
+                //public PrintStream(OutputStream out, boolean autoFlush, Charset charset)
+                //PrintStream ps=new PrintStream(&quot;file-io-app\\src\\ys01.txt&quot;, Charset.forName(&quot;GBK&quot;));
+                PrintStream ps=new PrintStream(&quot;file-io-app\\src\\ys01.txt&quot;);
+                //内部包装了缓冲流
+                ) {
+            //打印任意类型数据
+            ps.println(97);
+            ps.println('a');
+            ps.println(&quot;我爱你中国&quot;);
+            ps.println(true);
+            ps.println(99.5);
+            //写字节数据出去
+            ps.write(97);//'a'
+            } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<h2 id="字符输出流"><strong>字符输出流</strong></h2>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws FileNotFoundException {
+        try (
+                //打印流不能追加数据
+                //PrintWriter ps= new PrintWriter(&quot;file-io-app\\src\\ys01.txt&quot;);
+                PrintWriter ps= new PrintWriter(new FileOutputStream(&quot;file-io-app\\src\\ys01.txt&quot;,true));
+                //内部包装了缓冲流
+                ) {
+            //打印任意类型数据
+            ps.println(97);
+            ps.println('a');
+            ps.println(&quot;我爱你中国&quot;);
+            ps.println(true);
+            ps.println(99.5);
+            //写字符数据出去
+            ps.write(97);//'a'
+            ps.write(&quot;aaa&quot;);
+            } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<h2 id="输出语句的重定向"><strong>输出语句的重定向</strong></h2>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws FileNotFoundException {
+        System.out.println(&quot;老骥伏枥&quot;);
+        //public static final PrintStream out = null;
+        //默认创建的打印流通向控制台
+        try (PrintStream ps = new PrintStream(&quot;file-io-app\\src\\ys01.txt&quot;);){
+            System.setOut(ps);
+            System.out.println(&quot;志在千里&quot;);//不输出在控制台，输出在指定的文件里
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+</code></pre>
+<h1 id="数据流"><strong>数据流</strong></h1>
+<p><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250324173804.png" alt="" loading="lazy"><br>
+允许把数据和其类型一起写出去和读进来。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws FileNotFoundException {
+        try (
+                DataOutputStream dos = new DataOutputStream(new FileOutputStream(&quot;file-io-app\\src\\ys01.txt&quot;))
+        ) {
+            dos.writeInt(97);
+            dos.writeDouble(99.5);
+            dos.writeBoolean(true);
+            dos.writeUTF(&quot;hello&quot;);
+            //看起来是乱码，其实是特殊的数据存储方式
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+public class Test2 {
+    public static void main(String[] args) {
+        try(
+                DataInputStream dis = new DataInputStream(new FileInputStream(&quot;file-io-app\\src\\ys01.txt&quot;));
+        ) {
+            //读和写的顺序需要对应
+            int i = dis.readInt();
+            System.out.println(i);
+            double d=dis.readDouble();
+            System.out.println(d);
+            Boolean b=dis.readBoolean();
+            System.out.println(b);
+            String rs = dis.readUTF();
+            System.out.println(rs);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<h1 id="序列化流"><strong>序列化流</strong></h1>
+<p><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250324175045.png" alt="" loading="lazy"><br>
+对象序列化：把java对象写入到文件中去。<br>
+对象反序列化：把文件中的java对象写出来。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws FileNotFoundException {
+        try (
+                //创建一个对象字节输出流
+                ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(&quot;file-io-app\\src\\ys01.txt&quot;));
+                ){
+            User u = new User(&quot;admin&quot;, &quot;张三&quot;, 32, &quot;666888xyz&quot;);
+            oos.writeObject(u);
+            System.out.println(&quot;序列化对象成功&quot;);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+public class Test2 {
+    public static void main(String[] args) {
+        try(
+                ObjectInputStream ois = new ObjectInputStream(new FileInputStream(&quot;file-io-app\\src\\ys01.txt&quot;));
+        ) {
+           User u=(User)ois.readObject();
+            System.out.println(u);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<pre><code class="language-java">//对象如果需要序列化，必须实现序列化接口
+public class User implements Serializable {
+    private String loginName;
+    private String userName;
+    private int age;
+    // transient 这个成员变量将不参与序列化。
+    private transient String passWord;
+···
+</code></pre>
+<p>如果想一次序列化多个对象，用一个ArrayList集合存储多个对象，然后直接对集合进行序列化。ArrayList已经实现了序列化接口。</p>
+<h1 id="框架"><strong>框架</strong></h1>
+<p>编写一套类、接口等，可以理解成一个半成品，大部分框架都是第三方研发的。<br>
+Commons-io：是apache开源基金组织提供的一组有关IO操作的小框架，目的是提高IO流开发的效率。</p>
+]]></content>
+    </entry>
+</feed>
