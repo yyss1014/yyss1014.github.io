@@ -1,0 +1,353 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>后端Web实战(部门管理) | WASD研究院</title>
+<link rel="shortcut icon" href="https://yyss1014.github.io/favicon.ico?v=1749821332793">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://yyss1014.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="后端Web实战(部门管理) | WASD研究院 - Atom Feed" href="https://yyss1014.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+准备工作
+
+前后端分离开发
+Restful风格
+Apifox
+工程搭建
+
+
+
+
+准备工作
+前后端分离开发
+
+
+
+需求分析：首先我们需要阅读需求文档，分析需求，理解需求。
+接口定义：查询接口文档中关于需求的接口的定义，包括地址，参数，响应数..." />
+    <meta name="keywords" content="JavaWeb" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yyss1014.github.io">
+  <img class="avatar" src="https://yyss1014.github.io/images/avatar.png?v=1749821332793" alt="">
+  </a>
+  <h1 class="site-title">
+    WASD研究院
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/archives" class="menu">
+          目录
+        </a>
+      
+    
+      
+        <a href="/" class="menu">
+          文章
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          分类
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              后端Web实战(部门管理)
+            </h2>
+            <div class="post-info">
+              <span>
+                2025-06-11
+              </span>
+              <span>
+                5 min read
+              </span>
+              
+                <a href="https://yyss1014.github.io/tag/2ON39h6GJZ/" class="post-tag">
+                  # JavaWeb
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p><ul class="markdownIt-TOC">
+<li><a href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><strong>准备工作</strong></a>
+<ul>
+<li><a href="#%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E5%BC%80%E5%8F%91"><strong>前后端分离开发</strong></a></li>
+<li><a href="#restful%E9%A3%8E%E6%A0%BC"><strong>Restful风格</strong></a></li>
+<li><a href="#apifox"><strong>Apifox</strong></a></li>
+<li><a href="#%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA"><strong>工程搭建</strong></a></li>
+</ul>
+</li>
+</ul>
+</p>
+<h1 id="准备工作"><strong>准备工作</strong></h1>
+<h2 id="前后端分离开发"><strong>前后端分离开发</strong></h2>
+<p><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250611172203.png" alt="" loading="lazy"><br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250611172240.png" alt="" loading="lazy"></p>
+<ol>
+<li>需求分析：首先我们需要阅读需求文档，分析需求，理解需求。</li>
+<li>接口定义：查询接口文档中关于需求的接口的定义，包括地址，参数，响应数据类型等等</li>
+<li>前后台并行开发：各自按照接口文档进行开发，实现需求</li>
+<li>测试：前后台开发完了，各自按照接口文档进行测试</li>
+<li>前后段联调测试：前段工程请求后端工程，测试功能</li>
+</ol>
+<h2 id="restful风格"><strong>Restful风格</strong></h2>
+<ul>
+<li>REST（Representational State Transfer），表述性状态转换，它是一种软件架构风格。</li>
+</ul>
+<p>传统URL风格如下：</p>
+<ul>
+<li>http://localhost:8080/user/getById?id=1      GET：查询id为1的用户</li>
+<li>http://localhost:8080/user/saveUser            POST：新增用户</li>
+<li>http://localhost:8080/user/updateUser         POST：修改用户</li>
+<li>http://localhost:8080/user/deleteUser?id=1  GET：删除id为1的用户</li>
+</ul>
+<p>于开发人员来说，每一个开发人员都有自己的命名习惯，就拿根据id查询用户信息来说的，不同的开发人员定义的路径可能是这样的：getById，selectById，queryById，loadById... 。 每一个人都有自己的命名习惯，如果都按照各自的习惯来，一个项目组，几十号或上百号人，那最终开发出来的项目，将会变得难以维护，没有一个统一的标准。<br>
+基于REST风格URL如下：</p>
+<ul>
+<li>http://localhost:8080/users/1       GET：查询id为1的用户</li>
+<li>http://localhost:8080/users          POST：新增用户</li>
+<li>http://localhost:8080/users          PUT：修改用户</li>
+<li>http://localhost:8080/users/1       DELETE：删除id为1的用户</li>
+</ul>
+<p>通过URL定位要操作的资源，通过HTTP动词(请求方式)来描述具体的操作。在REST风格的URL中，通过四种请求方式，来操作数据的增删改查。</p>
+<ul>
+<li>GET ：  查询</li>
+<li>POST ：新增</li>
+<li>PUT ：  修改</li>
+<li>DELETE ：删除</li>
+</ul>
+<p>注意事项：</p>
+<ul>
+<li>REST是风格，是约定方式，约定不是规定，可以打破</li>
+<li>描述模块的功能通常使用复数，也就是加s的格式来描述，表示此类资源，而非单个资源。如：users、emps、books…</li>
+</ul>
+<h2 id="apifox"><strong>Apifox</strong></h2>
+<p>因为在浏览器地中所发起的所有的请求，都是GET方式的请求。那大家就需要思考两个问题：</p>
+<ul>
+<li>前后端都在并行开发，后端开发完对应的接口之后，如何对接口进行请求测试呢？</li>
+<li>前后端都在并行开发，前端开发过程中，如何获取到数据，测试页面的渲染展示呢？<br>
+那这里我们就可以借助一些接口测试工具，比如项：Postman、Apipost、Apifox等。<br>
+介绍：Apifox是一款集成了Api文档、Api调试、Api Mock、Api测试的一体化协作平台。<br>
+作用：接口文档管理、接口请求测试、Mock服务。<br>
+官网： https://apifox.com/</li>
+</ul>
+<h2 id="工程搭建"><strong>工程搭建</strong></h2>
+<p>1). 创建SpringBoot工程，并引入web开发起步依赖、mybatis、mysql驱动、lombok。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250613201854.png" alt="" loading="lazy"><br>
+2). 创建数据库及对应的表结构，并在application.yml中配置数据库的基本信息。</p>
+<pre><code class="language-sql">CREATE TABLE dept (
+  id int unsigned PRIMARY KEY AUTO_INCREMENT COMMENT 'ID, 主键',
+  name varchar(10) NOT NULL UNIQUE COMMENT '部门名称',
+  create_time datetime DEFAULT NULL COMMENT '创建时间',
+  update_time datetime DEFAULT NULL COMMENT '修改时间'
+) COMMENT '部门表';
+
+INSERT INTO dept VALUES (1,'学工部','2023-09-25 09:47:40','2024-07-25 09:47:40'),
+                      (2,'教研部','2023-09-25 09:47:40','2024-08-09 15:17:04'),
+                      (3,'咨询部','2023-09-25 09:47:40','2024-07-30 21:26:24'),
+                      (4,'就业部','2023-09-25 09:47:40','2024-07-25 09:47:40'),
+                      (5,'人事部','2023-09-25 09:47:40','2024-07-25 09:47:40'),
+                      (6,'行政部','2023-11-30 20:56:37','2024-07-30 20:56:37');```
+```yaml
+spring:
+  application:
+    name: tlias-web-management
+  datasource:
+    url: jdbc:mysql://localhost:3306/tlias
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+</code></pre>
+<p>3). 准备基础包结构，并引入实体类Dept及统一的响应结果封装类Result。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250613203014.png" alt="" loading="lazy"></p>
+<ul>
+<li>实体类Dept</li>
+</ul>
+<pre><code class="language-java">package com.ys.pojo;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Dept {
+    private Integer id;
+    private String name;
+    private LocalDateTime createTime;
+    private LocalDateTime updateTime;
+}
+</code></pre>
+<ul>
+<li>统一响应结果Result</li>
+</ul>
+<pre><code class="language-java">package com.ys.pojo;
+
+import lombok.Data;
+import java.io.Serializable;
+
+/**
+ * 后端统一返回结果
+ */
+@Data
+public class Result {
+
+    private Integer code; //编码：1成功，0为失败
+    private String msg; //错误信息
+    private Object data; //数据
+
+    public static Result success() {
+        Result result = new Result();
+        result.code = 1;
+        result.msg = &quot;success&quot;;
+        return result;
+    }
+
+    public static Result success(Object object) {
+        Result result = new Result();
+        result.data = object;
+        result.code = 1;
+        result.msg = &quot;success&quot;;
+        return result;
+    }
+
+    public static Result error(String msg) {
+        Result result = new Result();
+        result.msg = msg;
+        result.code = 0;
+        return result;
+    }
+
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><strong>准备工作</strong></a>
+<ul>
+<li><a href="#%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E5%BC%80%E5%8F%91"><strong>前后端分离开发</strong></a></li>
+<li><a href="#restful%E9%A3%8E%E6%A0%BC"><strong>Restful风格</strong></a></li>
+<li><a href="#apifox"><strong>Apifox</strong></a></li>
+<li><a href="#%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA"><strong>工程搭建</strong></a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://yyss1014.github.io/post/jdbc/">
+              <h3 class="post-title">
+                JDBC
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://yyss1014.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
