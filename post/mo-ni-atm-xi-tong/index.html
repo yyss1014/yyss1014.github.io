@@ -1,0 +1,544 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>模拟ATM系统 | WASD研究院</title>
+<link rel="shortcut icon" href="https://yyss1014.github.io/favicon.ico?v=1751633121752">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://yyss1014.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="模拟ATM系统 | WASD研究院 - Atom Feed" href="https://yyss1014.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="封装实体类
+public class Account {
+    private String cardId;
+    private String Username;
+    private char sex;
+    private S..." />
+    <meta name="keywords" content="Java" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yyss1014.github.io">
+  <img class="avatar" src="https://yyss1014.github.io/images/avatar.png?v=1751633121752" alt="">
+  </a>
+  <h1 class="site-title">
+    WASD研究院
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/archives" class="menu">
+          目录
+        </a>
+      
+    
+      
+        <a href="/" class="menu">
+          文章
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          分类
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              模拟ATM系统
+            </h2>
+            <div class="post-info">
+              <span>
+                2025-03-04
+              </span>
+              <span>
+                8 min read
+              </span>
+              
+                <a href="https://yyss1014.github.io/tag/ZoLZarYSyW/" class="post-tag">
+                  # Java
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p>封装实体类</p>
+<pre><code class="language-java">public class Account {
+    private String cardId;
+    private String Username;
+    private char sex;
+    private String password;
+    private double money;
+    private double limit;//限额
+
+    public Account() {
+    }
+
+    public Account(String cardId, String username, char sex, String password, double money, double limit) {
+        this.cardId = cardId;
+        Username = username;
+        this.sex = sex;
+        this.password = password;
+        this.money = money;
+        this.limit = limit;
+    }
+
+    public String getCardId() {
+        return cardId;
+    }
+
+    public void setCardId(String cardId) {
+        this.cardId = cardId;
+    }
+
+    public String getUsername() {
+        return Username+(sex=='男'?&quot;先生&quot;:&quot;女士&quot;);
+    }
+
+    public void setUsername(String username) {
+        Username = username;
+    }
+
+    public char getSex() {
+        return sex;
+    }
+
+    public void setSex(char sex) {
+        this.sex = sex;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public double getMoney() {
+        return money;
+    }
+
+    public void setMoney(double money) {
+        this.money = money;
+    }
+
+    public double getLimit() {
+        return limit;
+    }
+
+    public void setLimit(double limit) {
+        this.limit = limit;
+    }
+}
+</code></pre>
+<p>具体操作类</p>
+<pre><code class="language-java">import java.util.ArrayList;
+import java.util.Random;
+import java.util.Scanner;
+
+public class ATM {
+    private ArrayList&lt;Account&gt; accounts = new ArrayList&lt;&gt;();
+    private Scanner sc = new Scanner(System.in);
+    private Account loginacc;
+    Random r = new Random();
+    public void start(){
+        while (true) {
+            System.out.println(&quot;=====欢迎进入银行系统=====&quot;);
+            System.out.println(&quot;1.用户登录&quot;);
+            System.out.println(&quot;2.用户开户&quot;);
+            System.out.println(&quot;请选择你要操作的指令：&quot;);
+            int command = sc.nextInt();
+            switch (command) {
+                case 1:
+                    login();
+                    break;
+                case 2:
+                    createAccount();
+                    break;
+                default:
+                    System.out.println(&quot;没有该操作~~&quot;);
+            }
+        }
+
+    }
+    private void login(){
+        System.out.println(&quot;==系统登录==&quot;);
+        if(accounts.size()==0){
+            return;
+        }
+        while (true) {
+            System.out.println(&quot;请输入您的登录卡号：&quot;);
+            String cardId = sc.next();
+           Account acc=getAccountByCardId(cardId);
+            if(acc==null){
+                System.out.println(&quot;卡号不存在~&quot;);
+            }else{
+                while (true) {
+                    System.out.println(&quot;请输入您的登录密码：&quot;);
+                    String password = sc.next();
+                    if(password.equals(acc.getPassword())){
+                        loginacc=acc;
+                        System.out.println(&quot;恭喜您，&quot;+acc.getUsername()+&quot;成功登录了账户，您的卡号是：&quot;+acc.getCardId());
+                        showuseraccount();
+                        return;
+                    }else{
+                        System.out.println(&quot;您的密码不正确&quot;);
+                    }
+                }
+            }
+        }
+
+
+    }
+    private void showuseraccount(){
+        while (true) {
+            System.out.println(loginacc.getUsername()+&quot;您可以选择如下功能进行账户操作====&quot;);
+            System.out.println(&quot;1.查询账户&quot;);
+            System.out.println(&quot;2.存款&quot;);
+            System.out.println(&quot;3.取款&quot;);
+            System.out.println(&quot;4.转账&quot;);
+            System.out.println(&quot;5.密码修改&quot;);
+            System.out.println(&quot;6.退出&quot;);
+            System.out.println(&quot;7.注销当前账户&quot;);
+            int command = sc.nextInt();
+            switch (command) {
+                case 1:
+                    showloginaccount();
+                    break;
+                case 2:
+                    depositMoney();
+                    break;
+                case 3:
+                    drawMoney();
+                    break;
+                case 4:
+                    transferMoney();
+                    break;
+                case 5:
+                    updatePassword();
+                    return;
+                case 6:
+                    System.out.println(loginacc.getUsername()+&quot;您退出系统成功！&quot;);
+                    return;
+                case 7:
+                    if (deleteAccount()) {
+                        return;
+                    }
+                    break;
+                default:
+                    System.out.println(&quot;您的操作不存在&quot;);
+            }
+        }
+    }
+
+    private void updatePassword() {
+        System.out.println(&quot;===账户密码修改操作===&quot;);
+        while (true) {
+            System.out.println(&quot;请输入当前账户的密码：&quot;);
+            String password = sc.next();
+            if (password.equals(loginacc.getPassword())) {
+                while (true) {
+                    System.out.println(&quot;请您输入新密码：&quot;);
+                    String newPassword = sc.next();
+                    System.out.println(&quot;请您再输入一次密码：&quot;);
+                    String newPassword2 = sc.next();
+                    if (newPassword.equals(newPassword2)) {
+                        loginacc.setPassword(newPassword);
+                        System.out.println(&quot;密码修改成功，请您重新登录！&quot;);
+                        return;
+                    }else{
+                        System.out.println(&quot;您两次输入的密码不一致&quot;);
+                    }
+                }
+            }else{
+                System.out.println(&quot;当前密码不正确&quot;);
+            }
+        }
+    }
+
+    private boolean deleteAccount() {
+        System.out.println(&quot;====用户销户====&quot;);
+        System.out.println(&quot;请问您确认销户吗？y/n&quot;);
+        String command = sc.next();
+        switch (command) {
+            case &quot;y&quot;:
+                if(loginacc.getMoney()&gt;0){
+                    System.out.println(&quot;您账户的钱还未取完，不允许销户&quot;);
+                    return false;
+                }else {
+                    accounts.remove(loginacc);
+                    System.out.println(&quot;您好，您的账户已经销户完成&quot;);
+                    return true;
+                }
+                default:
+                    System.out.println(&quot;好的，账户保留&quot;);
+                    return false;
+        }
+    }
+
+    private void transferMoney() {
+        System.out.println(&quot;====用户转账====&quot;);
+        if(accounts.size()&lt;2){
+            System.out.println(&quot;当前系统账户不足两个，不能转账!&quot;);
+            return;
+        }
+        if(loginacc.getMoney()==0){
+            System.out.println(&quot;您账户余额为0，无法转账&quot;);
+            return;
+        }
+        while (true) {
+            System.out.println(&quot;请输入您要转账的账户&quot;);
+            String cardId = sc.next();
+            Account acc=getAccountByCardId(cardId);
+            if(acc==null){
+                System.out.println(&quot;不存在当前账户，请重新确认！&quot;);
+            }else{
+                System.out.println(&quot;您要为*&quot;+acc.getUsername().substring(1)+&quot;转账&quot;);
+                System.out.println(&quot;请重新输入姓氏确认:&quot;);
+                String preName = sc.next();
+                if(acc.getUsername().startsWith(preName)){
+                    while (true) {
+                        System.out.println(&quot;请输入转账给对方的金额：&quot;);
+                        double money = sc.nextDouble();
+                        if(money&lt;=loginacc.getMoney()){
+                            loginacc.setMoney(loginacc.getMoney()-money);
+                            acc.setMoney(acc.getMoney()+money);
+                            System.out.println(&quot;转账成功&quot;);
+                            return;
+                        }else{
+                            System.out.println(&quot;余额不足，无法转账，最多转账&quot;+loginacc.getMoney());
+                        }
+                    }
+
+                }else{
+                    System.out.println(&quot;您输入的姓氏有问题&quot;);
+                }
+
+            }
+        }
+
+    }
+
+    private void drawMoney() {
+        System.out.println(&quot;====取钱操作====&quot;);
+        if (loginacc.getMoney()&lt;100) {
+            System.out.println(&quot;您的账户余额不足100，不允许取钱&quot;);
+            return;
+        } else {
+            while (true) {
+                System.out.println(&quot;请输入取款金额：&quot;);
+                double money = sc.nextDouble();
+                if(money&gt;loginacc.getMoney()){
+                    System.out.println(&quot;余额不足，您账户的余额是&quot;+loginacc.getMoney());
+                    continue;
+                }
+                if(money&gt;loginacc.getLimit()){
+                    System.out.println(&quot;取款金额超过了当次限额，您每次最多可取：&quot;+loginacc.getLimit());
+                    continue;
+                }
+                loginacc.setMoney(loginacc.getMoney()-money);
+                System.out.println(&quot;成功取款&quot;+money+&quot;，您的余额还剩&quot;+loginacc.getMoney());
+                return;
+            }
+        }
+
+    }
+
+    private void depositMoney() {
+        System.out.println(&quot;====存钱操作====&quot;);
+        System.out.println(&quot;请您输入存款金额：&quot;);
+        double money = sc.nextDouble();
+        loginacc.setMoney(loginacc.getMoney()+money);
+        System.out.println(&quot;恭喜您，存钱&quot;+money+&quot;成功，存钱后的余额是&quot;+loginacc.getMoney());
+
+    }
+
+    private void showloginaccount(){
+        System.out.println(&quot;当前您的账户信息如下====&quot;);
+        System.out.println(&quot;卡号：&quot;+loginacc.getCardId());
+        System.out.println(&quot;户主：&quot;+loginacc.getUsername());
+        System.out.println(&quot;性别：&quot;+loginacc.getSex());
+        System.out.println(&quot;余额：&quot;+loginacc.getMoney());
+        System.out.println(&quot;每次取款限额：&quot;+loginacc.getLimit());
+    }
+
+    private void createAccount() {
+        Account account = new Account();
+        System.out.println(&quot;请输入姓名：&quot;);
+        String name = sc.next();
+        account.setUsername(name);
+        while (true) {
+            System.out.println(&quot;请输入性别：&quot;);
+            char sex = sc.next().charAt(0);//字符串转换为字符
+            if (sex=='男'||sex=='女') {
+                account.setSex(sex);
+                break;
+            } else {
+                System.out.println(&quot;您输入的性别不对，只能是男或女&quot;);
+            }
+        }
+        while (true) {
+            System.out.println(&quot;请设置密码：&quot;);
+            String password = sc.next();
+            System.out.println(&quot;请再输入一次密码确认：&quot;);
+            String okpassword = sc.next();
+            if (password.equals(okpassword)) {
+                account.setPassword(password);
+                break;
+            } else {
+                System.out.println(&quot;您输入2次密码不一致&quot;);
+            }
+        }
+
+        System.out.println(&quot;请输入您的取现额度&quot;);
+        double limit = sc.nextDouble();
+        account.setLimit(limit);
+
+        String newCardId=createCardId();
+        account.setCardId(newCardId);
+
+        accounts.add(account);
+        System.out.println(&quot;恭喜您&quot;+account.getUsername()+&quot;开户成功！您的卡号是：&quot;+account.getCardId());
+    }
+    private String createCardId() {
+        while (true) {
+            String cardId = &quot;&quot;;
+            for (int i = 0; i &lt; 8; i++) {
+                cardId += r.nextInt(10);
+            }
+            Account acc=getAccountByCardId(cardId);
+            if (acc==null) {
+                return cardId;
+            }
+        }
+    }
+    private Account getAccountByCardId(String cardId) {
+        for (int i = 0; i &lt; accounts.size(); i++) {
+            Account acc = accounts.get(i);
+            if (acc.getCardId().equals(cardId)) {
+                return acc;
+            }
+        }
+        return null;
+    }
+
+}
+</code></pre>
+<p>主程序</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        ATM atm = new ATM();
+        atm.start();
+    }
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://yyss1014.github.io/post/chang-jian-api/">
+              <h3 class="post-title">
+                常见API（一）
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://yyss1014.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,396 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Static | WASD研究院</title>
+<link rel="shortcut icon" href="https://yyss1014.github.io/favicon.ico?v=1751633121752">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://yyss1014.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Static | WASD研究院 - Atom Feed" href="https://yyss1014.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+static修饰成员变量
+static修饰成员方法
+代码块
+单例设计模式
+
+
+static修饰成员变量
+static叫静态，可以修饰成员变量、成员方法。成员变量按照有无static修饰，分为两种：
+
+类变量：有static修饰，属于类，在..." />
+    <meta name="keywords" content="JavaSE" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yyss1014.github.io">
+  <img class="avatar" src="https://yyss1014.github.io/images/avatar.png?v=1751633121752" alt="">
+  </a>
+  <h1 class="site-title">
+    WASD研究院
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/archives" class="menu">
+          目录
+        </a>
+      
+    
+      
+        <a href="/" class="menu">
+          文章
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          分类
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Static
+            </h2>
+            <div class="post-info">
+              <span>
+                2025-03-05
+              </span>
+              <span>
+                6 min read
+              </span>
+              
+                <a href="https://yyss1014.github.io/tag/xcf3bLryi2/" class="post-tag">
+                  # JavaSE
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p><ul class="markdownIt-TOC">
+<li><a href="#static%E4%BF%AE%E9%A5%B0%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F"><strong>static修饰成员变量</strong></a></li>
+<li><a href="#static%E4%BF%AE%E9%A5%B0%E6%88%90%E5%91%98%E6%96%B9%E6%B3%95"><strong>static修饰成员方法</strong></a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81%E5%9D%97"><strong>代码块</strong></a></li>
+<li><a href="#%E5%8D%95%E4%BE%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><strong>单例设计模式</strong></a></li>
+</ul>
+</p>
+<h1 id="static修饰成员变量"><strong>static修饰成员变量</strong></h1>
+<p>static叫静态，可以修饰成员变量、成员方法。成员变量按照有无static修饰，分为两种：</p>
+<ul>
+<li>类变量：有static修饰，属于类，在计算机中只有一份，会被类的全部对象共享。</li>
+<li>实例变量：对象的变量，无static修饰，属于每个对象的。</li>
+</ul>
+<pre><code class="language-java">public class Student{
+    //类变量
+    static String name;
+    //实例变量（对象的变量）
+    int age;
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        //类名、类变量（推荐）
+        Student.name=&quot;袁华&quot;;
+        //类名、类变量（不推荐）
+        Student s1=new Student();
+        s1.name=&quot;马冬梅&quot;;
+        Student s2=new Student();
+        s2.name=&quot;秋雅&quot;;
+        System.out.println(s1.name);//秋雅
+        System.out.println(Student.name);//秋雅
+    }
+}
+</code></pre>
+<p>  首先，Test类会被加载到方法区中，Test类中的main方法会被加载到栈中执行，main中的第一行代码 Student.name=&quot;袁华&quot;;用到了Student类，会将类加载到方法区中。加载中检查到类变量，会在堆内存中为类变量开辟区域，初始值是null。每个实例对象的地址存储在栈内存中，对应的实例变量也存放在堆内存中。通过实例对象访问类变量时，先根据对象地址访问实例变量，发现没有该名字的变量后访问方法区的类方法，再找到该名字的类对象。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250305174726.png" alt="" loading="lazy"></p>
+<h1 id="static修饰成员方法"><strong>static修饰成员方法</strong></h1>
+<p>成员方法的分类：</p>
+<ul>
+<li>类方法：有static修饰的成员方法，属于类</li>
+</ul>
+<pre><code class="language-java">public static void printHelloWorld() {
+        System.out.println(&quot;Hello World&quot;);
+}
+</code></pre>
+<ul>
+<li>实例方法：无static修饰的成员方法，属于对象，不能直接用类调用</li>
+</ul>
+<pre><code class="language-java">public void printHelloWorld() {
+        System.out.println(&quot;Hello World&quot;);
+}
+</code></pre>
+<pre><code class="language-java"> public static void main(String[] args) {
+        //类.类方法
+        Student.printHelloWorld();
+        //对象.类方法（不推荐）
+        Student s1 = new Student();
+        s1.printHelloWorld();
+}
+</code></pre>
+<p>  首先，Test类会被加载到方法区中，Test类中的main方法会被加载到栈中执行，main中的第一行代码 Student.printHelloWorld();用到了Student类，会将类加载到方法区中，再找到该函数名字的类方法执行。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250305181621.png" alt="" loading="lazy"><br>
+  main方法是类方法，虚拟机调用Test.main()执行。类方法最常见的应用场景是做工具类，工具类里都是一些很常见的类方法，每个方法都是用来完成一些功能，给开发人员共同使用。建议将工具类构造器私有。</p>
+<pre><code class="language-java">public class Student {
+    static String schoolname;
+    double score;
+    //1.类方法中可以直接访问类成员，但不能访问实例成员
+    public static void printHelloWorld() {
+        schoolname = &quot;Hello World&quot;;
+        printHelloWorld2();
+        //3.类方法中不能出现this关键字，但实例方法可以
+    }
+    public static void printHelloWorld2() {}
+    //2.实例方法中可以直接访问类成员，也可以直接访问实例成员
+    public void printPass(){
+        schoolname = &quot;Pass&quot;;
+        printHelloWorld2();
+        System.out.println(score);
+        printPass2();
+    }
+    public void printPass2(){}
+}
+</code></pre>
+<h1 id="代码块"><strong>代码块</strong></h1>
+<p>代码块是类的5大成分之一：（成员变量、构造器、方法、代码块、内部类）</p>
+<ul>
+<li>静态代码块：static{}；类加载时自动执行，因为类只会加载一次，所以静态代码块只会执行一次。完成类的初始化。</li>
+</ul>
+<pre><code class="language-java">public class Student {
+    static int number=80;
+    static String schoolname;
+    static {
+        System.out.println(&quot;静态代码块执行&quot;);
+        schoolname=&quot;黑马&quot;;
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        System.out.println(Student.number);
+        System.out.println(Student.number);
+        System.out.println(Student.number);
+        /*静态代码块执行
+        80
+        80
+        80*/
+        System.out.println(Student.schoolname);//黑马
+    }
+}
+</code></pre>
+<ul>
+<li>实例代码块：{}；每次创建对象时，在构造器前执行。和构造器一样用来完成对象的初始化。</li>
+</ul>
+<pre><code class="language-java">public class Student {
+    static {
+        System.out.println(&quot;静态代码块执行&quot;);
+    }
+    int age;
+    {
+        System.out.println(&quot;实例代码执行&quot;);
+        age=18;
+    }
+    public Student() {
+        System.out.println(&quot;无参数构造器执行&quot;);
+    }
+    public Student(String name) {
+        System.out.println(&quot;有参数构造器执行&quot;);
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        Student s1=new Student();
+        Student s2=new Student(&quot;张三&quot;);
+        /*静态代码块执行
+        实例代码执行
+        无参数构造器执行
+        实例代码执行
+        有参数构造器执行*/
+    }
+}
+</code></pre>
+<h1 id="单例设计模式"><strong>单例设计模式</strong></h1>
+<p>设计模式：一个问题通常有n种解法，其中有一种是最优的，这个最优解法被人总结出来了，称为设计模式。<br>
+单例设计模式：确保一个类只有一个对象</p>
+<ul>
+<li>饿汉式单例：拿对象时，对象早就创建好了</li>
+</ul>
+<pre><code class="language-java">public class A {
+    //定义一个类变量记住类的一个对象
+    private static A a=new A();
+    //私有类的构造器
+    private A() {
+    }
+    //定义一个类方法返回类对象
+    public static A getObject() {
+        return a;
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        A a1=A.getObject();
+        A a2=A.getObject();
+        System.out.println(a1);//com.ys.d1_staticdemo.A@3b07d329
+        System.out.println(a2);//com.ys.d1_staticdemo.A@3b07d329
+    }
+}
+</code></pre>
+<ul>
+<li>懒汉式单例：拿到单例时才开始创建对象</li>
+</ul>
+<pre><code class="language-java">public class A {
+    //定义一个类变量，勇于存出类的一个对象
+    private static A a;
+    //私有类的构造器
+    private A() {
+    }
+    //定义一个类方法，这个方法用语确保第一次调用才会创建对象，后面调用时都会用这一个对象返回
+    public static A getObject() {
+        if (a == null) {
+            System.out.println(&quot;第一次创建对象&quot;);
+            a = new A();
+        }
+        return a;
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        A a1=A.getObject();//第一次创建对象
+        A a2=A.getObject();
+        System.out.println(a1==a2);//true
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Student {
+    private int age;
+    private String name;
+
+    public Student(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+······
+    @Override
+    public String toString() {
+        return &quot;Student [age=&quot; + age + &quot;, name=&quot; + name + &quot;]&quot;;
+    }
+}
+
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#static%E4%BF%AE%E9%A5%B0%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F"><strong>static修饰成员变量</strong></a></li>
+<li><a href="#static%E4%BF%AE%E9%A5%B0%E6%88%90%E5%91%98%E6%96%B9%E6%B3%95"><strong>static修饰成员方法</strong></a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81%E5%9D%97"><strong>代码块</strong></a></li>
+<li><a href="#%E5%8D%95%E4%BE%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><strong>单例设计模式</strong></a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://yyss1014.github.io/post/mo-ni-atm-xi-tong/">
+              <h3 class="post-title">
+                模拟ATM系统
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://yyss1014.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

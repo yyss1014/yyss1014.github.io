@@ -1,0 +1,445 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Java面向对象基础 | WASD研究院</title>
+<link rel="shortcut icon" href="https://yyss1014.github.io/favicon.ico?v=1751633121752">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://yyss1014.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Java面向对象基础 | WASD研究院 - Atom Feed" href="https://yyss1014.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="开发一个个对象，把数据交给对象，再调用对象的方法来完成数据的处理。对象本质上是一个特殊的数据结构，class也就是类，也称为对象的设计图。
+
+类名建议用英文单词，首字母大写。
+
+public class Student {
+    //成员..." />
+    <meta name="keywords" content="Java" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yyss1014.github.io">
+  <img class="avatar" src="https://yyss1014.github.io/images/avatar.png?v=1751633121752" alt="">
+  </a>
+  <h1 class="site-title">
+    WASD研究院
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/archives" class="menu">
+          目录
+        </a>
+      
+    
+      
+        <a href="/" class="menu">
+          文章
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          分类
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Java面向对象基础
+            </h2>
+            <div class="post-info">
+              <span>
+                2025-02-28
+              </span>
+              <span>
+                6 min read
+              </span>
+              
+                <a href="https://yyss1014.github.io/tag/ZoLZarYSyW/" class="post-tag">
+                  # Java
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p>开发一个个对象，把数据交给对象，再调用对象的方法来完成数据的处理。对象本质上是一个特殊的数据结构，class也就是类，也称为对象的设计图。</p>
+<ul>
+<li>类名建议用英文单词，首字母大写。</li>
+</ul>
+<pre><code class="language-java">public class Student {
+    //成员变量
+    String name;
+    double chinese;
+    double math;
+    //成员方法
+    public void printTotalScore() {
+        System.out.println(name+&quot;总成绩是：&quot;+(chinese+math));
+    }
+    public void printAverageScore() {
+        System.out.println(name+&quot;总成绩是：&quot;+(chinese+math)/2);
+    }
+}
+//一个代码文件中，可以写多个class类，但只能用一个class类修饰
+//对象与对象之间不会相互影响，但多个对象指向一个对象会相互影响
+//如果某个对象没有一个变量引用它，则该对象无法操作了，则该对象成为垃圾对象。（创建好对象后但没有指针指向它，它会被判断成内存中的垃圾被自动清除）
+</code></pre>
+<h2 id="this"><strong>this</strong></h2>
+<p>this是一个对象，可以用在方法中，用来拿到当前对象。this主要解决变量名称冲突问题。</p>
+<pre><code class="language-java">public class Student {
+    double score;
+    public void printthis(){
+        System.out.println(this);
+    }
+    public void printPass(double score) {
+        if(this.score &gt; score){
+            System.out.println(&quot;恭喜你考上哈佛大学了~&quot;);
+        }else{
+            System.out.println(&quot;落选了&quot;);
+        }
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        Student s = new Student();
+        System.out.println(s);//com.ys.Student@3b07d329
+        s.printthis();//com.ys.Student@3b07d329
+    }
+}
+</code></pre>
+<h2 id="构造器"><strong>构造器</strong></h2>
+<p>创建对象时，对象会调用构造器。</p>
+<pre><code class="language-java">public class Student{
+    public Student(){
+        ···
+    }
+}
+</code></pre>
+<ul>
+<li>类在设计时，如果不写构造器，java会为类设计一个无参构造器的。</li>
+<li>一旦生成有参的构造器，java不会帮我们的类生成无参构造器了，此时建议自己手写一个无参构造器出来。</li>
+</ul>
+<p>Teacher类（不写构造器）<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-02-28%20165049.png#pic_center" alt="" width="300" loading="lazy"><br>
+反编译后的Teacher类<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202025-02-28%20165008.png#pic_center" alt="" width="300" loading="lazy"></p>
+<h2 id="实体javabean实体类"><strong>实体javaBean（实体类）</strong></h2>
+<p>实体类是一种特殊形式的类。实体类成员变量必须私有，且为它们提供get、set方法，必须有无参构造器。</p>
+<pre><code class="language-java">public class Student {
+    //必须有私有成员变量，并为每个成员变量都提供get set方法
+    private String name;
+    private double score;
+
+    //必须为类生成一个公开的无参构造器，右键-&gt;generate-&gt;constructor
+    public Student() {
+    }
+    //右键-&gt;generate-&gt;getter and setter
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class StudentOperater {
+    private Student student;
+
+    public StudentOperater(Student student) {
+        this.student = student;
+    }
+    public void printPass(){
+        if(student.getScore()&gt;=60){
+            System.out.println(student.getName()+&quot;学生成绩及格&quot;);
+        }else{
+            System.out.println(student.getName()+&quot;学生成绩不及格&quot;);
+        }
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        Student s1 = new Student();
+        s1.setName(&quot;播妞&quot;);
+        s1.setScore(99);
+        System.out.println(s1.getName());
+        System.out.println(s1.getScore());
+        StudentOperater opreater=new StudentOperater(s1);
+        opreater.printPass();
+
+    }
+}
+</code></pre>
+<h2 id="综合案例"><strong>综合案例</strong></h2>
+<p>展示系统中的全部电影（每部电影的名称，价格），允许用户根据电影的编号查询除某个电影的具体信息。</p>
+<pre><code class="language-java">public class Movie {
+    private int id;
+    private String name;
+    private double price;
+    private double score;
+    private String director;
+    private String actor;
+    private String info;
+
+    public Movie() {
+    }
+
+    public Movie(int id, String name, double price, double score, String director, String actor, String info) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.score = score;
+        this.director = director;
+        this.actor = actor;
+        this.info = info;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public void setDirector(String director) {
+        this.director = director;
+    }
+
+    public String getActor() {
+        return actor;
+    }
+
+    public void setActor(String actor) {
+        this.actor = actor;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class MovieOperator {
+    private Movie[] movies;
+
+    public MovieOperator(Movie[] movies) {
+        this.movies = movies;
+    }
+    public void printAllMovies() {
+        System.out.println(&quot;---全部电影信息如下---&quot;);
+        for (int i = 0; i &lt; movies.length; i++) {
+            Movie m=movies[i];
+            System.out.println(&quot;编号：&quot;+m.getId());
+            System.out.println(&quot;名称：&quot;+m.getName());
+            System.out.println(&quot;价格：&quot;+m.getPrice());
+            System.out.println(&quot;---------------&quot;);
+        }
+    }
+    public void searchMovieById(int id) {
+        for (int i = 0; i &lt; movies.length; i++) {
+            Movie m=movies[i];
+            if (m.getId() == id) {
+                System.out.println(&quot;该电影影评如下：&quot;);
+                System.out.println(&quot;编号：&quot;+m.getId());
+                System.out.println(&quot;名称：&quot;+m.getName());
+                System.out.println(&quot;价格：&quot;+m.getPrice());
+                System.out.println(&quot;导演：&quot;+m.getDirector());
+                System.out.println(&quot;主演：&quot;+m.getActor());
+                System.out.println(&quot;其他信息：&quot;+m.getInfo());
+                return;
+            }
+        }
+        System.out.println(&quot;没有电影信息&quot;);
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        Movie[] movies = new Movie[1];
+        movies[0] = new Movie(1, &quot;水门桥&quot;, 28.9, 9.8, &quot;徐克&quot;, &quot;吴京&quot;, &quot;12w人想看&quot;);
+        MovieOperator operator = new MovieOperator(movies);
+
+        while (true) {
+            System.out.println(&quot;==电影信息系统==&quot;);
+            System.out.println(&quot;1.查询全部电影信息&quot;);
+            System.out.println(&quot;2.根据id查询某个电影的详细信息展示&quot;);
+            System.out.println(&quot;请您输入命令&quot;);
+            Scanner sc = new Scanner(System.in);
+            int command = sc.nextInt();
+            switch (command) {
+                case 1:
+                    operator.printAllMovies();
+                    break;
+                case 2:
+                    System.out.println(&quot;请您输入查询的电影id&quot;);
+                    int id = sc.nextInt();
+                    operator.searchMovieById(id);
+                    break;
+                default:
+                    System.out.println(&quot;您输入的命令有问题&quot;);
+
+            }
+        }
+    }
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#this"><strong>this</strong></a></li>
+<li><a href="#%E6%9E%84%E9%80%A0%E5%99%A8"><strong>构造器</strong></a></li>
+<li><a href="#%E5%AE%9E%E4%BD%93javabean%E5%AE%9E%E4%BD%93%E7%B1%BB"><strong>实体javaBean（实体类）</strong></a></li>
+<li><a href="#%E7%BB%BC%E5%90%88%E6%A1%88%E4%BE%8B"><strong>综合案例</strong></a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://yyss1014.github.io/post/java-mian-xiang-dui-xiang-bu-fen-ji-chu-an-li/">
+              <h3 class="post-title">
+                Java基础案例
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://yyss1014.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

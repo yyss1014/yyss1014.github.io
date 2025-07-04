@@ -1,0 +1,338 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Stream | WASD研究院</title>
+<link rel="shortcut icon" href="https://yyss1014.github.io/favicon.ico?v=1751633121752">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://yyss1014.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Stream | WASD研究院 - Atom Feed" href="https://yyss1014.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+体验Stream流
+常见方法
+常见的中间方法
+常见的终结方法
+
+
+体验Stream流
+public class RegexTest1 {
+    public static void main(String[] args) {
+     ..." />
+    <meta name="keywords" content="JavaSE" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yyss1014.github.io">
+  <img class="avatar" src="https://yyss1014.github.io/images/avatar.png?v=1751633121752" alt="">
+  </a>
+  <h1 class="site-title">
+    WASD研究院
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/archives" class="menu">
+          目录
+        </a>
+      
+    
+      
+        <a href="/" class="menu">
+          文章
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          分类
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Stream
+            </h2>
+            <div class="post-info">
+              <span>
+                2025-03-20
+              </span>
+              <span>
+                8 min read
+              </span>
+              
+                <a href="https://yyss1014.github.io/tag/xcf3bLryi2/" class="post-tag">
+                  # JavaSE
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p><ul class="markdownIt-TOC">
+<li><a href="#%E4%BD%93%E9%AA%8Cstream%E6%B5%81"><strong>体验Stream流</strong></a></li>
+<li><a href="#%E5%B8%B8%E8%A7%81%E6%96%B9%E6%B3%95"><strong>常见方法</strong></a></li>
+<li><a href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E4%B8%AD%E9%97%B4%E6%96%B9%E6%B3%95"><strong>常见的中间方法</strong></a></li>
+<li><a href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E7%BB%88%E7%BB%93%E6%96%B9%E6%B3%95"><strong>常见的终结方法</strong></a></li>
+</ul>
+</p>
+<h1 id="体验stream流"><strong>体验Stream流</strong></h1>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+        List&lt;String&gt; names = new ArrayList&lt;&gt;();
+        Collections.addAll(names, &quot;张三丰&quot;,&quot;张无忌&quot;,&quot;周芷若&quot;,&quot;赵敏&quot;,&quot;张强&quot;);
+        System.out.println(names);
+
+        List&lt;String&gt; list = new ArrayList&lt;&gt;();
+        for (String name : names) {
+            if(name.startsWith(&quot;张&quot;)){
+                list.add(name);
+            }
+        }
+        System.out.println(list);
+
+        //Stream流
+        List&lt;String&gt; list2=names.stream().filter(s -&gt; s.startsWith(&quot;张&quot;))
+                .filter(a-&gt;a.length()==3).collect(Collectors.toList());
+        System.out.println(list2);
+    }
+}
+</code></pre>
+<p>Stream流的使用步骤：<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250320143812.png" alt="" loading="lazy"></p>
+<h1 id="常见方法"><strong>常见方法</strong></h1>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+        //获取List集合的Stream流
+        List&lt;String&gt; names = new ArrayList&lt;&gt;();
+        Collections.addAll(names, &quot;张三丰&quot;,&quot;张无忌&quot;,&quot;周芷若&quot;,&quot;赵敏&quot;,&quot;张强&quot;);
+        Stream&lt;String&gt; stream = names.stream();//Collectin接口的default方法，实现接口的类对象可以调用
+        //获取Set集合的Stream流
+        Set&lt;String&gt; set = new HashSet&lt;&gt;();
+        Collections.addAll(set,&quot;张三丰&quot;,&quot;张无忌&quot;,&quot;周芷若&quot;,&quot;赵敏&quot;,&quot;张强&quot;);
+        Stream&lt;String&gt; stream1 = set.stream();
+        stream1.filter(s-&gt;s.contains(&quot;张&quot;)).forEach(s-&gt;System.out.println(s));
+        //Map集合的Stream流
+        Map&lt;String,Double&gt; map = new HashMap&lt;&gt;();
+        map.put(&quot;古力娜扎&quot;, 172.3);
+        map.put(&quot;迪丽热巴&quot;, 168.3);
+        map.put(&quot;马尔扎哈&quot;, 166.3);
+        map.put(&quot;卡尔扎巴&quot;, 168.3);
+        Set&lt;String&gt;keys = map.keySet();
+        Stream&lt;String&gt; stream2 = keys.stream();
+        Collection &lt;Double&gt; values = map.values();
+        Stream&lt;Double&gt; vs = values.stream();
+        Set&lt;Map.Entry&lt;String,Double&gt;&gt; entries=map.entrySet();
+        Stream&lt;Map.Entry&lt;String,Double&gt;&gt; kvs = entries.stream();
+        kvs.filter(e-&gt;e.getKey().contains(&quot;巴&quot;))
+                .forEach(e-&gt;System.out.println(e.getKey()+&quot;:&quot;+e.getValue()));
+        //获得数组的Stream流
+        String[] names2={&quot;张翠山&quot;, &quot;东方不败&quot;, &quot;唐大山&quot;, &quot;独孤求败&quot;};
+        Stream&lt;String&gt; s1 = Arrays.stream(names2);//Arrays类方法
+        Stream&lt;String&gt; s2 = Stream.of(names2);//Stream类方法
+    }
+}
+</code></pre>
+<h1 id="常见的中间方法"><strong>常见的中间方法</strong></h1>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+        List&lt;Double&gt; scores = new ArrayList&lt;&gt;();
+        Collections.addAll(scores, 88.5, 100.0, 60.0, 99.0, 9.5, 99.6, 25.0);
+        //找出成绩大于等于60分的数据，并升序后，再输出。
+        scores.stream().filter(s-&gt;s&gt;=60).sorted()
+                .forEach(s-&gt;System.out.println(s));//forEach是终结方法，返回void
+
+        List&lt;Student&gt; students = new ArrayList&lt;&gt;();
+        Student s1 = new Student(&quot;蜘蛛精&quot;, 26, 172.5);
+        Student s2 = new Student(&quot;蜘蛛精&quot;, 26, 172.5);
+        Student s3 = new Student(&quot;紫霞&quot;, 23, 167.6);
+        Student s4 = new Student(&quot;白晶晶&quot;, 25, 169.0);
+        Student s5 = new Student(&quot;牛魔王&quot;, 35, 183.3);
+        Student s6 = new Student(&quot;牛夫人&quot;, 34, 168.5);
+        Collections.addAll(students, s1, s2, s3, s4, s5, s6);
+        //找出年龄大于等于23，且年龄小于等于30岁的学生，并按照年龄降序输出
+        students.stream().filter(s-&gt;s.getAge()&gt;=23&amp;&amp;s.getAge()&lt;=30)
+                .sorted(( o1,  o2) -&gt; o1.getAge()-o2.getAge())
+                .forEach(s-&gt;System.out.println(s));
+        //取出身高最高的前三名输出
+        students.stream().sorted(( o1,  o2) -&gt; Double.compare(o2.getHeight(),o1.getHeight()))
+                .limit(3).forEach(s-&gt;System.out.println(s));
+        //取出身高倒数的两名学生，并输出
+        System.out.println(&quot;---------&quot;);
+        students.stream().sorted(( o1,  o2) -&gt; Double.compare(o2.getHeight(),o1.getHeight()))
+                .skip(students.size()-2).forEach(System.out::println);
+        //找出身高超过168的学生叫什么名字，去除重复的名字再输出
+        students.stream().filter(s-&gt;s.getHeight()&gt;168).map(s-&gt;s.getName())//Student::getName
+                .distinct().forEach(System.out::println);
+        //distinct去重复，自定义类型对象需要重写hashCode，equals
+        students.stream().filter(s-&gt;s.getHeight()&gt;168).distinct()
+                .forEach(System.out::println);
+        //concat
+        Stream&lt;String&gt; st1=Stream.of(&quot;张三&quot;,&quot;李四&quot;);
+        Stream&lt;String&gt; st2=Stream.of(&quot;张三1&quot;,&quot;李四1&quot;);
+        Stream&lt;String&gt; allst=Stream.concat(st1,st2);//两个流类型不一样用Object
+        allst.forEach(System.out::println);
+    }
+}
+</code></pre>
+<h1 id="常见的终结方法"><strong>常见的终结方法</strong></h1>
+<p>收集Stream流：把Stream流操作后的结果转回到集合或数组中返回。<br>
+调用完成后不会返回新的Stream了，没法使用流了。</p>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+        List&lt;Student&gt; students = new ArrayList&lt;&gt;();
+        Student s1 = new Student(&quot;蜘蛛精&quot;, 26, 172.5);
+        Student s2 = new Student(&quot;蜘蛛精&quot;, 26, 172.5);
+        Student s3 = new Student(&quot;紫霞&quot;, 23, 167.6);
+        Student s4 = new Student(&quot;白晶晶&quot;, 25, 169.0);
+        Student s5 = new Student(&quot;牛魔王&quot;, 35, 183.3);
+        Student s6 = new Student(&quot;牛夫人&quot;, 34, 168.5);
+        Collections.addAll(students, s1, s2, s3, s4, s5, s6);
+        //请计算身高超过168的有几人
+        long size=students.stream().filter(s-&gt;s.getHeight()&gt;168).count();
+        System.out.println(size);
+        //找出身高最高的学生对象
+        Student s=students.stream().max((o1,o2)-&gt;Double.compare(o1.getHeight(),o2.getHeight())).get();
+        System.out.println(s);
+        //找出身高最矮的学生对象
+        Student ss=students.stream().min((o1,o2)-&gt;Double.compare(o1.getHeight(),o2.getHeight())).get();
+        System.out.println(ss);
+
+        //请找出身高超过170的学生对象，并放到一个新集合中返回
+        //流只能收集一次
+        List&lt;Student&gt; students1=students.stream().filter(a-&gt;a.getHeight()&gt;170).collect(Collectors.toList());
+        System.out.println(students1);
+        Set&lt;Student&gt; students2 =students.stream().filter(a-&gt;a.getHeight()&gt;170).collect(Collectors.toSet());
+        System.out.println(students2);
+
+        //Object[] arr = students.stream().filter(a -&gt; a.getHeight() &gt; 170).toArray();
+        /*Student[] arr = students.stream().filter(a -&gt; a.getHeight() &gt; 170)
+                .toArray(new IntFunction&lt;Student[]&gt;() {
+            @Override
+            public Student[] apply(int value) {
+                return new Student[value];
+            }
+        });*/
+        Student[] arr = students.stream().filter(a -&gt; a.getHeight() &gt; 170).toArray(value -&gt; new Student[value]);
+        System.out.println(Arrays.toString(arr));
+        //请找出身高超过170的学生对象，把对象的名字和身高，放到一个Map集合中返回
+        Map&lt;String,Double&gt; map=
+                students.stream().filter(a-&gt;a.getHeight()&gt;170).distinct()
+                        .collect(Collectors.toMap(a-&gt;a.getName(),a-&gt;a.getHeight()));
+        System.out.println(map);
+    }
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E4%BD%93%E9%AA%8Cstream%E6%B5%81"><strong>体验Stream流</strong></a></li>
+<li><a href="#%E5%B8%B8%E8%A7%81%E6%96%B9%E6%B3%95"><strong>常见方法</strong></a></li>
+<li><a href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E4%B8%AD%E9%97%B4%E6%96%B9%E6%B3%95"><strong>常见的中间方法</strong></a></li>
+<li><a href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E7%BB%88%E7%BB%93%E6%96%B9%E6%B3%95"><strong>常见的终结方法</strong></a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://yyss1014.github.io/post/ji-he-kuang-jia-map/">
+              <h3 class="post-title">
+                集合框架：Map
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://yyss1014.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

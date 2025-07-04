@@ -1,0 +1,317 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>常见API（三） | WASD研究院</title>
+<link rel="shortcut icon" href="https://yyss1014.github.io/favicon.ico?v=1751633121752">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://yyss1014.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="常见API（三） | WASD研究院 - Atom Feed" href="https://yyss1014.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+Math
+System
+Runtime
+BigDecimal
+
+
+Math
+代表数学，是一个工具类，里面都是对数据操作的一些静态方法。
+public class Test {
+    public static void main(Str..." />
+    <meta name="keywords" content="JavaSE" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yyss1014.github.io">
+  <img class="avatar" src="https://yyss1014.github.io/images/avatar.png?v=1751633121752" alt="">
+  </a>
+  <h1 class="site-title">
+    WASD研究院
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/archives" class="menu">
+          目录
+        </a>
+      
+    
+      
+        <a href="/" class="menu">
+          文章
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          分类
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              常见API（三）
+            </h2>
+            <div class="post-info">
+              <span>
+                2025-03-12
+              </span>
+              <span>
+                4 min read
+              </span>
+              
+                <a href="https://yyss1014.github.io/tag/xcf3bLryi2/" class="post-tag">
+                  # JavaSE
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p><ul class="markdownIt-TOC">
+<li><a href="#math"><strong>Math</strong></a></li>
+<li><a href="#system"><strong>System</strong></a></li>
+<li><a href="#runtime"><strong>Runtime</strong></a></li>
+<li><a href="#bigdecimal"><strong>BigDecimal</strong></a></li>
+</ul>
+</p>
+<h1 id="math"><strong>Math</strong></h1>
+<p>代表数学，是一个工具类，里面都是对数据操作的一些静态方法。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args){
+        //取绝对值
+        System.out.println(Math.abs(-12));//12
+        System.out.println(Math.abs(-3.14));//3.14
+        //向上取整
+        System.out.println(Math.ceil(4.000001));//5.0
+        System.out.println(Math.ceil(4.0));//4.0
+        //向下取整
+        System.out.println(Math.floor(4.9999));//4.0
+        System.out.println(Math.floor(4.0));//4.0
+        //四舍五入
+        System.out.println(Math.round(3.49999));//3
+        System.out.println(Math.round(3.500001));//4
+        //取最大最小值
+        System.out.println(Math.max(10,20));//20
+        System.out.println(Math.min(10,20));//10
+        //取次方
+        System.out.println(Math.pow(2,3));//8
+        System.out.println(Math.pow(3,2));//9
+        //取随机数[0.0,1.0)
+        System.out.println(Math.random());
+    }
+}
+</code></pre>
+<h1 id="system"><strong>System</strong></h1>
+<p>System当前程序所在系统，也是工具类。</p>
+<ul>
+<li>终止当前运行的java虚拟机，参数用作状态码，非零状态表示异常终止。</li>
+</ul>
+<pre><code class="language-java">System.exit(0);//人为终止虚拟机
+</code></pre>
+<ul>
+<li>获取当前系统的时间，返回的是long类型的时间毫秒值，指的是从1970-1-1 0:0:0开始走到此刻的总的毫秒值，1s=1000ms</li>
+</ul>
+<pre><code class="language-java">long time=System.currentTimeMillis();
+ System.out.println(time);
+for (int i = 0; i &lt; 1000000; i++) {
+    System.out.println(i);
+}
+long time2=System.currentTimeMillis();
+System.out.println(time2);
+System.out.println((time2-time)/1000.0+&quot;s&quot;);
+</code></pre>
+<h1 id="runtime"><strong>Runtime</strong></h1>
+<p>代表程序所在的运行环境，是一个单例类。</p>
+<pre><code class="language-java">public class Runtime {
+    private static final Runtime currentRuntime = new Runtime();
+
+    private static Version version;
+
+    public static Runtime getRuntime() {
+        return currentRuntime;
+    }
+
+    /** Don't let anyone else instantiate this class */
+    private Runtime() {}
+···
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws IOException, InterruptedException {
+        Runtime r=Runtime.getRuntime();
+        //System类的exit方法调用的也是Runtime对象的，功能相同
+        //r.exit(0);
+        //获得虚拟机能够使用的处理器数
+        System.out.println(r.availableProcessors());//逻辑CPU核心数
+        //获取虚拟机的内存总量
+        System.out.println(r.totalMemory()/1024/1024+&quot;MB&quot;);
+        //获取虚拟机的可用内存量
+        System.out.println(r.freeMemory()/1024/1024+&quot;MB&quot;);
+        //启动某个程序，并返回代表该程序的对象
+        Process p=r.exec(&quot;C:\\Program Files\\Tencent\\QQNT\\QQ.exe&quot;);
+        //如果为QQ配置过环境变量可以直接启动
+        Thread.sleep(5000);//让程序暂停5秒继续往下走
+        p.destroy();//销毁关闭程序
+    }
+}
+</code></pre>
+<h1 id="bigdecimal"><strong>BigDecimal</strong></h1>
+<p>用于解决浮点型运算时，出现结果失真的问题。</p>
+<table>
+<thead>
+<tr>
+<th>构造器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>public BigDecimal(double val)<font color=red>注：不推荐使用这个</font></td>
+<td>将double转换为BigDecimal</td>
+</tr>
+<tr>
+<td>public BigDecimal(String val)</td>
+<td>将String转换为BigDecimal</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws IOException, InterruptedException {
+       double a = 0.1;
+       double b = 0.2;
+        System.out.println(a+b);//0.30000000000000004
+        System.out.println(&quot;---------------&quot;);
+        /*BigDecimal a1=new BigDecimal(Double.toString(a));
+        BigDecimal b1=new BigDecimal(Double.toString(b));*/
+        //valueOf转换一个double成BigDecimal
+        BigDecimal a1 = BigDecimal.valueOf(a);
+        BigDecimal b1 = BigDecimal.valueOf(b);
+        BigDecimal c1 = a1.add(b1);//加
+        BigDecimal c2 = a1.subtract(b1);//减
+        BigDecimal c3 = a1.multiply(b1);//乘
+        //除,后面两个参数是精确几位和舍入模式，ctrl+alt+space会提示
+        BigDecimal c4 = a1.divide(b1,3, RoundingMode.HALF_UP);
+        BigDecimal i=BigDecimal.valueOf(1);
+        BigDecimal j=BigDecimal.valueOf(3);
+        BigDecimal k = i.divide(j,3, RoundingMode.HALF_UP);//0.333
+
+        //把BigDecimal转换为double类型的数据
+        double rs=k.doubleValue();
+        System.out.println(rs);
+    }
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#math"><strong>Math</strong></a></li>
+<li><a href="#system"><strong>System</strong></a></li>
+<li><a href="#runtime"><strong>Runtime</strong></a></li>
+<li><a href="#bigdecimal"><strong>BigDecimal</strong></a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://yyss1014.github.io/post/chang-jian-apier/">
+              <h3 class="post-title">
+                常见API（二）
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://yyss1014.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

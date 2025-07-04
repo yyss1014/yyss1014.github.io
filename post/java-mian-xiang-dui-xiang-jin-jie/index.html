@@ -1,0 +1,589 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Java面向对象进阶 | WASD研究院</title>
+<link rel="shortcut icon" href="https://yyss1014.github.io/favicon.ico?v=1751633121752">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://yyss1014.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Java面向对象进阶 | WASD研究院 - Atom Feed" href="https://yyss1014.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+内部类
+枚举
+抽象枚举
+泛型
+
+
+内部类
+成员内部类是类中的一个普通成员，类似我们学过的普通成员变量。可以直接访问外部类的实例成员、静态成员。
+public class Outer {
+    private int age=99;
+  ..." />
+    <meta name="keywords" content="JavaSE" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yyss1014.github.io">
+  <img class="avatar" src="https://yyss1014.github.io/images/avatar.png?v=1751633121752" alt="">
+  </a>
+  <h1 class="site-title">
+    WASD研究院
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/archives" class="menu">
+          目录
+        </a>
+      
+    
+      
+        <a href="/" class="menu">
+          文章
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          分类
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Java面向对象进阶
+            </h2>
+            <div class="post-info">
+              <span>
+                2025-03-10
+              </span>
+              <span>
+                9 min read
+              </span>
+              
+                <a href="https://yyss1014.github.io/tag/xcf3bLryi2/" class="post-tag">
+                  # JavaSE
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p><ul class="markdownIt-TOC">
+<li><a href="#%E5%86%85%E9%83%A8%E7%B1%BB"><strong>内部类</strong></a></li>
+<li><a href="#%E6%9E%9A%E4%B8%BE"><strong>枚举</strong></a></li>
+<li><a href="#%E6%8A%BD%E8%B1%A1%E6%9E%9A%E4%B8%BE"><strong>抽象枚举</strong></a></li>
+<li><a href="#%E6%B3%9B%E5%9E%8B"><strong>泛型</strong></a></li>
+</ul>
+</p>
+<h1 id="内部类"><strong>内部类</strong></h1>
+<p>成员内部类是类中的一个普通成员，类似我们学过的普通成员变量。可以直接访问外部类的实例成员、静态成员。</p>
+<pre><code class="language-java">public class Outer {
+    private int age=99;
+    public static String a;
+    //成员内部类
+    public class Inner{
+        private String name;
+        public static String schoolname;//内部类从JDK16才开始支持定义静态成员
+        private int age=88;
+        public void test(){
+            System.out.println(a);
+            System.out.println(age);
+
+            int age=66;
+            System.out.println(age);//66
+            System.out.println(this.age);//88
+            System.out.println(Outer.this.age);//99
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        Outer.Inner in=new Outer().new Inner();
+        in.test();
+    }
+}
+</code></pre>
+<p>静态内部类：有static修饰的内部类，属于外部类自己持有(类方法、类变量)。</p>
+<pre><code class="language-java">public class Outer {
+    private int age;
+    public static String schoolName;
+    //静态内部类
+    public static class Inner{
+        private String name;
+        public static int a;
+
+        public void test(){
+            System.out.println(schoolName);
+            //System.out.println(age);不可以访问实例成员变量
+        }
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+    }
+    //静态方法、类方法
+    public static void test2(){
+        System.out.println(schoolName);
+        //System.out.println(age);不可以访问实例成员变量
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        Outer.Inner in = new Outer.Inner();
+        in.test();
+    }
+}
+</code></pre>
+<p>局部内部类（不常用）：定义在方法中、代码块中、构造器等执行体中。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+    }
+    public static void go(){
+        class A{}
+        abstract class B{}
+        interface C{}
+    }
+}
+</code></pre>
+<p>匿名内部类：特殊的局部内部类，所谓匿名指不需要程序员为这个类声明名字。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        //Animal a=new Cat();
+        //a.cry();
+        Animal a=new Animal(){
+            @Override
+            public void cry() {
+                System.out.println(&quot;猫喵喵喵&quot;);
+            }
+        };
+        a.cry();
+    }
+
+}
+/*class Cat extends Animal {
+    @Override
+    public void cry() {
+        System.out.println(&quot;猫喵喵喵&quot;);
+    }
+}*/
+abstract class Animal{
+    public abstract void cry();
+}
+</code></pre>
+<p>匿名内部类反编译：<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250310152806.png#pic_center" alt="" width="500" loading="lazy"></p>
+<ul>
+<li>通常作为一个参数传输给方法。</li>
+</ul>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+       /*Swimming s1=new Swimming(){
+            @Override
+            public void swim() {
+                System.out.println(&quot;狗游泳&quot;);
+            }
+        };
+       go(s1);*/
+        go(new Swimming() {
+            @Override
+            public void swim() {
+                System.out.println(&quot;狗游泳&quot;);
+            }
+        });
+    }
+
+    public static void go(Swimming s) {
+        System.out.println(&quot;----------开始------------&quot;);
+        s.swim();
+    }
+
+    interface Swimming {
+        void swim();
+    }
+}
+</code></pre>
+<p>开发应用场景：</p>
+<pre><code class="language-java">import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class Test {
+    public static void main(String[] args) {
+        //拓展：搞清楚匿名内部类在开发中的真实使用场景。
+        //GUI编程
+        //1、创建窗口
+        JFrame win=new JFrame(&quot;登录界面&quot;);
+        JPanel panel=new JPanel();
+        win.add(panel);
+
+        JButton btn=new JButton(&quot;登录&quot;);
+        panel.add(btn);
+        //给按钮绑定单机事件
+        btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(win,&quot;登录一下&quot;);
+            }
+        });
+        btn.addActionListener(e -&gt; JOptionPane.showMessageDialog(win,&quot;登录一下&quot;));
+        //最终核心目的是简化代码
+
+        win.setSize(300,300);
+        win.setLocationRelativeTo(null);
+        win.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        win.setVisible(true);
+    }
+}
+</code></pre>
+<h1 id="枚举"><strong>枚举</strong></h1>
+<p>枚举是一种特殊类。</p>
+<pre><code class="language-java">public enum A {
+    //枚举类第一行必须罗列的是枚举对象的名字
+    X,Y,Z;
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        A a1=A.X;
+        System.out.println(a1);
+    }
+}
+</code></pre>
+<p>反编译后的枚举类A：<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250310162551.png" alt="" loading="lazy"></p>
+<ul>
+<li>枚举类第一行罗列的名称都是常量，每个常量记住的都是枚举类的一个对象。</li>
+<li>枚举类的构造器都是私有的，因此枚举类外不能创建对象。</li>
+<li>枚举类都是最终类，不可被继承。</li>
+<li>枚举类从第二行开始可以定义类的其他各种成员。</li>
+<li>编译器为枚举类新增了几个方法，并且枚举类都是继承java.lang.Enum类的，从enum类也会继承到一些方法。</li>
+</ul>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        A a1=A.X;
+        System.out.println(a1);
+        //A a=new A();
+        A[] as=A.values();//拿到全部对象
+        A a3=A.valueOf(&quot;Z&quot;);
+        System.out.println(a3.name());//Z
+        System.out.println(a3.ordinal());//索引
+    }
+}
+</code></pre>
+<h1 id="抽象枚举"><strong>抽象枚举</strong></h1>
+<p>枚举对象名字时需要重写抽象方法。</p>
+<pre><code class="language-java">public enum B {
+    X(){
+        @Override
+        public void go() {
+
+        }
+    },Y(&quot;张三&quot;){
+        @Override
+        public void go() {
+            System.out.println(getName());
+        }
+    };
+    private String name;
+    public abstract void go();
+
+    B() {
+    }
+
+    B(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+</code></pre>
+<p>枚举在信息选择部分应用广泛。</p>
+<pre><code class="language-java">public enum Constant {
+    BOY,GIRL;
+}
+public class Test {
+    public static void main(String[] args) {
+        check(Constant.BOY);
+    }
+    public static void check(Constant sex){
+        switch (sex){
+            case BOY://case语句Constant.BOY前缀可以省略
+                System.out.println(&quot;美女&quot;);
+                break;
+            case GIRL:
+                System.out.println(&quot;帅哥&quot;);
+                break;
+        }
+    }
+}
+</code></pre>
+<h1 id="泛型"><strong>泛型</strong></h1>
+<p>定义类、接口、方法时，同时声明一个或多个类型变量<E>，称为泛型类、泛型接口、泛型方法，他们统称为泛型。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        ArrayList&lt;String&gt; list1 = new ArrayList&lt;&gt;();//JDK1.7开始，后面的数据类型可以不声明
+        list1.add(&quot;java&quot;);
+        ArrayList&lt;Cat&gt; list2 = new ArrayList&lt;&gt;();
+    }
+}
+class Cat{}
+</code></pre>
+<p>泛型类：</p>
+<pre><code class="language-java">public class MyArrayList &lt;E&gt;{
+    private Object[] arr=new Object[10];
+    private int size;//记录当前位置，对于基本数据类型 int，其默认值为 0
+    public boolean add(E e){
+        arr[size++]=e;
+        return true;
+    }
+    public E get(int index){
+        return (E) arr[index];
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Myclass2&lt;E,T&gt;{
+    public void put(E e,T t){
+
+    }
+}
+public class Myclass3&lt;E extends Animal&gt; {
+}
+public class Animal {
+}
+public class Cat extends Animal {
+}
+</code></pre>
+<p>泛型接口：</p>
+<pre><code class="language-java">public interface Data&lt;T&gt; {
+    //public interface Data&lt;T extends Animal&gt; {
+    void add(T s);
+    ArrayList&lt;T&gt; getByName(String name);
+}
+public class Student {
+}
+public class StudentData implements Data&lt;Student&gt;{
+    @Override
+    public void add(Student s) {
+
+    }
+
+    @Override
+    public ArrayList&lt;Student&gt; getByName(String name) {
+        return null;
+    }
+}
+public class Teacher {
+}
+public class TeacherData implements Data&lt;Teacher&gt; {
+    @Override
+    public void add(Teacher s) {
+
+    }
+
+    @Override
+    public ArrayList&lt;Teacher&gt; getByName(String name) {
+        return null;
+    }
+}
+</code></pre>
+<p>泛型方法：<br>
+修饰符&lt;类型变量，类型变量，···&gt;返回值类型 方法名（形参列表）{<br>
+}</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        String rs=test(&quot;java&quot;);
+        System.out.println(rs);
+        System.out.println(test(new Dog()));
+        //需求：所有的汽车都能参加比赛
+        ArrayList&lt;Car&gt; cars = new ArrayList&lt;Car&gt;();
+        cars.add(new BENZ());
+        cars.add(new BMW());
+        go(cars);
+
+        ArrayList&lt;BMW&gt; bmws = new ArrayList&lt;BMW&gt;();
+        bmws.add(new BMW());
+        bmws.add(new BMW());
+        //go(bmws);ArrayList&lt;BMW&gt;与ArrayList&lt;Car&gt;不同
+        go1(bmws);
+    }
+    public static void go(ArrayList&lt;Car&gt; cars){
+    }
+    public static &lt;T extends Car&gt; void go1(ArrayList&lt;T&gt; cars){
+    }
+    //？通配符：在使用泛型时可以使用一切类型 ？extends Car（上限） ？ super Car（下限）
+    public static void go2(ArrayList&lt;?&gt; cars){
+    }
+    public static &lt;T&gt; T test(T t) {
+        return t;
+    }
+}
+class Dog{}
+class Car{}
+class BMW extends Car{}
+class BENZ extends Car{}
+</code></pre>
+<p>泛型注意事项：</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        //泛型工作在编译阶段，一旦程序翻译成class文件，class文件就不存在泛型了，这就是泛型擦除。
+        ArrayList&lt;String&gt; list = new ArrayList&lt;&gt;();
+        list.add(&quot;a&quot;);
+        list.add(&quot;b&quot;);
+        list.add(&quot;c&quot;);
+        String rs = list.get(2);
+        System.out.println(rs);
+        //泛型不支持基本数据类型，只能支持对象类型（引用类型）
+        //ArrayList&lt;int&gt; list1 = new ArrayList&lt;&gt;();
+        //ArrayList&lt;double&gt; list2 = new ArrayList&lt;&gt;();
+        ArrayList&lt;Integer&gt; list1 = new ArrayList&lt;&gt;();
+        list1.add(1);
+        ArrayList&lt;Double&gt; list2 = new ArrayList&lt;&gt;();
+        list2.add(1.0);
+    }
+}
+</code></pre>
+<p>Java在编译时会对泛型进行类型擦除：<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250311203644.png#pic_center" alt="" width="500" loading="lazy"></p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E5%86%85%E9%83%A8%E7%B1%BB"><strong>内部类</strong></a></li>
+<li><a href="#%E6%9E%9A%E4%B8%BE"><strong>枚举</strong></a></li>
+<li><a href="#%E6%8A%BD%E8%B1%A1%E6%9E%9A%E4%B8%BE"><strong>抽象枚举</strong></a></li>
+<li><a href="#%E6%B3%9B%E5%9E%8B"><strong>泛型</strong></a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://yyss1014.github.io/post/java-mian-xiang-dui-xiang/">
+              <h3 class="post-title">
+                Java面向对象高级
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://yyss1014.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

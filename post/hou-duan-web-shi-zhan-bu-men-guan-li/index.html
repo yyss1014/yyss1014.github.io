@@ -1,0 +1,1030 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>后端Web实战(部门管理) | WASD研究院</title>
+<link rel="shortcut icon" href="https://yyss1014.github.io/favicon.ico?v=1751633121752">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://yyss1014.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="后端Web实战(部门管理) | WASD研究院 - Atom Feed" href="https://yyss1014.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+准备工作
+
+前后端分离开发
+Restful风格
+Apifox
+工程搭建
+
+
+查询部门
+
+代码实现
+数据封装
+
+手动结果映射
+起别名
+开启驼峰命名
+
+
+前后端联合测试
+
+
+删除部门
+
+简单参数接收
+代码实现
+
+
+新增部门
+
+json参数接收..." />
+    <meta name="keywords" content="JavaWeb" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yyss1014.github.io">
+  <img class="avatar" src="https://yyss1014.github.io/images/avatar.png?v=1751633121752" alt="">
+  </a>
+  <h1 class="site-title">
+    WASD研究院
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/archives" class="menu">
+          目录
+        </a>
+      
+    
+      
+        <a href="/" class="menu">
+          文章
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          分类
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              后端Web实战(部门管理)
+            </h2>
+            <div class="post-info">
+              <span>
+                2025-06-11
+              </span>
+              <span>
+                22 min read
+              </span>
+              
+                <a href="https://yyss1014.github.io/tag/2ON39h6GJZ/" class="post-tag">
+                  # JavaWeb
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p><ul class="markdownIt-TOC">
+<li><a href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><strong>准备工作</strong></a>
+<ul>
+<li><a href="#%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E5%BC%80%E5%8F%91"><strong>前后端分离开发</strong></a></li>
+<li><a href="#restful%E9%A3%8E%E6%A0%BC"><strong>Restful风格</strong></a></li>
+<li><a href="#apifox"><strong>Apifox</strong></a></li>
+<li><a href="#%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA"><strong>工程搭建</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E6%9F%A5%E8%AF%A2%E9%83%A8%E9%97%A8"><strong>查询部门</strong></a>
+<ul>
+<li><a href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><strong>代码实现</strong></a></li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E5%B0%81%E8%A3%85"><strong>数据封装</strong></a>
+<ul>
+<li><a href="#%E6%89%8B%E5%8A%A8%E7%BB%93%E6%9E%9C%E6%98%A0%E5%B0%84"><strong>手动结果映射</strong></a></li>
+<li><a href="#%E8%B5%B7%E5%88%AB%E5%90%8D"><strong>起别名</strong></a></li>
+<li><a href="#%E5%BC%80%E5%90%AF%E9%A9%BC%E5%B3%B0%E5%91%BD%E5%90%8D"><strong>开启驼峰命名</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E5%89%8D%E5%90%8E%E7%AB%AF%E8%81%94%E5%90%88%E6%B5%8B%E8%AF%95"><strong>前后端联合测试</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E5%88%A0%E9%99%A4%E9%83%A8%E9%97%A8"><strong>删除部门</strong></a>
+<ul>
+<li><a href="#%E7%AE%80%E5%8D%95%E5%8F%82%E6%95%B0%E6%8E%A5%E6%94%B6"><strong>简单参数接收</strong></a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-2"><strong>代码实现</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E6%96%B0%E5%A2%9E%E9%83%A8%E9%97%A8"><strong>新增部门</strong></a>
+<ul>
+<li><a href="#json%E5%8F%82%E6%95%B0%E6%8E%A5%E6%94%B6"><strong>json参数接收</strong></a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-3"><strong>代码实现</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E4%BF%AE%E6%94%B9%E9%83%A8%E9%97%A8"><strong>修改部门</strong></a>
+<ul>
+<li><a href="#%E6%9F%A5%E8%AF%A2%E5%9B%9E%E6%98%BE"><strong>查询回显</strong></a>
+<ul>
+<li><a href="#%E8%B7%AF%E5%BE%84%E5%8F%82%E6%95%B0%E6%8E%A5%E6%94%B6"><strong>路径参数接收</strong></a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-4"><strong>代码实现</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E4%BF%AE%E6%94%B9%E6%95%B0%E6%8D%AE"><strong>修改数据</strong></a>
+<ul>
+<li><a href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-5"><strong>代码实现</strong></a></li>
+<li><a href="#requestmapping"><strong>@RequestMapping</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E6%97%A5%E5%BF%97%E6%8A%80%E6%9C%AF"><strong>日志技术</strong></a>
+<ul>
+<li><a href="#logback%E5%85%A5%E9%97%A8"><strong>Logback入门</strong></a></li>
+<li><a href="#logback%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><strong>Logback配置文件</strong></a></li>
+<li><a href="#logback%E6%97%A5%E5%BF%97%E7%BA%A7%E5%88%AB"><strong>Logback日志级别</strong></a></li>
+<li><a href="#%E6%A1%88%E4%BE%8B%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95"><strong>案例日志记录</strong></a></li>
+</ul>
+</li>
+</ul>
+</p>
+<h1 id="准备工作"><strong>准备工作</strong></h1>
+<h2 id="前后端分离开发"><strong>前后端分离开发</strong></h2>
+<p><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250611172203.png" alt="" loading="lazy"><br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250611172240.png" alt="" loading="lazy"></p>
+<ol>
+<li>需求分析：首先我们需要阅读需求文档，分析需求，理解需求。</li>
+<li>接口定义：查询接口文档中关于需求的接口的定义，包括地址，参数，响应数据类型等等</li>
+<li>前后台并行开发：各自按照接口文档进行开发，实现需求</li>
+<li>测试：前后台开发完了，各自按照接口文档进行测试</li>
+<li>前后段联调测试：前段工程请求后端工程，测试功能</li>
+</ol>
+<h2 id="restful风格"><strong>Restful风格</strong></h2>
+<ul>
+<li>REST（Representational State Transfer），表述性状态转换，它是一种软件架构风格。</li>
+</ul>
+<p>传统URL风格如下：</p>
+<ul>
+<li>http://localhost:8080/user/getById?id=1      GET：查询id为1的用户</li>
+<li>http://localhost:8080/user/saveUser            POST：新增用户</li>
+<li>http://localhost:8080/user/updateUser         POST：修改用户</li>
+<li>http://localhost:8080/user/deleteUser?id=1  GET：删除id为1的用户</li>
+</ul>
+<p>于开发人员来说，每一个开发人员都有自己的命名习惯，就拿根据id查询用户信息来说的，不同的开发人员定义的路径可能是这样的：getById，selectById，queryById，loadById... 。 每一个人都有自己的命名习惯，如果都按照各自的习惯来，一个项目组，几十号或上百号人，那最终开发出来的项目，将会变得难以维护，没有一个统一的标准。<br>
+基于REST风格URL如下：</p>
+<ul>
+<li>http://localhost:8080/users/1       GET：查询id为1的用户</li>
+<li>http://localhost:8080/users          POST：新增用户</li>
+<li>http://localhost:8080/users          PUT：修改用户</li>
+<li>http://localhost:8080/users/1       DELETE：删除id为1的用户</li>
+</ul>
+<p>通过URL定位要操作的资源，通过HTTP动词(请求方式)来描述具体的操作。在REST风格的URL中，通过四种请求方式，来操作数据的增删改查。</p>
+<ul>
+<li>GET ：  查询</li>
+<li>POST ：新增</li>
+<li>PUT ：  修改</li>
+<li>DELETE ：删除</li>
+</ul>
+<p>注意事项：</p>
+<ul>
+<li>REST是风格，是约定方式，约定不是规定，可以打破</li>
+<li>描述模块的功能通常使用复数，也就是加s的格式来描述，表示此类资源，而非单个资源。如：users、emps、books…</li>
+</ul>
+<h2 id="apifox"><strong>Apifox</strong></h2>
+<p>因为在浏览器地中所发起的所有的请求，都是GET方式的请求。那大家就需要思考两个问题：</p>
+<ul>
+<li>前后端都在并行开发，后端开发完对应的接口之后，如何对接口进行请求测试呢？</li>
+<li>前后端都在并行开发，前端开发过程中，如何获取到数据，测试页面的渲染展示呢？<br>
+那这里我们就可以借助一些接口测试工具，比如项：Postman、Apipost、Apifox等。<br>
+介绍：Apifox是一款集成了Api文档、Api调试、Api Mock、Api测试的一体化协作平台。<br>
+作用：接口文档管理、接口请求测试、Mock服务。<br>
+官网： https://apifox.com/</li>
+</ul>
+<h2 id="工程搭建"><strong>工程搭建</strong></h2>
+<p>1). 创建SpringBoot工程，并引入web开发起步依赖、mybatis、mysql驱动、lombok。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250613201854.png" alt="" loading="lazy"><br>
+2). 创建数据库及对应的表结构，并在application.yml中配置数据库的基本信息。</p>
+<pre><code class="language-sql">CREATE TABLE dept (
+  id int unsigned PRIMARY KEY AUTO_INCREMENT COMMENT 'ID, 主键',
+  name varchar(10) NOT NULL UNIQUE COMMENT '部门名称',
+  create_time datetime DEFAULT NULL COMMENT '创建时间',
+  update_time datetime DEFAULT NULL COMMENT '修改时间'
+) COMMENT '部门表';
+
+INSERT INTO dept VALUES (1,'学工部','2023-09-25 09:47:40','2024-07-25 09:47:40'),
+                      (2,'教研部','2023-09-25 09:47:40','2024-08-09 15:17:04'),
+                      (3,'咨询部','2023-09-25 09:47:40','2024-07-30 21:26:24'),
+                      (4,'就业部','2023-09-25 09:47:40','2024-07-25 09:47:40'),
+                      (5,'人事部','2023-09-25 09:47:40','2024-07-25 09:47:40'),
+                      (6,'行政部','2023-11-30 20:56:37','2024-07-30 20:56:37');```
+```yaml
+spring:
+  application:
+    name: tlias-web-management
+  datasource:
+    url: jdbc:mysql://localhost:3306/tlias
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+</code></pre>
+<p>3). 准备基础包结构，并引入实体类Dept及统一的响应结果封装类Result。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250613203014.png" alt="" loading="lazy"></p>
+<ul>
+<li>实体类Dept</li>
+</ul>
+<pre><code class="language-java">package com.ys.pojo;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Dept {
+    private Integer id;
+    private String name;
+    private LocalDateTime createTime;
+    private LocalDateTime updateTime;
+}
+</code></pre>
+<ul>
+<li>统一响应结果Result</li>
+</ul>
+<pre><code class="language-java">package com.ys.pojo;
+
+import lombok.Data;
+import java.io.Serializable;
+
+/**
+ * 后端统一返回结果
+ */
+@Data
+public class Result {
+
+    private Integer code; //编码：1成功，0为失败
+    private String msg; //错误信息
+    private Object data; //数据
+
+    public static Result success() {
+        Result result = new Result();
+        result.code = 1;
+        result.msg = &quot;success&quot;;
+        return result;
+    }
+
+    public static Result success(Object object) {
+        Result result = new Result();
+        result.data = object;
+        result.code = 1;
+        result.msg = &quot;success&quot;;
+        return result;
+    }
+
+    public static Result error(String msg) {
+        Result result = new Result();
+        result.msg = msg;
+        result.code = 0;
+        return result;
+    }
+
+}
+</code></pre>
+<h1 id="查询部门"><strong>查询部门</strong></h1>
+<p>查询所有的部门数据，查询出来展示在部门管理的页面中。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250616142624.png" alt="" loading="lazy"></p>
+<h2 id="代码实现"><strong>代码实现</strong></h2>
+<p><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250616151027.png" alt="" loading="lazy"><br>
+1). Controller层</p>
+<pre><code class="language-java">@RestController
+public class DeptController {
+    @Autowired
+    private DeptService deptService;
+    //@RequestMapping(value = &quot;/depts&quot;,method = RequestMethod.GET)//指定请求方式
+    @GetMapping(&quot;/depts&quot;)
+    public Result list(){
+        System.out.println(&quot;查询全部部门数据&quot;);
+        List&lt;Dept&gt; deptList= deptService.findALL();
+        return Result.success(deptList);
+    }
+}
+</code></pre>
+<ul>
+<li>GET方式：@GetMapping</li>
+<li>POST方式：@PostMapping</li>
+<li>PUT方式：@PutMapping</li>
+<li>DELETE方式：@DeleteMapping</li>
+</ul>
+<p>2). Service层</p>
+<pre><code class="language-java">public interface DeptService {
+//    查询所有部门
+    List&lt;Dept&gt; findALL();
+}
+</code></pre>
+<pre><code class="language-java">@Service
+public class DeptServiceImpl implements DeptService {
+    @Autowired
+    private DeptMapper deptMapper;
+    @Override
+    public List&lt;Dept&gt; findALL() {
+        return deptMapper.findALL();
+    }
+}
+</code></pre>
+<p>3). Mapper层</p>
+<pre><code class="language-java">@Mapper
+public interface DeptMapper {
+    @Select(&quot;select id, name, create_time, update_time from dept order by update_time desc&quot;)
+    List&lt;Dept&gt; findALL();
+}
+</code></pre>
+<p>打开Apifox进行测试：<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250616151927.png" alt="" loading="lazy"></p>
+<h2 id="数据封装"><strong>数据封装</strong></h2>
+<figure data-type="image" tabindex="1"><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250616151810.png" alt="" loading="lazy"></figure>
+<ul>
+<li>实体类属性名和数据库表查询返回的字段名一致，mybatis会自动封装。</li>
+<li>如果实体类属性名和数据库表查询返回的字段名不一致，不能自动封装。</li>
+</ul>
+<h3 id="手动结果映射"><strong>手动结果映射</strong></h3>
+<p>Mapper：</p>
+<pre><code class="language-java">@Mapper
+public interface DeptMapper {
+    @Results({
+            @Result(column = &quot;create_time&quot;,property = &quot;createTime&quot;),
+            @Result(column = &quot;update_time&quot;,property = &quot;updateTime&quot;)
+    })
+    @Select(&quot;select id, name, create_time, update_time from dept order by update_time desc&quot;)
+    List&lt;Dept&gt; findALL();
+}
+</code></pre>
+<p>Results注解：</p>
+<pre><code class="language-java">@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.METHOD})
+public @interface Results {
+    String id() default &quot;&quot;;
+
+    Result[] value() default {};
+}
+</code></pre>
+<p>Result注解：</p>
+<pre><code class="language-java">@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.METHOD})
+@Repeatable(Results.class)
+public @interface Result {
+    boolean id() default false;
+
+    String column() default &quot;&quot;;
+
+    String property() default &quot;&quot;;
+
+    Class&lt;?&gt; javaType() default void.class;
+
+    JdbcType jdbcType() default JdbcType.UNDEFINED;
+
+    Class&lt;? extends TypeHandler&gt; typeHandler() default UnknownTypeHandler.class;
+
+    One one() default @One;
+
+    Many many() default @Many;
+}
+</code></pre>
+<figure data-type="image" tabindex="2"><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250616153119.png" alt="" loading="lazy"></figure>
+<h3 id="起别名"><strong>起别名</strong></h3>
+<pre><code class="language-java">@Mapper
+public interface DeptMapper {
+    /*@Results({
+            @Result(column = &quot;create_time&quot;,property = &quot;createTime&quot;),
+            @Result(column = &quot;update_time&quot;,property = &quot;updateTime&quot;)
+    })*/
+    @Select(&quot;select id, name, create_time createTime, update_time updateTime from dept order by update_time desc&quot;)
+    List&lt;Dept&gt; findALL();
+}
+</code></pre>
+<h3 id="开启驼峰命名"><strong>开启驼峰命名</strong></h3>
+<p>如果字段名与属性名符合驼峰命名规则，mybatis会自动通过驼峰命名规则映射。驼峰命名规则：   abc_xyz    =&gt;   abcXyz</p>
+<ul>
+<li>表中字段名：abc_xyz</li>
+<li>类中属性名：abcXyz</li>
+</ul>
+<p>在application.yml中做如下配置，开启开关。</p>
+<pre><code class="language-yml">spring:
+  application:
+    name: tlias-web-management
+  datasource:
+    url: jdbc:mysql://localhost:3306/tlias
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # 开启驼峰命名
+    map-underscore-to-camel-case: true
+</code></pre>
+<h2 id="前后端联合测试"><strong>前后端联合测试</strong></h2>
+<p>其中Fetch/XHR过滤Ajax请求。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250616155201.png" alt="" loading="lazy"><br>
+前端工程请求服务器的地址为 http://localhost:90/api/depts，是如何访问到后端的tomcat服务器的？<br>
+其实这里，是通过前端服务Nginx中提供的反向代理功能实现的。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250616155417.png" alt="" loading="lazy"><br>
+1). 浏览器发起请求，请求的是localhost:90 ，那其实请求的是nginx服务器。<br>
+2). 在nginx服务器中呢，并没有对请求直接进行处理，而是将请求转发给了后端的tomcat服务器，最终由tomcat服务器来处理该请求。<br>
+直接请求nginx服务器主要有以下几点原因：<br>
+1). 安全：由于后端的tomcat服务器一般都会搭建集群，会有很多的服务器，把所有的tomcat暴露给前端，让前端直接请求tomcat，对于后端服务器是比较危险的。<br>
+2). 灵活：基于nginx的反向代理实现，更加灵活，后端想增加、减少服务器，对于前端来说是无感知的，只需要在nginx中配置即可。<br>
+3). 负载均衡：基于nginx的反向代理，可以很方便的实现后端tomcat的负载均衡操作。<br>
+具体的请求访问流程如下：<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250616155604.png" alt="" loading="lazy"></p>
+<ol>
+<li>server：配置了一台nginx代理服务器。</li>
+<li>listen：监听端口90。</li>
+<li>location：用于定义匹配特定uri请求的规则。</li>
+<li>^~ /api/：^~用于路径前缀匹配，且优先级高于正则匹配。（Nginx 的 location 匹配规则只关注请求的 路径部分，即 URL 中从第一个 / 开始的部分。例如，对于请求 http://localhost:90/api/depts，Nginx 只会关注 /api/depts 这部分）</li>
+<li>^/api/(.*)$ /<span class='katex-error' title='ParseError: KaTeX parse error: Undefined control sequence: \* at position 16: 1：(.*)中.表示任意字符，\̲*̲表示任意次，'>1：(.*)中.表示任意字符，\*表示任意次，</span>符号用于检查匹配字符是否是输入字符串的最后一个字符，()相当于分组，其路径只有一个小括号就只有一组。</li>
+<li>rewrite：该指令用于重写匹配到的uri路径。</li>
+<li>proxy_pass：该指令用于代理转发，它将匹配到的请求转发给位于后端的指令服务器。</li>
+</ol>
+<p>nginx.conf：</p>
+<pre><code class="language-config">#user  nobody;
+worker_processes  1;
+
+#error_log  logs/error.log;
+#error_log  logs/error.log  notice;
+#error_log  logs/error.log  info;
+
+#pid        logs/nginx.pid;
+
+
+events {
+    worker_connections  1024;
+}
+
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    sendfile        on;
+    keepalive_timeout  65;
+
+    server {
+        listen       90;
+        server_name  localhost;
+        client_max_body_size 10m;
+        
+        location / {
+            root   html;
+            index  index.html index.htm;
+            try_files $uri $uri/ /index.html;
+        }
+
+        location ^~ /api/ {
+			rewrite ^/api/(.*)$ /$1 break;
+			proxy_pass http://localhost:8080;
+        }
+        
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+    }
+
+}
+</code></pre>
+<h1 id="删除部门"><strong>删除部门</strong></h1>
+<figure data-type="image" tabindex="3"><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250616163023.png" alt="" loading="lazy"></figure>
+<h2 id="简单参数接收"><strong>简单参数接收</strong></h2>
+<ul>
+<li>方案一：通过原始的 HttpServletRequest 对象获取请求参数</li>
+</ul>
+<pre><code class="language-java">/**
+* 根据ID删除部门 - 简单参数接收: 方式一 (HttpServletRequest)
+*/
+@DeleteMapping(&quot;/depts&quot;)
+public Result delete(HttpServletRequest request){
+    String idStr = request.getParameter(&quot;id&quot;);
+    int id = Integer.parseInt(idStr);
+    
+    System.out.println(&quot;根据ID删除部门: &quot; + id);
+    return Result.success();
+}
+</code></pre>
+<p>这种方案实现较为繁琐，而且还需要进行手动类型转换。【项目开发很少用】</p>
+<ul>
+<li>方案二：通过Spring提供的 @RequestParam 注解，将请求参数绑定给方法形参</li>
+</ul>
+<pre><code class="language-java">@DeleteMapping(&quot;/depts&quot;)
+public Result delete(@RequestParam(&quot;id&quot;) Integer deptId){
+    System.out.println(&quot;根据ID删除部门: &quot; + deptId);
+    return Result.success();
+}
+</code></pre>
+<p>@RequestParam 注解的value属性，需要与前端传递的参数名保持一致 。@RequestParam注解required属性默认为true，代表该参数必须传递，如果不传递将报错。 如果参数可选，可以将属性设置为false。</p>
+<pre><code class="language-java">@DeleteMapping(&quot;/depts&quot;)
+    public Result delete(@RequestParam(value = &quot;id&quot;,required = false) Integer deptId){
+        System.out.println(&quot;根据ID删除部门: &quot; + deptId);
+        return Result.success();
+    }
+</code></pre>
+<ul>
+<li>方案三：如果请求参数名与形参变量名相同，直接定义方法形参即可接收。（省略@RequestParam）</li>
+</ul>
+<pre><code class="language-java">@DeleteMapping(&quot;/depts&quot;)
+    public Result delete(Integer Id){
+        System.out.println(&quot;根据ID删除部门: &quot; + Id);
+        return Result.success();
+    }
+</code></pre>
+<h2 id="代码实现-2"><strong>代码实现</strong></h2>
+<p>1). Controller层</p>
+<pre><code class="language-java">@DeleteMapping(&quot;/depts&quot;)
+    public Result delete(Integer id){
+        System.out.println(&quot;根据ID删除部门: &quot; + id);
+        deptService.deleteById(id);
+        return Result.success();
+    }
+</code></pre>
+<p>2). Service层</p>
+<pre><code class="language-java">@Override
+    public void deleteById(Integer id) {
+        deptMapper.deleteById(id);
+    }
+</code></pre>
+<p>3). Mapper层</p>
+<pre><code class="language-java">@Delete(&quot;delete from dept where id=#{id}&quot;)
+    void deleteById(Integer id);
+</code></pre>
+<h1 id="新增部门"><strong>新增部门</strong></h1>
+<p>请求路径：/depts<br>
+请求方式：POST<br>
+接口描述：该接口用于添加部门数据<br>
+请求参数样例：</p>
+<pre><code class="language-json">{
+    &quot;name&quot;: &quot;教研部&quot;
+}
+</code></pre>
+<figure data-type="image" tabindex="4"><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250616165756.png" alt="" loading="lazy"></figure>
+<h2 id="json参数接收"><strong>json参数接收</strong></h2>
+<p>我们看到，在controller中，需要接收前端传递的请求参数。 那接下来，我们就先来看看在服务器端的Controller程序中，如何获取json格式的参数。</p>
+<ul>
+<li>JSON格式的参数，通常会使用一个实体对象进行接收 。</li>
+<li>规则：JSON数据的键名与方法形参对象的属性名相同，并需要使用@RequestBody注解标识。</li>
+</ul>
+<h2 id="代码实现-3"><strong>代码实现</strong></h2>
+<p>1). Controller层</p>
+<pre><code class="language-java">@PostMapping(&quot;/depts&quot;)
+    public Result add(@RequestBody Dept dept){
+        System.out.println(&quot;新增部门：&quot; + dept);
+        deptService.add(dept);
+        return Result.success();
+    }
+</code></pre>
+<p>2). Service层</p>
+<pre><code class="language-java">@Override
+    public void add(Dept dept) {
+        //1.补全基础属性
+        dept.setCreateTime(LocalDateTime.now());
+        dept.setUpdateTime(LocalDateTime.now());
+        //2.调用Mapper接口方法插入数据
+        deptMapper.insert(dept);
+    }
+</code></pre>
+<p>3). Mapper层</p>
+<pre><code class="language-java">@Insert(&quot;insert into dept(name,create_time,update_time) values (#{name},#{createTime},#{updateTime})&quot;)
+    void insert(Dept dept);
+</code></pre>
+<h1 id="修改部门"><strong>修改部门</strong></h1>
+<h2 id="查询回显"><strong>查询回显</strong></h2>
+<p>请求路径：/depts/{id}<br>
+请求方式：GET<br>
+接口描述：该接口用于根据ID查询部门数据<br>
+请求参数样例：<br>
+/depts/1<br>
+/depts/3<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250616171714.png" alt="" loading="lazy"></p>
+<h3 id="路径参数接收"><strong>路径参数接收</strong></h3>
+<p>/depts/1，/depts/2 这种在url中传递的参数，我们称之为路径参数。<br>
+路径参数：通过请求URL直接传递参数，使用{…}来标识该路径参数，需要使用 @PathVariable获取路径参数。如果路径参数名与controller方法形参名称一致，@PathVariable注解的value属性是可以省略的。可以传递多个路径参数，如果名称都相同都可以省略。</p>
+<h3 id="代码实现-4"><strong>代码实现</strong></h3>
+<p>1). Controller层</p>
+<pre><code class="language-java">@GetMapping(&quot;/depts/{id}&quot;)
+    public Result getInfo(@PathVariable Integer id){
+        System.out.println(&quot;根据路径查询id: &quot; + id);
+        Dept dept=deptService.getById(id);
+        return Result.success(dept);
+    }
+</code></pre>
+<p>2). Service层</p>
+<pre><code class="language-java">@Override
+    public Dept getById(Integer id) {
+        return deptMapper.getById(id);
+    }
+</code></pre>
+<p>3). Mapper层</p>
+<pre><code class="language-java">@Select(&quot;select id, name, create_time , update_time from dept where id=#{id}&quot;)
+    Dept getById(Integer id);
+</code></pre>
+<h2 id="修改数据"><strong>修改数据</strong></h2>
+<p>请求路径：/depts<br>
+请求方式：PUT<br>
+接口描述：该接口用于修改部门数据<br>
+请求参数样例：</p>
+<pre><code class="language-json">{
+    &quot;id&quot;: 1,
+    &quot;name&quot;: &quot;教研部&quot;
+}
+</code></pre>
+<figure data-type="image" tabindex="5"><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250616173300.png" alt="" loading="lazy"></figure>
+<h3 id="代码实现-5"><strong>代码实现</strong></h3>
+<p>1). Controller层</p>
+<pre><code class="language-java">@PutMapping(&quot;/depts&quot;)
+    public Result update(@RequestBody Dept dept){
+        System.out.println(&quot;修改部门：&quot; + dept);
+        deptService.update(dept);
+        return Result.success();
+    }
+</code></pre>
+<p>2). Service层</p>
+<pre><code class="language-java">@Override
+    public void update(Dept dept) {
+        dept.setUpdateTime(LocalDateTime.now());
+        deptMapper.update(dept);
+    }
+</code></pre>
+<p>3). Mapper层</p>
+<pre><code class="language-java">@Update(&quot;update dept set name=#{name} , update_time=#{updateTime} where id=#{id}&quot;)
+    void update(Dept dept);
+</code></pre>
+<h3 id="requestmapping"><strong>@RequestMapping</strong></h3>
+<p>我们在 DeptController 中所定义的方法，所有的请求路径，都是 /depts 开头的，我们其实是可以把这个公共的路径 /depts 抽取到类上的，那在各个方法上，就可以省略了这个 /depts 路径。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250616174332.png" alt="" loading="lazy"><br>
+一个完整的请求路径，应该是类上的 @RequestMapping 的value属性 + 方法上的 @RequestMapping的value属性。</p>
+<h1 id="日志技术"><strong>日志技术</strong></h1>
+<figure data-type="image" tabindex="6"><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250616211026.png" alt="" loading="lazy"></figure>
+<ul>
+<li>JUL：这是JavaSE平台提供的官方日志框架，也被称为JUL。配置相对简单，但不够灵活，性能较差。</li>
+<li>Log4j：一个流行的日志框架，提供了灵活的配置选项，支持多种输出目标。</li>
+<li>Logback：基于Log4j升级而来，提供了更多的功能和配置选项，性能由于Log4j。</li>
+<li>Slf4j：（Simple Logging Facade for Java）简单日志门面，提供了一套日志操作的标准接口及抽象类，允许应用程序使用不同的底层日志框架。</li>
+</ul>
+<h2 id="logback入门"><strong>Logback入门</strong></h2>
+<p>1). 准备工作：引入logback的依赖（springboot中无需引入，在springboot中已经传递了此依赖）</p>
+<pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;ch.qos.logback&lt;/groupId&gt;
+    &lt;artifactId&gt;logback-classic&lt;/artifactId&gt;
+    &lt;version&gt;1.4.11&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<p>2). 引入配置文件 logback.xml  （资料中已经提供，拷贝进来，放在 src/main/resources 目录下； 或者直接AI生成）</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;configuration&gt;
+    &lt;!-- 控制台输出 --&gt;
+    &lt;appender name=&quot;STDOUT&quot; class=&quot;ch.qos.logback.core.ConsoleAppender&quot;&gt;
+        &lt;encoder class=&quot;ch.qos.logback.classic.encoder.PatternLayoutEncoder&quot;&gt;
+            &lt;!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度  %logger{50}: 显示日志记录器的名称，最长50个字符(超出.切割)  %msg：日志消息，%n是换行符 --&gt;
+            &lt;pattern&gt;%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n&lt;/pattern&gt;
+        &lt;/encoder&gt;
+    &lt;/appender&gt;
+    
+    &lt;!-- 日志输出级别 --&gt;
+    &lt;root level=&quot;debug&quot;&gt;
+        &lt;appender-ref ref=&quot;STDOUT&quot; /&gt;
+    &lt;/root&gt;
+&lt;/configuration&gt;
+</code></pre>
+<p>3). 记录日志：定义日志记录对象Logger，记录日志</p>
+<pre><code class="language-java">package com.ys;
+
+import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.time.LocalDateTime;
+public class LogTest {
+    private static Logger log = LoggerFactory.getLogger(LogTest.class);
+
+    @Test
+    public void testLog(){
+        //System.out.println(LocalDateTime.now() + &quot; : 开始计算...&quot;);
+        log.debug(&quot;开始计算...&quot;);
+
+        int sum = 0;
+        int[] nums = {1, 5, 3, 2, 1, 4, 5, 4, 6, 7, 4, 34, 2, 23};
+        for (int num : nums) {
+            sum += num;
+        }
+        
+        //System.out.println(&quot;计算结果为: &quot;+sum);
+        //System.out.println(LocalDateTime.now() + &quot;结束计算...&quot;);
+        log.info(&quot;计算结果为: &quot;+sum);
+        log.debug(&quot;结束计算...&quot;);
+    }
+}
+</code></pre>
+<figure data-type="image" tabindex="7"><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250616213024.png" alt="" loading="lazy"></figure>
+<h2 id="logback配置文件"><strong>Logback配置文件</strong></h2>
+<p>Logback日志框架的配置文件叫 logback.xml 。<br>
+该配置文件是对Logback日志框架输出的日志进行控制的，可以来配置输出的格式、位置及日志开关等。<br>
+常用的两种输出日志的位置：控制台、系统文件。<br>
+1). 如果需要输出日志到控制台。添加如下配置：</p>
+<pre><code class="language-xml">&lt;!-- 控制台输出 --&gt;
+&lt;appender name=&quot;STDOUT&quot; class=&quot;ch.qos.logback.core.ConsoleAppender&quot;&gt;
+    &lt;encoder class=&quot;ch.qos.logback.classic.encoder.PatternLayoutEncoder&quot;&gt;
+            &lt;!--格式化输出：%d 表示日期，%thread 表示线程名，%-5level表示级别从左显示5个字符宽度，%msg表示日志消息，%n表示换行符 --&gt;
+            &lt;pattern&gt;%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}-%msg%n&lt;/pattern&gt;
+    &lt;/encoder&gt;
+&lt;/appender&gt;
+</code></pre>
+<p>2). 如果需要输出日志到文件。添加如下配置：</p>
+<pre><code class="language-java">&lt;!-- 按照每天生成日志文件 --&gt;
+&lt;appender name=&quot;FILE&quot; class=&quot;ch.qos.logback.core.rolling.RollingFileAppender&quot;&gt;
+    &lt;rollingPolicy class=&quot;ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy&quot;&gt;
+        &lt;!-- 日志文件输出的文件名, %i表示序号（从零开始） --&gt;
+        &lt;FileNamePattern&gt;D:/tlias-%d{yyyy-MM-dd}-%i.log&lt;/FileNamePattern&gt;
+        &lt;!-- 最多保留的历史日志文件数量 --&gt;
+        &lt;MaxHistory&gt;30&lt;/MaxHistory&gt;
+        &lt;!-- 最大文件大小，超过这个大小会触发滚动到新文件，默认为 10MB --&gt;
+        &lt;maxFileSize&gt;10MB&lt;/maxFileSize&gt;
+    &lt;/rollingPolicy&gt;
+
+    &lt;encoder class=&quot;ch.qos.logback.classic.encoder.PatternLayoutEncoder&quot;&gt;
+        &lt;!--格式化输出：%d 表示日期，%thread 表示线程名，%-5level表示级别从左显示5个字符宽度，%msg表示日志消息，%n表示换行符 --&gt;
+        &lt;pattern&gt;%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}-%msg%n&lt;/pattern&gt;
+    &lt;/encoder&gt;
+&lt;/appender&gt;
+</code></pre>
+<p>3). 日志开关配置 （开启日志（ALL），取消日志（OFF））</p>
+<pre><code class="language-java">&lt;!-- 日志输出级别（不区分大小写） --&gt;
+&lt;root level=&quot;ALL&quot;&gt;
+    &lt;!--输出到控制台--&gt;
+    &lt;appender-ref ref=&quot;STDOUT&quot; /&gt;
+    &lt;!--输出到文件--&gt;
+    &lt;appender-ref ref=&quot;FILE&quot; /&gt;
+&lt;/root&gt;
+</code></pre>
+<h2 id="logback日志级别"><strong>Logback日志级别</strong></h2>
+<p>日志级别指的是日志信息的类型，日志都会分级别，常见的日志级别如下（优先级由低到高）：</p>
+<table>
+<thead>
+<tr>
+<th>日志级别</th>
+<th>说明</th>
+<th>记录方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>trace</td>
+<td>追踪，记录程序运行轨迹 【使用很少】</td>
+<td>log.trace(&quot;...&quot;)</td>
+</tr>
+<tr>
+<td>debug</td>
+<td>调试，记录程序调试过程中的信息，实际应用中一般将其视为最低级别 【使用较多】</td>
+<td>log.debug(&quot;...&quot;)</td>
+</tr>
+<tr>
+<td>info</td>
+<td>记录一般信息，描述程序运行的关键事件，如：网络连接、io操作 【使用较多】</td>
+<td>log.info(&quot;...&quot;)</td>
+</tr>
+<tr>
+<td>warn</td>
+<td>警告信息，记录潜在有害的情况 【使用较多】</td>
+<td>log.warn(&quot;...&quot;)</td>
+</tr>
+<tr>
+<td>error</td>
+<td>错误信息 【使用较多】</td>
+<td>log.error(&quot;...&quot;)</td>
+</tr>
+</tbody>
+</table>
+<p>可以在配置文件logback.xml中，灵活的控制输出那些类型的日志。（大于等于配置的日志级别的日志才会输出）</p>
+<h2 id="案例日志记录"><strong>案例日志记录</strong></h2>
+<pre><code class="language-java">@Slf4j
+@RequestMapping(&quot;/depts&quot;)
+@RestController
+public class DeptController {
+
+    //private static final Logger logger = LoggerFactory.getLogger(DeptController.class);
+
+    @Autowired
+    private DeptService deptService;
+    //@RequestMapping(value = &quot;/depts&quot;,method = RequestMethod.GET)//指定请求方式
+    @GetMapping
+    public Result list(){
+        //System.out.println(&quot;查询全部部门数据&quot;);
+        log.info(&quot;查询全部部门数据&quot;);
+        List&lt;Dept&gt; deptList= deptService.findALL();
+        return Result.success(deptList);
+    }
+
+    @DeleteMapping
+    public Result delete(Integer id){
+        //System.out.println(&quot;根据ID删除部门: &quot; + id);
+        log.info(&quot;根据ID删除部门: {}&quot; , id);
+        deptService.deleteById(id);
+        return Result.success();
+    }
+
+    @PostMapping
+    public Result add(@RequestBody Dept dept){
+        //System.out.println(&quot;新增部门：&quot; + dept);
+        log.info(&quot;新增部门：{}&quot; , dept);
+        deptService.add(dept);
+        return Result.success();
+    }
+
+    @GetMapping(&quot;/{id}&quot;)
+    public Result getInfo(@PathVariable Integer id){
+        //System.out.println(&quot;根据路径查询id: &quot; + id);
+        log.info(&quot;根据路径查询id: {}&quot;,id);
+        Dept dept=deptService.getById(id);
+        return Result.success(dept);
+    }
+
+    @PutMapping
+    public Result update(@RequestBody Dept dept){
+        //System.out.println(&quot;修改部门：&quot; + dept);
+        log.info(&quot;修改部门：{}&quot; , dept);
+        deptService.update(dept);
+        return Result.success();
+    }
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><strong>准备工作</strong></a>
+<ul>
+<li><a href="#%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E5%BC%80%E5%8F%91"><strong>前后端分离开发</strong></a></li>
+<li><a href="#restful%E9%A3%8E%E6%A0%BC"><strong>Restful风格</strong></a></li>
+<li><a href="#apifox"><strong>Apifox</strong></a></li>
+<li><a href="#%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA"><strong>工程搭建</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E6%9F%A5%E8%AF%A2%E9%83%A8%E9%97%A8"><strong>查询部门</strong></a>
+<ul>
+<li><a href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><strong>代码实现</strong></a></li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E5%B0%81%E8%A3%85"><strong>数据封装</strong></a>
+<ul>
+<li><a href="#%E6%89%8B%E5%8A%A8%E7%BB%93%E6%9E%9C%E6%98%A0%E5%B0%84"><strong>手动结果映射</strong></a></li>
+<li><a href="#%E8%B5%B7%E5%88%AB%E5%90%8D"><strong>起别名</strong></a></li>
+<li><a href="#%E5%BC%80%E5%90%AF%E9%A9%BC%E5%B3%B0%E5%91%BD%E5%90%8D"><strong>开启驼峰命名</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E5%89%8D%E5%90%8E%E7%AB%AF%E8%81%94%E5%90%88%E6%B5%8B%E8%AF%95"><strong>前后端联合测试</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E5%88%A0%E9%99%A4%E9%83%A8%E9%97%A8"><strong>删除部门</strong></a>
+<ul>
+<li><a href="#%E7%AE%80%E5%8D%95%E5%8F%82%E6%95%B0%E6%8E%A5%E6%94%B6"><strong>简单参数接收</strong></a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-2"><strong>代码实现</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E6%96%B0%E5%A2%9E%E9%83%A8%E9%97%A8"><strong>新增部门</strong></a>
+<ul>
+<li><a href="#json%E5%8F%82%E6%95%B0%E6%8E%A5%E6%94%B6"><strong>json参数接收</strong></a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-3"><strong>代码实现</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E4%BF%AE%E6%94%B9%E9%83%A8%E9%97%A8"><strong>修改部门</strong></a>
+<ul>
+<li><a href="#%E6%9F%A5%E8%AF%A2%E5%9B%9E%E6%98%BE"><strong>查询回显</strong></a>
+<ul>
+<li><a href="#%E8%B7%AF%E5%BE%84%E5%8F%82%E6%95%B0%E6%8E%A5%E6%94%B6"><strong>路径参数接收</strong></a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-4"><strong>代码实现</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E4%BF%AE%E6%94%B9%E6%95%B0%E6%8D%AE"><strong>修改数据</strong></a>
+<ul>
+<li><a href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-5"><strong>代码实现</strong></a></li>
+<li><a href="#requestmapping"><strong>@RequestMapping</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E6%97%A5%E5%BF%97%E6%8A%80%E6%9C%AF"><strong>日志技术</strong></a>
+<ul>
+<li><a href="#logback%E5%85%A5%E9%97%A8"><strong>Logback入门</strong></a></li>
+<li><a href="#logback%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><strong>Logback配置文件</strong></a></li>
+<li><a href="#logback%E6%97%A5%E5%BF%97%E7%BA%A7%E5%88%AB"><strong>Logback日志级别</strong></a></li>
+<li><a href="#%E6%A1%88%E4%BE%8B%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95"><strong>案例日志记录</strong></a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://yyss1014.github.io/post/jdbc/">
+              <h3 class="post-title">
+                JDBC
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://yyss1014.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

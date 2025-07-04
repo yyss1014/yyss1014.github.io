@@ -1,0 +1,579 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>特殊文件 | WASD研究院</title>
+<link rel="shortcut icon" href="https://yyss1014.github.io/favicon.ico?v=1751633121752">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://yyss1014.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="特殊文件 | WASD研究院 - Atom Feed" href="https://yyss1014.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+属性文件
+XML
+
+语法规则
+Dom4j
+XML文件编写
+约束文档
+
+DTD
+schema
+
+
+
+
+日志技术
+
+Logback
+核心配置文件
+日志级别
+
+
+
+
+属性文件
+
+是一个Map集合，但一般不会当集合使用，Properties是用来..." />
+    <meta name="keywords" content="JavaSE" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yyss1014.github.io">
+  <img class="avatar" src="https://yyss1014.github.io/images/avatar.png?v=1751633121752" alt="">
+  </a>
+  <h1 class="site-title">
+    WASD研究院
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/archives" class="menu">
+          目录
+        </a>
+      
+    
+      
+        <a href="/" class="menu">
+          文章
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          分类
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              特殊文件
+            </h2>
+            <div class="post-info">
+              <span>
+                2025-03-25
+              </span>
+              <span>
+                13 min read
+              </span>
+              
+                <a href="https://yyss1014.github.io/tag/xcf3bLryi2/" class="post-tag">
+                  # JavaSE
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p><ul class="markdownIt-TOC">
+<li><a href="#%E5%B1%9E%E6%80%A7%E6%96%87%E4%BB%B6"><strong>属性文件</strong></a></li>
+<li><a href="#xml"><strong>XML</strong></a>
+<ul>
+<li><a href="#%E8%AF%AD%E6%B3%95%E8%A7%84%E5%88%99"><strong>语法规则</strong></a></li>
+<li><a href="#dom4j"><strong>Dom4j</strong></a></li>
+<li><a href="#xml%E6%96%87%E4%BB%B6%E7%BC%96%E5%86%99"><strong>XML文件编写</strong></a></li>
+<li><a href="#%E7%BA%A6%E6%9D%9F%E6%96%87%E6%A1%A3"><strong>约束文档</strong></a>
+<ul>
+<li><a href="#dtd"><strong>DTD</strong></a></li>
+<li><a href="#schema"><strong>schema</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E6%97%A5%E5%BF%97%E6%8A%80%E6%9C%AF"><strong>日志技术</strong></a>
+<ul>
+<li><a href="#logback"><strong>Logback</strong></a></li>
+<li><a href="#%E6%A0%B8%E5%BF%83%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><strong>核心配置文件</strong></a></li>
+<li><a href="#%E6%97%A5%E5%BF%97%E7%BA%A7%E5%88%AB"><strong>日志级别</strong></a></li>
+</ul>
+</li>
+</ul>
+</p>
+<h1 id="属性文件"><strong>属性文件</strong></h1>
+<p><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250325112328.png" alt="" loading="lazy"><br>
+是一个Map集合，但一般不会当集合使用，Properties是用来代表属性文件的，通过Properties可以读写属性文件的内容。<br>
+读取：</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws IOException {
+        Properties prop = new Properties();
+        System.out.println(prop);
+
+        prop.load(new FileReader(&quot;file-io-app\\src\\users.properties&quot;));
+        System.out.println(prop);
+        System.out.println(prop.getProperty(&quot;赵敏&quot;));
+
+        Set&lt;String&gt; keys = prop.stringPropertyNames();
+        for (String key : keys) {
+            String value = prop.getProperty(key);
+            System.out.println(key + &quot;=&quot; + value);
+        }
+
+        prop.forEach((key, value) -&gt; {
+            System.out.println(key + &quot;=&quot; + value);
+        });
+    }
+}
+</code></pre>
+<p>写入：</p>
+<pre><code class="language-java">public class Test2 {
+    public static void main(String[] args) throws IOException {
+        Properties properties = new Properties();
+        properties.setProperty(&quot;张无忌&quot;, &quot;minmin&quot;);
+        properties.setProperty(&quot;殷素素&quot;, &quot;cuishan&quot;);
+        properties.setProperty(&quot;张翠山&quot;, &quot;susu&quot;);
+
+        properties.store(new FileWriter(&quot;file-io-app\\src\\users2.properties&quot;)
+                ,&quot;i saved many users&quot;);
+        //管道不用关，它作为参数方法内部会关闭
+    }
+}
+</code></pre>
+<p>文件每一行都是键值对是属性文件，无所谓文件后缀。</p>
+<h1 id="xml"><strong>XML</strong></h1>
+<p>本质上是一种特殊的数据格式，可以用来存储复杂的数据结构，和数据关系。</p>
+<ul>
+<li>XML中的“&lt;标签名&gt;”称为一个标签或一个元素，一般是成对出现的。</li>
+<li>XML中的标签名可以自己定义，但必须要正确的嵌套。</li>
+<li>XML中只有一个根标签。</li>
+<li>XML中的标签可以有属性。</li>
+<li>如果一个文件中放置的是XML格式的数据，这个文件就是XML文件，后缀一般要写成.xml。</li>
+</ul>
+<h2 id="语法规则"><strong>语法规则</strong></h2>
+<p>XML中书写&quot;&lt;&quot;、&quot;&amp;&quot;等，可能会出现冲突，导致报错，此时可以用如下特殊字符替代。</p>
+<pre><code class="language-java">&amp;lt; &lt; 小于
+&amp;gt; &gt; 大于
+&amp;amp; &amp; 和号
+&amp;apos; ' 单引号
+&amp;aqos; &quot; 双引号
+</code></pre>
+<p>XML中可以写一个叫CDATA的数据区,<![CDATA[内容 ]]>，里面的内容可以随便写。</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;!-- 注释：以上抬头声明必须放在第一行，必须有--&gt;
+&lt;!-- 根标签只能有一个--&gt;
+&lt;users&gt;
+    &lt;user id=&quot;1&quot; desc=&quot;第一个用户&quot;&gt;
+        &lt;name&gt;张无忌&lt;/name&gt;
+        &lt;sex&gt;男&lt;/sex&gt;
+        &lt;地址&gt;光明顶&lt;/地址&gt;
+        &lt;password&gt;minmin&lt;/password&gt;
+        &lt;data&gt;3&amp;lt;2&amp;amp;&amp;amp;5&gt;4&lt;/data&gt;
+        &lt;data1&gt;&lt;!-- CD+Enter--&gt;
+            &lt;![CDATA[
+            3&lt;2&amp;&amp;5&gt;4
+            ]]&gt;
+        &lt;/data1&gt;
+    &lt;/user&gt;
+    &lt;people&gt;很多人&lt;/people&gt;
+    &lt;user id=&quot;2&quot;&gt;
+        &lt;name&gt;敏敏&lt;/name&gt;
+        &lt;sex&gt;女&lt;/sex&gt;
+        &lt;地址&gt;光明顶&lt;/地址&gt;
+        &lt;password&gt;wuji&lt;/password&gt;
+    &lt;/user&gt;
+&lt;/users&gt;
+</code></pre>
+<h2 id="dom4j"><strong>Dom4j</strong></h2>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws DocumentException {
+        SAXReader saxReader = new SAXReader();
+        //使用saxReader对象把需要解析的XML文件读成一个Document对象。
+        Document document=
+                saxReader.read(&quot;file-io-app\\src\\helloworld.xml&quot;);
+        //从文档对象中解析XML文件中的全部数据
+        Element root=document.getRootElement();//获得根元素对象
+        System.out.println(root.getName());
+        //获得当前元素下的所有子元素
+        List&lt;Element&gt; elements =root.elements(&quot;user&quot;);
+        for(Element element: elements){
+            System.out.println(element.getName());//user
+        }
+        //获得当前元素下的某个子元素
+        Element people =root.element(&quot;people&quot;);
+        System.out.println(people.getText());//很多人
+
+        //如果下面有很多子元素user，默认获取第一个
+        Element user=root.element(&quot;user&quot;);
+        System.out.println(user.elementText(&quot;name&quot;));//张无忌
+
+        //获取元素的属性信息
+        System.out.println(user.attributeValue(&quot;id&quot;));//1
+        Attribute id=user.attribute(&quot;id&quot;);
+        System.out.println(id.getName());//id
+        System.out.println(id.getValue());//1
+
+        List&lt;Attribute&gt; attributes = user.attributes();
+        for(Attribute attribute: attributes){
+            System.out.println(attribute.getName()+&quot;:&quot;+attribute.getValue());
+        }
+
+        //获取全部的文本内容：获取当前元素下的子元素文本值
+        System.out.println(user.elementText(&quot;name&quot;));
+        System.out.println(user.elementText(&quot;地址&quot;));
+        System.out.println(user.elementTextTrim(&quot;地址&quot;));//取出文本去除前后空格
+        System.out.println(user.elementText(&quot;password&quot;));
+
+        Element data=user.element(&quot;data&quot;);
+        System.out.println(data.getText());
+
+    }
+}
+</code></pre>
+<h2 id="xml文件编写"><strong>XML文件编写</strong></h2>
+<p>推荐直接把程序中的数据拼接成XML格式，用IO流写出去。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws DocumentException {
+        StringBuilder sb=new StringBuilder();
+        sb.append(&quot;&lt;?xml version=\&quot;1.0\&quot; encoding=\&quot;UTF-8\&quot;?&gt;\r\n&quot;);
+        sb.append(&quot;&lt;book&gt;\r\n&quot;);
+        sb.append(&quot;\t&lt;name&gt;&quot;).append(&quot;从入门到跑路&quot;).append(&quot;&lt;/name&gt;\r\n&quot;);
+        sb.append(&quot;\t&lt;author&gt;&quot;).append(&quot;dlei&quot;).append(&quot;&lt;/author&gt;\r\n&quot;);
+        sb.append(&quot;\t&lt;price&gt;&quot;).append(999.99).append(&quot;&lt;/price&gt;\r\n&quot;);
+        sb.append(&quot;&lt;/book&gt;&quot;);
+
+        try (BufferedWriter bw=new BufferedWriter(new FileWriter(&quot;file-io-app/src/book.xml&quot;));
+        ){
+            bw.write(sb.toString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+</code></pre>
+<h2 id="约束文档"><strong>约束文档</strong></h2>
+<p>专门用来限制xml书写格式的文档。</p>
+<h3 id="dtd"><strong>DTD</strong></h3>
+<p>后缀必须是.dtd，需要在编写的xml文件中导入该dtd约束文档，按照约束内容编写xml文件的标签。</p>
+<pre><code class="language-xml">&lt;!ELEMENT 书架 (书+)&gt;&lt;!-- 根元素叫书架，下面的一个或多个子元素叫书--&gt;
+&lt;!ELEMENT 书 (书名,作者,售价)&gt;&lt;!-- 子元素下的元素名--&gt;
+&lt;!ELEMENT 书名 (#PCDATA)&gt;&lt;!-- 子元素下放内容--&gt;
+&lt;!ELEMENT 作者 (#PCDATA)&gt;
+&lt;!ELEMENT 售价 (#PCDATA)&gt;
+</code></pre>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;!DOCTYPE 书架 SYSTEM &quot;data.dtd&quot;&gt;
+&lt;书架&gt;
+    &lt;书&gt;
+        &lt;书名&gt;从入门到删库&lt;/书名&gt;
+        &lt;作者&gt;小猫&lt;/作者&gt;
+        &lt;售价&gt;很便宜&lt;/售价&gt;
+    &lt;/书&gt;
+    &lt;书&gt;
+        &lt;书名&gt;从入门到删库&lt;/书名&gt;
+        &lt;作者&gt;小猫&lt;/作者&gt;
+        &lt;售价&gt;9.9&lt;/售价&gt;
+    &lt;/书&gt;
+    &lt;书&gt;
+        &lt;书名&gt;从入门到删库&lt;/书名&gt;
+        &lt;作者&gt;小猫&lt;/作者&gt;
+        &lt;售价&gt;9.9&lt;/售价&gt;
+    &lt;/书&gt;
+&lt;/书架&gt;
+</code></pre>
+<h3 id="schema"><strong>schema</strong></h3>
+<p>可以约束XML文件的编写和数据类型。后缀必须是.xsd，需要在编写的xml文件中导入该schema约束文档，按照约束内容编写xml文件的标签。</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;schema xmlns=&quot;http://www.w3.org/2001/XMLSchema&quot;
+        targetNamespace=&quot;http://www.itcast.cn&quot;
+        elementFormDefault=&quot;qualified&quot; &gt;
+    &lt;!-- targetNamespace:申明约束文档的地址（命名空间）--&gt;
+    &lt;element name='书架'&gt;
+        &lt;!-- 写子元素 --&gt;
+        &lt;complexType&gt;
+            &lt;!-- maxOccurs='unbounded': 书架下的子元素可以有任意多个！--&gt;
+            &lt;sequence maxOccurs='unbounded'&gt;
+                &lt;element name='书'&gt;
+                    &lt;!-- 写子元素 --&gt;
+                    &lt;complexType&gt;
+                        &lt;sequence&gt;
+                            &lt;element name='书名' type='string'/&gt;
+                            &lt;element name='作者' type='string'/&gt;
+                            &lt;element name='售价' type='double'/&gt;
+                        &lt;/sequence&gt;
+                    &lt;/complexType&gt;
+                &lt;/element&gt;
+            &lt;/sequence&gt;
+        &lt;/complexType&gt;
+    &lt;/element&gt;
+&lt;/schema&gt;
+</code></pre>
+<pre><code class="language-java">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;书架 xmlns=&quot;http://www.itcast.cn&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xsi:schemaLocation=&quot;http://www.itcast.cn data.xsd&quot;&gt;
+    &lt;!-- xmlns=&quot;http://www.itcast.cn&quot;  基本位置
+         xsi:schemaLocation=&quot;http://www.itcast.cn books02.xsd&quot; 具体的位置 --&gt;
+   &lt;书&gt;
+       &lt;书名&gt;从入门到删除&lt;/书名&gt;
+       &lt;作者&gt;dlei&lt;/作者&gt;
+       &lt;售价&gt;9.9&lt;/售价&gt;
+   &lt;/书&gt;
+    &lt;书&gt;
+        &lt;书名&gt;从入门到删除&lt;/书名&gt;
+        &lt;作者&gt;dlei&lt;/作者&gt;
+        &lt;售价&gt;0.9&lt;/售价&gt;
+    &lt;/书&gt;
+&lt;/书架&gt;
+</code></pre>
+<h1 id="日志技术"><strong>日志技术</strong></h1>
+<p>将系统执行的信息，方便的记录到指定的位置（控制台、文件、数据库中）。可以随时以开关的形式控制日志的启停，无需侵入到源代码中进行修改。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250328170133.png" alt="" loading="lazy"><br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250328170437.png" alt="" loading="lazy"></p>
+<h2 id="logback"><strong>Logback</strong></h2>
+<ul>
+<li>导入Logback框架（三个模块）到项目中。</li>
+<li>将Logback框架核心配置文件logback.xml直接拷贝到src目录下。日志文件保存的位置在配置文件中声明。</li>
+<li>创建Logback框架提供的Logger对象，然后用Logger对象调用其提供的方法就可以记录系统的日志信息。</li>
+</ul>
+<pre><code class="language-java">public class Test {
+    public static final Logger LOGGER = LoggerFactory.getLogger(&quot;Test&quot;);
+    public static void main(String[] args) {
+        //while (true) {
+        try {
+            LOGGER.info(&quot;chu法方法开始执行~~~&quot;);
+            chu(10, 0);
+            LOGGER.info(&quot;chu法方法执行成功~~~&quot;);
+        } catch (Exception e) {
+            LOGGER.error(&quot;chu法方法执行失败了，出现了bug~~~&quot;);
+        }
+    }
+
+    public static void chu(int a, int b) {
+        LOGGER.debug(&quot;参数a:&quot; + a);
+        LOGGER.debug(&quot;参数b:&quot; + b);
+        int c = a / b;
+        LOGGER.info(&quot;结果是：&quot; + c);
+    }
+}
+/*2025-03-28 17:16:07.272 [INFO ]  Test [main] : chu法方法开始执行~~~
+2025-03-28 17:16:07.274 [DEBUG]  Test [main] : 参数a:10
+2025-03-28 17:16:07.274 [DEBUG]  Test [main] : 参数b:0
+2025-03-28 17:16:07.274 [ERROR]  Test [main] : chu法方法执行失败了，出现了bug~~~*/
+</code></pre>
+<h2 id="核心配置文件"><strong>核心配置文件</strong></h2>
+<p>对LogBack日志框架进行控制。</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;configuration&gt;
+   &lt;!--
+       CONSOLE ：表示当前的日志信息是可以输出到控制台的。
+   --&gt;
+   &lt;appender name=&quot;CONSOLE&quot; class=&quot;ch.qos.logback.core.ConsoleAppender&quot;&gt;
+       &lt;!--输出流对象 默认 System.out 改为 System.err--&gt;
+       &lt;target&gt;System.out&lt;/target&gt;&lt;!--输出到控制台的方式：打印--&gt;
+       &lt;encoder&gt;
+           &lt;!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度
+               %msg：日志消息，%n是换行符--&gt;
+           &lt;pattern&gt;%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level]  %c [%thread] : %msg%n&lt;/pattern&gt;
+       &lt;/encoder&gt;
+   &lt;/appender&gt;
+
+   &lt;!-- File是输出的方向通向文件的 --&gt;
+   &lt;appender name=&quot;FILE&quot; class=&quot;ch.qos.logback.core.rolling.RollingFileAppender&quot;&gt;
+       &lt;encoder&gt;
+           &lt;pattern&gt;%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n&lt;/pattern&gt;
+           &lt;charset&gt;utf-8&lt;/charset&gt;&lt;!--字符集编码--&gt;
+       &lt;/encoder&gt;
+       &lt;!--日志输出路径--&gt;
+       &lt;file&gt;D:/log/itheima-data.log&lt;/file&gt;
+       &lt;!--指定日志文件拆分和压缩规则--&gt;
+       &lt;rollingPolicy
+               class=&quot;ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy&quot;&gt;
+           &lt;!--通过指定压缩文件名称，来确定分割文件方式--&gt;
+           &lt;fileNamePattern&gt;D:/log/itheima-data-%i-%d{yyyy-MM-dd}-.log.gz&lt;/fileNamePattern&gt;
+           &lt;!--文件拆分大小--&gt;
+           &lt;!--文件大小到达1MB，把文件压缩到一个新的日志文件，重新记录日志--&gt;
+           &lt;maxFileSize&gt;1MB&lt;/maxFileSize&gt;
+       &lt;/rollingPolicy&gt;
+   &lt;/appender&gt;
+
+   &lt;!--
+       1、控制日志的输出情况：如，开启日志ALL，取消日志OFF
+   --&gt;
+   &lt;root level=&quot;debug&quot;&gt;
+       &lt;appender-ref ref=&quot;CONSOLE&quot;/&gt;&lt;!--声明后会输出到对应位置--&gt;
+       &lt;appender-ref ref=&quot;FILE&quot; /&gt;
+   &lt;/root&gt;
+&lt;/configuration&gt;
+</code></pre>
+<h2 id="日志级别"><strong>日志级别</strong></h2>
+<p>日志信息的类型，日志都会分级别。常见日志级别如下（优先级依次升高）：</p>
+<table>
+<thead>
+<tr>
+<th>日志级别</th>
+<th>声明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>trace</td>
+<td>追踪，指明程序运行轨迹</td>
+</tr>
+<tr>
+<td>debug</td>
+<td>调试，实际应用中一般将其作为最低级别，而trace很少使用</td>
+</tr>
+<tr>
+<td>info</td>
+<td>输出重要的运行信息，数据连接、网络连接、IO操作等，使用较多</td>
+</tr>
+<tr>
+<td>warn</td>
+<td>警告信息，可能会发生问题，使用较多</td>
+</tr>
+<tr>
+<td>error</td>
+<td>错误信息，使用较多</td>
+</tr>
+</tbody>
+</table>
+<p>只有日志级别是大于等于核心配置文件配置的日志级别才会被记录，否则不记录。</p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E5%B1%9E%E6%80%A7%E6%96%87%E4%BB%B6"><strong>属性文件</strong></a></li>
+<li><a href="#xml"><strong>XML</strong></a>
+<ul>
+<li><a href="#%E8%AF%AD%E6%B3%95%E8%A7%84%E5%88%99"><strong>语法规则</strong></a></li>
+<li><a href="#dom4j"><strong>Dom4j</strong></a></li>
+<li><a href="#xml%E6%96%87%E4%BB%B6%E7%BC%96%E5%86%99"><strong>XML文件编写</strong></a></li>
+<li><a href="#%E7%BA%A6%E6%9D%9F%E6%96%87%E6%A1%A3"><strong>约束文档</strong></a>
+<ul>
+<li><a href="#dtd"><strong>DTD</strong></a></li>
+<li><a href="#schema"><strong>schema</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E6%97%A5%E5%BF%97%E6%8A%80%E6%9C%AF"><strong>日志技术</strong></a>
+<ul>
+<li><a href="#logback"><strong>Logback</strong></a></li>
+<li><a href="#%E6%A0%B8%E5%BF%83%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><strong>核心配置文件</strong></a></li>
+<li><a href="#%E6%97%A5%E5%BF%97%E7%BA%A7%E5%88%AB"><strong>日志级别</strong></a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://yyss1014.github.io/post/io-liu/">
+              <h3 class="post-title">
+                IO流
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://yyss1014.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

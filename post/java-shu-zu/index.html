@@ -1,0 +1,304 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Java数组 | WASD研究院</title>
+<link rel="shortcut icon" href="https://yyss1014.github.io/favicon.ico?v=1751633121752">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://yyss1014.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Java数组 | WASD研究院 - Atom Feed" href="https://yyss1014.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="数组是一个容器，用来存储同一批类型的数据。
+数组类型
+数组类型[] 数组名=new 数据类型[]{元素1，元素2，元素3，······}
+int[] arr =new int[]{1,2,3,4,5,6,7,8,9,10};
+
+简化写法：
+..." />
+    <meta name="keywords" content="Java" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yyss1014.github.io">
+  <img class="avatar" src="https://yyss1014.github.io/images/avatar.png?v=1751633121752" alt="">
+  </a>
+  <h1 class="site-title">
+    WASD研究院
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/archives" class="menu">
+          目录
+        </a>
+      
+    
+      
+        <a href="/" class="menu">
+          文章
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          分类
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Java数组
+            </h2>
+            <div class="post-info">
+              <span>
+                2025-02-26
+              </span>
+              <span>
+                3 min read
+              </span>
+              
+                <a href="https://yyss1014.github.io/tag/ZoLZarYSyW/" class="post-tag">
+                  # Java
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p>数组是一个容器，用来存储同一批类型的数据。</p>
+<h2 id="数组类型"><strong>数组类型</strong></h2>
+<p>数组类型[] 数组名=new 数据类型[]{元素1，元素2，元素3，······}</p>
+<pre><code class="language-java">int[] arr =new int[]{1,2,3,4,5,6,7,8,9,10};
+</code></pre>
+<p>简化写法：<br>
+数组类型[] 数组名={元素1，元素2，元素3，······}</p>
+<ul>
+<li>什么类型的数组存放什么类型的数据</li>
+<li>数组类型[] 数组名也可以写成数组类型 数组名[]</li>
+</ul>
+<h2 id="数组访问"><strong>数组访问</strong></h2>
+<pre><code class="language-java">arr[0]=66    //修改数组中的数据
+arr.length   //访问数组中的元素个数
+arr.length-1 //访问数组中的最大索引（前提是元素个数大于0）
+//数组遍历
+for (int i = 0; i &lt; arr.length; i++) {//快捷键：数组名.fori+Enter
+            System.out.println(arr[i]);
+}
+</code></pre>
+<h2 id="动态定义数组"><strong>动态定义数组</strong></h2>
+<p>数组类型[] 数组名= new 数组类型[长度]</p>
+<pre><code class="language-java">int[] arr = new int[10]; //arr=[0,0,0]
+</code></pre>
+<p>动态初始化数组默认规则：</p>
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>byte、short、char、int、long</td>
+<td>0</td>
+</tr>
+<tr>
+<td>float、double</td>
+<td>0.0</td>
+</tr>
+<tr>
+<td>boolean</td>
+<td>false</td>
+</tr>
+<tr>
+<td>类、接口、数组、String</td>
+<td>null</td>
+</tr>
+</tbody>
+</table>
+<p>评委打分案例，录入6位评委的评分并求平均分。</p>
+<pre><code class="language-java">import java.util.Scanner;
+
+public class HelloWorld {
+    public static void main(String[] args) {
+        double[] scores = new double[6];
+        Scanner sc = new Scanner(System.in);
+        for (int i = 0; i &lt; scores.length; i++) {
+            System.out.println(&quot;请输入当前第&quot;+(i+1)+&quot;个评委的分数：&quot;);
+            double score=sc.nextDouble();
+            scores[i]=score;
+        }
+        double sum = 0;
+        for (int i = 0; i &lt; scores.length; i++) {
+            sum+=scores[i];
+        }
+        System.out.println(&quot;选手的最终得分是&quot;+sum/scores.length);
+    }
+}
+</code></pre>
+<p>多个变量指向一个数组：</p>
+<pre><code class="language-java">int[] arr1={11,22,33};
+int[] arr2=arr1;
+System.out.println(arr1);//[I@4eec7777
+System.out.println(arr2);//[I@4eec7777
+arr2[1]=99;
+System.out.println(arr1[1]);//99
+</code></pre>
+<p>可以看到两个数组指向同一个地址。如果数组变量中存储的值是null，那么该变量不指向任何数组对象。</p>
+<h2 id="案例"><strong>案例</strong></h2>
+<ul>
+<li>数组反转</li>
+</ul>
+<pre><code class="language-java">public class HelloWorld {
+    public static void main(String[] args) {
+        int[] arr={10,20,30,40,50};
+        for (int i = 0,j=arr.length-1;i &lt; j ; i++,j--) {
+            int temp=arr[i];
+            arr[i]=arr[j];
+            arr[j]=temp;
+        }
+    }
+}
+</code></pre>
+<ul>
+<li>随机排名</li>
+</ul>
+<pre><code class="language-java">public class HelloWorld {
+    public static void main(String[] args) {
+        int[] codes = new int[5];
+        Scanner sc = new Scanner(System.in);
+        for (int i = 0; i &lt; codes.length; i++) {
+            System.out.println(&quot;请输入当前第&quot;+i+1+&quot;员工的工号&quot;);
+            int code =sc.nextInt();
+            codes[i] = code;
+        }
+        Random r = new Random();
+        for (int i = 0; i &lt; codes.length; i++) {
+            int index=r.nextInt(codes.length);
+            int temp=codes[index];
+            codes[index]=codes[i];
+            codes[i]=temp;
+        }
+        for (int i = 0; i &lt; codes.length; i++) {
+            System.out.println(codes[i]);
+        }
+    }
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E6%95%B0%E7%BB%84%E7%B1%BB%E5%9E%8B"><strong>数组类型</strong></a></li>
+<li><a href="#%E6%95%B0%E7%BB%84%E8%AE%BF%E9%97%AE"><strong>数组访问</strong></a></li>
+<li><a href="#%E5%8A%A8%E6%80%81%E5%AE%9A%E4%B9%89%E6%95%B0%E7%BB%84"><strong>动态定义数组</strong></a></li>
+<li><a href="#%E6%A1%88%E4%BE%8B"><strong>案例</strong></a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://yyss1014.github.io/post/java-liu-cheng-kong-zhi/">
+              <h3 class="post-title">
+                Java流程控制
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://yyss1014.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

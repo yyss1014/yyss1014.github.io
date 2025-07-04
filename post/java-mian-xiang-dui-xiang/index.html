@@ -1,0 +1,755 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Java面向对象高级 | WASD研究院</title>
+<link rel="shortcut icon" href="https://yyss1014.github.io/favicon.ico?v=1751633121752">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://yyss1014.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Java面向对象高级 | WASD研究院 - Atom Feed" href="https://yyss1014.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+多态
+类型转换
+final
+常量
+抽象类
+模板方法设计模式
+接口
+
+接口案例实现
+接口的三种方法
+接口的多继承
+
+
+
+
+多态
+多态时在继承/实现情况下的一种现象，表现为：对象多态，行为多态。
+
+有继承/实现关系；存在父类引用子类对象；存在..." />
+    <meta name="keywords" content="JavaSE" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yyss1014.github.io">
+  <img class="avatar" src="https://yyss1014.github.io/images/avatar.png?v=1751633121752" alt="">
+  </a>
+  <h1 class="site-title">
+    WASD研究院
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/archives" class="menu">
+          目录
+        </a>
+      
+    
+      
+        <a href="/" class="menu">
+          文章
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          分类
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Java面向对象高级
+            </h2>
+            <div class="post-info">
+              <span>
+                2025-03-08
+              </span>
+              <span>
+                13 min read
+              </span>
+              
+                <a href="https://yyss1014.github.io/tag/xcf3bLryi2/" class="post-tag">
+                  # JavaSE
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p><ul class="markdownIt-TOC">
+<li><a href="#%E5%A4%9A%E6%80%81"><strong>多态</strong></a></li>
+<li><a href="#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><strong>类型转换</strong></a></li>
+<li><a href="#final"><strong>final</strong></a></li>
+<li><a href="#%E5%B8%B8%E9%87%8F"><strong>常量</strong></a></li>
+<li><a href="#%E6%8A%BD%E8%B1%A1%E7%B1%BB"><strong>抽象类</strong></a></li>
+<li><a href="#%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><strong>模板方法设计模式</strong></a></li>
+<li><a href="#%E6%8E%A5%E5%8F%A3"><strong>接口</strong></a>
+<ul>
+<li><a href="#%E6%8E%A5%E5%8F%A3%E6%A1%88%E4%BE%8B%E5%AE%9E%E7%8E%B0"><strong>接口案例实现</strong></a></li>
+<li><a href="#%E6%8E%A5%E5%8F%A3%E7%9A%84%E4%B8%89%E7%A7%8D%E6%96%B9%E6%B3%95"><strong>接口的三种方法</strong></a></li>
+<li><a href="#%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%A4%9A%E7%BB%A7%E6%89%BF"><strong>接口的多继承</strong></a></li>
+</ul>
+</li>
+</ul>
+</p>
+<h1 id="多态"><strong>多态</strong></h1>
+<p>多态时在继承/实现情况下的一种现象，表现为：对象多态，行为多态。</p>
+<ul>
+<li>有继承/实现关系；存在父类引用子类对象；存在方法重写。但多态不能调用子类的独有功能。</li>
+<li>多态是对象、行为的多态，Java中的属性（成员变量）不谈多态。</li>
+</ul>
+<pre><code class="language-java">public class People {
+    public String name=&quot;父类People的名称&quot;;
+    public void run(){
+        System.out.println(&quot;人可以跑&quot;);
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Student extends People {
+    @Override
+    public void run() {
+        System.out.println(&quot;学生跑的贼快&quot;);
+    }
+    public void test(){
+        System.out.println(&quot;学生需要考试&quot;);
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Teacher extends People {
+    public String name=&quot;子类Teacher的名称&quot;;
+    @Override
+    public void run() {
+        System.out.println(&quot;老师跑的气喘吁吁&quot;);
+    }
+    public void teach(){
+        System.out.println(&quot;老师需要教知识&quot;);
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        //对象多态
+        People p1 = new Teacher();
+        p1.run();//老师跑的气喘吁吁
+        //识别技巧，编译看左边，运行看右边
+        System.out.println(p1.name);//父类People的名称
+        People p2 = new Student();
+        p2.run();//学生跑的贼快
+    }
+}
+</code></pre>
+<ul>
+<li>好处1：可以实现解耦合，右边对象可以随时切换，后续业务可以随时改变。</li>
+<li>好处2：定义父类方法时，使用父类作为形参，可以接收一切子类对象，扩展性更强更便利。</li>
+</ul>
+<h1 id="类型转换"><strong>类型转换</strong></h1>
+<p>自动类型转换：父类 变量名=new 子类()<br>
+强制类型转换：子类 变量名=(子类) 父类变量</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        People p1 = new Student();
+        p1.run();
+        //强制类型转换
+        Student s1 = (Student) p1;//Alt+Enter再次Enter
+        s1.test();
+        //强制类型转换在编译阶段有继续或者实现关系就可以强制转换，但运行时可能会出现类型转换异常
+        //Teacher t1 = (Teacher) p1;//运行异常：ClassCastException
+
+        System.out.println(&quot;------------&quot;);
+        Student s = new Student();
+        go(s);
+        Teacher t = new Teacher();
+        go(t);
+    }
+    public static void go(People p){
+        p.run();
+        if(p instanceof Student){
+            Student s2 = (Student) p;
+            s2.test();
+        }else{
+            Teacher t2 = (Teacher) p;
+            t2.teach();
+        }
+    }
+}
+</code></pre>
+<h1 id="final"><strong>final</strong></h1>
+<p>final关键字是最终的意思，可以修饰类，方法和变量。</p>
+<pre><code class="language-java">public class Test {
+    public static final String SCHOOL_NAME=&quot;WASD&quot;;
+    //必须要进行赋值，用public static final修饰称为常量，建议名称全部大写，多个单词下划线连接
+    public static void main(String[] args) {
+        //final修饰变量，有且只能赋值一次
+        /*变量
+         一、局部变量
+         二、成员变量
+            1.静态成员变量
+            2.实例成员变量
+         */
+        final int a;
+        a=12;
+        //a=13;第二次赋值出错了
+        final int[] arr={1,2,3,4,5};
+        //arr=null;第二次赋值，出错了
+        //修饰引用类型的变量，变量存储的地址不能变，但地址所指向得对象的内容是可变的
+    }
+    public static void buy(final double z){
+        //z=0.1;第二次赋值出错了
+    }
+
+}
+//final修饰类，类不能被继承
+final class A {}
+//class B extends A {}
+//final修饰方法，方法不能被重写
+class C{
+    public final void test(){}
+}
+class D extends C{
+    /*@Override
+    public void test(){}*/
+}
+</code></pre>
+<h1 id="常量"><strong>常量</strong></h1>
+<p>使用static final修饰的成员变量称为常量，通常用来记录系统的配置信息。</p>
+<ul>
+<li>出现常量的地方会被替换为记住的字面量，这样可以保证使用常量和使用字面量的性能是一样的。</li>
+</ul>
+<pre><code class="language-java">public class Test {
+    public static final String SCHOOL_NAME=&quot;WASD&quot;;
+    //必须要进行赋值，用public static final修饰称为常量，建议名称全部大写，多个单词下划线连接
+    public static void main(String[] args) {
+        System.out.println(SCHOOL_NAME);
+    }
+}
+</code></pre>
+<p>反编译后的类</p>
+<pre><code class="language-java">public class Test {
+    public static final String SCHOOL_NAME = &quot;WASD&quot;;
+
+    public Test() {
+    }
+
+    public static void main(String[] args) {
+        System.out.println(&quot;WASD&quot;);
+    }
+}
+</code></pre>
+<h1 id="抽象类"><strong>抽象类</strong></h1>
+<p>abstract关键字可以修饰类、成员方法。</p>
+<ul>
+<li>抽象方法：必须有abstract修饰，只有方法签名，没有方法体。</li>
+</ul>
+<pre><code class="language-java">public abstract class A {
+    //抽象方法：必须有abstract修饰，只有方法签名，没有方法体
+    public abstract void run();
+}
+</code></pre>
+<ul>
+<li>抽象类：<br>
+抽象类中不一定有抽象方法，有抽象方法的类一定是抽象类。类该有的成员抽象类都可以有，抽象类不能创建对象，仅作为一种特殊的父类，让子类继承并且实现。</li>
+</ul>
+<pre><code class="language-java">public abstract class A {
+    private String name;
+    public static String schoolname;
+    public A() {}
+    public A(String name) {
+        this.name = name;
+    }
+    //抽象方法：必须有abstract修饰，只有方法签名，没有方法体
+    public abstract void run();
+    public String getname(){
+        return name;
+    }
+    public void setname(String name){
+        this.name = name;
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class B extends A {
+    //Alt+Enter键全部重写
+    @Override
+    public void run() {
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        //注意：抽象类不能创建对象
+        //A a=new A();
+    }
+}
+</code></pre>
+<p>抽象类的好处：设计抽象类就是为了更好地实现多态。</p>
+<pre><code class="language-java">public abstract class Animal {
+    private String name;
+    public abstract void cry();
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Cat extends Animal {
+    @Override
+    public void cry() {
+        System.out.println(getName()+&quot;喵喵喵&quot;);
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Dog extends Animal{
+    @Override
+    public void cry() {
+        System.out.println(getName()+&quot;汪汪汪&quot;);
+    }
+}
+</code></pre>
+<pre><code class="language-Java">public class Test {
+    public static void main(String[] args) {
+        Animal a=new Cat();
+        a.setName(&quot;叮当猫&quot;);
+        a.cry();
+    }
+}
+</code></pre>
+<h1 id="模板方法设计模式"><strong>模板方法设计模式</strong></h1>
+<ul>
+<li>定义一个抽象类</li>
+<li>在里面定义两个方法，一个模板方法把相同代码放进去，一个抽象方法具体实现交给子类完成。</li>
+</ul>
+<pre><code class="language-java">public abstract class People {
+    //模板方法设计模式，加final防止被子类重写
+    public final void write(){
+        System.out.println(&quot;\t\t\t\t《我的爸爸》&quot;);
+        System.out.println(&quot;\t\t第一段------------&quot;);
+        System.out.println(writeMain());
+    }
+    public abstract String writeMain();
+}
+</code></pre>
+<pre><code class="language-java">public class Student extends People{
+    @Override
+    public String writeMain() {
+        return &quot;\&quot;正文--------------\&quot;&quot;;
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Teacher extends People{
+  @Override
+    public String writeMain() {
+        return &quot;范文---------&quot;;
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        //写一篇作文，第一段一样，其余部分自由发挥
+        Teacher t=new Teacher();
+        t.write();
+    }
+}
+</code></pre>
+<h1 id="接口"><strong>接口</strong></h1>
+<p>Java提供了一个关键字interface，用这个定义关键字我们可以定义一个特殊的结构：接口。</p>
+<pre><code class="language-java">public interface A {
+    //成员变量（常量）
+    String SCHOOL_NAME=&quot;黑马程序员&quot;;
+    //成员方法（抽象方法）
+    void test();
+    //不能有构造器和代码块
+}
+</code></pre>
+<p>接口无法创建对象，接口是用来被类实现的，实现接口的类被称为实现类。一个类可以实现多个接口，必须全写完全部接口的全部抽象方法，否则实现类要被定义为抽象类。</p>
+<pre><code class="language-java">public interface B {
+    void testb1();
+    void testb2();
+}
+public interface C {
+    void testc1();
+    void testc2();
+}
+</code></pre>
+<pre><code class="language-java">public class D implements B,C{
+    @Override
+    public void testb1() {
+
+    }
+
+    @Override
+    public void testb2() {
+
+    }
+
+    @Override
+    public void testc1() {
+
+    }
+
+    @Override
+    public void testc2() {
+
+    }
+}
+</code></pre>
+<ul>
+<li>弥补了类单继承的不足，一个类可以实现多个接口。</li>
+<li>让程序可以面向接口编程，这样程序员就可以灵活方便的切换各种业务实现。</li>
+</ul>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        //面向接口编程，程序员可以切换各种实现对象
+        Singer s=new A();
+        s.sing();
+        Singer d=new B();
+        d.sing();
+    }
+}
+class B implements Singer {
+    @Override
+    public void sing() {
+
+    }
+}
+class A extends Student implements Driver1,Singer{
+    @Override
+    public void drive() {
+
+    }
+
+    @Override
+    public void sing() {
+
+    }
+}
+class Student{}
+interface Driver1{
+    void drive();
+}
+interface Singer{
+    void sing();
+}
+</code></pre>
+<h2 id="接口案例实现"><strong>接口案例实现</strong></h2>
+<p>  班级学生信息管理模块的开发，需求设计一个班级学生的信息管理模块，学生的数据有姓名、性别、成绩。功能1；要求打印出全班学生的信息，功能2：要求打印出全班学生的平均成绩。<br>
+  以上功能是有多套方案的，第一套方案打印出班级全部学生的信息，打印出班级全部学生的平均分。第二套方案打印出全部学生的信息包括男女人数，能打印出班级全部学生的平均分。</p>
+<pre><code class="language-java">public class Student {
+    private String name;
+    private char sex;
+    private double score;
+    ···
+}
+</code></pre>
+<pre><code class="language-java">public class ClassManager {
+    private ArrayList&lt;Student&gt; students = new ArrayList&lt;Student&gt;();
+    private StudentOperator studentOperator=new StudentOperatorlmpl1();
+
+    public ClassManager() {
+        students.add(new Student(&quot;迪丽热巴&quot;, '女', 90));
+        students.add(new Student(&quot;古力娜扎&quot;, '女', 100));
+        students.add(new Student(&quot;马尔扎哈&quot;, '男', 80));
+        students.add(new Student(&quot;卡尔扎巴&quot;, '男', 60));
+    }
+    public void printInfo(){
+        studentOperator.printAllInfo(students);
+    }
+    public void printScore(){
+        studentOperator.printAverageScore(students);
+    }
+}
+</code></pre>
+<pre><code class="language-java">public interface StudentOperator {
+    void printAllInfo(ArrayList&lt;Student&gt; students);
+    void printAverageScore(ArrayList&lt;Student&gt; students);
+}
+public class StudentOperatorlmpl1 implements StudentOperator{
+    @Override
+    public void printAllInfo(ArrayList&lt;Student&gt; students) {
+        System.out.println(&quot;-----全班全部学生信息-----&quot;);
+        for (int i = 0; i &lt; students.size(); i++) {
+            Student s=students.get(i);
+            System.out.println(&quot;姓名：&quot;+s.getName()+&quot;，性别：&quot;+s.getSex()+&quot;，成绩：&quot;+s.getScore());
+        }
+        System.out.println(&quot;----------------------&quot;);
+    }
+
+    @Override
+    public void printAverageScore(ArrayList&lt;Student&gt; students) {
+        double allScore=0.0;
+        for (int i = 0; i &lt; students.size(); i++) {
+            Student s=students.get(i);
+            allScore+=s.getScore();
+        }
+        System.out.println(&quot;平均分：&quot;+(allScore)/students.size());
+    }
+}
+public class StudentOperatorlmpl2 implements StudentOperator{
+    @Override
+    public void printAllInfo(ArrayList&lt;Student&gt; students) {
+        int count1=0;
+        int count2=0;
+        System.out.println(&quot;-----全班全部学生信息-----&quot;);
+        for (int i = 0; i &lt; students.size(); i++) {
+            Student s=students.get(i);
+            System.out.println(&quot;姓名：&quot;+s.getName()+&quot;，性别：&quot;+s.getSex()+&quot;，成绩：&quot;+s.getScore());
+            if(s.getSex()=='男'){
+                count1++;
+            }else{
+                count2++;
+            }
+        }
+        System.out.println(&quot;男生人数是：&quot;+count1+&quot;，女生人数是：&quot;+count2);
+        System.out.println(&quot;班级总人数是：&quot;+students.size());
+        System.out.println(&quot;----------------------&quot;);
+    }
+
+    @Override
+    public void printAverageScore(ArrayList&lt;Student&gt; students) {
+        double allScore=0.0;
+        double max=students.get(0).getScore();
+        double min=students.get(0).getScore();
+        for (int i = 0; i &lt; students.size(); i++) {
+            Student s=students.get(i);
+            if(s.getScore()&gt;max){max=s.getScore();}
+            if(s.getScore()&lt;min){min=s.getScore();}
+            allScore+=s.getScore();
+        }
+        System.out.println(&quot;学生的最高分是：&quot;+max);
+        System.out.println(&quot;学生的最低分是：&quot;+min);
+        System.out.println(&quot;平均分：&quot;+(allScore-max-min)/students.size());
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        ClassManager clazz=new ClassManager();
+        clazz.printInfo();
+        clazz.printScore();
+    }
+}
+</code></pre>
+<h2 id="接口的三种方法"><strong>接口的三种方法</strong></h2>
+<pre><code class="language-java">public interface A {
+    //默认方法，必须用default修饰，默认会被public修饰
+    //也是实例方法：对象的方法，必须用实现类的对象来访问。
+    default  void test1(){
+        System.out.println(&quot;=====默认方法=====&quot;);
+        test2();
+    }
+    //私有方法：必须用private修饰（JDK9开始支持），也是实例方法
+    private void test2(){
+        System.out.println(&quot;=====私有方法=====&quot;);
+    }
+    //静态方法：必须用static修饰，默认会被public修饰
+    static void test3(){
+        System.out.println(&quot;=====静态方法=====&quot;);
+    }
+}
+public class B implements A{
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        B b = new B();
+        b.test1();
+        //b.test2();
+        A.test3();
+    }
+}
+</code></pre>
+<h2 id="接口的多继承"><strong>接口的多继承</strong></h2>
+<p>一个接口可以实现多个接口。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+
+    }
+}
+interface A {
+    void test1();
+}
+interface B {
+    void test2();
+}
+interface C {}
+interface D extends A, B, C {}
+class E implements D {
+    @Override
+    public void test1() {
+
+    }
+
+    @Override
+    public void test2() {
+
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test2 {
+    public static void main(String[] args) {
+        Zi zi = new Zi();
+        zi.run();//Fu run
+    }
+}
+interface I {
+    void test1();
+}
+interface J {
+    String test1();
+}
+//interface K extends J,I {}
+//class E implements I,J {}
+//方法签名冲突无法重写
+class Fu{
+    public void run(){
+        System.out.println(&quot;Fu run&quot;);
+    }
+}
+interface IT {
+    default void run(){
+        System.out.println(&quot;IT run&quot;);
+    }
+}
+//一个类继承了父类又实现了接口，父类和子类中有同名的默认方法，实现类优先实现父类的
+class Zi extends Fu implements IT {}
+//一个类实现了多个接口，多个接口处存在同名的默认方法，重写该方法即可不冲突
+interface It1{
+    default void test(){}
+}
+interface It2{
+    default void test(){}
+}
+class N implements It1, It2{
+    @Override
+    public void test() {
+        It1.super.test();//调用某个接口的默认方法
+        System.out.println(&quot;自己的&quot;);
+    }
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E5%A4%9A%E6%80%81"><strong>多态</strong></a></li>
+<li><a href="#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><strong>类型转换</strong></a></li>
+<li><a href="#final"><strong>final</strong></a></li>
+<li><a href="#%E5%B8%B8%E9%87%8F"><strong>常量</strong></a></li>
+<li><a href="#%E6%8A%BD%E8%B1%A1%E7%B1%BB"><strong>抽象类</strong></a></li>
+<li><a href="#%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><strong>模板方法设计模式</strong></a></li>
+<li><a href="#%E6%8E%A5%E5%8F%A3"><strong>接口</strong></a>
+<ul>
+<li><a href="#%E6%8E%A5%E5%8F%A3%E6%A1%88%E4%BE%8B%E5%AE%9E%E7%8E%B0"><strong>接口案例实现</strong></a></li>
+<li><a href="#%E6%8E%A5%E5%8F%A3%E7%9A%84%E4%B8%89%E7%A7%8D%E6%96%B9%E6%B3%95"><strong>接口的三种方法</strong></a></li>
+<li><a href="#%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%A4%9A%E7%BB%A7%E6%89%BF"><strong>接口的多继承</strong></a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://yyss1014.github.io/post/java-ji-cheng/">
+              <h3 class="post-title">
+                Java继承
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://yyss1014.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,751 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Maven高级 | WASD研究院</title>
+<link rel="shortcut icon" href="https://yyss1014.github.io/favicon.ico?v=1751633121752">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://yyss1014.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Maven高级 | WASD研究院 - Atom Feed" href="https://yyss1014.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+分模块设计与开发
+
+介绍
+搜索
+实践
+
+分析
+实现
+
+
+
+
+继承与聚合
+
+继承
+
+继承关系
+版本锁定
+
+
+聚合
+对比
+
+
+私服
+
+介绍
+资源上传和下载
+
+
+
+
+分模块设计与开发
+介绍
+所谓分模块设计，顾名思义指的就是我们在设计一个 Jav..." />
+    <meta name="keywords" content="JavaWeb" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yyss1014.github.io">
+  <img class="avatar" src="https://yyss1014.github.io/images/avatar.png?v=1751633121752" alt="">
+  </a>
+  <h1 class="site-title">
+    WASD研究院
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/archives" class="menu">
+          目录
+        </a>
+      
+    
+      
+        <a href="/" class="menu">
+          文章
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          分类
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Maven高级
+            </h2>
+            <div class="post-info">
+              <span>
+                2025-07-04
+              </span>
+              <span>
+                25 min read
+              </span>
+              
+                <a href="https://yyss1014.github.io/tag/2ON39h6GJZ/" class="post-tag">
+                  # JavaWeb
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p><ul class="markdownIt-TOC">
+<li><a href="#%E5%88%86%E6%A8%A1%E5%9D%97%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%BC%80%E5%8F%91"><strong>分模块设计与开发</strong></a>
+<ul>
+<li><a href="#%E4%BB%8B%E7%BB%8D"><strong>介绍</strong></a></li>
+<li><a href="#%E6%90%9C%E7%B4%A2"><strong>搜索</strong></a></li>
+<li><a href="#%E5%AE%9E%E8%B7%B5"><strong>实践</strong></a>
+<ul>
+<li><a href="#%E5%88%86%E6%9E%90"><strong>分析</strong></a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0"><strong>实现</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E7%BB%A7%E6%89%BF%E4%B8%8E%E8%81%9A%E5%90%88"><strong>继承与聚合</strong></a>
+<ul>
+<li><a href="#%E7%BB%A7%E6%89%BF"><strong>继承</strong></a>
+<ul>
+<li><a href="#%E7%BB%A7%E6%89%BF%E5%85%B3%E7%B3%BB"><strong>继承关系</strong></a></li>
+<li><a href="#%E7%89%88%E6%9C%AC%E9%94%81%E5%AE%9A"><strong>版本锁定</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E8%81%9A%E5%90%88"><strong>聚合</strong></a></li>
+<li><a href="#%E5%AF%B9%E6%AF%94"><strong>对比</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E7%A7%81%E6%9C%8D"><strong>私服</strong></a>
+<ul>
+<li><a href="#%E4%BB%8B%E7%BB%8D-2"><strong>介绍</strong></a></li>
+<li><a href="#%E8%B5%84%E6%BA%90%E4%B8%8A%E4%BC%A0%E5%92%8C%E4%B8%8B%E8%BD%BD"><strong>资源上传和下载</strong></a></li>
+</ul>
+</li>
+</ul>
+</p>
+<h1 id="分模块设计与开发"><strong>分模块设计与开发</strong></h1>
+<h2 id="介绍"><strong>介绍</strong></h2>
+<p>所谓分模块设计，顾名思义指的就是我们在设计一个 Java 项目的时候，将一个 Java 项目拆分成多个模块进行开发。</p>
+<p>1). 未分模块设计的问题<br>
+如果项目不分模块，也就意味着所有的业务代码是不是都写在这一个 Java 项目当中。随着这个项目的业务扩张，项目当中的业务功能可能会越来越多。<br>
+2). 分模块设计<br>
+分模块设计我们在进行项目设计阶段，就可以将一个大的项目拆分成若干个模块，每一个模块都是独立的。</p>
+<h2 id="搜索"><strong>搜索</strong></h2>
+<ol>
+<li>策略一：按照功能模块拆分，比如：公共组件、商品模块、搜索模块、购物车模块、订单模块等。</li>
+<li>策略二：按层拆分，比如：公共组件、实体类、控制层、业务层、数据访问层。</li>
+<li>策略三：按照功能模块 + 层拆分。</li>
+</ol>
+<figure data-type="image" tabindex="1"><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250704144416.png" alt="" loading="lazy"></figure>
+<h2 id="实践"><strong>实践</strong></h2>
+<h3 id="分析"><strong>分析</strong></h3>
+<p>我们可以看到在这个项目当中，除了我们所开发的部门管理以及员工管理、登录认证等相关业务功能以外，我们是不是也定义了一些实体类，也就是pojo包下存放的一些类，像分页结果的封装类PageBean、 统一响应结果Result，我们还定义了一些通用的工具类，像Jwts、阿里云OSS操作的工具类等等。</p>
+<ul>
+<li>将pojo包下的实体类，抽取到一个maven模块中 tlias-pojo</li>
+<li>将utils包下的工具类，抽取到一个maven模块中 tlias-utils</li>
+<li>其他的业务代码，放在tlias-web-management这个模块中，在该模块中需要用到实体类pojo、工具类utils，直接引入对应的依赖即可。</li>
+</ul>
+<h3 id="实现"><strong>实现</strong></h3>
+<ol>
+<li>创建maven模块 tlias-pojo，存放实体类<br>
+A. 创建一个正常的Maven模块，模块名 tlias-pojo<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250704150525.png" alt="" loading="lazy"><br>
+B. 然后在tlias-pojo中创建一个包 com.itheima.pojo (和原来案例项目中的pojo包名一致)<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250704151347.png" alt="" loading="lazy"><br>
+C. 将原来案例项目 tlias-web-management 中的pojo包下的实体类，复制到 tlias-pojo 模块中<br>
+D. 在 tlias-pojo 模块的pom.xml文件中引入依赖</li>
+</ol>
+<pre><code class="language-xml">&lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;
+            &lt;artifactId&gt;lombok&lt;/artifactId&gt;
+            &lt;version&gt;1.18.38&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;
+            &lt;version&gt;3.4.6&lt;/version&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+</code></pre>
+<p>E. 删除原有案例项目 tlias-web-management 的pojo包【直接删除不要犹豫，我们已经将该模块拆分出去了】，然后在pom.xml中引入 tlias-pojo的依赖</p>
+<pre><code class="language-xml">&lt;dependency&gt;
+            &lt;groupId&gt;com.ys&lt;/groupId&gt;
+            &lt;artifactId&gt;tlias-pojo&lt;/artifactId&gt;
+            &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+        &lt;/dependency&gt;
+</code></pre>
+<p>然后在 tlias-pojo生命周期中双击install导入到本地仓库。<br>
+2. 创建Maven模块 tlias-utils，存放相关工具类<br>
+A. 创建一个正常的Maven模块，模块名 tlias-utils，形式同上。<br>
+B. 然后在 tlias-utils 中创建一个包 com.itheima.utils (和原来案例项目中的utils包名一致)<br>
+C. 将原来案例项目 tlias-web-management 中的util包下的实体类，复制到 tlias-utils 模块中<br>
+D. 在 tlias-utils 模块的 pom.xml 文件中引入依赖。</p>
+<pre><code class="language-xml">&lt;dependencies&gt;
+        &lt;!--阿里云OSS--&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;com.aliyun.oss&lt;/groupId&gt;
+            &lt;artifactId&gt;aliyun-sdk-oss&lt;/artifactId&gt;
+            &lt;version&gt;3.17.4&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;javax.xml.bind&lt;/groupId&gt;
+            &lt;artifactId&gt;jaxb-api&lt;/artifactId&gt;
+            &lt;version&gt;2.3.1&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;javax.activation&lt;/groupId&gt;
+            &lt;artifactId&gt;activation&lt;/artifactId&gt;
+            &lt;version&gt;1.1.1&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;!-- no more than 2.3.3--&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.glassfish.jaxb&lt;/groupId&gt;
+            &lt;artifactId&gt;jaxb-runtime&lt;/artifactId&gt;
+            &lt;version&gt;2.3.3&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;!--阿里云OSS--&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;com.aliyun.oss&lt;/groupId&gt;
+            &lt;artifactId&gt;aliyun-sdk-oss&lt;/artifactId&gt;
+            &lt;version&gt;3.17.4&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;javax.xml.bind&lt;/groupId&gt;
+            &lt;artifactId&gt;jaxb-api&lt;/artifactId&gt;
+            &lt;version&gt;2.3.1&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;javax.activation&lt;/groupId&gt;
+            &lt;artifactId&gt;activation&lt;/artifactId&gt;
+            &lt;version&gt;1.1.1&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;!-- no more than 2.3.3--&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.glassfish.jaxb&lt;/groupId&gt;
+            &lt;artifactId&gt;jaxb-runtime&lt;/artifactId&gt;
+            &lt;version&gt;2.3.3&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;
+            &lt;version&gt;3.4.6&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;
+            &lt;artifactId&gt;lombok&lt;/artifactId&gt;
+            &lt;version&gt;1.18.38&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;!-- JWT依赖--&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;io.jsonwebtoken&lt;/groupId&gt;
+            &lt;artifactId&gt;jjwt&lt;/artifactId&gt;
+            &lt;version&gt;0.9.1&lt;/version&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+</code></pre>
+<p>E. 删除原有案例项目 tlias-web-management 的util包【直接删除不要犹豫，我们已经将该模块拆分出去了】，然后在pom.xml中引入 tlias-utils 的依赖。</p>
+<pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;com.itheima&lt;/groupId&gt;
+    &lt;artifactId&gt;tlias-utils&lt;/artifactId&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<h1 id="继承与聚合"><strong>继承与聚合</strong></h1>
+<h2 id="继承"><strong>继承</strong></h2>
+<p>我们可以再创建一个父工程 tlias-parent ，然后让上述的三个模块 tlias-pojo、tlias-utils、tlias-web-management 都来继承这个父工程 。 然后再将各个模块中都共有的依赖，都提取到父工程 tlias-parent中进行配置，只要子工程继承了父工程，依赖它也会继承下来，这样就无需在各个子工程中进行配置了。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250704163729.png" alt="" loading="lazy"></p>
+<ul>
+<li>概念：继承描述的是两个工程间的关系，与java中的继承相似，子工程可以继承父工程中的配置信息，常见于依赖关系的继承。</li>
+<li>作用：简化依赖配置、统一管理依赖</li>
+<li>实现：</li>
+</ul>
+<pre><code class="language-xml">&lt;parent&gt;
+    &lt;groupId&gt;...&lt;/groupId&gt;
+    &lt;artifactId&gt;...&lt;/artifactId&gt;
+    &lt;version&gt;...&lt;/version&gt;
+    &lt;relativePath&gt;....&lt;/relativePath&gt;
+&lt;/parent&gt;
+</code></pre>
+<h3 id="继承关系"><strong>继承关系</strong></h3>
+<p>我们当前的项目 tlias-web-management，还稍微有一点特殊，因为是一个springboot项目，而所有的springboot项目都有一个统一的父工程，就是 spring-boot-starter-parent。 与java语言类似，Maven不支持多继承，一个maven项目只能继承一个父工程，如果继承了spring-boot-starter-parent，就没法继承我们自己定义的父工程 tlias-parent了。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250704165154.png" alt="" loading="lazy"><br>
+1). 创建maven模块 tlias-parent ，该工程为父工程，设置打包方式pom(默认jar)。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250704165453.png" alt="" loading="lazy"></p>
+<pre><code class="language-xml">    &lt;groupId&gt;com.ys&lt;/groupId&gt;
+    &lt;artifactId&gt;tlias-parent&lt;/artifactId&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+    &lt;packaging&gt;pom&lt;/packaging&gt;
+</code></pre>
+<p>父工程tlias-parent的 pom.xml 文件配置如下：</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot;
+         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+    &lt;parent&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+        &lt;version&gt;3.4.6&lt;/version&gt;
+        &lt;!--父工程pom.xml的相对路径--&gt;
+        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;
+    &lt;/parent&gt;
+    &lt;groupId&gt;com.ys&lt;/groupId&gt;
+    &lt;artifactId&gt;tlias-parent&lt;/artifactId&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+    &lt;packaging&gt;pom&lt;/packaging&gt;
+
+    &lt;properties&gt;
+        &lt;maven.compiler.source&gt;17&lt;/maven.compiler.source&gt;
+        &lt;maven.compiler.target&gt;17&lt;/maven.compiler.target&gt;
+        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+    &lt;/properties&gt;
+
+&lt;/project&gt;
+</code></pre>
+<p>2). 在子工程（tlias-pojo、tlias-utils、tlias-web-management）的pom.xml文件中，配置继承关系。</p>
+<pre><code class="language-xml">&lt;parent&gt;
+    &lt;groupId&gt;com.itheima&lt;/groupId&gt;
+    &lt;artifactId&gt;tlias-parent&lt;/artifactId&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+    &lt;relativePath&gt;../tlias-parent/pom.xml&lt;/relativePath&gt;
+&lt;/parent&gt;
+
+&lt;artifactId&gt;tlias-utils&lt;/artifactId&gt;
+&lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+</code></pre>
+<p>这里是以 tlias-utils 为例，指定了其父工程。其他的模块，都是相同的配置方式。</p>
+<ul>
+<li>在子工程中，配置了继承关系之后，坐标中的groupId是可以省略的，因为会自动继承父工程的 。</li>
+<li>relativePath指定父工程的pom文件的相对位置（如果不指定，将从本地仓库/远程仓库查找该工程）。</li>
+<li>../ 代表的上一级目录</li>
+</ul>
+<p>3). 在父工程中配置各个工程共有的依赖（子工程会自动继承父工程的依赖）。</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot;
+         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+    &lt;parent&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+        &lt;version&gt;3.4.6&lt;/version&gt;
+        &lt;!--父工程pom.xml的相对路径--&gt;
+        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;
+    &lt;/parent&gt;
+    &lt;groupId&gt;com.ys&lt;/groupId&gt;
+    &lt;artifactId&gt;tlias-parent&lt;/artifactId&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+    &lt;packaging&gt;pom&lt;/packaging&gt;
+
+    &lt;properties&gt;
+        &lt;maven.compiler.source&gt;17&lt;/maven.compiler.source&gt;
+        &lt;maven.compiler.target&gt;17&lt;/maven.compiler.target&gt;
+        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+    &lt;/properties&gt;
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;
+            &lt;artifactId&gt;lombok&lt;/artifactId&gt;
+            &lt;version&gt;1.18.38&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;
+            &lt;version&gt;3.4.6&lt;/version&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+
+&lt;/project&gt;
+</code></pre>
+<h3 id="版本锁定"><strong>版本锁定</strong></h3>
+<p>如果项目中各个模块中都公共的这部分依赖，我们可以直接定义在父工程中，从而简化子工程的配置。 然而在项目开发中，还有一部分依赖，并不是各个模块都共有的，可能只是其中的一小部分模块中使用到了这个依赖。</p>
+<p>比如：在tlias-web-management、tlias-web-system、tlias-web-report这三个子工程中，都使用到了jwt的依赖。 但是 tlias-pojo、tlias-utils中并不需要这个依赖，那此时，这个依赖，我们不会直接配置在父工程 tlias-parent中，而是哪个模块需要，就在哪个模块中配置。</p>
+<p>而由于是一个项目中的多个模块，那多个模块中，我们要使用的同一个依赖的版本要一致，这样便于项目依赖的统一管理。比如：这个jwt依赖，我们都使用的是 0.9.1 这个版本。<br>
+那假如说，我们项目要升级，要使用到jwt最新版本 0.9.2 中的一个新功能，那此时需要将依赖的版本升级到0.9.2，那此时该怎么做呢 ？<br>
+第一步：去找当前项目中所有的模块的pom.xml配置文件，看哪些模块用到了jwt的依赖。<br>
+第二步：找到这个依赖之后，将其版本version，更换为 0.9.2。<br>
+问题：如果项目拆分的模块比较多，每一次更换版本，我们都得找到这个项目中的每一个模块，一个一个的更改。 很容易就会出现，遗漏掉一个模块，忘记更换版本的情况。<br>
+父工程：</p>
+<pre><code class="language-xml">&lt;!--统一管理依赖的版本--&gt;
+    &lt;dependencyManagement&gt;
+        &lt;dependencies&gt;
+            &lt;!--阿里云OSS--&gt;
+            &lt;dependency&gt;
+                &lt;groupId&gt;com.aliyun.oss&lt;/groupId&gt;
+                &lt;artifactId&gt;aliyun-sdk-oss&lt;/artifactId&gt;
+                &lt;version&gt;3.17.4&lt;/version&gt;
+            &lt;/dependency&gt;
+            &lt;dependency&gt;
+                &lt;groupId&gt;javax.xml.bind&lt;/groupId&gt;
+                &lt;artifactId&gt;jaxb-api&lt;/artifactId&gt;
+                &lt;version&gt;2.3.1&lt;/version&gt;
+            &lt;/dependency&gt;
+            &lt;dependency&gt;
+                &lt;groupId&gt;javax.activation&lt;/groupId&gt;
+                &lt;artifactId&gt;activation&lt;/artifactId&gt;
+                &lt;version&gt;1.1.1&lt;/version&gt;
+            &lt;/dependency&gt;
+            &lt;!-- no more than 2.3.3--&gt;
+            &lt;dependency&gt;
+                &lt;groupId&gt;org.glassfish.jaxb&lt;/groupId&gt;
+                &lt;artifactId&gt;jaxb-runtime&lt;/artifactId&gt;
+                &lt;version&gt;2.3.3&lt;/version&gt;
+            &lt;/dependency&gt;
+            &lt;!-- JWT依赖--&gt;
+            &lt;dependency&gt;
+                &lt;groupId&gt;io.jsonwebtoken&lt;/groupId&gt;
+                &lt;artifactId&gt;jjwt&lt;/artifactId&gt;
+                &lt;version&gt;0.9.1&lt;/version&gt;
+            &lt;/dependency&gt;
+        &lt;/dependencies&gt;
+    &lt;/dependencyManagement&gt;
+</code></pre>
+<p>子工程此时就无需指定版本号了。<br>
+我们也可以通过自定义属性及属性引用的形式，在父工程中将依赖的版本号进行集中管理维护。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250704173027.png" alt="" loading="lazy"><br>
+具体语法为：<br>
+1). 自定义属性</p>
+<pre><code class="language-xml">&lt;properties&gt;
+        &lt;maven.compiler.source&gt;17&lt;/maven.compiler.source&gt;
+        &lt;maven.compiler.target&gt;17&lt;/maven.compiler.target&gt;
+        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+        &lt;!--自定义属性--&gt;
+        &lt;lombok.version&gt;1.18.38&lt;/lombok.version&gt;
+        &lt;spring.boot.starter.version&gt;3.4.6&lt;/spring.boot.starter.version&gt;
+        &lt;aliyun.sdk.version&gt;3.17.4&lt;/aliyun.sdk.version&gt;
+        &lt;jaxb.api.version&gt;2.3.1&lt;/jaxb.api.version&gt;
+        &lt;activation.version&gt;1.1.1&lt;/activation.version&gt;
+        &lt;jaxb.runtime&gt;2.3.3&lt;/jaxb.runtime&gt;
+        &lt;jjwt.version&gt;0.9.1&lt;/jjwt.version&gt;
+    &lt;/properties&gt;
+</code></pre>
+<p>2). 引用属性</p>
+<pre><code class="language-xml">&lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;
+            &lt;artifactId&gt;lombok&lt;/artifactId&gt;
+            &lt;version&gt;${lombok.version}&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;
+            &lt;version&gt;${spring.boot.starter.version}&lt;/version&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+    &lt;!--统一管理依赖的版本--&gt;
+    &lt;dependencyManagement&gt;
+        &lt;dependencies&gt;
+            &lt;!--阿里云OSS--&gt;
+            &lt;dependency&gt;
+                &lt;groupId&gt;com.aliyun.oss&lt;/groupId&gt;
+                &lt;artifactId&gt;aliyun-sdk-oss&lt;/artifactId&gt;
+                &lt;version&gt;${aliyun.sdk.version}&lt;/version&gt;
+            &lt;/dependency&gt;
+            &lt;dependency&gt;
+                &lt;groupId&gt;javax.xml.bind&lt;/groupId&gt;
+                &lt;artifactId&gt;jaxb-api&lt;/artifactId&gt;
+                &lt;version&gt;${jaxb.api.version}&lt;/version&gt;
+            &lt;/dependency&gt;
+            &lt;dependency&gt;
+                &lt;groupId&gt;javax.activation&lt;/groupId&gt;
+                &lt;artifactId&gt;activation&lt;/artifactId&gt;
+                &lt;version&gt;${activation.version}&lt;/version&gt;
+            &lt;/dependency&gt;
+            &lt;!-- no more than 2.3.3--&gt;
+            &lt;dependency&gt;
+                &lt;groupId&gt;org.glassfish.jaxb&lt;/groupId&gt;
+                &lt;artifactId&gt;jaxb-runtime&lt;/artifactId&gt;
+                &lt;version&gt;${jaxb.runtime}&lt;/version&gt;
+            &lt;/dependency&gt;
+            &lt;!-- JWT依赖--&gt;
+            &lt;dependency&gt;
+                &lt;groupId&gt;io.jsonwebtoken&lt;/groupId&gt;
+                &lt;artifactId&gt;jjwt&lt;/artifactId&gt;
+                &lt;version&gt;${jjwt.version}&lt;/version&gt;
+            &lt;/dependency&gt;
+        &lt;/dependencies&gt;
+    &lt;/dependencyManagement&gt;
+</code></pre>
+<p>接下来，我们就可以在父工程中，将所有的版本号，都集中管理维护起来。版本集中管理之后，我们要想修改依赖的版本，就只需要在父工程中自定义属性的位置，修改对应的属性值即可。</p>
+<h2 id="聚合"><strong>聚合</strong></h2>
+<p>tlias-web-management 模块的父工程是 tlias-parent，该模块又依赖了 tlias-pojo、tlias-utils 模块。 那此时，我们要想将 tlias-web-management 模块打包，是比较繁琐的。因为在进行项目打包时，maven会从本地仓库中来查找 tlias-parent 父工程，以及它所依赖的模块 tlias-pojo、tlias-utils，而本地仓库目前是没有这几个依赖的。<br>
+所以，我们再打包tlias-web-management 模块前，需要将 tlias-parent、tlias-pojo、tlias-utils 分别执行install生命周期安装到maven的本地仓库，然后再针对于 tlias-web-management 模块执行package进行打包操作。</p>
+<ul>
+<li>聚合：将多个模块组织成一个整体，同时进行项目的构建。</li>
+<li>聚合工程：一个不具有业务功能的“空”工程（有且仅有一个pom文件） 【PS：一般来说，继承关系中的父工程与聚合关系中的聚合工程是同一个】</li>
+<li>作用：快速构建项目（无需根据依赖关系手动构建，直接在聚合工程上构建即可）</li>
+</ul>
+<p>在maven中，我们可以在聚合工程中通过 <moudules> 设置当前聚合工程所包含的子模块的名称。我们可以在 tlias-parent中，添加如下配置，来指定当前聚合工程，需要聚合的模块：</p>
+<pre><code class="language-xml">&lt;modules&gt;
+        &lt;module&gt;../tlias-pojo&lt;/module&gt;
+        &lt;module&gt;../tlias-utils&lt;/module&gt;
+        &lt;module&gt;../tlias-web-management&lt;/module&gt;
+    &lt;/modules&gt;
+</code></pre>
+<p><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250704175607.png" alt="" loading="lazy"><br>
+那 tlias-parent 中所聚合的其他模块全部都会执行 package 指令，这就是通过聚合实现项目的一键构建（一键清理clean、一键编译compile、一键测试test、一键打包package、一键安装install等）。</p>
+<h2 id="对比"><strong>对比</strong></h2>
+<ul>
+<li>作用
+<ul>
+<li>聚合用于快速构建项目</li>
+<li>继承用于简化依赖配置、统一管理依赖</li>
+</ul>
+</li>
+<li>相同点：
+<ul>
+<li>聚合与继承的pom.xml文件打包方式均为pom，通常将两种关系制作到同一个pom文件中</li>
+<li>聚合与继承均属于设计型模块，并无实际的模块内容</li>
+</ul>
+</li>
+<li>不同点：
+<ul>
+<li>聚合是在聚合工程中配置关系，聚合可以感知到参与聚合的模块有哪些</li>
+<li>继承是在子模块中配置关系，父模块无法感知哪些子模块继承了自己</li>
+</ul>
+</li>
+</ul>
+<h1 id="私服"><strong>私服</strong></h1>
+<h2 id="介绍-2"><strong>介绍</strong></h2>
+<p>假设现在有两个团队，A 和 B。 A 开发了一个模块 tlias-utils，模块开发完毕之后，将模块打成jar包，并安装到了A的本地仓库。<br>
+那此时，该公司的B团队开发项目时，要想使用 tlias-utils 中提供的工具类，该怎么办呢？ 对于maven项目来说，是不是在pom.xml文件中引入 tlias-utils的坐标就可以了呢？查找顺序为：<br>
+1). 本地仓库：本地仓库中是没有这个依赖jar包的。<br>
+2). 远程中央仓库：由于该模块时自己公司开发的，远程仓库中也没有这个依赖。<br>
+那此时，maven的私服就出场了，私服其实就是架设在公司局域网内部的一台服务器，就是一种特殊的远程仓库。<br>
+有了私服之后，各个团队就可以直接来连接私服了。 A 连接上私服之后，他就可以把jar包直接上传到私服当中。我公司自己内部搭建的服务器，我是不是有权限操作呀，把jar包上传到私服之后，我让 B 团队的所有开发人员也连接同一台私服。连接上这一台私服之后，他就会根据坐标的信息，直接从私服当中将对应的jar包下载到自己的本地仓库，这样就可以使用到依赖当中所提供的一些工具类了。这样我们就可以通过私服来完成资源的共享。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250704193001.png" alt="" loading="lazy"></p>
+<ul>
+<li>私服：是一种特殊的远程仓库，它是架设在局域网内的仓库服务，用来代理位于外部的中央仓库，用于解决团队内部的资源共享与资源同步问题。</li>
+<li>依赖查找顺序：
+<ul>
+<li>本地仓库</li>
+<li>私服仓库</li>
+<li>中央仓库</li>
+</ul>
+</li>
+<li>注意事项：私服在企业项目开发中，一个项目/公司，只需要一台即可（无需我们自己搭建，会使用即可）。</li>
+</ul>
+<h2 id="资源上传和下载"><strong>资源上传和下载</strong></h2>
+<p>资源上传与下载，我们需要做三步配置，执行一条指令。</p>
+<ul>
+<li>第一步配置：在maven的配置文件中配置访问私服的用户名、密码。</li>
+<li>第二步配置：在maven的配置文件中配置连接私服的地址(url地址)。</li>
+<li>第三步配置：在项目的pom.xml文件中配置上传资源的位置(url地址)。</li>
+<li>配置好了上述三步之后，要上传资源到私服仓库，就执行执行maven生命周期：deploy。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250704193158.png" alt="" loading="lazy"><br>
+私服仓库说明：</li>
+<li>RELEASE：存储自己开发的RELEASE发布版本的资源。</li>
+<li>SNAPSHOT：存储自己开发的SNAPSHOT发布版本的资源。</li>
+<li>Central：存储的是从中央仓库下载下来的依赖。</li>
+</ul>
+<p>私服是课程提供的资料，已经搭建好了。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250704203110.png" alt="" loading="lazy"></p>
+<ol>
+<li>设置私服的访问用户名/密码（在自己maven安装目录下的conf/settings.xml中的servers中配置）</li>
+</ol>
+<pre><code class="language-xml">&lt;server&gt;
+    &lt;id&gt;maven-releases&lt;/id&gt;
+    &lt;username&gt;admin&lt;/username&gt;
+    &lt;password&gt;admin&lt;/password&gt;
+&lt;/server&gt;
+    
+&lt;server&gt;
+    &lt;id&gt;maven-snapshots&lt;/id&gt;
+    &lt;username&gt;admin&lt;/username&gt;
+    &lt;password&gt;admin&lt;/password&gt;
+&lt;/server&gt;
+</code></pre>
+<ol start="2">
+<li>设置私服依赖下载的仓库组地址（在自己maven安装目录下的conf/settings.xml中的mirrors中配置）</li>
+</ol>
+<pre><code class="language-xml">&lt;mirror&gt;
+    &lt;id&gt;maven-public&lt;/id&gt;
+    &lt;mirrorOf&gt;*&lt;/mirrorOf&gt;
+    &lt;url&gt;http://localhost:8081/repository/maven-public/&lt;/url&gt;
+&lt;/mirror&gt;
+</code></pre>
+<ol start="3">
+<li>设置私服依赖下载的仓库组地址（在自己maven安装目录下的conf/settings.xml中的profiles中配置）</li>
+</ol>
+<pre><code class="language-xml">&lt;profile&gt;
+    &lt;id&gt;allow-snapshots&lt;/id&gt;
+    &lt;activation&gt;
+        &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;
+    &lt;/activation&gt;
+    &lt;repositories&gt;
+        &lt;repository&gt;
+            &lt;id&gt;maven-public&lt;/id&gt;
+            &lt;url&gt;http://localhost:8081/repository/maven-public/&lt;/url&gt;
+            &lt;releases&gt;
+                &lt;enabled&gt;true&lt;/enabled&gt;
+            &lt;/releases&gt;
+            &lt;snapshots&gt;
+                &lt;enabled&gt;true&lt;/enabled&gt;
+            &lt;/snapshots&gt;
+        &lt;/repository&gt;
+    &lt;/repositories&gt;
+&lt;/profile&gt;
+</code></pre>
+<ol start="4">
+<li>IDEA的maven工程的pom文件中配置上传（发布）地址(直接在tlias-parent中配置发布地址)</li>
+</ol>
+<pre><code class="language-xml">&lt;distributionManagement&gt;
+    &lt;!-- release版本的发布地址 --&gt;
+    &lt;repository&gt;
+        &lt;id&gt;maven-releases&lt;/id&gt;
+        &lt;url&gt;http://localhost:8081/repository/maven-releases/&lt;/url&gt;
+    &lt;/repository&gt;
+    &lt;!-- snapshot版本的发布地址 --&gt;
+    &lt;snapshotRepository&gt;
+        &lt;id&gt;maven-snapshots&lt;/id&gt;
+        &lt;url&gt;http://localhost:8081/repository/maven-snapshots/&lt;/url&gt;
+    &lt;/snapshotRepository&gt;
+&lt;/distributionManagement&gt;
+</code></pre>
+<p>配置完成之后，我们就可以在tlias-parent中执行deploy生命周期，将项目发布到私服仓库中。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250704204310.png" alt="" loading="lazy"><br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250704204500.png" alt="" loading="lazy"></p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E5%88%86%E6%A8%A1%E5%9D%97%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%BC%80%E5%8F%91"><strong>分模块设计与开发</strong></a>
+<ul>
+<li><a href="#%E4%BB%8B%E7%BB%8D"><strong>介绍</strong></a></li>
+<li><a href="#%E6%90%9C%E7%B4%A2"><strong>搜索</strong></a></li>
+<li><a href="#%E5%AE%9E%E8%B7%B5"><strong>实践</strong></a>
+<ul>
+<li><a href="#%E5%88%86%E6%9E%90"><strong>分析</strong></a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0"><strong>实现</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E7%BB%A7%E6%89%BF%E4%B8%8E%E8%81%9A%E5%90%88"><strong>继承与聚合</strong></a>
+<ul>
+<li><a href="#%E7%BB%A7%E6%89%BF"><strong>继承</strong></a>
+<ul>
+<li><a href="#%E7%BB%A7%E6%89%BF%E5%85%B3%E7%B3%BB"><strong>继承关系</strong></a></li>
+<li><a href="#%E7%89%88%E6%9C%AC%E9%94%81%E5%AE%9A"><strong>版本锁定</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E8%81%9A%E5%90%88"><strong>聚合</strong></a></li>
+<li><a href="#%E5%AF%B9%E6%AF%94"><strong>对比</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E7%A7%81%E6%9C%8D"><strong>私服</strong></a>
+<ul>
+<li><a href="#%E4%BB%8B%E7%BB%8D-2"><strong>介绍</strong></a></li>
+<li><a href="#%E8%B5%84%E6%BA%90%E4%B8%8A%E4%BC%A0%E5%92%8C%E4%B8%8B%E8%BD%BD"><strong>资源上传和下载</strong></a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://yyss1014.github.io/post/springboot-yuan-li/">
+              <h3 class="post-title">
+                SpringBoot原理
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://yyss1014.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

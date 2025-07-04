@@ -1,0 +1,237 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Java方法 | WASD研究院</title>
+<link rel="shortcut icon" href="https://yyss1014.github.io/favicon.ico?v=1751633121752">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://yyss1014.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Java方法 | WASD研究院 - Atom Feed" href="https://yyss1014.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="方法是一种语法结构，它可以把一段代码封装成一个功能，以便重复调用。
+修饰符 返回值类型 方法名(形参列表){
+    方法体代码(需要执行的功能代码)
+    return 返回值
+}
+
+public class HelloWorld {
+..." />
+    <meta name="keywords" content="Java" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yyss1014.github.io">
+  <img class="avatar" src="https://yyss1014.github.io/images/avatar.png?v=1751633121752" alt="">
+  </a>
+  <h1 class="site-title">
+    WASD研究院
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/archives" class="menu">
+          目录
+        </a>
+      
+    
+      
+        <a href="/" class="menu">
+          文章
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          分类
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Java方法
+            </h2>
+            <div class="post-info">
+              <span>
+                2025-02-27
+              </span>
+              <span>
+                2 min read
+              </span>
+              
+                <a href="https://yyss1014.github.io/tag/ZoLZarYSyW/" class="post-tag">
+                  # Java
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p>方法是一种语法结构，它可以把一段代码封装成一个功能，以便重复调用。</p>
+<pre><code class="language-java">修饰符 返回值类型 方法名(形参列表){
+    方法体代码(需要执行的功能代码)
+    return 返回值
+}
+</code></pre>
+<pre><code class="language-java">public class HelloWorld {
+    public static void main(String[] args) {
+        int rs=sum(10,20);
+        System.out.println(rs);
+    }
+    public static int sum(int a, int b) {
+        int c = a + b;
+        return c;
+    }
+}
+</code></pre>
+<p>形参列表可以有多个，甚至可以没有，多个形参必须用“,”隔开，且不能初始化给值。传输实参给方法的形参时，传输的是实参变量中形参的副本，引用类型的参数传输的存储的地址值。</p>
+<h2 id="案例"><strong>案例</strong></h2>
+<p>输出一个int类型的数组内容，要求输出格式为：[11,22,33,44,55]</p>
+<pre><code class="language-java">public static void printArray(int[] arr) {
+        if (arr==null){
+            System.out.println(arr);
+            return;
+        }
+        System.out.print(&quot;[&quot;);
+        for (int i = 0; i &lt; arr.length; i++) {
+            System.out.print(i==arr.length-1?arr[i]:arr[i]+&quot;,&quot;);
+        }
+        System.out.print(&quot;]&quot;);
+    }
+</code></pre>
+<p>判断两个数组是否相等</p>
+<pre><code class="language-java"> public static boolean equals(int [] arr1, int [] arr2) {
+     if(arr1==null &amp;&amp; arr2==null){
+         return true;
+     }
+     if (arr1==null||arr2==null) {
+         return false;
+     }
+     if (arr1.length!=arr2.length) {
+         return false;
+     }
+     for (int i = 0; i &lt; arr1.length; i++) {
+         if (arr1[i]!=arr2[i]) {
+             return false;
+         }
+     }
+     return true;
+ }
+</code></pre>
+<h2 id="方法重载"><strong>方法重载</strong></h2>
+<p>一个类中，只要一些方法名称相同，形参列表不同，那么它们就是方法重载，其他都不管。<br>
+return在无返回值的方法中，可以直接跳出并结束当前方法的执行。</p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E6%A1%88%E4%BE%8B"><strong>案例</strong></a></li>
+<li><a href="#%E6%96%B9%E6%B3%95%E9%87%8D%E8%BD%BD"><strong>方法重载</strong></a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://yyss1014.github.io/post/java-shu-zu/">
+              <h3 class="post-title">
+                Java数组
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://yyss1014.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

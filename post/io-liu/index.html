@@ -1,0 +1,985 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>IO流 | WASD研究院</title>
+<link rel="shortcut icon" href="https://yyss1014.github.io/favicon.ico?v=1751633121752">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://yyss1014.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="IO流 | WASD研究院 - Atom Feed" href="https://yyss1014.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+字节流
+
+FileInputStream
+FileOutputStream
+案例：文件复制
+
+
+释放资源的方式
+
+try-catch-finally
+try-with-resource
+
+
+字符流
+
+FileReader
+FileWrit..." />
+    <meta name="keywords" content="JavaSE" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yyss1014.github.io">
+  <img class="avatar" src="https://yyss1014.github.io/images/avatar.png?v=1751633121752" alt="">
+  </a>
+  <h1 class="site-title">
+    WASD研究院
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/archives" class="menu">
+          目录
+        </a>
+      
+    
+      
+        <a href="/" class="menu">
+          文章
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          分类
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              IO流
+            </h2>
+            <div class="post-info">
+              <span>
+                2025-03-23
+              </span>
+              <span>
+                20 min read
+              </span>
+              
+                <a href="https://yyss1014.github.io/tag/xcf3bLryi2/" class="post-tag">
+                  # JavaSE
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p><ul class="markdownIt-TOC">
+<li><a href="#%E5%AD%97%E8%8A%82%E6%B5%81"><strong>字节流</strong></a>
+<ul>
+<li><a href="#fileinputstream"><strong>FileInputStream</strong></a></li>
+<li><a href="#fileoutputstream"><strong>FileOutputStream</strong></a></li>
+<li><a href="#%E6%A1%88%E4%BE%8B%E6%96%87%E4%BB%B6%E5%A4%8D%E5%88%B6"><strong>案例：文件复制</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E9%87%8A%E6%94%BE%E8%B5%84%E6%BA%90%E7%9A%84%E6%96%B9%E5%BC%8F"><strong>释放资源的方式</strong></a>
+<ul>
+<li><a href="#try-catch-finally"><strong>try-catch-finally</strong></a></li>
+<li><a href="#try-with-resource"><strong>try-with-resource</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E5%AD%97%E7%AC%A6%E6%B5%81"><strong>字符流</strong></a>
+<ul>
+<li><a href="#filereader"><strong>FileReader</strong></a></li>
+<li><a href="#filewriter"><strong>FileWriter</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E7%BC%93%E5%86%B2%E6%B5%81"><strong>缓冲流</strong></a>
+<ul>
+<li><a href="#%E5%AD%97%E8%8A%82%E7%BC%93%E5%86%B2%E6%B5%81"><strong>字节缓冲流</strong></a></li>
+<li><a href="#%E5%AD%97%E7%AC%A6%E7%BC%93%E5%86%B2%E6%B5%81"><strong>字符缓冲流</strong></a>
+<ul>
+<li><a href="#%E5%AD%97%E7%AC%A6%E7%BC%93%E5%86%B2%E8%BE%93%E5%85%A5%E6%B5%81"><strong>字符缓冲输入流</strong></a></li>
+<li><a href="#%E5%AD%97%E7%AC%A6%E7%BC%93%E5%86%B2%E8%BE%93%E5%87%BA%E6%B5%81"><strong>字符缓冲输出流</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E6%A1%88%E4%BE%8B"><strong>案例</strong></a></li>
+<li><a href="#%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90"><strong>性能分析</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E8%BD%AC%E6%8D%A2%E6%B5%81"><strong>转换流</strong></a>
+<ul>
+<li><a href="#%E5%AD%97%E7%AC%A6%E8%BE%93%E5%85%A5%E8%BD%AC%E6%8D%A2%E6%B5%81"><strong>字符输入转换流</strong></a></li>
+<li><a href="#%E5%AD%97%E7%AC%A6%E8%BE%93%E5%87%BA%E8%BD%AC%E6%8D%A2%E6%B5%81"><strong>字符输出转换流</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E6%89%93%E5%8D%B0%E6%B5%81"><strong>打印流</strong></a>
+<ul>
+<li><a href="#%E5%AD%97%E8%8A%82%E8%BE%93%E5%87%BA%E6%B5%81"><strong>字节输出流</strong></a></li>
+<li><a href="#%E5%AD%97%E7%AC%A6%E8%BE%93%E5%87%BA%E6%B5%81"><strong>字符输出流</strong></a></li>
+<li><a href="#%E8%BE%93%E5%87%BA%E8%AF%AD%E5%8F%A5%E7%9A%84%E9%87%8D%E5%AE%9A%E5%90%91"><strong>输出语句的重定向</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E6%B5%81"><strong>数据流</strong></a></li>
+<li><a href="#%E5%BA%8F%E5%88%97%E5%8C%96%E6%B5%81"><strong>序列化流</strong></a></li>
+<li><a href="#%E6%A1%86%E6%9E%B6"><strong>框架</strong></a></li>
+</ul>
+<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250323191953.png" alt="" loading="lazy"></p>
+<h1 id="字节流"><strong>字节流</strong></h1>
+<h2 id="fileinputstream"><strong>FileInputStream</strong></h2>
+<p>以内存为基准，把磁盘文件中的数据以字节的形式读入到内存中。<br>
+一次读取一个字节：</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws Exception {
+       //创建文件字节输入流管道，与源文件接通
+        //InputStream is= new FileInputStream(new File(&quot;file-io-app\\src\\ys.txt&quot;));
+        //简化写法，推荐使用
+        InputStream is= new FileInputStream(&quot;file-io-app\\src\\ys.txt&quot;);
+        //开始读取文件的字节数据
+        /*int b1=is.read();
+        System.out.println((char)b1);//a
+        int b2=is.read();
+        System.out.println((char)b2);//b
+        int b3=is.read();// 没有数据了，返回-1
+        System.out.println(b3);*/
+        //循环改造上述代码
+        int b;
+        //先看等号右边
+        while((b=is.read())!=-1){
+            System.out.print((char)b);
+        }
+        //每次读取文件数据时，内存中的程序调用硬件资源读取硬盘中的数据，性能很差
+        //流使用完毕后必须关闭，释放系统资源
+        is.close();
+    }
+}
+</code></pre>
+<p>一次读取多个字节：</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws Exception {
+       //创建一个字节输入流对象
+        InputStream is=new FileInputStream(&quot;file-io-app\\src\\ys.txt&quot;);//abc66
+        //开始读取文件中的字节数据，每次读取多个字节
+        byte[] buffer =new byte[3];
+        int len=is.read(buffer);
+        String rs=new String(buffer);
+        System.out.println(&quot;当前读取的字节数量：&quot;+len);
+        System.out.println(rs);
+
+        //buffer=[abc]
+        //buffer=[66c]
+        //读取多少就倒出多少
+        int len2 =is.read(buffer);
+        String rs2 =new String(buffer,0,len2);
+        System.out.println(&quot;当前读取的字节数量：&quot;+ len2);
+        System.out.println(rs2);
+        int len3 =is.read(buffer);
+        System.out.println(len3);//-1
+        String rs3 =new String(buffer);
+        System.out.println(rs3);//66c
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws Exception {
+       //创建一个字节输入流对象
+        InputStream is=new FileInputStream(&quot;file-io-app\\src\\ys.txt&quot;);//abc66
+        //循环改造
+        byte[] buffer =new byte[3];
+        int len;
+        while((len=is.read(buffer))!=-1){
+            String rs = new String(buffer, 0, len);
+            System.out.println(rs);
+        }
+        //性能得到了明显提升
+        //也不能避免汉字乱码
+        is.close();
+    }
+}
+</code></pre>
+<p>一次读取完全部字节：</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws Exception {
+        //一次性读取完文件的全部字节到一个字节数组里
+        //创建一个字节输入流管道与源文件接通
+        InputStream is=new FileInputStream(&quot;file-io-app\\src\\ys.txt&quot;);
+//        File f=new File(&quot;file-io-app\\src\\ys.txt&quot;);
+//        long size=f.length();
+//        byte[] buffer =new byte[(int)size];
+//
+//        int len=is.read(buffer);
+//        System.out.println(new String(buffer));
+//
+//        System.out.println(size);
+//        System.out.println(len);
+        byte[] buffer= is.readAllBytes();//如果文件太大会抛出内存溢出异常
+        System.out.println(new String(buffer));
+    }
+}
+</code></pre>
+<h2 id="fileoutputstream"><strong>FileOutputStream</strong></h2>
+<p>以内存为基准，把内存中的数据以字节的形式写出到文件中。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws Exception {
+        //创建一个字节输出流管道与目标文件接通
+        //写数据前会把原来数据清空，覆盖管道
+        /*OutputStream os =
+                new FileOutputStream(&quot;file-io-app\\src\\ys.txt&quot;);*/
+        //追加数据的管道
+        OutputStream os =
+                new FileOutputStream(&quot;file-io-app\\src\\ys.txt&quot;,true);
+        //文件可以自动生成
+        //开始写字节数据了
+        os.write(97);
+        os.write('b');
+        //os.write('颜');//[ooo]默认只能写一个字节，第一个o
+
+        byte[] bytes = &quot;我爱你中国&quot;.getBytes();
+        os.write(bytes);
+        os.write(bytes,0,15);
+        //换行&quot;\r\n&quot;
+        os.write(&quot;\r\n&quot;.getBytes());
+        os.close();
+    }
+}
+</code></pre>
+<h2 id="案例文件复制"><strong>案例：文件复制</strong></h2>
+<p>字节流适合一切文件的复制操作。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws Exception {
+        //需求：复制照片
+        InputStream is=new FileInputStream(&quot;C:\\Users\\adminys\\Pictures\\Screenshots\\屏幕截图 2025-02-23 154218.png&quot;);
+        OutputStream os=new FileOutputStream(&quot;C:\\Users\\adminys\\Desktop\\picture.png&quot;);
+        byte[] buffer =new byte[1024];//1KB
+        int len;
+        while((len=is.read(buffer))!=-1){
+            os.write(buffer,0,len);
+        }
+        //后创建的流先关掉
+        os.close();
+        is.close();
+        System.out.println(&quot;复制完成&quot;);
+    }
+}
+</code></pre>
+<h1 id="释放资源的方式"><strong>释放资源的方式</strong></h1>
+<h2 id="try-catch-finally"><strong>try-catch-finally</strong></h2>
+<p>无论try中的程序是正常执行了，还是出现异常，最后一定会执行finally代码区，除非JVM终止。一版用于程序执行完后释放资源的操作。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws Exception {
+        try{
+            System.out.println(10/0);
+            return;
+            //System.exit(0);//虚拟机
+        }catch(Exception e){
+            e.printStackTrace();//打印异常信息
+        }finally{
+            System.out.println(&quot;===finally执行了一次===&quot;);
+        }
+        System.out.println(chu(10,2));//111
+    }
+    public static int chu(int a,int b){
+        try {
+            return a/b;
+        }catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }finally{
+            //千万不要在finally返回数据
+            return 111;
+        }
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args){
+        InputStream is=null;
+        OutputStream os=null;
+        try {
+            //需求：复制照片
+            is=new FileInputStream(&quot;C:\\Users\\adminys\\Pictures\\Screenshots\\屏幕截图 2025-02-23 154218.png&quot;);
+            os=new FileOutputStream(&quot;C:\\Users\\adminys\\Desktop\\picture.png&quot;);
+            byte[] buffer =new byte[1024];//1KB
+            int len;
+            while((len=is.read(buffer))!=-1){
+                os.write(buffer,0,len);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            //完成资源释放
+            try {
+                if(os!=null)os.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                if(is!=null)is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            System.out.println(&quot;复制完成&quot;);
+        }
+    }
+}
+</code></pre>
+<h2 id="try-with-resource"><strong>try-with-resource</strong></h2>
+<p>JDK7开始提供了更简单的资源释放方案。资源使用完毕后会自动使用close()。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        // 使用 try-with-resources 自动关闭资源
+        try (InputStream is = new FileInputStream(&quot;C:\\Users\\adminys\\Pictures\\Screenshots\\屏幕截图 2025-02-23 154218.png&quot;);
+             OutputStream os = new FileOutputStream(&quot;C:\\Users\\adminys\\Desktop\\picture.png&quot;);
+             MyConnection conn = new MyConnection()
+             ) { // 确保 MyConnection 实现 AutoCloseable
+
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = is.read(buffer)) != -1) {
+                os.write(buffer, 0, len);
+            }
+            System.out.println(&quot;复制完成&quot;);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+// MyConnection 需实现 AutoCloseable
+class MyConnection implements AutoCloseable {
+    @Override
+    public void close() throws Exception {
+        System.out.println(&quot;释放了与某个硬件的连接资源&quot;);
+    }
+}
+</code></pre>
+<h1 id="字符流"><strong>字符流</strong></h1>
+<h2 id="filereader"><strong>FileReader</strong></h2>
+<p>以内存为基准，可以把文件中的数据以字符的形式读入到内存中去。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        try (//创建一个文件字符输入流管道与源文件接通
+                Reader fr = new FileReader(&quot;file-io-app\\src\\ys01.txt&quot;);
+        ) {
+            //读取文本文件的内容
+//            int c;
+//            while ((c = fr.read()) != -1) {
+//                System.out.print((char) c);
+//            }
+            //每次读取一个字符的形式，性能比较差
+            char[] buffer = new char[3];
+            int len ;
+            while ((len = fr.read(buffer)) != -1) {
+                System.out.print(new String(buffer, 0, len));
+            }
+            //性能比较不错
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<h2 id="filewriter"><strong>FileWriter</strong></h2>
+<p>以内存为基准，可以把内存中的数据以字符的形式写出到文件中去。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        try (
+                //创建一个文件字符输出流管道与目标文件接通
+                //覆盖管道
+                //Writer fw = new FileWriter(&quot;file-io-app\\src\\ys01.txt&quot;);
+                //追加数据的管道
+                Writer fw = new FileWriter(&quot;file-io-app\\src\\ys01.txt&quot;,true);
+                ){
+            fw.write('a');
+            fw.write(97);
+            fw.write('硕');
+            //写一个字符串
+            fw.write(&quot;我爱你中国abc&quot;);
+            //写一个字符串的一部分
+            fw.write(&quot;我爱你中国abc&quot;,0,5);
+            //写一个字符数组进去
+            char[] buffer={'黑','马','a','b','c'};
+            fw.write(buffer);
+            //写字符串数组的一部分进去
+            fw.write(buffer,0,2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<p>字符输出流写出数据后，必须刷新流，或者关闭流，写出去得到数据才能生效。写出的数据先保存在缓冲区中，再通过系统调用，只要调用一次，就可以把数据写到文件中。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws IOException {
+        Writer fw = new FileWriter(&quot;file-io-app\\src\\ys01.txt&quot;,true);
+        fw.write('a');
+        fw.write('b');
+        fw.write('c');
+        fw.write('d');
+        fw.write(&quot;\r\n&quot;);
+
+        fw.write(&quot;我爱你中国&quot;);
+        fw.write(&quot;\r\n&quot;);
+        fw.write(&quot;我爱你中国&quot;);
+//        fw.flush();
+//        fw.write(&quot;张三&quot;);
+//        fw.flush();
+        fw.close();//关闭流，包含刷新操作
+    }
+}
+</code></pre>
+<h1 id="缓冲流"><strong>缓冲流</strong></h1>
+<figure data-type="image" tabindex="1"><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250324151929.png" alt="" loading="lazy"></figure>
+<h2 id="字节缓冲流"><strong>字节缓冲流</strong></h2>
+<p>提高字节流读写数据的性能。<br>
+原理：字节缓冲输入流自带了8KB缓冲池；字节缓冲输出流也自带了8KB缓冲池。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws IOException {
+        try (
+                InputStream is = new FileInputStream(&quot;file-io-app/src/ys01.txt&quot;);
+                // 1、定义一个字节缓冲输入流包装原始的字节输入流
+                InputStream bis = new BufferedInputStream(is,8192*2);
+
+                OutputStream os = new FileOutputStream(&quot;file-io-app/src/ys01_bak.txt&quot;);
+                // 2、定义一个字节缓冲输出流包装原始的字节输出流
+                OutputStream bos = new BufferedOutputStream(os,8192*2);
+        ){
+
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = bis.read(buffer)) != -1){
+                bos.write(buffer, 0, len);
+            }
+            System.out.println(&quot;复制完成！！&quot;);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<h2 id="字符缓冲流"><strong>字符缓冲流</strong></h2>
+<h3 id="字符缓冲输入流"><strong>字符缓冲输入流</strong></h3>
+<p>原理：字符缓冲输入流自带了8KB的字符缓冲池（8192个字符）。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws IOException {
+        try (
+                Reader fr = new FileReader(&quot;file-io-app/src/ys01.txt&quot;);
+                // 创建一个字符缓冲输入流包装原始的字符输入流
+                BufferedReader br = new BufferedReader(fr);
+                //不用多态，需要用到BufferedReader特有功能
+        ){
+//            char[] buffer = new char[3];
+//            int len;
+//            while ((len = br.read(buffer)) != -1){
+//                System.out.print(new String(buffer, 0, len));
+//            }
+//            System.out.println(br.readLine());
+//            System.out.println(br.readLine());
+//            System.out.println(br.readLine());
+//            System.out.println(br.readLine());//null，没有内容
+            String line;
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<h3 id="字符缓冲输出流"><strong>字符缓冲输出流</strong></h3>
+<p>原理：字符缓冲输出流自带了8KB的字符缓冲池（8192个字符）。（原始的字符缓冲输出流也自带缓冲池，只是不大）</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws IOException {
+        try (
+                Writer fw = new FileWriter(&quot;file-io-app\\src\\ys01.txt&quot;, true);
+                //创建一个字符缓冲输出流包装原始的字符输出流
+                BufferedWriter bw = new BufferedWriter(fw);
+        ) {
+            bw.write('a');
+            bw.write('b');
+            bw.write('c');
+            bw.write('d');
+            bw.write(&quot;\r\n&quot;);
+
+            bw.write(&quot;我爱你中国&quot;);
+            bw.write(&quot;\r\n&quot;);
+            bw.write(&quot;我爱你中国&quot;);
+            bw.newLine();//换行
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<h2 id="案例"><strong>案例</strong></h2>
+<p>把出师表的文章顺序恢复到新文件。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws IOException {
+        try (
+                Reader fr = new FileReader(&quot;file-io-app/src/csb.txt&quot;);
+                // 创建一个字符缓冲输入流包装原始的字符输入流
+                BufferedReader br = new BufferedReader(fr);
+                Writer fw = new FileWriter(&quot;file-io-app\\src\\ys01.txt&quot;);
+                //创建一个字符缓冲输出流包装原始的字符输出流
+                BufferedWriter bw = new BufferedWriter(fw);
+        ){
+            String line;
+            List&lt;String&gt; list = new ArrayList&lt;String&gt;();
+            while ((line = br.readLine()) != null) {
+                list.add(line);
+            }
+            Collections.sort(list);
+            System.out.println(list);
+            for (String s : list) {
+                bw.write(s);
+                bw.newLine();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<h2 id="性能分析"><strong>性能分析</strong></h2>
+<pre><code class="language-java">public class Test {
+    // 复制的视频路径
+    private static final String SRC_FILE = &quot;C:\\Users\\adminys\\Desktop\\ys.mp4&quot;;
+    // 复制到哪个目的地
+    private static final String DEST_FILE = &quot;C:\\Users\\adminys\\Desktop\\&quot;;
+
+    public static void main(String[] args) throws IOException {
+        //copy01();//太慢
+        copy02();//低级字节流使用字节数组复制耗时：1.038s，如果字节数组比较大，性能也很好
+        copy03();//缓冲流一个一个字节复制耗时：1.762s
+        copy04();//缓冲流使用字节数组复制耗时：0.168s
+        //字节数组越大越好，但大到一定程度性能提升不大
+    }
+    private static void copy01() {
+        long startTime = System.currentTimeMillis();
+        try (
+                InputStream is = new FileInputStream(SRC_FILE);
+                OutputStream os = new FileOutputStream(DEST_FILE + &quot;1.mp4&quot;);
+        ){
+
+            int b;
+            while ((b = is.read()) != -1){
+                os.write(b);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        long endTime = System.currentTimeMillis();
+        System.out.println(&quot;低级字节流一个一个字节复制耗时：&quot; + (endTime - startTime) / 1000.0 + &quot;s&quot;);
+    }
+
+    private static void copy02() {
+        long startTime = System.currentTimeMillis();
+        try (
+                InputStream is = new FileInputStream(SRC_FILE);
+                OutputStream os = new FileOutputStream(DEST_FILE + &quot;2.mp4&quot;);
+        ){
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = is.read(buffer)) != -1){
+                os.write(buffer, 0, len);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        long endTime = System.currentTimeMillis();
+        System.out.println(&quot;低级字节流使用字节数组复制耗时：&quot; + (endTime - startTime) / 1000.0 + &quot;s&quot;);
+    }
+
+    private static void copy03() {
+        long startTime = System.currentTimeMillis();
+        try (
+                InputStream is = new FileInputStream(SRC_FILE);
+                BufferedInputStream bis = new BufferedInputStream(is);
+                OutputStream os = new FileOutputStream(DEST_FILE + &quot;3.mp4&quot;);
+                BufferedOutputStream bos = new BufferedOutputStream(os);
+        ){
+
+            int b;
+            while ((b = bis.read()) != -1){
+                bos.write(b);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        long endTime = System.currentTimeMillis();
+        System.out.println(&quot;缓冲流一个一个字节复制耗时：&quot; + (endTime - startTime) / 1000.0 + &quot;s&quot;);
+    }
+
+    private static void copy04() {
+        long startTime = System.currentTimeMillis();
+        try (
+                InputStream is = new FileInputStream(SRC_FILE);
+                BufferedInputStream bis = new BufferedInputStream(is);
+                OutputStream os = new FileOutputStream(DEST_FILE + &quot;4.mp4&quot;);
+                BufferedOutputStream bos = new BufferedOutputStream(os);
+        ){
+            byte[] buffer = new byte[1024]; // 32KB
+            int len;
+            while ((len = bis.read(buffer)) != -1){
+                bos.write(buffer, 0, len);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        long endTime = System.currentTimeMillis();
+        System.out.println(&quot;缓冲流使用字节数组复制耗时：&quot; + (endTime - startTime) / 1000.0 + &quot;s&quot;);
+    }
+}
+</code></pre>
+<h1 id="转换流"><strong>转换流</strong></h1>
+<p>如果代码编码和被读取的文本文件编码是一致的，使用字符流读取文本文件时不会出现乱码。不然会出现乱码。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250324164928.png" alt="" loading="lazy"></p>
+<h2 id="字符输入转换流"><strong>字符输入转换流</strong></h2>
+<p>解决思路：先获取文件的原始字节流，再将其按真实的字符集编码转换成字符输入流。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws FileNotFoundException {
+        try (
+                //代码编码UTF-8，文件编码GBK
+                InputStream is=new FileInputStream(&quot;file-io-app\\src\\ys01_bak.txt&quot;);
+                Reader isr=new InputStreamReader(is,&quot;GBK&quot;);//第二给参数默认为代码编码
+                BufferedReader br=new BufferedReader(isr);
+                ) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<h2 id="字符输出转换流"><strong>字符输出转换流</strong></h2>
+<p>解决思路：获取字节输出流，再按照指定的字符集编码将其转换为字符输出流。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws FileNotFoundException {
+        try (
+                OutputStream os=new FileOutputStream(&quot;file-io-app\\src\\ys01_bak.txt&quot;);
+                Writer osw=new OutputStreamWriter(os,&quot;GBK&quot;);
+                BufferedWriter bw=new BufferedWriter(osw);
+                ) {
+            bw.write(&quot;我爱你中国abc&quot;);
+            bw.write(&quot;我爱你中国123&quot;);
+            } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<h1 id="打印流"><strong>打印流</strong></h1>
+<p>打印流可以实现更加方便更高效地打印数据出去。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250324171138.png" alt="" loading="lazy"></p>
+<h2 id="字节输出流"><strong>字节输出流</strong></h2>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws FileNotFoundException {
+        try (
+                //public PrintStream(OutputStream out, boolean autoFlush, Charset charset)
+                //PrintStream ps=new PrintStream(&quot;file-io-app\\src\\ys01.txt&quot;, Charset.forName(&quot;GBK&quot;));
+                PrintStream ps=new PrintStream(&quot;file-io-app\\src\\ys01.txt&quot;);
+                //内部包装了缓冲流
+                ) {
+            //打印任意类型数据
+            ps.println(97);
+            ps.println('a');
+            ps.println(&quot;我爱你中国&quot;);
+            ps.println(true);
+            ps.println(99.5);
+            //写字节数据出去
+            ps.write(97);//'a'
+            } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<h2 id="字符输出流"><strong>字符输出流</strong></h2>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws FileNotFoundException {
+        try (
+                //打印流不能追加数据
+                //PrintWriter ps= new PrintWriter(&quot;file-io-app\\src\\ys01.txt&quot;);
+                PrintWriter ps= new PrintWriter(new FileOutputStream(&quot;file-io-app\\src\\ys01.txt&quot;,true));
+                //内部包装了缓冲流
+                ) {
+            //打印任意类型数据
+            ps.println(97);
+            ps.println('a');
+            ps.println(&quot;我爱你中国&quot;);
+            ps.println(true);
+            ps.println(99.5);
+            //写字符数据出去
+            ps.write(97);//'a'
+            ps.write(&quot;aaa&quot;);
+            } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<h2 id="输出语句的重定向"><strong>输出语句的重定向</strong></h2>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws FileNotFoundException {
+        System.out.println(&quot;老骥伏枥&quot;);
+        //public static final PrintStream out = null;
+        //默认创建的打印流通向控制台
+        try (PrintStream ps = new PrintStream(&quot;file-io-app\\src\\ys01.txt&quot;);){
+            System.setOut(ps);
+            System.out.println(&quot;志在千里&quot;);//不输出在控制台，输出在指定的文件里
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+</code></pre>
+<h1 id="数据流"><strong>数据流</strong></h1>
+<p><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250324173804.png" alt="" loading="lazy"><br>
+允许把数据和其类型一起写出去和读进来。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws FileNotFoundException {
+        try (
+                DataOutputStream dos = new DataOutputStream(new FileOutputStream(&quot;file-io-app\\src\\ys01.txt&quot;))
+        ) {
+            dos.writeInt(97);
+            dos.writeDouble(99.5);
+            dos.writeBoolean(true);
+            dos.writeUTF(&quot;hello&quot;);
+            //看起来是乱码，其实是特殊的数据存储方式
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+public class Test2 {
+    public static void main(String[] args) {
+        try(
+                DataInputStream dis = new DataInputStream(new FileInputStream(&quot;file-io-app\\src\\ys01.txt&quot;));
+        ) {
+            //读和写的顺序需要对应
+            int i = dis.readInt();
+            System.out.println(i);
+            double d=dis.readDouble();
+            System.out.println(d);
+            Boolean b=dis.readBoolean();
+            System.out.println(b);
+            String rs = dis.readUTF();
+            System.out.println(rs);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<h1 id="序列化流"><strong>序列化流</strong></h1>
+<p><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250324175045.png" alt="" loading="lazy"><br>
+对象序列化：把java对象写入到文件中去。<br>
+对象反序列化：把文件中的java对象写出来。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws FileNotFoundException {
+        try (
+                //创建一个对象字节输出流
+                ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(&quot;file-io-app\\src\\ys01.txt&quot;));
+                ){
+            User u = new User(&quot;admin&quot;, &quot;张三&quot;, 32, &quot;666888xyz&quot;);
+            oos.writeObject(u);
+            System.out.println(&quot;序列化对象成功&quot;);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+public class Test2 {
+    public static void main(String[] args) {
+        try(
+                ObjectInputStream ois = new ObjectInputStream(new FileInputStream(&quot;file-io-app\\src\\ys01.txt&quot;));
+        ) {
+           User u=(User)ois.readObject();
+            System.out.println(u);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<pre><code class="language-java">//对象如果需要序列化，必须实现序列化接口
+public class User implements Serializable {
+    private String loginName;
+    private String userName;
+    private int age;
+    // transient 这个成员变量将不参与序列化。
+    private transient String passWord;
+···
+</code></pre>
+<p>如果想一次序列化多个对象，用一个ArrayList集合存储多个对象，然后直接对集合进行序列化。ArrayList已经实现了序列化接口。</p>
+<h1 id="框架"><strong>框架</strong></h1>
+<p>编写一套类、接口等，可以理解成一个半成品，大部分框架都是第三方研发的。<br>
+Commons-io：是apache开源基金组织提供的一组有关IO操作的小框架，目的是提高IO流开发的效率。</p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E5%AD%97%E8%8A%82%E6%B5%81"><strong>字节流</strong></a>
+<ul>
+<li><a href="#fileinputstream"><strong>FileInputStream</strong></a></li>
+<li><a href="#fileoutputstream"><strong>FileOutputStream</strong></a></li>
+<li><a href="#%E6%A1%88%E4%BE%8B%E6%96%87%E4%BB%B6%E5%A4%8D%E5%88%B6"><strong>案例：文件复制</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E9%87%8A%E6%94%BE%E8%B5%84%E6%BA%90%E7%9A%84%E6%96%B9%E5%BC%8F"><strong>释放资源的方式</strong></a>
+<ul>
+<li><a href="#try-catch-finally"><strong>try-catch-finally</strong></a></li>
+<li><a href="#try-with-resource"><strong>try-with-resource</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E5%AD%97%E7%AC%A6%E6%B5%81"><strong>字符流</strong></a>
+<ul>
+<li><a href="#filereader"><strong>FileReader</strong></a></li>
+<li><a href="#filewriter"><strong>FileWriter</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E7%BC%93%E5%86%B2%E6%B5%81"><strong>缓冲流</strong></a>
+<ul>
+<li><a href="#%E5%AD%97%E8%8A%82%E7%BC%93%E5%86%B2%E6%B5%81"><strong>字节缓冲流</strong></a></li>
+<li><a href="#%E5%AD%97%E7%AC%A6%E7%BC%93%E5%86%B2%E6%B5%81"><strong>字符缓冲流</strong></a>
+<ul>
+<li><a href="#%E5%AD%97%E7%AC%A6%E7%BC%93%E5%86%B2%E8%BE%93%E5%85%A5%E6%B5%81"><strong>字符缓冲输入流</strong></a></li>
+<li><a href="#%E5%AD%97%E7%AC%A6%E7%BC%93%E5%86%B2%E8%BE%93%E5%87%BA%E6%B5%81"><strong>字符缓冲输出流</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E6%A1%88%E4%BE%8B"><strong>案例</strong></a></li>
+<li><a href="#%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90"><strong>性能分析</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E8%BD%AC%E6%8D%A2%E6%B5%81"><strong>转换流</strong></a>
+<ul>
+<li><a href="#%E5%AD%97%E7%AC%A6%E8%BE%93%E5%85%A5%E8%BD%AC%E6%8D%A2%E6%B5%81"><strong>字符输入转换流</strong></a></li>
+<li><a href="#%E5%AD%97%E7%AC%A6%E8%BE%93%E5%87%BA%E8%BD%AC%E6%8D%A2%E6%B5%81"><strong>字符输出转换流</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E6%89%93%E5%8D%B0%E6%B5%81"><strong>打印流</strong></a>
+<ul>
+<li><a href="#%E5%AD%97%E8%8A%82%E8%BE%93%E5%87%BA%E6%B5%81"><strong>字节输出流</strong></a></li>
+<li><a href="#%E5%AD%97%E7%AC%A6%E8%BE%93%E5%87%BA%E6%B5%81"><strong>字符输出流</strong></a></li>
+<li><a href="#%E8%BE%93%E5%87%BA%E8%AF%AD%E5%8F%A5%E7%9A%84%E9%87%8D%E5%AE%9A%E5%90%91"><strong>输出语句的重定向</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E6%B5%81"><strong>数据流</strong></a></li>
+<li><a href="#%E5%BA%8F%E5%88%97%E5%8C%96%E6%B5%81"><strong>序列化流</strong></a></li>
+<li><a href="#%E6%A1%86%E6%9E%B6"><strong>框架</strong></a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://yyss1014.github.io/post/file/">
+              <h3 class="post-title">
+                File
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://yyss1014.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

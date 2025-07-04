@@ -1,0 +1,454 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Lambda表达式 | WASD研究院</title>
+<link rel="shortcut icon" href="https://yyss1014.github.io/favicon.ico?v=1751633121752">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://yyss1014.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Lambda表达式 | WASD研究院 - Atom Feed" href="https://yyss1014.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+Arrays
+Lambda
+方法引用
+
+静态方法引用
+实例方法引用
+特定类型方法的引用
+构造器引用
+
+
+
+
+Arrays
+用来操作数组的一个工具类。
+public class Test {
+    public static void m..." />
+    <meta name="keywords" content="JavaSE" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yyss1014.github.io">
+  <img class="avatar" src="https://yyss1014.github.io/images/avatar.png?v=1751633121752" alt="">
+  </a>
+  <h1 class="site-title">
+    WASD研究院
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/archives" class="menu">
+          目录
+        </a>
+      
+    
+      
+        <a href="/" class="menu">
+          文章
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          分类
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Lambda表达式
+            </h2>
+            <div class="post-info">
+              <span>
+                2025-03-16
+              </span>
+              <span>
+                8 min read
+              </span>
+              
+                <a href="https://yyss1014.github.io/tag/xcf3bLryi2/" class="post-tag">
+                  # JavaSE
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p><ul class="markdownIt-TOC">
+<li><a href="#arrays"><strong>Arrays</strong></a></li>
+<li><a href="#lambda"><strong>Lambda</strong></a></li>
+<li><a href="#%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8"><strong>方法引用</strong></a>
+<ul>
+<li><a href="#%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8"><strong>静态方法引用</strong></a></li>
+<li><a href="#%E5%AE%9E%E4%BE%8B%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8"><strong>实例方法引用</strong></a></li>
+<li><a href="#%E7%89%B9%E5%AE%9A%E7%B1%BB%E5%9E%8B%E6%96%B9%E6%B3%95%E7%9A%84%E5%BC%95%E7%94%A8"><strong>特定类型方法的引用</strong></a></li>
+<li><a href="#%E6%9E%84%E9%80%A0%E5%99%A8%E5%BC%95%E7%94%A8"><strong>构造器引用</strong></a></li>
+</ul>
+</li>
+</ul>
+</p>
+<h1 id="arrays"><strong>Arrays</strong></h1>
+<p>用来操作数组的一个工具类。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args){
+     //Arrays.toString返回数组内容
+     int arr[]={10,20,30,40,50,60};
+     System.out.println(Arrays.toString(arr));//[10, 20, 30, 40, 50, 60]
+
+     //拷贝数组
+     int[] arr2=Arrays.copyOfRange(arr,1,4);
+     System.out.println(Arrays.toString(arr2));//[20, 30, 40]
+
+     //拷贝数组，指定数组长度
+     int[] arr3=Arrays.copyOf(arr,10);
+     System.out.println(Arrays.toString(arr3));//[10, 20, 30, 40, 50, 60, 0, 0, 0, 0]
+
+     //把数组的原数据改为新数组又存进去
+     //public static void setAll(double[] array, IntToDoubleFunction(接口) generator)
+     double[] prices={99.8,128,100};
+     Arrays.setAll(prices, new IntToDoubleFunction() {
+      @Override
+      public double applyAsDouble(int value) {
+       //value=0,1,2数组索引
+       return prices[value]*0.8;
+      }
+     });
+     System.out.println(Arrays.toString(prices));//[79.84, 102.4, 80.0]
+     
+     //对数组进行排序，默认升序
+     Arrays.sort(prices);
+     System.out.println(Arrays.toString(prices));//[79.84, 80.0, 102.4]
+    }
+}
+</code></pre>
+<p>存储的是对象如何排序？</p>
+<ul>
+<li>方法一：让该对象的类实现Comparable（比较规则）接口，重写compareTo方法，自己制定比较规则。</li>
+</ul>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args){
+     Student[] students = new Student[4];
+     students[0] = new Student(23,169.5,&quot;蜘蛛精&quot;);
+     students[1] = new Student(26,163.8,&quot;紫霞&quot;);
+     students[2] = new Student(26,163.8,&quot;紫霞&quot;);
+     students[3] = new Student(24,167.5,&quot;至尊宝&quot;);
+     Arrays.sort(students);
+     System.out.println(Arrays.toString(students));
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Student implements Comparable&lt;Student&gt; {
+    private String name;
+    private int age;
+    private double height;
+    //指定比较规则
+    //this o
+    @Override
+    public int compareTo(Student o) {
+        //如果左边对象大于右边对象，返回正整数
+        //如果左边对象小于右边对象，返回负整数
+        //如果左边对象等于右边对象，返回0
+        return this.age - o.age;//升序
+        //return o.age - this.age;//降序
+    }
+
+    @Override
+    public String toString() {
+        return &quot;Student{&quot; +
+                &quot;name='&quot; + name + '\'' +
+                &quot;, age=&quot; + age +
+                &quot;, height=&quot; + height +
+                '}';
+    }
+    ...
+</code></pre>
+<ul>
+<li>方法二：创建Comparator比较器接口的匿名内部类对象。</li>
+</ul>
+<pre><code class="language-java">Arrays.sort(students, new Comparator&lt;Student&gt;() {
+            @Override
+            public int compare(Student o1, Student o2) {
+                //左边对象o1，右边o2
+                //如果左边对象大于右边对象，返回正整数
+                //如果左边对象小于右边对象，返回负整数
+                //如果左边对象等于右边对象，返回0
+                return Double.compare(o1.getHeight(), o2.getHeight());//升序
+            }
+});
+System.out.println(Arrays.toString(students));
+</code></pre>
+<h1 id="lambda"><strong>Lambda</strong></h1>
+<p>用于简化匿名内部类的代码写法。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args){
+        //Lambda表达式只能简化函数式接口的匿名内部类
+        //有且只有一个抽象方法的接口
+        /*Swimming s=new Swimming() {
+            @Override
+            public void swim() {
+                System.out.println(&quot;学生快乐的游泳&quot;);
+            }
+        };*/
+        Swimming s=()-&gt;{
+            System.out.println(&quot;学生快乐的游泳&quot;);
+        };
+        s.swim();
+    }
+}
+@FunctionalInterface
+interface Swimming{
+    void swim();
+}
+</code></pre>
+<pre><code class="language-java">double[] prices={99.8,128,100};
+     Arrays.setAll(prices, new IntToDoubleFunction() {
+      @Override
+      public double applyAsDouble(int value) {
+       //value=0,1,2数组索引
+       return prices[value]*0.8;
+      }
+     });
+ double[] prices = {99.8, 128, 100};
+        Arrays.setAll(prices, (int value) -&gt; {
+            //value=0,1,2数组索引
+            return prices[value] * 0.8;
+        });
+</code></pre>
+<p>Lambda表达式的省略规则：</p>
+<ul>
+<li>参数类型可以不写。</li>
+</ul>
+<pre><code class="language-java">double[] prices = {99.8, 128, 100};
+        Arrays.setAll(prices, (value) -&gt; {
+            //value=0,1,2数组索引
+            return prices[value] * 0.8;
+        });
+</code></pre>
+<ul>
+<li>如果只有一个参数，参数类型可以省略，同时()可以省略。</li>
+</ul>
+<pre><code class="language-java">double[] prices = {99.8, 128, 100};
+        Arrays.setAll(prices, value -&gt; {
+            //value=0,1,2数组索引
+            return prices[value] * 0.8;
+        });
+</code></pre>
+<ul>
+<li>如果Lambda表达式中方法体代码只有一行代码，可以省略大括号不写，同时必须省略分号，此时，如果这行代码是return语句，也必须去掉return不写。</li>
+</ul>
+<pre><code class="language-java">double[] prices = {99.8, 128, 100};
+        Arrays.setAll(prices, value -&gt;  prices[value] * 0.8);
+</code></pre>
+<h1 id="方法引用"><strong>方法引用</strong></h1>
+<h2 id="静态方法引用"><strong>静态方法引用</strong></h2>
+<p>类名::静态方法<br>
+如果某个Lambda表达式只是调用一个静态方法，并且前后参数一致，就可以使用静态方法引用。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        Student[] students = new Student[4];
+        students[0] = new Student(23,169.5,&quot;蜘蛛精&quot;);
+        students[1] = new Student(26,163.8,&quot;紫霞&quot;);
+        students[2] = new Student(26,163.8,&quot;紫霞&quot;);
+        students[3] = new Student(24,167.5,&quot;至尊宝&quot;);
+        /*Arrays.sort(students, new Comparator&lt;Student&gt;() {
+            @Override
+            public int compare(Student o1, Student o2) {
+                //左边对象o1，右边o2
+                //如果左边对象大于右边对象，返回正整数
+                //如果左边对象小于右边对象，返回负整数
+                //如果左边对象等于右边对象，返回0
+                return o1.getAge()-o2.getAge();//升序
+            }
+        });*/
+        //Arrays.sort(students, ( o1, o2) -&gt; o1.getAge()-o2.getAge());
+        //Arrays.sort(students, ( o1, o2) -&gt; CompareByData.compareByAge(o1, o2));
+        Arrays.sort(students, CompareByData::compareByAge);
+    }
+}
+public class CompareByData {
+    public static int compareByAge(Student o1, Student o2) {
+        return o1.getAge()-o2.getAge();
+    }
+}
+</code></pre>
+<h2 id="实例方法引用"><strong>实例方法引用</strong></h2>
+<p>对象名::实例方法<br>
+如果某个Lambda表达式只是调用一个实例方法，并且前后参数一致，就可以使用实例方法引用。</p>
+<pre><code class="language-java"> CompareByData compare=new CompareByData();
+//Arrays.sort(students, ( o1, o2) -&gt; compare.compareByAgeDesc(o1, o2);
+Arrays.sort(students, compare::compareByAgeDesc);
+</code></pre>
+<pre><code class="language-java">public class CompareByData {
+    public int compareByAgeDesc(Student o1, Student o2) {
+        return o2.getAge()-o1.getAge();
+    }
+}
+</code></pre>
+<h2 id="特定类型方法的引用"><strong>特定类型方法的引用</strong></h2>
+<p>类型::方法<br>
+如果某个Lambda表达式只是调用一个实例方法，并且前面参数列表中的第一个参数是作为方法的主调，后面所有参数都是作为该实例方法的入参的，则此时就可以使用特定类型的方法引用。</p>
+<pre><code class="language-java">public class Test2 {
+    public static void main(String[] args) {
+        String[] names={&quot;body&quot;,&quot;angela&quot;,&quot;Andy&quot;,&quot;dlei&quot;,&quot;caocao&quot;,&quot;Babo&quot;,&quot;jack&quot;,&quot;Cici&quot;};
+        //默认按照字符串的首字符编号进行升序排序
+        //Arrays.sort(names);
+        /*Arrays.sort(names,new Comparator&lt;String&gt;() {
+            @Override
+            public int compare(String o1, String o2) {
+                //官方方法：忽略大小写进行字符串排序
+                return o1.compareToIgnoreCase(o2);
+            }
+        });*/
+        //Arrays.sort(names,(o1,  o2) -&gt; o1.compareToIgnoreCase(o2));
+        Arrays.sort(names,String::compareToIgnoreCase);
+        System.out.println(Arrays.toString(names));
+    }
+}
+</code></pre>
+<h2 id="构造器引用"><strong>构造器引用</strong></h2>
+<p>类名::new<br>
+如果某个lambda表达式只是在创建对象，并且前后参数一致，就可以使用构造器引用。</p>
+<pre><code class="language-java">public class Test2 {
+    public static void main(String[] args) {
+        /*CreateCar cc=new CreateCar() {
+            @Override
+            public Car create(String name, double price) {
+                return new Car(name, price);
+            }
+        };*/
+        //CreateCar cc=(name, price) -&gt; new Car(name, price);
+        CreateCar cc=Car::new;
+        
+        Car c=cc.create(&quot;奔驰&quot;,49.9);
+        System.out.println(c);
+    }
+}
+interface CreateCar {
+    Car create(String name,double price);
+}
+</code></pre>
+<pre><code class="language-java">public class Car {
+    private String name;
+    private double price;
+    ...
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#arrays"><strong>Arrays</strong></a></li>
+<li><a href="#lambda"><strong>Lambda</strong></a></li>
+<li><a href="#%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8"><strong>方法引用</strong></a>
+<ul>
+<li><a href="#%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8"><strong>静态方法引用</strong></a></li>
+<li><a href="#%E5%AE%9E%E4%BE%8B%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8"><strong>实例方法引用</strong></a></li>
+<li><a href="#%E7%89%B9%E5%AE%9A%E7%B1%BB%E5%9E%8B%E6%96%B9%E6%B3%95%E7%9A%84%E5%BC%95%E7%94%A8"><strong>特定类型方法的引用</strong></a></li>
+<li><a href="#%E6%9E%84%E9%80%A0%E5%99%A8%E5%BC%95%E7%94%A8"><strong>构造器引用</strong></a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://yyss1014.github.io/post/chang-jian-apisi/">
+              <h3 class="post-title">
+                常见API（四）
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://yyss1014.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

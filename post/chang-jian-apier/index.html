@@ -1,0 +1,629 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>常见API（二） | WASD研究院</title>
+<link rel="shortcut icon" href="https://yyss1014.github.io/favicon.ico?v=1751633121752">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://yyss1014.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="常见API（二） | WASD研究院 - Atom Feed" href="https://yyss1014.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+Object
+
+toString()、equals()
+clone()
+
+
+Objects
+
+equals、isNull、nonNull
+
+
+包装类
+
+包装类的其他操作
+
+
+StringBuilder和StringBuffer
+
+Stri..." />
+    <meta name="keywords" content="JavaSE" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yyss1014.github.io">
+  <img class="avatar" src="https://yyss1014.github.io/images/avatar.png?v=1751633121752" alt="">
+  </a>
+  <h1 class="site-title">
+    WASD研究院
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/archives" class="menu">
+          目录
+        </a>
+      
+    
+      
+        <a href="/" class="menu">
+          文章
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          分类
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              常见API（二）
+            </h2>
+            <div class="post-info">
+              <span>
+                2025-03-11
+              </span>
+              <span>
+                9 min read
+              </span>
+              
+                <a href="https://yyss1014.github.io/tag/xcf3bLryi2/" class="post-tag">
+                  # JavaSE
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p><ul class="markdownIt-TOC">
+<li><a href="#object"><strong>Object</strong></a>
+<ul>
+<li><a href="#tostring-equals"><strong>toString()、equals()</strong></a></li>
+<li><a href="#clone"><strong>clone()</strong></a></li>
+</ul>
+</li>
+<li><a href="#objects"><strong>Objects</strong></a>
+<ul>
+<li><a href="#equals-isnull-nonnull"><strong>equals、isNull、nonNull</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E5%8C%85%E8%A3%85%E7%B1%BB"><strong>包装类</strong></a>
+<ul>
+<li><a href="#%E5%8C%85%E8%A3%85%E7%B1%BB%E7%9A%84%E5%85%B6%E4%BB%96%E6%93%8D%E4%BD%9C"><strong>包装类的其他操作</strong></a></li>
+</ul>
+</li>
+<li><a href="#stringbuilder%E5%92%8Cstringbuffer"><strong>StringBuilder和StringBuffer</strong></a>
+<ul>
+<li><a href="#stringbuilder"><strong>StringBuilder</strong></a></li>
+<li><a href="#%E6%A1%88%E4%BE%8B"><strong>案例</strong></a></li>
+<li><a href="#stringbuffer"><strong>StringBuffer</strong></a></li>
+</ul>
+</li>
+<li><a href="#stringjoiner"><strong>StringJoiner</strong></a></li>
+</ul>
+</p>
+<h1 id="object"><strong>Object</strong></h1>
+<h2 id="tostring-equals"><strong>toString()、equals()</strong></h2>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        Student s1 = new Student(&quot;赵敏&quot;,23);
+        System.out.println(s1.toString());//没重写前返回对象的字符串表示形式
+        System.out.println(s1);
+
+        Student s2 = new Student(&quot;赵敏&quot;,23);
+        System.out.println(s2.equals(s1));//没重写前判断两个对象地址是否相等，形同于s1==s2
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Student {
+    private String name;
+    private int age;
+
+    public Student() {
+    }
+    //比较两个对象，内容一样就返回true
+    @Override
+    public boolean equals(Object o) {
+        //判断o是null直接返回false，或者比较者的类型与被比较者的类型不一样，返回false
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return this.age == student.age &amp;&amp; Objects.equals(this.name, student.name);
+    }
+
+    @Override
+    public String toString() {
+        return &quot;Student{&quot; +
+                &quot;name='&quot; + name + '\'' +
+                &quot;, age=&quot; + age +
+                '}';
+    }
+    ···
+</code></pre>
+<h2 id="clone"><strong>clone()</strong></h2>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws CloneNotSupportedException {
+        //protected object clone()
+        User u1=new User(1,&quot;张三&quot;,&quot;w666&quot;,new double[]{99.0,99.5});
+        System.out.println(u1.getId());
+        System.out.println(u1.getUsername());
+        System.out.println(u1.getPassword());
+        System.out.println(u1.getScores());//[D@3b07d329
+        //数组拷贝的是地址，浅克隆
+        User u2= (User) u1.clone();//Alt+Enter
+        System.out.println(u2.getId());
+        System.out.println(u2.getUsername());
+        System.out.println(u2.getPassword());
+        System.out.println(u2.getScores());//[D@3b07d329
+        System.out.println(u1==u2);//false
+    }
+}
+</code></pre>
+<pre><code class="language-java">//Cloneable为空，是一个标记接口
+//规则
+public class User implements Cloneable{
+    private int id;
+    private String username;
+    private String password;
+    private double[] scores;
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        //super调用父类Object中的clone方法
+        return super.clone();
+    }
+    ···
+</code></pre>
+<p>浅克隆：拷贝出的新对象，与原数据一摸一样（引用对象拷贝的是地址）。<br>
+深克隆：对象中的基本数据类型的数据直接拷贝，字符串数据拷贝的还是地址（字符串常量池），对象中包含的其他对象不会拷贝地址，会创建新对象。</p>
+<pre><code class="language-java">@Override
+    protected Object clone() throws CloneNotSupportedException {
+        //super调用父类Object中的clone方法
+        User u2 = (User) super.clone();//数组本身是对象，存储和拷贝的是对数组的引用
+        u2.scores=u2.scores.clone();//数组对象中都是基本类型数据
+        return u2;
+    }
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws CloneNotSupportedException {
+        //protected object clone()
+        User u1=new User(1,&quot;张三&quot;,&quot;w666&quot;,new double[]{99.0,99.5});
+        System.out.println(u1.getId());
+        System.out.println(u1.getUsername());
+        System.out.println(u1.getPassword());
+        System.out.println(u1.getScores());//[D@3b07d329
+        //数组拷贝的是地址
+        User u2= (User) u1.clone();//Alt+Enter
+        System.out.println(u2.getId());
+        System.out.println(u2.getUsername());
+        System.out.println(u2.getPassword());
+        System.out.println(u2.getScores());//[D@41629346
+        System.out.println(u1==u2);//false
+    }
+}
+</code></pre>
+<h1 id="objects"><strong>Objects</strong></h1>
+<h2 id="equals-isnull-nonnull"><strong>equals、isNull、nonNull</strong></h2>
+<p>Objects.equals():</p>
+<pre><code class="language-java"> public boolean equals(Object anObject) {
+        if (this == anObject) {
+            return true;
+        }
+        return (anObject instanceof String aString)
+                &amp;&amp; (!COMPACT_STRINGS || this.coder == aString.coder)
+                &amp;&amp; StringLatin1.equals(value, aString.value);
+    }
+</code></pre>
+<pre><code class="language-java">String s1=&quot;abc&quot;;
+        String s2=&quot;abc&quot;;
+        System.out.println(s1.equals(s2));//Object方法
+        System.out.println(Objects.equals(s1, s2));//Objects静态方法
+
+        String s3=null;
+        //System.out.println(s3.equals(s1));会报错
+        System.out.println(Objects.equals(s1, s3));
+</code></pre>
+<p>Objects.isNull():</p>
+<pre><code class="language-java">public static boolean isNull(Object obj) {
+        return obj == null;
+    }
+</code></pre>
+<p>Objects.nonNull():</p>
+<pre><code class="language-java">public static boolean nonNull(Object obj) {
+        return obj != null;
+    }
+</code></pre>
+<h1 id="包装类"><strong>包装类</strong></h1>
+<p>包装类就是把基本的数据类型包装成对象。</p>
+<table>
+<thead>
+<tr>
+<th>基本类型数据包装成对象的方案</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>public Integer(int value) <font color=red>已过时</font></td>
+</tr>
+<tr>
+<td>public static Integer valueOf(int i)</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args){
+        //Integer a1=new Integer(12);
+        Integer a2=Integer.valueOf(12);
+        System.out.println(a2);//12
+        //自动装箱：可以把基本类型的数据转换为对象
+        Integer a3=12;
+        //自动拆箱：可以自动把包装类型的对象转换成基本的数据类型
+        int a4=a3;
+        //泛型和集合不支持基本数据类型，只能支持引用数据类型
+        //ArrayList&lt;int&gt; list=new ArrayList&lt;&gt;();
+        ArrayList&lt;Integer&gt; list=new ArrayList&lt;&gt;();
+        list.add(12);//自动装箱
+        int rs= list.get(0);//自动拆箱
+    }
+}
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>基本数据类型</th>
+<th>对应的包装类</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>byte</td>
+<td>Byte</td>
+</tr>
+<tr>
+<td>short</td>
+<td>Short</td>
+</tr>
+<tr>
+<td>int</td>
+<td>Integer</td>
+</tr>
+<tr>
+<td>long</td>
+<td>Long</td>
+</tr>
+<tr>
+<td>char</td>
+<td>Character</td>
+</tr>
+<tr>
+<td>float</td>
+<td>Float</td>
+</tr>
+<tr>
+<td>double</td>
+<td>Double</td>
+</tr>
+<tr>
+<td>boolean</td>
+<td>Boolean</td>
+</tr>
+</tbody>
+</table>
+<h2 id="包装类的其他操作"><strong>包装类的其他操作</strong></h2>
+<ul>
+<li>可以把基本类型数据转换为字符串。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>public static String toString(double d)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>public String toString()</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>可以把字符串类型的数值转换成数值本身对应的字符串类型。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>public static int parseInt(String s)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>public static Integer valueOf(String s)</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args){
+        //把基本类型数据转换成字符串
+        Integer a=23;
+        String rs1=Integer.toString(a);//&quot;23&quot;
+        System.out.println(rs1+1);
+
+        String rs2=a.toString();
+        System.out.println(rs2+1);
+
+        String rs3=a+&quot;&quot;;
+        System.out.println(rs3+1);
+        //把字符串类型的数值转换成基本的数据类型
+        String ageStr=&quot;29&quot;;
+        //int ageI=Integer.parseInt(ageStr);
+        int ageI=Integer.valueOf(ageStr);//不是对应的数值类型会出bug，例如小数或字母都不行
+        System.out.println(ageI+1);//30
+
+        String scoreStr=&quot;99.5&quot;;
+        //double score=Double.parseDouble(scoreStr);
+        double score=Double.valueOf(scoreStr);
+        System.out.println(score+0.5);//100
+    }
+}
+</code></pre>
+<h1 id="stringbuilder和stringbuffer"><strong>StringBuilder和StringBuffer</strong></h1>
+<h2 id="stringbuilder"><strong>StringBuilder</strong></h2>
+<p>StringBuilder代表可变字符串对象，相当于是一个容器，里面装的字符串是可以改变的，就是用来操作字符串的。</p>
+<table>
+<thead>
+<tr>
+<th>构造器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>public StringBuilder()</td>
+<td>创建一个空白的字符串对象，不包含任何内容</td>
+</tr>
+<tr>
+<td>public StringBuilder(String str)</td>
+<td>创建一个指定字符串内容的可变字符串对象</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>拼接内容</li>
+</ol>
+<pre><code class="language-java">StringBuilder s=new StringBuilder(&quot;ithema&quot;);
+s.append(12);
+s.append(&quot;true&quot;);
+System.out.println(s);//ithema12true
+//支持链式编程
+s.append('a').append(666);
+System.out.println(s);//ithema12truea666
+</code></pre>
+<ol start="2">
+<li>反转操作</li>
+</ol>
+<pre><code class="language-java">s.reverse();
+System.out.println(s);//666aeurt21amehti
+</code></pre>
+<ol start="3">
+<li>返回字符串长度</li>
+</ol>
+<pre><code class="language-java">System.out.println(s.length());
+</code></pre>
+<ol start="4">
+<li>转换回String类型</li>
+</ol>
+<pre><code class="language-java">String rs = s.toString();
+System.out.println(rs);
+</code></pre>
+<p>StringBuilder比String更适合做字符串的修改拼接操作，效率会更高，代码也会更简洁。</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args){
+        StringBuilder sb=new StringBuilder();
+        for (int i = 0; i &lt; 1000000; i++) {
+            sb.append(&quot;abc&quot;);
+        }
+        System.out.println(sb);//速度很快
+    }
+}
+</code></pre>
+<h2 id="案例"><strong>案例</strong></h2>
+<p>返回任意整型数组的内容</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args){
+        System.out.println(getArrayData(new int[]{11, 22, 33}));
+    }
+    public static String getArrayData(int[] arr){
+        if(arr == null){
+            return null;
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(&quot;[&quot;);
+        for (int i = 0; i &lt; arr.length; i++) {
+            if (i == arr.length - 1) {
+                sb.append(arr[i]);
+            }else {
+                sb.append(arr[i]).append(&quot;,&quot;);
+            }
+        }
+        sb.append(&quot;]&quot;);
+        return sb.toString();
+    }
+}
+</code></pre>
+<h2 id="stringbuffer"><strong>StringBuffer</strong></h2>
+<p>用法和StringBuilder一样，但StringBuffer是线程安全的，StringBuilder线程不安全。</p>
+<h1 id="stringjoiner"><strong>StringJoiner</strong></h1>
+<p>JDK8才有，和StringBuilder一样，相当于是一个容器，里面装的字符串是可以改变的。<br>
+不仅能提高字符串的操作效率，有些场景下用它操作字符串，代码会更加简洁。</p>
+<table>
+<thead>
+<tr>
+<th>构造器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>public StringJoiner(间隔符号)</td>
+<td>创建一个StringJoiner对象，指定拼接时的间隔符号</td>
+</tr>
+<tr>
+<td>public StringJoiner(间隔符号，开始符号，结束符号)</td>
+<td>创建一个StringJoiner对象，指定拼接时的间隔符号，开始符号，结束符号</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args){
+        StringJoiner s = new StringJoiner(&quot;,&quot;,&quot;[&quot;,&quot;]&quot;);
+        s.add(&quot;a&quot;);
+        s.add(&quot;b&quot;);
+        s.add(&quot;c&quot;);//只能拼接字符串
+        System.out.println(s);//[a,b,c]
+    }
+    public static String getArrayData(int[] arr) {
+        if (arr == null) {
+            return null;
+        }
+        StringJoiner s = new StringJoiner(&quot;,&quot;, &quot;[&quot;, &quot;]&quot;);
+        for (int i = 0; i &lt; arr.length; i++) {
+            s.add(arr[i] + &quot;&quot;);
+        }
+        return s.toString();
+    }
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#object"><strong>Object</strong></a>
+<ul>
+<li><a href="#tostring-equals"><strong>toString()、equals()</strong></a></li>
+<li><a href="#clone"><strong>clone()</strong></a></li>
+</ul>
+</li>
+<li><a href="#objects"><strong>Objects</strong></a>
+<ul>
+<li><a href="#equals-isnull-nonnull"><strong>equals、isNull、nonNull</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E5%8C%85%E8%A3%85%E7%B1%BB"><strong>包装类</strong></a>
+<ul>
+<li><a href="#%E5%8C%85%E8%A3%85%E7%B1%BB%E7%9A%84%E5%85%B6%E4%BB%96%E6%93%8D%E4%BD%9C"><strong>包装类的其他操作</strong></a></li>
+</ul>
+</li>
+<li><a href="#stringbuilder%E5%92%8Cstringbuffer"><strong>StringBuilder和StringBuffer</strong></a>
+<ul>
+<li><a href="#stringbuilder"><strong>StringBuilder</strong></a></li>
+<li><a href="#%E6%A1%88%E4%BE%8B"><strong>案例</strong></a></li>
+<li><a href="#stringbuffer"><strong>StringBuffer</strong></a></li>
+</ul>
+</li>
+<li><a href="#stringjoiner"><strong>StringJoiner</strong></a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://yyss1014.github.io/post/java-mian-xiang-dui-xiang-jin-jie/">
+              <h3 class="post-title">
+                Java面向对象进阶
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://yyss1014.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

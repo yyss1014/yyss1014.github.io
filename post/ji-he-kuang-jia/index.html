@@ -1,0 +1,825 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>集合框架：Collection | WASD研究院</title>
+<link rel="shortcut icon" href="https://yyss1014.github.io/favicon.ico?v=1751633121752">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://yyss1014.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="集合框架：Collection | WASD研究院 - Atom Feed" href="https://yyss1014.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+常用方法
+遍历方式
+
+迭代器
+增强for循环
+Lambda表达式
+案例：遍历集合中的自定义对象
+
+
+List集合
+
+List集合的遍历方式
+底层原理
+
+
+Set
+
+HashSet
+LinkedHashSet
+TreeSet
+
+
+集合并发修..." />
+    <meta name="keywords" content="JavaSE" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yyss1014.github.io">
+  <img class="avatar" src="https://yyss1014.github.io/images/avatar.png?v=1751633121752" alt="">
+  </a>
+  <h1 class="site-title">
+    WASD研究院
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/archives" class="menu">
+          目录
+        </a>
+      
+    
+      
+        <a href="/" class="menu">
+          文章
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          分类
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              集合框架：Collection
+            </h2>
+            <div class="post-info">
+              <span>
+                2025-03-17
+              </span>
+              <span>
+                19 min read
+              </span>
+              
+                <a href="https://yyss1014.github.io/tag/xcf3bLryi2/" class="post-tag">
+                  # JavaSE
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p><ul class="markdownIt-TOC">
+<li><a href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><strong>常用方法</strong></a></li>
+<li><a href="#%E9%81%8D%E5%8E%86%E6%96%B9%E5%BC%8F"><strong>遍历方式</strong></a>
+<ul>
+<li><a href="#%E8%BF%AD%E4%BB%A3%E5%99%A8"><strong>迭代器</strong></a></li>
+<li><a href="#%E5%A2%9E%E5%BC%BAfor%E5%BE%AA%E7%8E%AF"><strong>增强for循环</strong></a></li>
+<li><a href="#lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F"><strong>Lambda表达式</strong></a></li>
+<li><a href="#%E6%A1%88%E4%BE%8B%E9%81%8D%E5%8E%86%E9%9B%86%E5%90%88%E4%B8%AD%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AF%B9%E8%B1%A1"><strong>案例：遍历集合中的自定义对象</strong></a></li>
+</ul>
+</li>
+<li><a href="#list%E9%9B%86%E5%90%88"><strong>List集合</strong></a>
+<ul>
+<li><a href="#list%E9%9B%86%E5%90%88%E7%9A%84%E9%81%8D%E5%8E%86%E6%96%B9%E5%BC%8F"><strong>List集合的遍历方式</strong></a></li>
+<li><a href="#%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86"><strong>底层原理</strong></a></li>
+</ul>
+</li>
+<li><a href="#set"><strong>Set</strong></a>
+<ul>
+<li><a href="#hashset"><strong>HashSet</strong></a></li>
+<li><a href="#linkedhashset"><strong>LinkedHashSet</strong></a></li>
+<li><a href="#treeset"><strong>TreeSet</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E9%9B%86%E5%90%88%E5%B9%B6%E5%8F%91%E4%BF%AE%E6%94%B9%E5%BC%82%E5%B8%B8%E9%97%AE%E9%A2%98"><strong>集合并发修改异常问题</strong></a></li>
+<li><a href="#%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86"><strong>相关知识</strong></a>
+<ul>
+<li><a href="#%E5%8F%AF%E5%8F%98%E5%8F%82%E6%95%B0"><strong>可变参数</strong></a></li>
+<li><a href="#collections"><strong>Collections</strong></a></li>
+<li><a href="#%E6%A1%88%E4%BE%8B%E6%96%97%E5%9C%B0%E4%B8%BB"><strong>案例：斗地主</strong></a></li>
+</ul>
+</li>
+</ul>
+<br>
+单列集合<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250317191726.png" alt="" loading="lazy"></p>
+<ul>
+<li>List系列集合：添加的元素是有序（存储和取出元素的顺序是一样的）、可重复、有索引。
+<ul>
+<li>ArrayList、LinekdList：有序、可重复、有索引。</li>
+</ul>
+</li>
+<li>Set系列集合：添加的元素是无序、不重复、无索引。
+<ul>
+<li>HashSet：无序、不重复、无索引。</li>
+<li>LinkedHashSet：无序、不重复、无索引。</li>
+<li>TreeSet：按照大小默认升序排列、不重复、无索引。</li>
+</ul>
+</li>
+</ul>
+<h1 id="常用方法"><strong>常用方法</strong></h1>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args){
+        Collection&lt;String&gt; c=new ArrayList&lt;&gt;();
+        c.add(&quot;a&quot;);
+        c.add(&quot;a&quot;);
+        c.add(&quot;b&quot;);
+        c.add(&quot;b&quot;);
+        c.add(&quot;c&quot;);
+        System.out.println(c);//[a, a, b, b, c]
+        //清空集合的元素
+        //c.clear();
+        //System.out.println(c);
+        //判断集合是否为空
+        System.out.println(c.isEmpty());
+        //获取集合的大小
+        System.out.println(c.size());
+        //判断集合是否包含某些元素
+        System.out.println(c.contains(&quot;a&quot;));
+        //删除某个元素，多个重复元素默认删除第一个
+        System.out.println(c.remove(&quot;a&quot;));
+        //把集合元素转成数组
+        Object[] arr=c.toArray();
+        System.out.println(Arrays.toString(arr));
+        String[] arr2=c.toArray(new String[c.size()]);
+        System.out.println(Arrays.toString(arr2));
+        System.out.println(&quot;------------------------&quot;);
+        Collection&lt;String&gt; c1=new ArrayList&lt;&gt;();
+        c1.add(&quot;a&quot;);
+        c1.add(&quot;b&quot;);
+        Collection&lt;String&gt; c2=new ArrayList&lt;&gt;();
+        c2.add(&quot;c&quot;);
+        c2.add(&quot;d&quot;);
+        c1.addAll(c2);//把c2集合的全部数据倒入到c1集合中
+        System.out.println(c1);//[a, b, c, d]
+        System.out.println(c2);//[c, d]
+
+    }
+}
+</code></pre>
+<h1 id="遍历方式"><strong>遍历方式</strong></h1>
+<h2 id="迭代器"><strong>迭代器</strong></h2>
+<p>迭代器是用来遍历集合的专用方式，java中迭代器的代表是Iterator。</p>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args){
+        Collection&lt;String&gt; c=new ArrayList&lt;&gt;();
+        c.add(&quot;赵敏&quot;);
+        c.add(&quot;小昭&quot;);
+        c.add(&quot;素素&quot;);
+        c.add(&quot;灭绝&quot;);
+        System.out.println(c);
+        //从集合中获取迭代器对象
+        Iterator&lt;String&gt; it=c.iterator();//相当于索引指针
+        System.out.println(it.next());
+        System.out.println(it.next());
+        System.out.println(it.next());
+        System.out.println(it.next());
+        //System.out.println(it.next());//报错
+
+        //使用循环结合迭代器
+        //hasNext()判断当前位置是否有元素存在，存在返回true，不存在返回false
+        while(it.hasNext()){
+            System.out.println(it.next());
+        }
+    }
+}
+</code></pre>
+<h2 id="增强for循环"><strong>增强for循环</strong></h2>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args){
+        Collection&lt;String&gt; c=new ArrayList&lt;&gt;();
+        c.add(&quot;赵敏&quot;);
+        c.add(&quot;小昭&quot;);
+        c.add(&quot;素素&quot;);
+        c.add(&quot;灭绝&quot;);
+        System.out.println(c);
+        for(String s:c){
+            System.out.println(s);
+        }
+        String[] names={&quot;迪丽热巴&quot;,&quot;古力娜扎&quot;,&quot;嘻嘻哈哈&quot;};
+        for(String s:names){
+            System.out.println(s);
+        }
+    }
+}
+</code></pre>
+<h2 id="lambda表达式"><strong>Lambda表达式</strong></h2>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args){
+        Collection&lt;String&gt; c=new ArrayList&lt;&gt;();
+        c.add(&quot;赵敏&quot;);
+        c.add(&quot;小昭&quot;);
+        c.add(&quot;素素&quot;);
+        c.add(&quot;灭绝&quot;);
+        System.out.println(c);
+        //default void forEach(Consumer&lt;? super T&gt; action):结合Lambda表达式遍历集合
+        /*default void forEach(Consumer&lt;? super T&gt; action) {
+            Objects.requireNonNull(action);
+            for (T t : this) {//this指的是c
+                action.accept(t);
+            }
+        }*/
+        /*c.forEach(new Consumer&lt;String&gt;() {
+            @Override
+            public void accept(String s) {
+                System.out.println(s);
+            }
+        });
+        c.forEach( s -&gt; System.out.println(s));*/
+        c.forEach( System.out::println);
+    }
+}
+</code></pre>
+<h2 id="案例遍历集合中的自定义对象"><strong>案例：遍历集合中的自定义对象</strong></h2>
+<pre><code class="language-java">/**
+ *       目标：完成电影信息的展示。
+ *       new Movie(&quot;《肖生克的救赎》&quot; , 9.7 ,  &quot;罗宾斯&quot;)
+ *       new Movie(&quot;《霸王别姬》&quot; , 9.6 ,  &quot;张国荣、张丰毅&quot;)
+ *       new Movie(&quot;《阿甘正传》&quot; , 9.5 ,  &quot;汤姆.汉克斯&quot;)
+ */
+public class RegexTest1 {
+    public static void main(String[] args) {
+        Collection&lt;Movie&gt; movies = new ArrayList&lt;&gt;();
+        movies.add(new Movie(&quot;《肖生克的救赎》&quot;, 9.7, &quot;罗宾斯&quot;));
+        movies.add(new Movie(&quot;《霸王别姬》&quot;, 9.6, &quot;张国荣、张丰毅&quot;));
+        movies.add(new Movie(&quot;《阿甘正传》&quot;, 9.5, &quot;汤姆.汉克斯&quot;));
+        System.out.println(movies);
+        //movies.for+enter
+        for (Movie movie : movies) {
+            System.out.println(&quot;电影名字：&quot;+movie.getName());
+            System.out.println(&quot;评分：&quot;+movie.getScore());
+            System.out.println(&quot;主演：&quot;+movie.getActor());
+        }
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Movie {
+    private String name;
+    private double score;
+    private String actor;
+    ...
+</code></pre>
+<h1 id="list集合"><strong>List集合</strong></h1>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+        //List是接口
+        List&lt;String&gt; list = new ArrayList&lt;&gt;();//经典代码
+        list.add(&quot;a&quot;);
+        list.add(&quot;b&quot;);
+        list.add(&quot;b&quot;);
+        list.add(&quot;c&quot;);
+        System.out.println(list);//[a, b, b, c]
+        //在某个索引位置插入元素
+        list.add(2,&quot;d&quot;);
+        System.out.println(list);//[a, b, d, b, c]
+        //根据索引删除元素，返回被删除元素
+        System.out.println(list.remove(2));
+        //返回集合中指定位置的元素
+        System.out.println(list.get(3));
+        //修改索引位置处的元素，修改成功后会返回原来的数据
+        System.out.println(list.set(3,&quot;e&quot;));
+        System.out.println(list);
+    }
+}
+</code></pre>
+<h2 id="list集合的遍历方式"><strong>List集合的遍历方式</strong></h2>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+        List&lt;String&gt; list = new ArrayList&lt;&gt;();//经典代码
+        list.add(&quot;a&quot;);
+        list.add(&quot;b&quot;);
+        list.add(&quot;c&quot;);
+        //for循环
+        for (int i = 0; i &lt; list.size(); i++) {
+            String s = list.get(i);
+            System.out.println(s);
+        }
+        //迭代器
+        Iterator&lt;String&gt; it=list.iterator();
+        while (it.hasNext()) {
+            System.out.println(it.next());
+        }
+        //增强for循环
+        for (String s : list) {
+            System.out.println(s);
+        }
+        //Lambda
+        list.forEach(System.out::println);
+    }
+}
+</code></pre>
+<h2 id="底层原理"><strong>底层原理</strong></h2>
+<ul>
+<li>Arraylist：基于数组实现的（查询快，增删慢）。
+<ul>
+<li>利用无参构造器创建的集合，会在底层创建一个长度为0的数组。</li>
+<li>添加第一个元素时，底层会创建一个新的长度为10的数组。</li>
+<li>存满时，会扩容1.5倍。</li>
+<li>如果一次添加多个元素，1.5倍还放不下，则新创建数组长度以实际为准。</li>
+</ul>
+</li>
+<li>LinkedList：基于双链表（记录前一个结点和下一个结点位置）实现的（查询慢，增删快，相对单向链表查询更快，对首尾结点增删改查非常快）。
+<ul>
+<li>新增很多首尾操作的特有办法。</li>
+<li>队列（先进先出，后进后出）：</li>
+</ul>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+    //创建一个队列，不要用多态，没有首尾操作特有方法
+        LinkedList&lt;String&gt; queue = new LinkedList&lt;&gt;();
+        queue.addLast(&quot;第1号人&quot;);
+        queue.addLast(&quot;第2号人&quot;);
+        queue.addLast(&quot;第3号人&quot;);
+        queue.addLast(&quot;第4号人&quot;);
+        System.out.println(queue);
+        //出队
+        System.out.println(queue.removeFirst());//第1号人
+        System.out.println(queue.removeFirst());//第2号人
+        System.out.println(queue.removeFirst());//第3号人
+        System.out.println(queue);//[第4号人]
+    }
+}
+</code></pre>
+<ul>
+<li>栈（后进先出，先进后出）：</li>
+</ul>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+    //创建一个栈
+        LinkedList&lt;String&gt; stack = new LinkedList&lt;&gt;();
+        //压栈（进栈，push）
+        //push()调用的就是addFirst
+        stack.addFirst(&quot;第1颗子弹&quot;);
+        stack.addFirst(&quot;第2颗子弹&quot;);
+        stack.addFirst(&quot;第3颗子弹&quot;);
+        stack.addFirst(&quot;第4颗子弹&quot;);
+        System.out.println(stack);//[第4颗子弹, 第3颗子弹, 第2颗子弹, 第1颗子弹]
+        //出栈（pop）
+        //pop()调用的就是removeFirst()
+        System.out.println(stack.removeFirst());
+        System.out.println(stack.removeFirst());
+        System.out.println(stack);//[第2颗子弹, 第1颗子弹]
+    }
+}
+</code></pre>
+</li>
+</ul>
+<h1 id="set"><strong>Set</strong></h1>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+        //Set是一个接口
+        //无序、不重复、无索引
+        // Set&lt;Integer&gt; set = new HashSet&lt;&gt;();//一行经典代码，[1, 2, 3, 4]，无序指的不是随机的顺序
+        //有序、不重复、无索引
+        //Set&lt;Integer&gt; set = new LinkedHashSet&lt;&gt;();//[2, 1, 3, 4]
+        //可排序（升序）、不重复、无索引
+        Set&lt;Integer&gt; set = new TreeSet&lt;&gt;();//[1, 2, 3, 4]
+        set.add(2);
+        set.add(1);
+        set.add(1);
+        set.add(3);
+        set.add(3);
+        set.add(4);
+        set.add(4);
+        System.out.println(set);
+    }
+}
+</code></pre>
+<h2 id="hashset"><strong>HashSet</strong></h2>
+<ul>
+<li>哈希值：
+<ul>
+<li>就是一个int类型的数值，java中每一个对象都有一个哈希值。</li>
+<li>java中的所有对象，都可以调用Object类提供的hashCode方法，返回对象自己的哈希值。</li>
+</ul>
+</li>
+<li>哈希值的特点：
+<ul>
+<li>同一个对象多次调用hashCode方法返回的哈希值是相同的。</li>
+<li>不同的对象哈希值一般不相同，但也可能会相同（哈希碰撞）。</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+        Student s1 = new Student(&quot;蜘蛛精&quot;,25, 169.5);
+        Student s2 = new Student(&quot;紫霞&quot;,22, 166.5);
+        System.out.println(s1.hashCode());//990368553
+        System.out.println(s2.hashCode());//1096979270
+
+        String str1=new String(&quot;abc&quot;);
+        String str2=new String(&quot;acD&quot;);
+        System.out.println(str1.hashCode());//96354
+        System.out.println(str2.hashCode());//96354
+    }
+}
+</code></pre>
+<p>HashSet基于哈希表实现，增删改查性能都很好，JDK8开始，哈希表=数组+链表+红黑树。JDK8之前，哈希表=数组+链表。步骤如下：</p>
+<ol>
+<li>创建一个默认长度为16的数组，默认加载因子为0.75，数组名为table</li>
+<li>使用元素的哈希值对数组长度求余计算出应存入的位置</li>
+<li>判断当前是否为null，如果是null直接存入</li>
+<li>如果不为null，表示有元素，则调用equals方法比较，相等则不存，不相等则存入数组
+<ol>
+<li>JDK8之前，新元素存入数组，占老元素位置，老元素挂在下面</li>
+<li>JDK8之后，新元素直接挂在老元素下面</li>
+</ol>
+</li>
+</ol>
+<p>  链表过长，导致查询性能降低，当数组中占满16*0.75=12个，数组就会扩容，规模大概是原来的两倍。JDK8开始，当链表长度超过8，且数组长度&gt;=64时，自动将链表转为红黑树。</p>
+<ul>
+<li>内容一样的两个类对象存入到HashSet集合中时，HashSet是不能去重复的。如果希望Set集合两个内容一样的对象是重复的，必须重写equals和hashCode方法。</li>
+</ul>
+<pre><code class="language-java">public class Student {
+    private String name;
+    private int age;
+    private double height;
+
+    //两个对象内容一样返回true
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return age == student.age &amp;&amp; Double.compare(height, student.height) == 0 &amp;&amp; Objects.equals(name, student.name);
+    }
+
+    //两个对象内容一样，返回的hash值一样
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, age, height);
+    }
+    ...
+</code></pre>
+<pre><code class="language-java">    public class RegexTest1 {
+    public static void main(String[] args) {
+        Set&lt;Student&gt; students = new HashSet&lt;&gt;();
+        Student s1 = new Student(&quot;至尊宝&quot;, 28, 169.6);
+        Student s2 = new Student(&quot;蜘蛛精&quot;, 23, 169.6);
+        Student s3 = new Student(&quot;蜘蛛精&quot;, 23, 169.6);
+        System.out.println(s2.hashCode());//573521603
+        System.out.println(s3.hashCode());//573521603
+        Student s4 = new Student(&quot;牛魔王&quot;, 48, 169.6);
+        students.add(s1);
+        students.add(s2);
+        students.add(s3);
+        students.add(s4);
+        System.out.println(students);
+    }
+}
+</code></pre>
+<h2 id="linkedhashset"><strong>LinkedHashSet</strong></h2>
+<p>底层原理依然是基于哈希表实现的，但每个元素都额外多了一个双链表机制记录它前后元素的位置。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250318200250.png" alt="" loading="lazy"></p>
+<h2 id="treeset"><strong>TreeSet</strong></h2>
+<p>底层是基于红黑树实现的排序。</p>
+<ul>
+<li>对于数值类型对象比如Double、Integer，按照数值本身大小进行升序排序。</li>
+<li>对于字符串类型，默认按照字符串首字母编号进行排序。</li>
+<li>对于自定义对象，默认无法直接排序。会报错，需要自定义排序规则。<br>
+方法一：实现Comparable接口，重写compareTo来指定比较规则，比较指标相等视为重复。</li>
+</ul>
+<pre><code class="language-java">public class Student implements Comparable&lt;Student&gt;{
+    private String name;
+    private int age;
+    private double height;
+
+    @Override
+    public int compareTo(Student o) {
+        return this.age - o.age;
+    }
+    ···
+</code></pre>
+<p>方法二：通过调用TreeSet集合有参数构造器，可以设置Comparator比较对象（比较器对象，用于制定比较规则）。两种方法中会优先选择自己自带的比较器对象进行排序。</p>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+        //public TreeSet(Comparator&lt;? super E&gt; comparator)
+        Set&lt;Student&gt; students = new TreeSet&lt;&gt;(new Comparator&lt;Student&gt;() {
+            @Override
+            public int compare(Student o1, Student o2) {
+                return Double.compare(o1.getHeight(), o2.getHeight());
+            }
+        });
+        students.add(new Student(&quot;蜘蛛精&quot;,23, 169.7));
+        students.add(new Student(&quot;紫霞&quot;,22, 169.8));
+        students.add(new Student(&quot;至尊宝&quot;,26, 165.5));
+        students.add(new Student(&quot;牛魔王&quot;,22, 183.5));
+        System.out.println(students);
+    }
+}
+</code></pre>
+<h1 id="集合并发修改异常问题"><strong>集合并发修改异常问题</strong></h1>
+<ul>
+<li>使用迭代器遍历集合时，又同时在删除集合中的数据，程序就会出现并发修改异常的错误。</li>
+<li>由于增强for循环遍历集合就是迭代器遍历集合的简化写法，因此，使用增强for循环遍历集合，又在同时删除集合中的数据时，程序也会出现并发修改异常的错误。</li>
+</ul>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+        List&lt;String&gt; list=new ArrayList&lt;&gt;();
+        list.add(&quot;王麻子&quot;);
+        list.add(&quot;小李子&quot;);
+        list.add(&quot;李爱花&quot;);
+        list.add(&quot;张全蛋&quot;);
+        list.add(&quot;晓李&quot;);
+        list.add(&quot;李玉刚&quot;);
+        System.out.println(list);//[王麻子, 小李子, 李爱花, 张全蛋, 晓李, 李玉刚]
+        //需求：找出集合中全部带李的名字，并从集合中删除
+        Iterator&lt;String&gt; it = list.iterator();
+        while (it.hasNext()) {
+            String name = it.next();
+            if(name.contains(&quot;李&quot;)){
+                //list.remove();//并发修改异常的错误
+                it.remove();//删除迭代器当前遍历到的数据，没删除一个数据后，指针回拨
+            }
+        }
+        System.out.println(list);
+    }
+}
+</code></pre>
+<ul>
+<li>可以使用迭代器自己的方法删除数据。</li>
+<li>使用for循环倒着遍历并删除；或者从前往后遍历，但删除元素后做i--操作。</li>
+</ul>
+<h1 id="相关知识"><strong>相关知识</strong></h1>
+<h2 id="可变参数"><strong>可变参数</strong></h2>
+<p>就是一种特殊形参，定义在方法、构造器的形参列表里，格式是：数据类型...数据名称;</p>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+        test();
+        test(10);//不传数据
+        test(10,20,30);
+        test(new int[]{10,20,30,40});
+    }
+    //在一个形参列表中，只有一个可变参数。
+    //可变参数必须在形参列表的最后面。
+    public static void test(int... nums) {
+        //可变参数在方法里，本身就是一个数组
+        System.out.println(nums.length);
+        System.out.println(Arrays.toString(nums));
+        System.out.println(&quot;--------------&quot;);
+    }
+}
+</code></pre>
+<h2 id="collections"><strong>Collections</strong></h2>
+<p>操作集合的工具类。</p>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+        //&lt;? super T&gt;下界通配符，在这里collection容器类型是T的父类，但具体类型编译器也不知道
+        //根据里氏替换原则，子类对象可以安全替换父类对象，容器可以安全插入T及其子类
+        // 读取的时候，编译器在不知道是什么类型的情况下只能返回Object对象，因为Object是任何Java类的最终祖先类。但这样的话，元素的类型信息就全部丢失了。
+        List&lt;Father&gt; fathers = new ArrayList&lt;&gt;();
+        List&lt;? super Son&gt; list = new ArrayList&lt;&gt;(fathers);
+        list.add(new Son());
+        //list.add(new Father());//报错
+        //public static &lt;T&gt; boolean addAll(Collection&lt;? super T&gt; c, T... elements)为集合批量添加数据
+        List&lt;String&gt; names = new ArrayList&lt;&gt;();
+        Collections.addAll(names, &quot;张三&quot;, &quot;李四&quot;, &quot;王五&quot;);
+        System.out.println(names);
+        //public static void shuffle(List&lt;?&gt; list):打乱list集合中的排序
+        Collections.shuffle(names);
+        System.out.println(names);
+        //public static &lt;T extends Comparable&lt;? super T&gt;&gt; void sort(List&lt;T&gt; list):对集合对象进行升序排序，可以自定义比较规则
+        List&lt;Integer&gt; list1=new ArrayList&lt;&gt;();
+        list1.add(3);
+        list1.add(5);
+        list1.add(2);
+        Collections.sort(list1);
+        System.out.println(list1);
+    }
+}
+class Son extends Father {}
+class Father{}
+</code></pre>
+<h2 id="案例斗地主"><strong>案例：斗地主</strong></h2>
+<ul>
+<li>在启动房间的时候，应该提前准备54张牌</li>
+<li>接着需要完成洗牌、发牌、对牌排序、看牌</li>
+</ul>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+        Room m = new Room();
+        //启动游戏
+        m.start();
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Room {
+    private List&lt;Card&gt; allCards = new ArrayList&lt;&gt;();
+    public Room() {
+        String[] numbers = {&quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;6&quot;, &quot;7&quot;, &quot;8&quot;, &quot;9&quot;, &quot;10&quot;, &quot;J&quot;, &quot;Q&quot;, &quot;K&quot;, &quot;A&quot;, &quot;2&quot;};
+        String[] colors = {&quot;♥&quot;, &quot;♠&quot;,&quot;♣&quot;,&quot;♦&quot;};
+        int size=0;
+        for (String number : numbers) {
+            size++;
+            for (String color : colors) {
+                Card card = new Card(number,color,size);
+                allCards.add(card);
+            }
+        }
+        Card c1 = new Card(&quot;&quot;,&quot;🤡&quot;,++size);
+        Card c2 = new Card(&quot;&quot;,&quot;🃏&quot;,++size);
+        Collections.addAll(allCards,c1,c2);
+        System.out.println(&quot;新牌&quot;+allCards);
+    }
+
+    public void start() {
+        Collections.shuffle(allCards);
+        System.out.println(&quot;洗牌后&quot;+allCards);
+        List&lt;Card&gt; yiyu = new ArrayList&lt;&gt;();
+        List&lt;Card&gt; gushiye = new ArrayList&lt;&gt;();
+        List&lt;Card&gt; xiaxiaoyin = new ArrayList&lt;&gt;();
+        for (int i = 0; i &lt; allCards.size()-3; i++) {
+            Card c = allCards.get(i);
+            if(i%3==0){
+                yiyu.add(c);
+            }else if(i%3==1){
+                gushiye.add(c);
+            }else if(i%3==2){
+                xiaxiaoyin.add(c);
+            }
+        }
+        //排序
+        sortCards(yiyu);
+        sortCards(gushiye);
+        sortCards(xiaxiaoyin);
+        System.out.println(&quot;yiyu&quot;+yiyu);
+        System.out.println(&quot;gushiye&quot;+gushiye);
+        System.out.println(&quot;xiaxiaoyin&quot;+xiaxiaoyin);
+        List&lt;Card&gt; lastThreeCards=allCards.subList(allCards.size()-3,allCards.size());
+        System.out.println(&quot;底牌&quot;+lastThreeCards);
+        
+    }
+
+    private void sortCards(List&lt;Card&gt; cards) {
+        cards.sort(new Comparator&lt;Card&gt;() {
+            @Override
+            public int compare(Card o1, Card o2) {
+                return o1.getSize()-o2.getSize();
+            }
+        });
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Card {
+    private String number;
+    private String color;
+    private int size;
+
+    @Override
+    public String toString() {
+        return number + color ;
+    }
+    ...
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><strong>常用方法</strong></a></li>
+<li><a href="#%E9%81%8D%E5%8E%86%E6%96%B9%E5%BC%8F"><strong>遍历方式</strong></a>
+<ul>
+<li><a href="#%E8%BF%AD%E4%BB%A3%E5%99%A8"><strong>迭代器</strong></a></li>
+<li><a href="#%E5%A2%9E%E5%BC%BAfor%E5%BE%AA%E7%8E%AF"><strong>增强for循环</strong></a></li>
+<li><a href="#lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F"><strong>Lambda表达式</strong></a></li>
+<li><a href="#%E6%A1%88%E4%BE%8B%E9%81%8D%E5%8E%86%E9%9B%86%E5%90%88%E4%B8%AD%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AF%B9%E8%B1%A1"><strong>案例：遍历集合中的自定义对象</strong></a></li>
+</ul>
+</li>
+<li><a href="#list%E9%9B%86%E5%90%88"><strong>List集合</strong></a>
+<ul>
+<li><a href="#list%E9%9B%86%E5%90%88%E7%9A%84%E9%81%8D%E5%8E%86%E6%96%B9%E5%BC%8F"><strong>List集合的遍历方式</strong></a></li>
+<li><a href="#%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86"><strong>底层原理</strong></a></li>
+</ul>
+</li>
+<li><a href="#set"><strong>Set</strong></a>
+<ul>
+<li><a href="#hashset"><strong>HashSet</strong></a></li>
+<li><a href="#linkedhashset"><strong>LinkedHashSet</strong></a></li>
+<li><a href="#treeset"><strong>TreeSet</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E9%9B%86%E5%90%88%E5%B9%B6%E5%8F%91%E4%BF%AE%E6%94%B9%E5%BC%82%E5%B8%B8%E9%97%AE%E9%A2%98"><strong>集合并发修改异常问题</strong></a></li>
+<li><a href="#%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86"><strong>相关知识</strong></a>
+<ul>
+<li><a href="#%E5%8F%AF%E5%8F%98%E5%8F%82%E6%95%B0"><strong>可变参数</strong></a></li>
+<li><a href="#collections"><strong>Collections</strong></a></li>
+<li><a href="#%E6%A1%88%E4%BE%8B%E6%96%97%E5%9C%B0%E4%B8%BB"><strong>案例：斗地主</strong></a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://yyss1014.github.io/post/yi-chang/">
+              <h3 class="post-title">
+                异常
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://yyss1014.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

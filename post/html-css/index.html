@@ -1,0 +1,1085 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>HTML-CSS | WASD研究院</title>
+<link rel="shortcut icon" href="https://yyss1014.github.io/favicon.ico?v=1751633121752">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://yyss1014.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="HTML-CSS | WASD研究院 - Atom Feed" href="https://yyss1014.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+HTML快速入门
+
+HTML中的标签特点
+
+
+VSCode安装
+常见标题与样式
+
+CSS引入方式
+颜色表示方式
+CSS选择器
+盒子模型
+布局标签
+
+
+案例
+
+flex布局
+表单标签
+Tlias案例
+
+
+
+
+HTML（HyperText M..." />
+    <meta name="keywords" content="JavaWeb" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yyss1014.github.io">
+  <img class="avatar" src="https://yyss1014.github.io/images/avatar.png?v=1751633121752" alt="">
+  </a>
+  <h1 class="site-title">
+    WASD研究院
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/archives" class="menu">
+          目录
+        </a>
+      
+    
+      
+        <a href="/" class="menu">
+          文章
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          分类
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              HTML-CSS
+            </h2>
+            <div class="post-info">
+              <span>
+                2025-05-06
+              </span>
+              <span>
+                29 min read
+              </span>
+              
+                <a href="https://yyss1014.github.io/tag/2ON39h6GJZ/" class="post-tag">
+                  # JavaWeb
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p><ul class="markdownIt-TOC">
+<li><a href="#html%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8"><strong>HTML快速入门</strong></a>
+<ul>
+<li><a href="#html%E4%B8%AD%E7%9A%84%E6%A0%87%E7%AD%BE%E7%89%B9%E7%82%B9"><strong>HTML中的标签特点</strong></a></li>
+</ul>
+</li>
+<li><a href="#vscode%E5%AE%89%E8%A3%85"><strong>VSCode安装</strong></a></li>
+<li><a href="#%E5%B8%B8%E8%A7%81%E6%A0%87%E9%A2%98%E4%B8%8E%E6%A0%B7%E5%BC%8F"><strong>常见标题与样式</strong></a>
+<ul>
+<li><a href="#css%E5%BC%95%E5%85%A5%E6%96%B9%E5%BC%8F"><strong>CSS引入方式</strong></a></li>
+<li><a href="#%E9%A2%9C%E8%89%B2%E8%A1%A8%E7%A4%BA%E6%96%B9%E5%BC%8F"><strong>颜色表示方式</strong></a></li>
+<li><a href="#css%E9%80%89%E6%8B%A9%E5%99%A8"><strong>CSS选择器</strong></a></li>
+<li><a href="#%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B"><strong>盒子模型</strong></a></li>
+<li><a href="#%E5%B8%83%E5%B1%80%E6%A0%87%E7%AD%BE"><strong>布局标签</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E6%A1%88%E4%BE%8B"><strong>案例</strong></a>
+<ul>
+<li><a href="#flex%E5%B8%83%E5%B1%80"><strong>flex布局</strong></a></li>
+<li><a href="#%E8%A1%A8%E5%8D%95%E6%A0%87%E7%AD%BE"><strong>表单标签</strong></a></li>
+<li><a href="#tlias%E6%A1%88%E4%BE%8B"><strong>Tlias案例</strong></a></li>
+</ul>
+</li>
+</ul>
+<br>
+HTML（HyperText Markup Language）：超文本标记语言。</p>
+<ul>
+<li>超文本：超越了文本的限制，比普通文本更强大。除了文字信息，还可以定义图片、音频、视频等内容。</li>
+<li>标记语言：由标签 &quot;&lt;标签名&gt;&quot; 构成的语言</li>
+<li>HTML标签都是预定义好的。例如：使用&lt;h1&gt;展示标题，使用&lt;img&gt;展示图片，使用&lt;video&gt;展示视频。</li>
+<li>HTML代码直接在浏览器中运行，HTML标签由浏览器解析。</li>
+</ul>
+<p>CSS: Cascading Style Sheet，层叠样式表，用于控制页面的样式（表现）。</p>
+<h1 id="html快速入门"><strong>HTML快速入门</strong></h1>
+<p>新建文本文件，后缀名改为 .html。</p>
+<pre><code class="language-html">&lt;html&gt;
+     &lt;head&gt;
+        &lt;title&gt;HTML 快速入门&lt;/title&gt;
+     &lt;/head&gt;
+     &lt;body&gt;
+        &lt;h1&gt;Hello HTML&lt;/h1&gt;
+        &lt;img src=&quot;img/1.png&quot;&gt;
+     &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>其中&lt;html&gt;是根标签，&lt;head&gt;和&lt;body&gt;是子标签。&lt;h1&gt; 标签是一个一级标题的标签。&lt;img&gt; 标签是一个图片标签，用来展示图片，而其中的 src 属性是用来指定要展示的图片。</p>
+<ul>
+<li>&lt;head&gt; : 定义网页的头部，用来存放给浏览器看的信息，如：CSS样式、网页的标题。</li>
+<li>&lt;body&gt; : 定义网页的主体部分，存放给用户看的信息，也是网页的主体内容，如：文字、图片、视频、音频、表格等。</li>
+</ul>
+<h2 id="html中的标签特点"><strong>HTML中的标签特点</strong></h2>
+<ul>
+<li>HTML标签不区分大小写，建议小写</li>
+<li>HTML标签的属性值，采用单引号、双引号都可以，一般写双引号</li>
+<li>HTML语法相对比较松散 (建议大家编写HTML标签的时候尽量严谨一些)</li>
+</ul>
+<h1 id="vscode安装"><strong>VSCode安装</strong></h1>
+<p><a href="https://heuqqdmbyk.feishu.cn/wiki/P8Cbw64UAi3h92kqnUpcfF4cnNg">VSCode安装文档</a><br>
+安装插件后！+enter自动生成网页头部：</p>
+<pre><code class="language-html">&lt;!-- 声明文档的类型为html，注释键为ctrl+/ --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;!-- 字符集 --&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;!-- 网页在移动设备上的显示宽度和缩放比例 --&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;HTML快速入门&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;HTML快速入门&lt;/h1&gt;
+    &lt;img src=&quot;img/1.png&quot;&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h1 id="常见标题与样式"><strong>常见标题与样式</strong></h1>
+<h2 id="css引入方式"><strong>CSS引入方式</strong></h2>
+<p>具体有3种引入方式，语法如下表格所示：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>语法描述</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>行内样式</td>
+<td>在标签内使用style属性，属性值是css属性键值对。</td>
+<td>&lt;h1 style=&quot;xxx:xxx;&quot;&gt;中国新闻网&lt;/h1&gt;</td>
+</tr>
+<tr>
+<td>内部样式</td>
+<td>定义&lt;style&gt;标签，在标签内部定义css样式。</td>
+<td>&lt;style&gt; h1 {...} &lt;/style&gt;</td>
+</tr>
+<tr>
+<td>外部样式</td>
+<td>定义&lt;link&gt;标签，通过href属性引入外部css文件</td>
+<td>&lt;link rel=&quot;stylesheet&quot; href=&quot;css/news.css&quot;&gt;</td>
+</tr>
+</tbody>
+</table>
+<p>对于上述3种引入方式，企业开发的使用情况如下：</p>
+<ul>
+<li>行内样式：会出现大量的代码冗余，不方便后期的维护，所以不常用（常配合JS使用）。</li>
+<li>内部样式：通过定义css选择器，让样式作用于当前页面的指定的标签上。（可以写在页面任何位置，但通常约定写在head标签中）</li>
+<li>外部样式：html和css实现了完全的分离，企业开发常用方式。</li>
+</ul>
+<p>css/news.css：</p>
+<pre><code class="language-css">span{
+  color: gray;
+}
+</code></pre>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;【新思想引领新征程】推进长江十年禁渔 谱写长江大保护新篇章&lt;/title&gt;
+    &lt;!-- 方式二：内部样式
+        定义所有span标签都是灰色字体 --&gt;
+    &lt;style&gt;
+        span{
+            color:gray;
+        }
+    &lt;/style&gt;
+    &lt;!-- 方式三：外部样式 --&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;css/news.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;【新思想引领新征程】推进长江十年禁渔 谱写长江大保护新篇章&lt;/h1&gt;
+    &lt;!-- a  超链接标签：
+            - href: 指定资源访问的url
+            - target: 指定在何处打开资源链接
+                - _self: 默认值，在当前页面打开
+                - _blank: 在空白页面打开
+    --&gt;
+    &lt;a href=&quot;https://www.cctv.com&quot; target=&quot;_blank&quot;&gt;央视网&lt;/a&gt;
+    &lt;!-- 方式一：行内样式
+        没有属性的标签span --&gt;
+    &lt;!-- &lt;span style=&quot;color:gray&quot;&gt;2024年05月15日 20:07&lt;/span&gt; --&gt;
+    &lt;span&gt;2024年05月15日 20:07&lt;/span&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h2 id="颜色表示方式"><strong>颜色表示方式</strong></h2>
+<table>
+<thead>
+<tr>
+<th>表示方式</th>
+<th>属性值</th>
+<th>说明</th>
+<th>取值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>关键字</td>
+<td>颜色英文单词</td>
+<td>red、green、blue</td>
+<td>red、green、blue...</td>
+</tr>
+<tr>
+<td>rgb表示法</td>
+<td>rgb(r, g, b)</td>
+<td>红绿蓝三原色，每项取值范围：0-255</td>
+<td>rgb(0,0,0)、rgb(255,255,255)、rgb(255,0,0)</td>
+</tr>
+<tr>
+<td>rgba表示法</td>
+<td>rgba(r, g, b, a)</td>
+<td>红绿蓝三原色，a表示透明度，取值：0-1</td>
+<td>rgb(0,0,0,0.3)、rgb(255,255,255,0.5)</td>
+</tr>
+<tr>
+<td>十六进制表示法</td>
+<td>#rrggbb#</td>
+<td>开头，将数字转换成十六进制表示</td>
+<td>#000000、#ff0000、#cccccc，简写：#000、#ccc</td>
+</tr>
+</tbody>
+</table>
+<h2 id="css选择器"><strong>CSS选择器</strong></h2>
+<table>
+<thead>
+<tr>
+<th>选择器</th>
+<th>写法</th>
+<th>示例</th>
+<th>示例说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>元素选择器</td>
+<td>元素名称 {...}</td>
+<td>h1 {...}</td>
+<td>选择页面上所有的&lt;h1&gt;标签</td>
+</tr>
+<tr>
+<td>类选择器</td>
+<td>.class属性值 {...}</td>
+<td>.cls {...}</td>
+<td>选择页面上所有class属性为cls的标签</td>
+</tr>
+<tr>
+<td>id选择器</td>
+<td>#id属性值 {...}</td>
+<td>#hid {...}</td>
+<td>选择页面上id属性为hid的标签</td>
+</tr>
+<tr>
+<td>分组选择器</td>
+<td>选择器1,选择器2{...}</td>
+<td>h1,h2 {...}</td>
+<td>选择页面上所有的&lt;h1&gt;和&lt;h2&gt;标签</td>
+</tr>
+<tr>
+<td>属性选择器</td>
+<td>元素名称[属性] {...}</td>
+<td>input[type] {...}</td>
+<td>选择页面上有type属性的&lt;input&gt;标签</td>
+</tr>
+<tr>
+<td>属性选择器</td>
+<td>元素名称[属性名=&quot;值&quot;] {...}</td>
+<td>input[type=&quot;text&quot;] {...}</td>
+<td>选择页面上type属性为text的&lt;input&gt;标签</td>
+</tr>
+<tr>
+<td>后代选择器</td>
+<td>元素1元素2{...}</td>
+<td>form input {...}</td>
+<td>选择&lt;form&gt;标签内的所有&lt;input&gt;标签</td>
+</tr>
+</tbody>
+</table>
+<p>id选择器优先级最高，其次是类选择器，最后是元素选择器。</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;【新思想引领新征程】推进长江十年禁渔 谱写长江大保护新篇章&lt;/title&gt;
+    &lt;style&gt;
+        #time{
+            color: #b2b2b2;
+        }
+        a{
+            /* 设置文本装饰外观*/
+            text-decoration: none;
+        }
+        p{
+            /* 设置行高 */
+            line-height: 2;
+            /* 设置首行缩进 */
+            text-indent: 2em;
+        }
+        #content-container{
+            width:70%;
+            margin-left:auto;
+            margin-right:auto;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id=&quot;content-container&quot;&gt;
+        &lt;h1&gt;【新思想引领新征程】推进长江十年禁渔 谱写长江大保护新篇章&lt;/h1&gt;
+        &lt;a href=&quot;https://www.cctv.com&quot; target=&quot;_blank&quot;&gt;央视网&lt;/a&gt;
+        &lt;span id=&quot;time&quot;&gt;2024年05月15日 20:07&lt;/span&gt;
+        &lt;!-- ----------------------新闻正文------------------------- --&gt;
+        &lt;!-- video标签属性
+                src:视频地址
+                controls:显示播放控件
+                autoplay:自动播放
+                width:视频宽度
+                height:视频高度
+                    单位：
+                        px:像素
+                        %:百分比（相对于父元素的百分比，这里父元素是div，相当于占正文宽度的百分比） 
+        --&gt;
+        &lt;video src=&quot;video/news.mp4&quot; controls width=&quot;100%&quot;&gt;&lt;/video&gt;
+        &lt;!-- &lt;audio src=&quot;audio/news.mp3&quot; controls&gt;&lt;/audio&gt; --&gt;
+        &lt;p&gt;
+            &lt;!-- &lt;b&gt;央视网消息&lt;/b&gt; --&gt;
+            &lt;strong&gt;央视网消息&lt;/strong&gt;
+        （新闻联播）：作为共抓长江大保护的标志性工程，长江十年禁渔今年进入第四年。总书记指出，长江禁渔是为全局计、为子孙谋的重要决策。牢记总书记嘱托，沿江省市持续推进长江水生生物多样性恢复，努力保障退捕渔民就业生活。这段时间，记者深入长江两岸，记录下禁渔工作取得的重要阶段性成效和广大干部群众坚定不移推进长江十年禁渔的扎实行动。&lt;/p&gt;
+        &lt;br&gt;
+        &lt;p&gt;行走在长江沿线，科研人员发现很多可喜现象。&lt;/p&gt;
+        &lt;!-- img标签属性
+                src:图片的访问地址
+                1.绝对路径
+                    1.1绝对磁盘路径（服务器打不开，不推荐）
+                    1.2绝对网络路径 https://p3.img.cctvpic.com/photoworkspace/contentimg/2024/05/15/2024051520034237647.gif
+                2.相对路径
+                    2.1 ./:当前目录(可以省略)
+                    2.2 ../:上一级目录
+                width:图片宽度
+                height:图片高度
+                    --&gt;
+        &lt;img src=&quot;img/1.gif&quot; width=&quot;100%&quot;&gt;
+        &lt;p&gt;
+            在长江南源，一处小头裸裂尻鱼新的栖息地被发现，鱼的数量大约超3万尾，为水生态保护提供了珍贵数据。
+        &lt;/p&gt;
+        &lt;p&gt;
+            在长江中游，追踪显示，人工增殖放流的中华鲟成功入海率已经从45%左右提升至60%以上；鄱阳湖鱼类小型化、低龄化趋势得到遏制，栖息地生存环境得以改善。
+        &lt;/p&gt;
+        &lt;p&gt;
+            在长江下游，今年3月起，南京秦淮河入江口首次出现野生中华绒螯蟹大规模洄游现象，种群数量明显增加。
+        &lt;/p&gt;
+        &lt;img src=&quot;img/2.jpg&quot;  width=&quot;100%&quot;&gt;
+        &lt;p&gt;
+            水生生物资源恢复向好，见证了长江十年禁渔三年多来的阶段性成果。
+        &lt;/p&gt;
+        &lt;p&gt;
+            实施长江十年禁渔，是以同志为核心的党中央从中华民族长远利益出发作出的重要决策。党的十八大以来，总书记多次深入长江沿线考察调研，详细了解长江十年禁渔的实施情况，他指出，要坚定推进长江十年禁渔，巩固好已经取得的成果。
+        &lt;/p&gt;
+        &lt;img src=&quot;img/3.jpg&quot;  width=&quot;100%&quot;&gt;
+        &lt;p&gt;
+            按照部署，自2021年1月1日起，在长江干流、大型通江湖泊、重要支流和长江口部分海域实行为期十年的禁渔，常年禁止天然渔业资源的生产性捕捞。禁渔三年多来，相关评估显示，长江干流和鄱阳湖、洞庭湖水生生物完整性指数由禁渔前最差的“无鱼”提升了两个等级。2022年，长江江豚数量达到1249头，实现历史性止跌回升。长江干流水质连续4年全线保持Ⅱ类。
+        &lt;/p&gt;
+        &lt;p&gt;
+            实施长江十年禁渔，解决好渔民上岸后的生产生活问题，禁渔才有稳定扎实的社会基础。
+        &lt;/p&gt;
+        &lt;img src=&quot;img/4.jpg&quot;  width=&quot;100%&quot;&gt;
+        &lt;p&gt;
+            安徽退捕转产的3万多名渔民，在政府的引导下接受就业培训。在当涂县，免费学习养殖技术，养殖生态螃蟹成了退捕渔民的新选择。
+        &lt;/p&gt;
+        &lt;p&gt;
+            在拥有洞庭湖超六成水域的湖南岳阳，政府帮扶上岸渔民建起养殖场，发展风干鱼产业，还带领他们学习直播带货，拓宽销路。
+        &lt;/p&gt;
+        &lt;p&gt;
+            在渔民退捕上岸的鄱阳湖棠荫岛，当地在继续保护好生态的前提下，正探索规划利用独特的自然资源发展旅游产业。禁渔三年多来，有关部门对23.1万退捕渔民逐一建档立卡，多渠道提升就业、社保水平。
+        &lt;/p&gt;
+        &lt;img src=&quot;img/5.jpg&quot;  width=&quot;100%&quot;&gt;
+        &lt;p&gt;
+            长江十年禁渔实施以来，沿江省市合力攻坚、久久为功，长江大保护不断向纵深推进，持续巩固禁渔成果。下一步，沿江省市还将加强水生生物重要栖息地修复，建立退捕渔民动态精准帮扶服务，完善跨区域、跨部门执法合作机制，确保一江清水绵延后世、惠泽人民。
+        &lt;/p&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h2 id="盒子模型"><strong>盒子模型</strong></h2>
+<p>盒子：页面中所有的元素（标签），都可以看做是一个 盒子，由盒子将页面中的元素包含在一个矩形区域内，通过盒子的视角更方便的进行页面布局。<br>
+盒子模型组成：内容区域（content）、内边距区域（padding）、边框区域（border）、外边距区域（margin）<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250506171945.png" alt="" loading="lazy"></p>
+<h2 id="布局标签"><strong>布局标签</strong></h2>
+<p>实际开发网页中，会大量频繁的使用 div 和 span 这两个没有语义的布局标签。<br>
+<strong>&lt;div&gt;标签：</strong></p>
+<ul>
+<li>一行只显示一个（独占一行）</li>
+<li>宽度默认是父元素的宽度，高度默认由内容撑开</li>
+<li>可以设置宽高（width、height）</li>
+</ul>
+<p><strong>&lt;span&gt;标签：</strong></p>
+<ul>
+<li>一行可以显示多个</li>
+<li>宽度和高度默认由内容撑开</li>
+<li>不可以设置宽高（width、height）</li>
+</ul>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;盒子模型&lt;/title&gt;
+    &lt;style&gt;
+        div {
+            width: 200px;  /* 宽度，默认是内容展示区域 */
+            height: 200px;  /* 高度，默认是内容展示区域 */
+            box-sizing: border-box; /* 指定width height为盒子的高宽 ，盒子包括边框内边距和内容区域*/
+            background-color: aquamarine; /* 背景色 */
+            
+            padding: 20px 20px 20px 20px; /* 内边距, 上 右 下 左 , 边距都一行, 可以简写: padding: 20px;如果只有两个值，前一个指上下，后一个指左右*/ 
+            border: 10px solid red; /* 边框, 宽度 线条类型 颜色 */
+            margin: 30px 30px 30px 30px; /* 外边距, 上 右 下 左 , 边距都一行, 可以简写: margin: 30px;如果只有两个值，前一个指上下，后一个指左右 */
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+        
+    &lt;div&gt;
+        A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A A 
+    &lt;/div&gt;
+    
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h1 id="案例"><strong>案例</strong></h1>
+<p>参照Tlias智能学习辅助系统，完成员工管理页面的制作。</p>
+<h2 id="flex布局"><strong>flex布局</strong></h2>
+<p>那在上述的案例代码中，其实我们用到了一种布局模式，叫 flex布局。</p>
+<ul>
+<li>flex是flexible Box的缩写，意为&quot;弹性布局&quot;。采用flex布局的元素，称为Flex容器（container），它的所有子元素自动成为容器成员，称为Flex项目（item）。</li>
+<li>通过给父容器添加flex属性,来控制子元素的位置和排列方式。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250506192855.png" alt="" loading="lazy"></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>取值</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>display</td>
+<td>flex</td>
+<td>使用flex布局</td>
+</tr>
+<tr>
+<td>flex-direction（设置主轴）</td>
+<td>row</td>
+<td>主轴方向为x轴，水平向右。（默认）</td>
+</tr>
+<tr>
+<td>flex-direction</td>
+<td>column</td>
+<td>主轴方向为y轴，垂直向下。</td>
+</tr>
+<tr>
+<td>justify-content（子元素在主轴上的对齐方式）</td>
+<td>flex-start</td>
+<td>从头开始排列</td>
+</tr>
+<tr>
+<td>justify-content</td>
+<td>flex-end</td>
+<td>从尾部开始排列</td>
+</tr>
+<tr>
+<td>justify-content</td>
+<td>center</td>
+<td>在主轴居中对齐</td>
+</tr>
+<tr>
+<td>justify-content</td>
+<td>space-around</td>
+<td>平分剩余空间</td>
+</tr>
+<tr>
+<td>justify-content</td>
+<td>space-between</td>
+<td>先两边贴边，再平分剩余空间</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;title&gt;Document&lt;/title&gt;
+  &lt;style&gt;
+    /* body默认有外边距 */
+    /* body{
+        margin:0;
+    } */
+    #container {
+      display: flex;
+      /* justify-content: space-between; */ /* 先两边贴边，再平分剩余空间 */
+      /* justify-content: flex-start;*/ /* 从头开始排列  */
+      /* justify-content: flex-end; */ /* 从尾开始排列 */
+      /* justify-content: center; */ /* 居中排列 */
+      /* justify-content: space-around; */ /* 两边留白，中间平分，平分剩余空间 */
+      flex-direction: row;/* 设置主轴 */
+      justify-content: space-between;
+      background-color: #aeea6a;
+      width: 400px;
+      height: 300px;
+    }
+
+    #container div {
+      background-color: #e866ef;
+      width: 100px;
+      height: 50px; 
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&quot;container&quot;&gt;
+    &lt;div&gt;Flex Item&lt;/div&gt;
+    &lt;div&gt;Flex Item&lt;/div&gt;
+    &lt;div&gt;Flex Item&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h2 id="表单标签"><strong>表单标签</strong></h2>
+<p>在网页中主要负责数据采集功能，如注册、登录等数据采集。</p>
+<ul>
+<li>表单场景: 表单就是在网页中负责数据采集功能的，如：注册、登录的表单。</li>
+<li>表单标签: &lt;form&gt;</li>
+</ul>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;表单标签&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;!-- form表单：
+            action:表单提交的url地址
+            method:提交方式
+                get:默认，表单数据会出现在url后面，形式：/save?name=ys&amp;age=18
+                特点：
+                    1.如果表单中包含了隐私数据，get方式并不安全，不推荐使用该方式。
+                    2.在浏览器中get请求大小时有限制的，不适合提交大数据量的表单。
+                post:表单会在消息体和请求体中提交到服务器
+                特点：
+                    1.安全。
+                    2.请求大小没有限制。
+            注意：表单项要想能够采集数据，必须设置name属性，表示当前表单项的名字 --&gt;
+    &lt;form action=&quot;/save&quot; method=&quot;post&quot;&gt;
+        姓名:&lt;input type=&quot;text&quot; name=&quot;name&quot;&gt;
+        年龄:&lt;input type=&quot;text&quot; name=&quot;age&quot;&gt;
+        &lt;input type=&quot;submit&quot; value=&quot;提交&quot;&gt;
+    &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250516174354.png" alt="" loading="lazy"></figure>
+<ul>
+<li>表单项标签: 不同类型的input元素、下拉列表、文本域等。
+<ul>
+<li>input: 定义表单项，通过type属性控制输入形式</li>
+<li>select: 定义下拉列表</li>
+<li>textarea: 定义文本域</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>type取值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>text</td>
+<td>默认值，定义单行的输入字段</td>
+</tr>
+<tr>
+<td>password</td>
+<td>定义密码字段</td>
+</tr>
+<tr>
+<td>radio</td>
+<td>定义单选按钮</td>
+</tr>
+<tr>
+<td>checkbox</td>
+<td>定义复选框</td>
+</tr>
+<tr>
+<td>file</td>
+<td>定义文件上传按钮</td>
+</tr>
+<tr>
+<td>date/time/datetime-local</td>
+<td>定义日期/时间/日期时间</td>
+</tr>
+<tr>
+<td>number</td>
+<td>定义数字输入框</td>
+</tr>
+<tr>
+<td>email</td>
+<td>定义邮件输入框</td>
+</tr>
+<tr>
+<td>hidden</td>
+<td>定义隐藏域</td>
+</tr>
+<tr>
+<td>submit / reset / button</td>
+<td>定义提交按钮 / 重置按钮 / 可点击按钮</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;HTML-表单项标签&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;!-- value: 表单项提交的值 --&gt;
+&lt;form action=&quot;/save&quot; method=&quot;post&quot;&gt;
+     姓名: &lt;input type=&quot;text&quot; name=&quot;name&quot;&gt; &lt;br&gt;&lt;br&gt;
+
+     密码: &lt;input type=&quot;password&quot; name=&quot;password&quot;&gt; &lt;br&gt;&lt;br&gt; 
+
+     性别: &lt;input type=&quot;radio&quot; name=&quot;gender&quot; value=&quot;1&quot;&gt; 男
+          &lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;gender&quot; value=&quot;2&quot;&gt; 女 &lt;/label&gt; &lt;br&gt;&lt;br&gt;
+          &lt;!-- 设置了label后点字也可以勾选 --&gt;
+     
+     爱好: &lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;hobby&quot; value=&quot;java&quot;&gt; java &lt;/label&gt;
+          &lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;hobby&quot; value=&quot;game&quot;&gt; game &lt;/label&gt;
+          &lt;label&gt;&lt;input type=&quot;checkbox&quot; name=&quot;hobby&quot; value=&quot;sing&quot;&gt; sing &lt;/label&gt; &lt;br&gt;&lt;br&gt;
+     
+     图像: &lt;input type=&quot;file&quot; name=&quot;image&quot;&gt;  &lt;br&gt;&lt;br&gt;
+
+     生日: &lt;input type=&quot;date&quot; name=&quot;birthday&quot;&gt; &lt;br&gt;&lt;br&gt;
+
+     时间: &lt;input type=&quot;time&quot; name=&quot;time&quot;&gt; &lt;br&gt;&lt;br&gt;
+
+     日期时间: &lt;input type=&quot;datetime-local&quot; name=&quot;datetime&quot;&gt; &lt;br&gt;&lt;br&gt;
+
+     学历: &lt;select name=&quot;degree&quot;&gt;
+               &lt;option value=&quot;&quot;&gt;----------- 请选择 -----------&lt;/option&gt;
+               &lt;option value=&quot;1&quot;&gt;大专&lt;/option&gt;
+               &lt;option value=&quot;2&quot;&gt;本科&lt;/option&gt;
+               &lt;option value=&quot;3&quot;&gt;硕士&lt;/option&gt;
+               &lt;option value=&quot;4&quot;&gt;博士&lt;/option&gt;
+          &lt;/select&gt;  &lt;br&gt;&lt;br&gt;
+
+     描述: &lt;textarea name=&quot;description&quot; cols=&quot;30&quot; rows=&quot;10&quot;&gt;&lt;/textarea&gt;  &lt;br&gt;&lt;br&gt;
+     
+     &lt;input type=&quot;hidden&quot; name=&quot;id&quot; value=&quot;1&quot;&gt;
+
+     &lt;!-- 表单常见按钮 --&gt;
+     &lt;input type=&quot;button&quot; value=&quot;按钮&quot;&gt;
+     &lt;input type=&quot;reset&quot; value=&quot;重置&quot;&gt; 
+     &lt;input type=&quot;submit&quot; value=&quot;提交&quot;&gt;   
+     &lt;br&gt;
+&lt;/form&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h2 id="tlias案例"><strong>Tlias案例</strong></h2>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;zh-CN&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;Tlias智能学习辅助系统&lt;/title&gt;
+    &lt;style&gt;
+      body {
+        margin: 0;
+      }
+
+      /* 顶栏样式 */
+      .header {
+          display: flex;/* 弹性布局 */
+          justify-content: space-between;/* 左右对齐 */
+          align-items: center;
+          background-color: #808080;
+          padding: 10px 20px;
+          box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      }
+      
+      /* 加大加粗标题 */
+      .header h1 {
+          margin: 0;
+          font-size: 24px;
+          font-weight: bold;
+          color:white;
+          /* 设置字体为楷体 */
+          font-family: '楷体';
+      }
+
+      /* 文本链接样式 */
+      .header a {
+          text-decoration: none;
+          color: white;
+          font-size: 16px;
+      }
+
+      /* 搜索表单区域 */
+      .search-form {
+          display: flex;
+          align-items: center;
+          padding: 20px;
+          background-color: #f9f9f9;
+      }
+
+      /* 表单控件样式 */
+      .search-form input[type=&quot;text&quot;], .search-form select {
+          margin-right: 10px;
+          padding: 5px 10px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          width: 200px;
+      }
+
+      /* 按钮样式 */
+      .search-form button {
+          padding: 5px 15px;
+          margin-left: 10px;
+          background-color: #007bff;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+      }
+
+      /* 清空按钮样式 */
+      .search-form button.clear {
+          background-color: #6c757d;
+      }
+
+      .table {
+         min-width: 100%; 
+         border-collapse: collapse;
+         margin: 0 auto;
+      }
+
+      /* 设置表格单元格边框 */
+      .table td, .table th { 
+        border: 1px solid #ddd; 
+        padding: 8px; 
+        text-align: center;
+      }
+      
+      .avatar { 
+        width: 50px; 
+        height: 50px; 
+        object-fit: cover; 
+        border-radius: 50%; 
+      }
+
+       /* 页脚版权区域 */
+      .footer {
+        background-color: #8f8c8c;
+        color: white;
+        text-align: center;
+        padding: 20px 0;
+        margin-top: 30px;
+      }
+ 
+      .footer .company-name {
+        font-size: 1.1em;
+        font-weight: bold;
+      }
+
+      .footer .copyright {
+        font-size: 0.9em;
+      }
+
+      #container{
+        width:80%;
+        margin:0 auto;
+    
+      }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id=&quot;container&quot;&gt;
+        &lt;!-- 顶栏 --&gt;
+        &lt;div class=&quot;header&quot;&gt;
+            &lt;h1&gt;Tlias智能学习辅助系统&lt;/h1&gt;
+            &lt;a href=&quot;#&quot;&gt;退出登录&lt;/a&gt;
+        &lt;/div&gt;
+
+        &lt;!-- 搜索表单区域 --&gt;
+        &lt;form class=&quot;search-form&quot; action=&quot;/search&quot; method=&quot;post&quot;&gt;
+            &lt;label for=&quot;name&quot;&gt;姓名：&lt;/label&gt;
+            &lt;input type=&quot;text&quot; name=&quot;name&quot; placeholder=&quot;请输入姓名&quot; /&gt;
+
+            &lt;label for=&quot;gender&quot;&gt;性别：&lt;/label&gt;
+            &lt;select name=&quot;gender&quot;&gt;
+                &lt;option value=&quot;&quot;&gt;请选择：&lt;/option&gt;
+                &lt;option value=&quot;1&quot;&gt;男&lt;/option&gt;
+                &lt;option value=&quot;2&quot;&gt;女&lt;/option&gt;
+            &lt;/select&gt;
+
+            &lt;label for=&quot;job&quot;&gt;职位：&lt;/label&gt;
+            &lt;select name=&quot;job&quot;&gt;
+                &lt;option value=&quot;&quot;&gt;请选择：&lt;/option&gt;
+                &lt;option value=&quot;1&quot;&gt;班主任&lt;/option&gt;
+                &lt;option value=&quot;2&quot;&gt;讲师&lt;/option&gt;
+                &lt;option value=&quot;3&quot;&gt;学工主管&lt;/option&gt;
+                &lt;option value=&quot;4&quot;&gt;教研主管&lt;/option&gt;
+                &lt;option value=&quot;5&quot;&gt;咨询师&lt;/option&gt;
+            &lt;/select&gt;
+            &lt;button type=&quot;submit&quot;&gt;查询&lt;/button&gt;
+            &lt;button type=&quot;reset&quot; class=&quot;clear&quot;&gt;清空&lt;/button&gt;
+        &lt;/form&gt;
+
+        &lt;table class=&quot;table table-striped table-bordered&quot;&gt;
+            &lt;thead&gt;
+                &lt;!-- 表头 --&gt;
+                &lt;!-- 一行 --&gt;
+                &lt;tr&gt;
+                    &lt;!-- 表头单元格 --&gt;
+                    &lt;th&gt;姓名&lt;/th&gt;
+                    &lt;th&gt;性别&lt;/th&gt;
+                    &lt;th&gt;头像&lt;/th&gt;
+                    &lt;th&gt;职位&lt;/th&gt;
+                    &lt;th&gt;入职日期&lt;/th&gt;
+                    &lt;th&gt;最后操作时间&lt;/th&gt;
+                    &lt;th&gt;操作&lt;/th&gt;
+                &lt;/tr&gt;
+            &lt;/thead&gt;
+            &lt;tbody&gt;
+                &lt;tr&gt;
+                    &lt;!-- 表格单元格 --&gt;
+                    &lt;td&gt;令狐冲&lt;/td&gt;
+                    &lt;td&gt;男&lt;/td&gt;
+                    &lt;td&gt;&lt;img src=&quot;https://via.placeholder.com/50&quot; alt=&quot;令狐冲&quot; class=&quot;avatar&quot;&gt;&lt;/td&gt;
+                    &lt;td&gt;讲师&lt;/td&gt;
+                    &lt;td&gt;2021-03-15&lt;/td&gt;
+                    &lt;td&gt;2023-07-30T12:00:00Z&lt;/td&gt;
+                    &lt;td class=&quot;btn-group&quot;&gt;
+                        &lt;button&gt;编辑&lt;/button&gt;
+                        &lt;button&gt;删除&lt;/button&gt;
+                    &lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt;
+                    &lt;td&gt;任盈盈&lt;/td&gt;
+                    &lt;td&gt;女&lt;/td&gt;
+                    &lt;td&gt;&lt;img src=&quot;https://via.placeholder.com/50&quot; alt=&quot;任盈盈&quot; class=&quot;avatar&quot;&gt;&lt;/td&gt;
+                    &lt;td&gt;学工主管&lt;/td&gt;
+                    &lt;td&gt;2020-04-10&lt;/td&gt;
+                    &lt;td&gt;2023-07-29T15:00:00Z&lt;/td&gt;
+                    &lt;td class=&quot;btn-group&quot;&gt;
+                        &lt;button&gt;编辑&lt;/button&gt;
+                        &lt;button&gt;删除&lt;/button&gt;
+                    &lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt;
+                    &lt;td&gt;岳不群&lt;/td&gt;
+                    &lt;td&gt;男&lt;/td&gt;
+                    &lt;td&gt;&lt;img src=&quot;https://via.placeholder.com/50&quot; alt=&quot;岳不群&quot; class=&quot;avatar&quot;&gt;&lt;/td&gt;
+                    &lt;td&gt;教研主管&lt;/td&gt;
+                    &lt;td&gt;2019-01-01&lt;/td&gt;
+                    &lt;td&gt;2023-07-30T10:00:00Z&lt;/td&gt;
+                    &lt;td class=&quot;btn-group&quot;&gt;
+                        &lt;button&gt;编辑&lt;/button&gt;
+                        &lt;button&gt;删除&lt;/button&gt;
+                    &lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt;
+                    &lt;td&gt;宁中则&lt;/td&gt;
+                    &lt;td&gt;女&lt;/td&gt;
+                    &lt;td&gt;&lt;img src=&quot;https://via.placeholder.com/50&quot; alt=&quot;宁中则&quot; class=&quot;avatar&quot;&gt;&lt;/td&gt;
+                    &lt;td&gt;班主任&lt;/td&gt;
+                    &lt;td&gt;2018-06-01&lt;/td&gt;
+                    &lt;td&gt;2023-07-29T09:00:00Z&lt;/td&gt;
+                    &lt;td class=&quot;btn-group&quot;&gt;
+                        &lt;button&gt;编辑&lt;/button&gt;
+                        &lt;button&gt;删除&lt;/button&gt;
+                    &lt;/td&gt;
+                &lt;/tr&gt;
+            &lt;/tbody&gt;
+        &lt;/table&gt;
+
+        &lt;!-- 页脚版权区域 --&gt;
+        &lt;footer class=&quot;footer&quot;&gt;
+            &lt;p class=&quot;company-name&quot;&gt;江苏传智播客教育科技股份有限公司&lt;/p&gt;
+            &lt;p class=&quot;copyright&quot;&gt;版权所有 Copyright 2006-2024 All Rights Reserved&lt;/p&gt;
+        &lt;/footer&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#html%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8"><strong>HTML快速入门</strong></a>
+<ul>
+<li><a href="#html%E4%B8%AD%E7%9A%84%E6%A0%87%E7%AD%BE%E7%89%B9%E7%82%B9"><strong>HTML中的标签特点</strong></a></li>
+</ul>
+</li>
+<li><a href="#vscode%E5%AE%89%E8%A3%85"><strong>VSCode安装</strong></a></li>
+<li><a href="#%E5%B8%B8%E8%A7%81%E6%A0%87%E9%A2%98%E4%B8%8E%E6%A0%B7%E5%BC%8F"><strong>常见标题与样式</strong></a>
+<ul>
+<li><a href="#css%E5%BC%95%E5%85%A5%E6%96%B9%E5%BC%8F"><strong>CSS引入方式</strong></a></li>
+<li><a href="#%E9%A2%9C%E8%89%B2%E8%A1%A8%E7%A4%BA%E6%96%B9%E5%BC%8F"><strong>颜色表示方式</strong></a></li>
+<li><a href="#css%E9%80%89%E6%8B%A9%E5%99%A8"><strong>CSS选择器</strong></a></li>
+<li><a href="#%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B"><strong>盒子模型</strong></a></li>
+<li><a href="#%E5%B8%83%E5%B1%80%E6%A0%87%E7%AD%BE"><strong>布局标签</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E6%A1%88%E4%BE%8B"><strong>案例</strong></a>
+<ul>
+<li><a href="#flex%E5%B8%83%E5%B1%80"><strong>flex布局</strong></a></li>
+<li><a href="#%E8%A1%A8%E5%8D%95%E6%A0%87%E7%AD%BE"><strong>表单标签</strong></a></li>
+<li><a href="#tlias%E6%A1%88%E4%BE%8B"><strong>Tlias案例</strong></a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://yyss1014.github.io/post/shu-ju-ku-ding-yi-yu-yan/">
+              <h3 class="post-title">
+                数据库定义语言
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://yyss1014.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

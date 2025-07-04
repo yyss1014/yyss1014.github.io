@@ -1,0 +1,350 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>异常 | WASD研究院</title>
+<link rel="shortcut icon" href="https://yyss1014.github.io/favicon.ico?v=1751633121752">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://yyss1014.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="异常 | WASD研究院 - Atom Feed" href="https://yyss1014.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="Error:代表系统级别错误（属于严重问题），开发人员不用管。
+Exception：代表我们程序出现的问题。程序员经常用Exception类及其孩子来封装可能存在的问题。
+运行时异常：RuntimeException及其子类，编译阶段不会出..." />
+    <meta name="keywords" content="JavaSE" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yyss1014.github.io">
+  <img class="avatar" src="https://yyss1014.github.io/images/avatar.png?v=1751633121752" alt="">
+  </a>
+  <h1 class="site-title">
+    WASD研究院
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/archives" class="menu">
+          目录
+        </a>
+      
+    
+      
+        <a href="/" class="menu">
+          文章
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          分类
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              异常
+            </h2>
+            <div class="post-info">
+              <span>
+                2025-03-17
+              </span>
+              <span>
+                5 min read
+              </span>
+              
+                <a href="https://yyss1014.github.io/tag/xcf3bLryi2/" class="post-tag">
+                  # JavaSE
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p>Error:代表系统级别错误（属于严重问题），开发人员不用管。<br>
+Exception：代表我们程序出现的问题。程序员经常用Exception类及其孩子来封装可能存在的问题。<br>
+运行时异常：RuntimeException及其子类，编译阶段不会出现错误提醒，运行时出现异常。<br>
+编译时异常：编译阶段就会出现错误提醒。</p>
+<ul>
+<li>捕获异常：</li>
+</ul>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);
+            Date d=sdf.parse(&quot;2028-11-11 10:24&quot;);
+            System.out.println(d);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+</code></pre>
+<ul>
+<li>抛出异常：</li>
+</ul>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args) throws ParseException{
+            SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);
+            Date d=sdf.parse(&quot;2028-11-11 10:24&quot;);
+            System.out.println(d);
+    }
+}
+</code></pre>
+<h1 id="自定义异常"><strong>自定义异常</strong></h1>
+<p>如果企业自己的某种问题想通过异常来表示，以便用异常管理该问题，就需要自定义异常了。</p>
+<h2 id="自定义运行异常"><strong>自定义运行异常</strong></h2>
+<ul>
+<li>定义一个异常类继承RuntimeException</li>
+<li>重写构造器</li>
+<li>通过throw new 异常类(xxx)来创建对象并输出，编译阶段不报错，提醒不强烈，运行时才可能出现。</li>
+</ul>
+<pre><code class="language-java">public class AgeIllegalRuntimeException extends RuntimeException {
+    public AgeIllegalRuntimeException() {
+    }
+
+    public AgeIllegalRuntimeException(String message) {
+        super(message);
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args){
+        try {
+            saveAge(160);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(&quot;哪来的元婴老祖&quot;);
+        }
+    }
+    public static void saveAge(int age) {
+        if (age &gt; 0 &amp;&amp; age&lt;150) {
+            System.out.println(&quot;Age is &quot; + age);
+        }else {
+            //用一个异常对象封装这个问题
+            //throw抛出去这个异常对象
+            throw new AgeIllegalRuntimeException(&quot;/age is illegal,your age is &quot; + age);
+        }
+    }
+}
+</code></pre>
+<h2 id="自定义编译异常"><strong>自定义编译异常</strong></h2>
+<ul>
+<li>定义一个异常类继承Exception</li>
+<li>重写构造器</li>
+<li>通过throw new 异常类(xxx)来创建对象并输出，编译阶段就报错，提醒更加强烈。</li>
+</ul>
+<pre><code class="language-java">public static void saveAge(int age) throws AgeIllegalException {
+        if (age &gt; 0 &amp;&amp; age&lt;150) {
+            System.out.println(&quot;Age is &quot; + age);
+        }else {
+            //用一个异常对象封装这个问题
+            //throw抛出去这个异常对象
+            //throws用在方法上，抛出方法内部异常
+            throw new AgeIllegalException(&quot;/age is illegal,your age is &quot; + age);
+        }
+}
+</code></pre>
+<pre><code class="language-java">public class AgeIllegalException extends RuntimeException {
+    public AgeIllegalException() {
+    }
+
+    public AgeIllegalException(String message) {
+        super(message);
+    }
+}
+</code></pre>
+<h1 id="异常的处理"><strong>异常的处理</strong></h1>
+<ul>
+<li>记录异常并响应合适的信息给用户。</li>
+</ul>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args){
+        try {
+            test1();
+        } catch (FileNotFoundException e) {
+            System.out.println(&quot;您要找的文件对象不存在&quot;);
+            e.printStackTrace();//打印出这个异常对象的信息，记录下来
+        } catch (ParseException e) {
+            System.out.println(&quot;您要解析的时间有问题&quot;);
+            e.printStackTrace();//打印出这个异常对象的信息，记录下来
+        }
+    }
+    public static void test1() throws FileNotFoundException, ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);
+        Date d = sdf.parse(&quot;2028-11-11 10:24&quot;);
+        System.out.println(d);
+        test2();
+    }
+
+    public static void test2() throws FileNotFoundException {
+        // 读取文件的。
+        InputStream is = new FileInputStream(&quot;D:/meinv.png&quot;);
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args){
+        try {
+            test1();
+        } catch (Exception e) {
+            System.out.println(&quot;您要找的文件对象不存在&quot;);
+            e.printStackTrace();//打印出这个异常对象的信息，记录下来
+        }
+    }
+    public static void test1() throws Exception {
+        SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);
+        Date d = sdf.parse(&quot;2028-11-11 10:24&quot;);
+        System.out.println(d);
+        test2();
+    }
+
+    public static void test2() throws Exception {
+        // 读取文件的。
+        InputStream is = new FileInputStream(&quot;D:/meinv.png&quot;);
+    }
+}
+</code></pre>
+<ul>
+<li>捕获异常，尝试重新修复。</li>
+</ul>
+<pre><code class="language-java">public class RegexTest1 {
+    public static void main(String[] args){
+        while (true) {
+            try {
+                System.out.println(getMoney());
+            } catch (Exception e) {
+                System.out.println(&quot;请您输入合法的数字&quot;);
+            }
+        }
+    }
+    public static double getMoney(){
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            System.out.println(&quot;请您输入合适的价格：&quot;);
+            double money = sc.nextDouble();
+            if(money&gt;=0){
+                return money;
+            }else{
+                System.out.println(&quot;您输入的价格是不合适的&quot;);
+            }
+        }
+    }
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%BC%82%E5%B8%B8"><strong>自定义异常</strong></a>
+<ul>
+<li><a href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BF%90%E8%A1%8C%E5%BC%82%E5%B8%B8"><strong>自定义运行异常</strong></a></li>
+<li><a href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BC%96%E8%AF%91%E5%BC%82%E5%B8%B8"><strong>自定义编译异常</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E5%BC%82%E5%B8%B8%E7%9A%84%E5%A4%84%E7%90%86"><strong>异常的处理</strong></a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://yyss1014.github.io/post/zheng-ze-biao-da-shi/">
+              <h3 class="post-title">
+                正则表达式
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://yyss1014.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

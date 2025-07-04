@@ -1,0 +1,500 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>File | WASD研究院</title>
+<link rel="shortcut icon" href="https://yyss1014.github.io/favicon.ico?v=1751633121752">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://yyss1014.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="File | WASD研究院 - Atom Feed" href="https://yyss1014.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+创建对象
+常用方法
+方法递归
+
+案例：计算n的阶乘
+
+
+练习案例
+字符集
+
+
+创建对象
+
+
+
+构造器
+说明
+
+
+
+
+public File(String pathname)
+根据文件路径创建对象
+
+
+public File(String ..." />
+    <meta name="keywords" content="JavaSE" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yyss1014.github.io">
+  <img class="avatar" src="https://yyss1014.github.io/images/avatar.png?v=1751633121752" alt="">
+  </a>
+  <h1 class="site-title">
+    WASD研究院
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/archives" class="menu">
+          目录
+        </a>
+      
+    
+      
+        <a href="/" class="menu">
+          文章
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          分类
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              File
+            </h2>
+            <div class="post-info">
+              <span>
+                2025-03-22
+              </span>
+              <span>
+                9 min read
+              </span>
+              
+                <a href="https://yyss1014.github.io/tag/xcf3bLryi2/" class="post-tag">
+                  # JavaSE
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p><ul class="markdownIt-TOC">
+<li><a href="#%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1"><strong>创建对象</strong></a></li>
+<li><a href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><strong>常用方法</strong></a></li>
+<li><a href="#%E6%96%B9%E6%B3%95%E9%80%92%E5%BD%92"><strong>方法递归</strong></a>
+<ul>
+<li><a href="#%E6%A1%88%E4%BE%8B%E8%AE%A1%E7%AE%97n%E7%9A%84%E9%98%B6%E4%B9%98"><strong>案例：计算n的阶乘</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E7%BB%83%E4%B9%A0%E6%A1%88%E4%BE%8B"><strong>练习案例</strong></a></li>
+<li><a href="#%E5%AD%97%E7%AC%A6%E9%9B%86"><strong>字符集</strong></a></li>
+</ul>
+</p>
+<h1 id="创建对象"><strong>创建对象</strong></h1>
+<table>
+<thead>
+<tr>
+<th>构造器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>public File(String pathname)</td>
+<td>根据文件路径创建对象</td>
+</tr>
+<tr>
+<td>public File(String parent,String child)</td>
+<td>根据父路径和子路径名字创建文件对象</td>
+</tr>
+<tr>
+<td>public File(File parent,String child)</td>
+<td>根据父路径对应文件对象和子路径名字创建对象</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        //File f1=new File(&quot;C:\\Users\\adminys\\Desktop\\ab.txt&quot;);
+        //File f1=new File(&quot;C:/Users/adminys/Desktop/ab.txt&quot;);
+        File f1=new File(&quot;C:&quot;+File.separator+&quot;Users/adminys/Desktop/ab.txt&quot;);
+        System.out.println(f1.length());//文件大小
+
+        File f2=new File(&quot;C:/Users/adminys/Desktop&quot;);
+        System.out.println(f2.length());//文件夹本身的大小
+        //File对象可以指代一个不存在的文件路径
+        File f3 = new File(&quot;C:/Users/adminys/Desktop/aaa.txt&quot;);
+        System.out.println(f3.length());//0
+        System.out.println(f3.exists());//false
+        //定位的文件在模块中
+        //绝对路径带盘符
+        //File f4=new File(&quot;D:\\codetest\\javasepro\\file-io-app\\src\\ys.txt&quot;);
+        //相对路径，默认是直接工程下寻找文件
+        File f4=new File(&quot;file-io-app\\src\\ys.txt&quot;);
+        System.out.println(f4.length());
+    };
+}
+</code></pre>
+<h1 id="常用方法"><strong>常用方法</strong></h1>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        File f1=new File(&quot;C:\\Users\\adminys\\Desktop\\ab.txt&quot;);
+        //判断当前文件对象，对应的文件路径是否存在
+        System.out.println(f1.exists());
+        //判断当前文件对象是否是文件
+        System.out.println(f1.isFile());
+        //判断当前文件对象是否是文件夹
+        System.out.println(f1.isDirectory());
+        //获取文件名字(包含后缀）
+        System.out.println(f1.getName());
+        //获取文件大小，返回字节个数
+        System.out.println(f1.length());
+        //获取文件的最后修改时间
+        long time=f1.lastModified();
+        SimpleDateFormat sdf=new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);
+        System.out.println(sdf.format(time));
+        //获取创建文件对象时使用的路径
+        File f2=new File(&quot;C:\\Users\\adminys\\Desktop\\ab.txt&quot;);
+        File f3=new File(&quot;file-io-app\\src\\ys.txt&quot;);
+        System.out.println(f2.getPath());//C:\Users\adminys\Desktop\ab.txt
+        System.out.println(f3.getPath());//file-io-app\src\ys.txt
+        //获取绝对路径
+        System.out.println(f2.getAbsolutePath());//C:\Users\adminys\Desktop\ab.txt
+        System.out.println(f3.getAbsolutePath());//D:\codetest\javasepro\file-io-app\src\ys.txt
+    };
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws IOException {
+        //创建一个新文件，创建成功返回true，需要抛异常
+        File f1=new File(&quot;C:/Users/adminys/Desktop/ab1.txt&quot;);
+        System.out.println(f1.createNewFile());
+        //创建一个文件夹，只能用于创建一个一级文件夹
+        //File f2=new File(&quot;C:/Users/adminys/Desktop/aaa/bbb/ccc&quot;);
+        //System.out.println(f2.mkdir());//false
+        File f2=new File(&quot;C:/Users/adminys/Desktop/aaa&quot;);
+        System.out.println(f2.mkdir());//true
+        //创建多级文件夹
+        File f3 =new File(&quot;C:/Users/adminys/Desktop/bbb/ccc&quot;);
+        System.out.println(f3.mkdirs());
+        //删除文件，或者空文件夹，不能删除非空文件夹
+        System.out.println(f1 .delete());
+        System.out.println(f2.delete());
+    };
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws IOException {
+        //获取当前目录下所有的一级文件名称到一个字符数组中去返回
+        File f1=new File(&quot;D:/多视图&quot;);
+        String[] names=f1.list();
+        for (String name : names) {
+            System.out.println(name);
+        }
+        //获取当前目录下所有一级文件对象到一个文件对象数组中去返回
+        File[] files=f1.listFiles();
+        for (File file : files) {
+            System.out.println(file.getAbsolutePath());
+        }
+    };
+}
+</code></pre>
+<p>使用listFiles方法注意事项：</p>
+<ul>
+<li>当主调是文件，或者当路径不存在，返回null。</li>
+<li>当主调是空文件夹时，返回一个长度为0的数组。</li>
+<li>当主调是一个有内容的文件夹时，将所有一级文件和文件夹的路径放在一个File数组中返回。</li>
+<li>当主调是一个文件夹，且里面有隐藏文件，将所有一级文件和文件夹的路径放在一个File数组中返回，包含隐藏文件。</li>
+<li>当主调是一个文件夹，但没有权限访问该文件夹，返回null。</li>
+</ul>
+<h1 id="方法递归"><strong>方法递归</strong></h1>
+<ul>
+<li>直接递归：方法自己调用自己</li>
+<li>简介递归：方法调用其他方法，其他方法又调用自己。</li>
+</ul>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        test1();
+    }
+    public static void test1(){
+        System.out.println(&quot;-----test1-----&quot;);
+        test1();//无限在方法栈中调用test1()，最后栈内存溢出
+    }
+    public static void test2(){
+        System.out.println(&quot;-----test2-----&quot;);
+        test3();
+    }
+    public static void test3(){
+        System.out.println(&quot;-----test3-----&quot;);
+        test2();
+    }
+}
+</code></pre>
+<h2 id="案例计算n的阶乘"><strong>案例：计算n的阶乘</strong></h2>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        System.out.println(f(5));
+    }
+    public static int f(int n){
+        if(n==1){
+            return 1;
+        }else{
+            return f(n-1)*n;
+        }
+    }
+}
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250323152936.png" alt="" loading="lazy"></figure>
+<h1 id="练习案例"><strong>练习案例</strong></h1>
+<p>文件搜索：</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws IOException {
+        searchFile(new File(&quot;D:/&quot;),&quot;QQMusic.exe&quot;);
+    }
+
+    /**
+     * 去目录下搜索某个文件
+     * @param dir
+     * @param fileName
+     */
+    public static void searchFile(File dir, String fileName) throws IOException {
+        //把非法情况拦截
+        if(dir==null||!dir.exists()||dir.isFile()){
+            return;
+        }
+        //一定是文件夹对象
+        File[] files = dir.listFiles();
+        if(files==null||files.length==0){
+            return;
+        }
+        for (File file : files) {
+            if (file.isFile()) {
+                if (file.getName().contains(fileName)) {
+                    System.out.println(file.getAbsolutePath());
+                    Runtime runtime = Runtime.getRuntime();
+                    runtime.exec(file.getAbsolutePath());
+                }
+            }else{
+                searchFile(file,fileName);
+            }
+        }
+    }
+}
+</code></pre>
+<p>文件删除：</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        deleteDir(new File(&quot;C:\\Users\\adminys\\Desktop\\多视图&quot;));
+    }
+    public static void deleteDir(File dir) {
+        //把非法情况拦截
+        if(dir==null||!dir.exists()||dir.isFile()){
+            return;
+        }
+        File[] files = dir.listFiles();
+        if(files==null||files.length==0){
+            return;
+        }
+        for(File file:files){
+            if(!file.delete()){
+                deleteDir(file);
+            }
+        }
+        dir.delete();
+    }
+}
+</code></pre>
+<p>啤酒2院一瓶，4个盖子可以换一瓶，2个空瓶可以换一瓶，请问10元能换多少瓶？</p>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        System.out.println(buy(10, 0, 0));
+    }
+    public static int buy(int money,int bottle,int lid){
+        int buynumber=money/2+bottle/2+lid/4;
+        bottle=buynumber+bottle%2;
+        lid=buynumber+lid%4;
+        money=money%2;
+        if(money/2+bottle/2+lid/4&gt;0){
+            buynumber+=buy(money,bottle,lid);
+        }
+        return buynumber;
+    }
+}
+</code></pre>
+<h1 id="字符集"><strong>字符集</strong></h1>
+<ul>
+<li>ASCII，美国信息交换标准代码，字符集使用一个字节存储字符，首尾是0，总共可以表达128个字符</li>
+<li>GBK是汉字编码字符集，包含2万个汉字等字符，GBK中一个字符编码成两个字节的形式存储，汉字的第一个字节的第一位必须是0。</li>
+<li>Unicode字符集是统一码，也叫万国码，是国际组织指定的，可以容纳世界上所有文字符号的字符集。</li>
+<li>UTF-8是Unicode字符集的一种标准编码，采取可变长编码方案，共分四个长度区：1个字节、2个字节、3个字节、4个字节。英文字符、数字只占1个字节，汉字只占3个字节。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>UTF-8编码（二进制）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0xxxxxxx</td>
+</tr>
+<tr>
+<td>110xxxxx 10xxxxxx</td>
+</tr>
+<tr>
+<td>1110xxxx 10xxxxxx 10xxxxxx</td>
+</tr>
+<tr>
+<td>1110xxxx 10xxxxxx 10xxxxxx 10xxxxxx</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>英文，数字一般不会乱码，因为很多字符集都兼容ASCII编码。</li>
+</ul>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws UnsupportedEncodingException {
+       //编码
+        String data=&quot;a我b&quot;;
+        byte[] bytes=data.getBytes();//默认按照平台字符集UTF-8进行编码
+        System.out.println(Arrays.toString(bytes));//[97, -26, -120, -111, 98]
+        //按照指定字符集进行编码
+        byte[] bytes1=data.getBytes(&quot;GBK&quot;);//抛异常
+        System.out.println(Arrays.toString(bytes1));//[97, -50, -46, 98]
+        //解码
+        String s1=new String(bytes);//默认按照平台字符集UTF-8进行解码
+        System.out.println(s1);//a我b
+
+        String s2=new String(bytes1);//默认按照平台字符集UTF-8进行解码
+        System.out.println(s2);//a��b
+
+        String s3 =new String(bytes1,&quot;GBK&quot;);
+        System.out.println(s3);//a我b
+    }
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1"><strong>创建对象</strong></a></li>
+<li><a href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><strong>常用方法</strong></a></li>
+<li><a href="#%E6%96%B9%E6%B3%95%E9%80%92%E5%BD%92"><strong>方法递归</strong></a>
+<ul>
+<li><a href="#%E6%A1%88%E4%BE%8B%E8%AE%A1%E7%AE%97n%E7%9A%84%E9%98%B6%E4%B9%98"><strong>案例：计算n的阶乘</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E7%BB%83%E4%B9%A0%E6%A1%88%E4%BE%8B"><strong>练习案例</strong></a></li>
+<li><a href="#%E5%AD%97%E7%AC%A6%E9%9B%86"><strong>字符集</strong></a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://yyss1014.github.io/post/stream/">
+              <h3 class="post-title">
+                Stream
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://yyss1014.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

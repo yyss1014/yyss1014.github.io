@@ -1,0 +1,776 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>删改员工与统计 | WASD研究院</title>
+<link rel="shortcut icon" href="https://yyss1014.github.io/favicon.ico?v=1751633121752">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://yyss1014.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="删改员工与统计 | WASD研究院 - Atom Feed" href="https://yyss1014.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+删除员工
+
+功能开发
+
+Controller接收参数
+Service
+Mapper
+
+
+
+
+修改员工
+
+查询回显
+
+resultMap
+
+
+修改员工
+
+set标签
+
+
+
+
+异常处理
+
+解决方案
+全局异常处理器
+
+
+员工信息统计
+
+职位统计..." />
+    <meta name="keywords" content="JavaWeb" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yyss1014.github.io">
+  <img class="avatar" src="https://yyss1014.github.io/images/avatar.png?v=1751633121752" alt="">
+  </a>
+  <h1 class="site-title">
+    WASD研究院
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/archives" class="menu">
+          目录
+        </a>
+      
+    
+      
+        <a href="/" class="menu">
+          文章
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          分类
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              删改员工与统计
+            </h2>
+            <div class="post-info">
+              <span>
+                2025-06-19
+              </span>
+              <span>
+                17 min read
+              </span>
+              
+                <a href="https://yyss1014.github.io/tag/2ON39h6GJZ/" class="post-tag">
+                  # JavaWeb
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p><ul class="markdownIt-TOC">
+<li><a href="#%E5%88%A0%E9%99%A4%E5%91%98%E5%B7%A5"><strong>删除员工</strong></a>
+<ul>
+<li><a href="#%E5%8A%9F%E8%83%BD%E5%BC%80%E5%8F%91"><strong>功能开发</strong></a>
+<ul>
+<li><a href="#controller%E6%8E%A5%E6%94%B6%E5%8F%82%E6%95%B0"><strong>Controller接收参数</strong></a></li>
+<li><a href="#service"><strong>Service</strong></a></li>
+<li><a href="#mapper"><strong>Mapper</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E4%BF%AE%E6%94%B9%E5%91%98%E5%B7%A5"><strong>修改员工</strong></a>
+<ul>
+<li><a href="#%E6%9F%A5%E8%AF%A2%E5%9B%9E%E6%98%BE"><strong>查询回显</strong></a>
+<ul>
+<li><a href="#resultmap"><strong>resultMap</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E4%BF%AE%E6%94%B9%E5%91%98%E5%B7%A5-2"><strong>修改员工</strong></a>
+<ul>
+<li><a href="#set%E6%A0%87%E7%AD%BE"><strong>set标签</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86"><strong>异常处理</strong></a>
+<ul>
+<li><a href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><strong>解决方案</strong></a></li>
+<li><a href="#%E5%85%A8%E5%B1%80%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E5%99%A8"><strong>全局异常处理器</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E5%91%98%E5%B7%A5%E4%BF%A1%E6%81%AF%E7%BB%9F%E8%AE%A1"><strong>员工信息统计</strong></a>
+<ul>
+<li><a href="#%E8%81%8C%E4%BD%8D%E7%BB%9F%E8%AE%A1"><strong>职位统计</strong></a>
+<ul>
+<li><a href="#case%E5%87%BD%E6%95%B0"><strong>case函数</strong></a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><strong>代码实现</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E6%80%A7%E5%88%AB%E7%BB%9F%E8%AE%A1"><strong>性别统计</strong></a>
+<ul>
+<li><a href="#if%E5%87%BD%E6%95%B0"><strong>if函数</strong></a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-2"><strong>代码实现</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</p>
+<h1 id="删除员工"><strong>删除员工</strong></h1>
+<p>请求路径：/emps<br>
+请求方式：DELETE<br>
+接口描述：该接口用于批量删除员工的数据信息<br>
+请求参数：</p>
+<ul>
+<li>参数格式：查询参数</li>
+<li>请求参数样例：/emps?ids=1,2,3</li>
+</ul>
+<p>响应参数</p>
+<ul>
+<li>参数格式：application/json</li>
+<li>响应数据样例：</li>
+</ul>
+<pre><code class="language-json">{
+    &quot;code&quot;:1,
+    &quot;msg&quot;:&quot;success&quot;,
+    &quot;data&quot;:null
+}
+</code></pre>
+<h2 id="功能开发"><strong>功能开发</strong></h2>
+<h3 id="controller接收参数"><strong>Controller接收参数</strong></h3>
+<p>在 EmpController 中增加如下方法 delete ，来执行批量删除员工的操作。<br>
+方式一：在Controller方法中通过数组来接收<br>
+多个参数，默认可以将其封装到一个数组中，需要保证前端传递的参数名 与 方法形参名称保持一致。</p>
+<pre><code class="language-java">@DeleteMapping
+    public Result delete(Integer[] ids) {
+        log.info(&quot;删除员工：{}&quot;, Arrays.toString(ids));
+        return Result.success();
+    }
+</code></pre>
+<p>方式二：在Controller方法中通过集合来接收<br>
+也可以将其封装到一个List<Integer> 集合中，如果要将其封装到一个集合中，需要在集合这样的复杂类型前面加上 @RequestParam 注解。</p>
+<pre><code class="language-java">@DeleteMapping
+    public Result delete(@RequestParam List&lt;Integer&gt; ids) {
+        log.info(&quot;删除员工：{}&quot;, ids);
+        empService.delete(ids);
+        return Result.success();
+    }
+</code></pre>
+<h3 id="service"><strong>Service</strong></h3>
+<pre><code class="language-java">@Transactional(rollbackFor = Exception.class)
+    @Override
+    public void delete(List&lt;Integer&gt; ids) {
+        //1.删除员工的基本信息
+        empMapper.deleteByIds(ids);
+        //2.删除员工的工作经历信息
+        empExprMapper.deleteByEmpIds(ids);
+
+    }
+
+    }
+</code></pre>
+<h3 id="mapper"><strong>Mapper</strong></h3>
+<p>在 EmpMapper.xml 配置文件中, 配置对应的SQL语句</p>
+<pre><code class="language-xml">&lt;delete id=&quot;deleteByIds&quot;&gt;
+       delete from emp where id in
+       &lt;foreach collection=&quot;ids&quot; item=&quot;id&quot; separator=&quot;,&quot; open=&quot;(&quot; close=&quot;)&quot;&gt;
+           #{id}
+       &lt;/foreach&gt;
+   &lt;/delete&gt;
+</code></pre>
+<p>在 EmpExprMapper.xml 配置文件中, 配置对应的SQL语句</p>
+<pre><code class="language-xml">&lt;delete id=&quot;deleteByEmpIds&quot;&gt;
+        delete from emp_expr where emp_id in
+        &lt;foreach collection=&quot;empIds&quot; item=&quot;empId&quot; separator=&quot;,&quot; open=&quot;(&quot; close=&quot;)&quot;&gt;
+            #{empId}
+        &lt;/foreach&gt;
+    &lt;/delete&gt;
+</code></pre>
+<h1 id="修改员工"><strong>修改员工</strong></h1>
+<h2 id="查询回显"><strong>查询回显</strong></h2>
+<p>请求路径：/emps/{id}<br>
+请求方式：GET<br>
+接口描述：该接口用于根据主键ID查询员工的信息<br>
+参数格式：路径参数<br>
+请求参数样例：/emps/1<br>
+响应数据样例：</p>
+<pre><code class="language-json">{
+  &quot;code&quot;: 1,
+  &quot;msg&quot;: &quot;success&quot;,
+  &quot;data&quot;: {
+    &quot;id&quot;: 2,
+    &quot;username&quot;: &quot;zhangwuji&quot;,
+    &quot;name&quot;: &quot;张无忌&quot;,
+    &quot;gender&quot;: 1,
+    &quot;image&quot;: &quot;https://web-framework.oss-cn-hangzhou.aliyuncs.com/2022-09-02-00-27-53B.jpg&quot;,
+    &quot;job&quot;: 2,
+    &quot;salary&quot;: 8000,
+    &quot;entryDate&quot;: &quot;2015-01-01&quot;,
+    &quot;deptId&quot;: 2,
+    &quot;createTime&quot;: &quot;2022-09-01T23:06:30&quot;,
+    &quot;updateTime&quot;: &quot;2022-09-02T00:29:04&quot;,
+    &quot;exprList&quot;: [
+      {
+        &quot;id&quot;: 1,
+        &quot;begin&quot;: &quot;2012-07-01&quot;,
+        &quot;end&quot;: &quot;2019-03-03&quot;
+        &quot;company&quot;: &quot;百度科技股份有限公司&quot;
+        &quot;job&quot;: &quot;java开发&quot;,
+        &quot;empId&quot;: 2
+      },
+      {
+        &quot;id&quot;: 2,
+        &quot;begin&quot;: &quot;2019-3-15&quot;,
+        &quot;end&quot;: &quot;2023-03-01&quot;
+        &quot;company&quot;: &quot;阿里巴巴科技股份有限公司&quot;
+        &quot;job&quot;: &quot;架构师&quot;,
+        &quot;empId&quot;: 2
+      }
+    ]
+  }
+}
+</code></pre>
+<h3 id="resultmap"><strong>resultMap</strong></h3>
+<p>1). EmpController 添加 getInfo 用来根据ID查询员工数据，用于页面回显</p>
+<pre><code class="language-java">@GetMapping(&quot;/{id}&quot;)
+    public Result getInfo(@PathVariable Integer id) {
+        log.info(&quot;根据ID查询员工信息：{}&quot;,id);
+        Emp emp=empService.getInfo(id);
+        return Result.success(emp);
+    }
+</code></pre>
+<p>2). EmpServiceImpl 实现类中实现 <code>getInfo</code> 方法</p>
+<pre><code class="language-java">@Override
+    public Emp getInfo(Integer id) {
+        return empMapper.getById(id);
+    }
+</code></pre>
+<p>3). EmpMapper 接口中增加 getById 方法</p>
+<pre><code class="language-java">Emp getById(Integer id);
+</code></pre>
+<p>4). EmpMapper.xml 配置文件中定义对应的SQL</p>
+<pre><code class="language-xml">&lt;!--自定义结果集ResultMap--&gt;
+    &lt;resultMap id=&quot;empResultMap&quot; type=&quot;com.ys.pojo.Emp&quot;&gt;
+        &lt;id column=&quot;id&quot; property=&quot;id&quot; /&gt;
+        &lt;result column=&quot;username&quot; property=&quot;username&quot; /&gt;
+        &lt;result column=&quot;password&quot; property=&quot;password&quot; /&gt;
+        &lt;result column=&quot;name&quot; property=&quot;name&quot; /&gt;
+        &lt;result column=&quot;gender&quot; property=&quot;gender&quot; /&gt;
+        &lt;result column=&quot;phone&quot; property=&quot;phone&quot; /&gt;
+        &lt;result column=&quot;job&quot; property=&quot;job&quot; /&gt;
+        &lt;result column=&quot;salary&quot; property=&quot;salary&quot; /&gt;
+        &lt;result column=&quot;image&quot; property=&quot;image&quot; /&gt;
+        &lt;result column=&quot;entry_date&quot; property=&quot;entryDate&quot; /&gt;
+        &lt;result column=&quot;dept_id&quot; property=&quot;deptId&quot; /&gt;
+        &lt;result column=&quot;create_time&quot; property=&quot;createTime&quot; /&gt;
+        &lt;result column=&quot;update_time&quot; property=&quot;updateTime&quot; /&gt;
+
+        &lt;!--封装exprList--&gt;
+        &lt;collection property=&quot;exprList&quot; ofType=&quot;com.ys.pojo.EmpExpr&quot;&gt;
+            &lt;id column=&quot;ee_id&quot; property=&quot;id&quot;/&gt;
+            &lt;result column=&quot;ee_company&quot; property=&quot;company&quot;/&gt;
+            &lt;result column=&quot;ee_job&quot; property=&quot;job&quot;/&gt;
+            &lt;result column=&quot;ee_begin&quot; property=&quot;begin&quot;/&gt;
+            &lt;result column=&quot;ee_end&quot; property=&quot;end&quot;/&gt;
+            &lt;result column=&quot;ee_empid&quot; property=&quot;empId&quot;/&gt;
+        &lt;/collection&gt;
+    &lt;/resultMap&gt;
+&lt;!--    根据员工ID查询基本信息与工作经历信息--&gt;
+    &lt;select id=&quot;getById&quot; resultMap=&quot;empResultMap&quot;&gt;
+        select
+            e.*,
+            ee.id ee_id,
+            ee.emp_id ee_empid,
+            ee.begin ee_begin,
+            ee.end ee_end,
+            ee.company ee_company,
+            ee.job ee_job
+        from emp e left join emp_expr ee on e.id = ee.emp_id where e.id=#{id};
+    &lt;/select&gt;
+</code></pre>
+<h2 id="修改员工-2"><strong>修改员工</strong></h2>
+<p>请求路径：/emps<br>
+请求方式：PUT<br>
+参数格式：application/json<br>
+请求数据样例：</p>
+<pre><code class="language-json">{
+    &quot;id&quot;: 2,
+    &quot;username&quot;: &quot;zhangwuji&quot;,
+    &quot;password&quot;: &quot;123456&quot;,
+    &quot;name&quot;: &quot;张无忌&quot;,
+    &quot;gender&quot;: 1,
+    &quot;image&quot;: &quot;https://web-framework.oss-cn-hangzhou.aliyuncs.com/2022-09-02-00-27-53B.jpg&quot;,
+    &quot;job&quot;: 2,
+    &quot;salary&quot;: 8000,
+    &quot;entryDate&quot;: &quot;2015-01-01&quot;,
+    &quot;deptId&quot;: 2,
+    &quot;createTime&quot;: &quot;2022-09-01T23:06:30&quot;,
+    &quot;updateTime&quot;: &quot;2022-09-02T00:29:04&quot;,
+    &quot;exprList&quot;: [
+      {
+        &quot;id&quot;: 1,
+        &quot;begin&quot;: &quot;2012-07-01&quot;,
+        &quot;end&quot;: &quot;2015-06-20&quot;
+        &quot;company&quot;: &quot;中软国际股份有限公司&quot;
+        &quot;job&quot;: &quot;java开发&quot;,
+        &quot;empId&quot;: 2
+      },
+      {
+        &quot;id&quot;: 2,
+        &quot;begin&quot;: &quot;2015-07-01&quot;,
+        &quot;end&quot;: &quot;2019-03-03&quot;
+        &quot;company&quot;: &quot;百度科技股份有限公司&quot;
+        &quot;job&quot;: &quot;java开发&quot;,
+        &quot;empId&quot;: 2
+      },
+      {
+        &quot;id&quot;: 3,
+        &quot;begin&quot;: &quot;2019-3-15&quot;,
+        &quot;end&quot;: &quot;2023-03-01&quot;
+        &quot;company&quot;: &quot;阿里巴巴科技股份有限公司&quot;
+        &quot;job&quot;: &quot;架构师&quot;,
+        &quot;empId&quot;: 2
+      }
+    ]
+  }
+</code></pre>
+<p>参数格式：application/json<br>
+响应数据样例：</p>
+<pre><code class="language-json">{
+  &quot;code&quot;:1,
+  &quot;msg&quot;:&quot;success&quot;,
+  &quot;data&quot;:null
+}
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250624160855.png" alt="" loading="lazy"></figure>
+<h3 id="set标签"><strong>set标签</strong></h3>
+<p>自动生成set关键字，会自动删除更新字段多余的逗号。<br>
+1). EmpController 增加 update 方法接收请求参数，响应数据</p>
+<pre><code class="language-java">@PutMapping
+    public Result update(@RequestBody Emp emp) {
+        log.info(&quot;修改员工：{}&quot;,emp);
+        empService.update(emp);
+        return Result.success();
+    }
+</code></pre>
+<p>2).  EmpServiceImpl实现类实现 update 方法</p>
+<pre><code class="language-java">@Transactional(rollbackFor = {Exception.class})
+    @Override
+    public void update(Emp emp) {
+        //1.修改员工的基本信息
+        emp.setUpdateTime(LocalDateTime.now());
+        empMapper.updateById(emp);
+        //2.员工经历
+        //先删除
+        empExprMapper.deleteByEmpIds(Arrays.asList(emp.getId()));
+        //再添加
+        List&lt;EmpExpr&gt; exprList=emp.getExprList();
+        if(!CollectionUtils.isEmpty(exprList)){
+            exprList.forEach(expr-&gt;{
+                expr.setEmpId(emp.getId());
+            });
+            empExprMapper.insertBatch(exprList);
+        }
+    }
+</code></pre>
+<p>3). EmpMapper 接口中增加 updateById 方法</p>
+<pre><code class="language-java">void updateById(Emp emp);
+</code></pre>
+<p>4). EmpMapper.xml 配置文件中定义对应的SQL语句，基于动态SQL更新员工信息</p>
+<pre><code class="language-xml">&lt;update id=&quot;updateById&quot;&gt;
+        update emp
+        &lt;set&gt;
+            &lt;if test=&quot;username != null and username != ''&quot;&gt;username = #{username},&lt;/if&gt;
+            &lt;if test=&quot;password != null and password != ''&quot;&gt;password = #{password},&lt;/if&gt;
+            &lt;if test=&quot;name != null and name != ''&quot;&gt;name = #{name},&lt;/if&gt;
+            &lt;if test=&quot;gender != null&quot;&gt;gender = #{gender},&lt;/if&gt;
+            &lt;if test=&quot;phone != null and phone != ''&quot;&gt;phone = #{phone},&lt;/if&gt;
+            &lt;if test=&quot;job != null&quot;&gt;job = #{job},&lt;/if&gt;
+            &lt;if test=&quot;salary != null&quot;&gt;salary = #{salary},&lt;/if&gt;
+            &lt;if test=&quot;image != null and image != ''&quot;&gt;image = #{image},&lt;/if&gt;
+            &lt;if test=&quot;entryDate != null&quot;&gt;entry_date = #{entryDate},&lt;/if&gt;
+            &lt;if test=&quot;deptId != null&quot;&gt;dept_id = #{deptId},&lt;/if&gt;
+            &lt;if test=&quot;updateTime != null&quot;&gt;update_time = #{updateTime},&lt;/if&gt;
+        &lt;/set&gt;
+        where id = #{id}
+    &lt;/update&gt;
+</code></pre>
+<h1 id="异常处理"><strong>异常处理</strong></h1>
+<p>当我们在修改部门数据的时候，如果输入一个在数据库表中已经存在的手机号，点击保存按钮之后，前端提示了错误信息，但是返回的结果并不是统一的响应结果，而是框架默认返回的错误结果 。<br>
+当我们没有做任何的异常处理时，我们三层架构处理异常的方案：</p>
+<ul>
+<li>Mapper接口在操作数据库的时候出错了，此时异常会往上抛(谁调用Mapper就抛给谁)，会抛给service。</li>
+<li>service 中也存在异常了，会抛给controller。</li>
+<li>而在controller当中，我们也没有做任何的异常处理，所以最终异常会再往上抛。最终抛给框架之后，框架就会返回一个JSON格式的数据，里面封装的就是错误的信息，但是框架返回的JSON格式的数据并不符合我们的开发规范。</li>
+</ul>
+<h2 id="解决方案"><strong>解决方案</strong></h2>
+<ul>
+<li>方案一：在所有Controller的所有方法中进行try…catch处理<br>
+缺点：代码臃肿（不推荐）<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250624171347.png" alt="" loading="lazy"></li>
+<li>方案二：全局异常处理器<br>
+好处：简单、优雅（推荐）<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250624171413.png" alt="" loading="lazy"></li>
+</ul>
+<h2 id="全局异常处理器"><strong>全局异常处理器</strong></h2>
+<ul>
+<li>定义全局异常处理器非常简单，就是定义一个类，在类上加上一个注解@RestControllerAdvice，加上这个注解就代表我们定义了一个全局异常处理器。</li>
+<li>在全局异常处理器当中，需要定义一个方法来捕获异常，在这个方法上需要加上注解@ExceptionHandler。通过@ExceptionHandler注解当中的value属性来指定我们要捕获的是哪一类型的异常。可以不指定value属性，按照异常类的继承关系从下往上匹配。</li>
+</ul>
+<pre><code class="language-java">@Slf4j
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler
+    public Result handleException(Exception e){
+        log.error(&quot;程序出错了~&quot;+e);
+        return Result.error(&quot;出错了，请联系管理员&quot;);
+    }
+
+    @ExceptionHandler
+    public Result handleDuplicateKeyException(DuplicateKeyException e){
+        log.error(&quot;程序出错了~&quot;+e);
+        String message = e.getMessage();
+        int i=message.indexOf(&quot;Duplicate entry&quot;);
+        String errMsg=message.substring(i);
+        String[] arr=errMsg.split(&quot; &quot;);
+        return Result.error(arr[2]+&quot;已存在&quot;);
+    }
+}
+</code></pre>
+<p>@RestControllerAdvice = @ControllerAdvice + @ResponseBody<br>
+处理异常的方法返回值会转换为json后再响应给前端</p>
+<h1 id="员工信息统计"><strong>员工信息统计</strong></h1>
+<p>员工管理的增删改查功能我们已开发完成，接下来，我们再来完成员工信息统计的接口开发。  是基于现成的一些图形报表的组件开发的，比如：Echarts、HighCharts等。而报表的制作，主要是前端人员开发，引入对应的组件（比如：ECharts）即可。  服务端开发人员仅为其提供数据即可。<br>
+官网：https://echarts.apache.org/zh/index.html</p>
+<h2 id="职位统计"><strong>职位统计</strong></h2>
+<p><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250624203029.png" alt="" loading="lazy"><br>
+请求路径：/report/empJobData<br>
+请求方式：GET<br>
+接口描述：统计各个职位的员工人数<br>
+响应参数格式：application/json</p>
+<pre><code class="language-json">{
+  &quot;code&quot;: 1,
+  &quot;msg&quot;: &quot;success&quot;,
+  &quot;data&quot;: {
+    &quot;jobList&quot;: [&quot;教研主管&quot;,&quot;学工主管&quot;,&quot;其他&quot;,&quot;班主任&quot;,&quot;咨询师&quot;,&quot;讲师&quot;],
+    &quot;dataList&quot;: [1,1,2,6,8,13]
+  }
+}
+</code></pre>
+<h3 id="case函数"><strong>case函数</strong></h3>
+<pre><code class="language-sql">-- 统计每一种对应的人数
+select count(*), job from emp group by job;
+-- case函数：case 表达式 when val1 then result1 when val2 then result2 ...else...end
+select
+    (case job when 1 then '班主任'
+        when 2 then '讲师'
+        when 3 then '学工主管'
+        when 4 then '教研主管'
+        when 5 then '咨询师'
+        else '其他'end) pos,
+    count(*) num
+from emp group by job order by num asc;
+-- case函数：case when 条件表达式1 then result1 when 条件表达式2 then result2 ...else...end
+select
+    (case when job=1 then '班主任'
+        when job=2 then '讲师'
+        when job=3 then '学工主管'
+        when job=4 then '教研主管'
+        when job=5 then '咨询师'
+        else '其他'end) pos,
+    count(*) num
+from emp group by job order by num asc;
+</code></pre>
+<h3 id="代码实现"><strong>代码实现</strong></h3>
+<p>1). 定义封装结果对象JobOption<br>
+在 com.ys.pojo 包中定义实体类 JobOption</p>
+<pre><code class="language-java">@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class JobOption {
+    private List jobList;
+    private List dataList;
+}
+</code></pre>
+<p>2). 定义ReportController，并添加方法。</p>
+<pre><code class="language-java">@Slf4j
+@RequestMapping(&quot;/report&quot;)
+@RestController
+public class ReportController {
+
+    @Autowired
+    private ReportService reportService;
+
+    @GetMapping(&quot;/empJobData&quot;)
+    public Result getEmpJobData(){
+        log.info(&quot;统计员工人数&quot;);
+        JobOption jobOption = reportService.getEmpJobData();
+        return Result.success(jobOption);
+    }
+}
+</code></pre>
+<p>3). 定义ReportServiceImpl实现类，并实现方法</p>
+<pre><code class="language-java@Service">public class ReportServiceImpl implements ReportService {
+
+    @Autowired
+    private EmpMapper empMapper;
+
+    @Override
+    public JobOption getEmpJobData() {
+        List&lt;Map&lt;String,Object&gt;&gt; list = empMapper.countEmpJobData();
+        List&lt;Object&gt; jobList=list.stream().map(dataMap-&gt;dataMap.get(&quot;pos&quot;)).toList();
+        List&lt;Object&gt; dataList=list.stream().map(dataMap-&gt;dataMap.get(&quot;num&quot;)).toList();
+        return new JobOption(jobList,dataList);
+
+    }
+}
+</code></pre>
+<p>4). 定义EmpMapper 接口</p>
+<pre><code class="language-java">List&lt;Map&lt;String,Object&gt;&gt; countEmpJobData();
+</code></pre>
+<p>如果查询的记录往Map中封装，可以通过@MapKey注解指定返回的map中的唯一标识是那个字段。【也可以不指定】<br>
+5). 定义EmpMapper.xml</p>
+<pre><code class="language-xml">&lt;select id=&quot;countEmpJobData&quot; resultType=&quot;java.util.Map&quot;&gt;
+        select
+            (case when job=1 then '班主任'
+                  when job=2 then '讲师'
+                  when job=3 then '学工主管'
+                  when job=4 then '教研主管'
+                  when job=5 then '咨询师'
+                  else '其他'end) pos,
+            count(*) num
+        from emp group by job order by num asc
+    &lt;/select&gt;
+</code></pre>
+<h2 id="性别统计"><strong>性别统计</strong></h2>
+<p>请求路径：/report/empGenderData<br>
+请求方式：GET<br>
+接口描述：统计员工性别信息<br>
+响应参数格式：application/json</p>
+<pre><code class="language-json">{
+  &quot;code&quot;: 1,
+  &quot;msg&quot;: &quot;success&quot;,
+  &quot;data&quot;: [
+    {&quot;name&quot;: &quot;男性员工&quot;,&quot;value&quot;: 5},
+    {&quot;name&quot;: &quot;女性员工&quot;,&quot;value&quot;: 6}
+  ]
+}
+</code></pre>
+<h3 id="if函数"><strong>if函数</strong></h3>
+<pre><code class="language-sql">-- if(条件,true_value,false_value)
+select
+    if(gender=1,'男性员工','女性员工') name,
+    count(*) value
+from emp group by gender;
+</code></pre>
+<p>ifnull函数语法：ifnull(expr, val1)    如果expr不为null，取自身，否则取val1</p>
+<h3 id="代码实现-2"><strong>代码实现</strong></h3>
+<p>1). 在ReportController，添加方法。</p>
+<pre><code class="language-java">@GetMapping(&quot;/empGenderData&quot;)
+    public Result getEmpGenderData(){
+        log.info(&quot;统计员工信息&quot;);
+        List&lt;Map&lt;String,Object&gt;&gt; genderList=reportService.getEmpGenderData();
+        return Result.success(genderList);
+    }
+</code></pre>
+<p>2). 在ReportServiceImpl实现类，实现方法</p>
+<pre><code class="language-java">@Override
+    public List&lt;Map&lt;String, Object&gt;&gt; getEmpGenderData() {
+        return empMapper.countEmpGenderData();
+    }
+</code></pre>
+<p>3). 定义EmpMapper 接口</p>
+<pre><code class="language-java">List&lt;Map&lt;String,Object&gt;&gt; countEmpGenderData();
+</code></pre>
+<p>4). 定义EmpMapper.xml</p>
+<pre><code class="language-xml">&lt;select id=&quot;countEmpGenderData&quot; resultType=&quot;java.util.Map&quot;&gt;
+        select
+            if(gender=1,'男性员工','女性员工') name,
+            count(*) value
+        from emp group by gender
+    &lt;/select&gt;
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E5%88%A0%E9%99%A4%E5%91%98%E5%B7%A5"><strong>删除员工</strong></a>
+<ul>
+<li><a href="#%E5%8A%9F%E8%83%BD%E5%BC%80%E5%8F%91"><strong>功能开发</strong></a>
+<ul>
+<li><a href="#controller%E6%8E%A5%E6%94%B6%E5%8F%82%E6%95%B0"><strong>Controller接收参数</strong></a></li>
+<li><a href="#service"><strong>Service</strong></a></li>
+<li><a href="#mapper"><strong>Mapper</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E4%BF%AE%E6%94%B9%E5%91%98%E5%B7%A5"><strong>修改员工</strong></a>
+<ul>
+<li><a href="#%E6%9F%A5%E8%AF%A2%E5%9B%9E%E6%98%BE"><strong>查询回显</strong></a>
+<ul>
+<li><a href="#resultmap"><strong>resultMap</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E4%BF%AE%E6%94%B9%E5%91%98%E5%B7%A5-2"><strong>修改员工</strong></a>
+<ul>
+<li><a href="#set%E6%A0%87%E7%AD%BE"><strong>set标签</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86"><strong>异常处理</strong></a>
+<ul>
+<li><a href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><strong>解决方案</strong></a></li>
+<li><a href="#%E5%85%A8%E5%B1%80%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E5%99%A8"><strong>全局异常处理器</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E5%91%98%E5%B7%A5%E4%BF%A1%E6%81%AF%E7%BB%9F%E8%AE%A1"><strong>员工信息统计</strong></a>
+<ul>
+<li><a href="#%E8%81%8C%E4%BD%8D%E7%BB%9F%E8%AE%A1"><strong>职位统计</strong></a>
+<ul>
+<li><a href="#case%E5%87%BD%E6%95%B0"><strong>case函数</strong></a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><strong>代码实现</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E6%80%A7%E5%88%AB%E7%BB%9F%E8%AE%A1"><strong>性别统计</strong></a>
+<ul>
+<li><a href="#if%E5%87%BD%E6%95%B0"><strong>if函数</strong></a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-2"><strong>代码实现</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://yyss1014.github.io/post/xin-zeng-yuan-gong-yu-shang-chuan/">
+              <h3 class="post-title">
+                新增员工与上传
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://yyss1014.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

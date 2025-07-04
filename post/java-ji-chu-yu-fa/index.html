@@ -1,0 +1,348 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Java基础语法 | WASD研究院</title>
+<link rel="shortcut icon" href="https://yyss1014.github.io/favicon.ico?v=1751633121752">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://yyss1014.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Java基础语法 | WASD研究院 - Atom Feed" href="https://yyss1014.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="注释
+//一行注释
+
+/*
+多行
+注释
+*/
+
+/**
+文档注释：文档注释的内容是可以提取到一个程序说明文档的
+*/
+
+变量
+数据类型 变量名=数据
+&amp;emsp;&amp;emsp;标识符就是名字，如类名，变量名都是标识符。标识符由..." />
+    <meta name="keywords" content="Java" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yyss1014.github.io">
+  <img class="avatar" src="https://yyss1014.github.io/images/avatar.png?v=1751633121752" alt="">
+  </a>
+  <h1 class="site-title">
+    WASD研究院
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/archives" class="menu">
+          目录
+        </a>
+      
+    
+      
+        <a href="/" class="menu">
+          文章
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          分类
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Java基础语法
+            </h2>
+            <div class="post-info">
+              <span>
+                2025-02-23
+              </span>
+              <span>
+                4 min read
+              </span>
+              
+                <a href="https://yyss1014.github.io/tag/ZoLZarYSyW/" class="post-tag">
+                  # Java
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <h2 id="注释"><strong>注释</strong></h2>
+<pre><code class="language-java">//一行注释
+
+/*
+多行
+注释
+*/
+
+/**
+文档注释：文档注释的内容是可以提取到一个程序说明文档的
+*/
+</code></pre>
+<h2 id="变量"><strong>变量</strong></h2>
+<p>数据类型 变量名=数据</p>
+<pre><code class="language-java">&amp;emsp;&amp;emsp;标识符就是名字，如类名，变量名都是标识符。标识符由数字，字母，下划线(_)，和美元符($)组成。要求不能以数字开头，不能用关键字做名字，且区分大小写。
+## **二进制、八进制在程序中的写法**
+```java
+int a1=0B01100001;          //0B或0b开头二进制
+int a2=0141;                //0开头八进制
+int a3=0XFA;                //0X或0x开头十六进制
+</code></pre>
+<h2 id="数据类型"><strong>数据类型</strong></h2>
+<ul>
+<li>整型数据</li>
+</ul>
+<pre><code class="language-java">byte a=127;             //byte范围-128~127
+short s=13244;          //short 范围-32768~32767
+int i=422424;    
+long lg=42424224444L;   //整型字面上默认是int类型，如果是long类型需要后面加上L或l
+</code></pre>
+<ul>
+<li>浮点类型</li>
+</ul>
+<pre><code class="language-java">float f=3.14F;       //字面上默认小数是double，如果是float型后面需要加F或f
+double d=56.45;
+</code></pre>
+<ul>
+<li>char字符型</li>
+</ul>
+<pre><code class="language-java">char ch='a';
+char ch2='中';
+</code></pre>
+<ul>
+<li>字符串类型（扩展一种引用数据类型）</li>
+</ul>
+<pre><code class="language-java">string name=&quot;张三&quot;;
+</code></pre>
+<h2 id="数据类型转换"><strong>数据类型转换</strong></h2>
+<ol>
+<li>类型范围小的变量，可以直接赋值给类型范围大的变量。</li>
+</ol>
+<pre><code class="language-java">byte a=12;
+int b =a;
+
+int c=100;
+double d=c;    //d=100.0
+
+char ch='a';   //'a'=97=&gt;000000000 01100001 
+int i=ch;      //发生自动类型转换=&gt;00000000 00000000 00000000 01100001
+</code></pre>
+<ul>
+<li>byte→short→int→long→float→double</li>
+<li>char→int→long→float→double</li>
+</ul>
+<ol start="2">
+<li>在表达式中，小范围类型的变量，会自动转换为表达式中较大类型的变量。</li>
+</ol>
+<ul>
+<li>byte、short、char→int→long→float→double</li>
+<li>注意：在表达式中，byte、short、char是直接转换成int类型参与运算。</li>
+</ul>
+<pre><code class="language-java">byte a=10;
+int b=20;
+long c=30;
+long rs=a+b+c;
+</code></pre>
+<ol start="3">
+<li>强制类型转换</li>
+</ol>
+<pre><code class="language-java">int a=20;
+byte b=(byte)a;    // ALT +ENTER 强制类型转换
+
+int i=1500;      //00000000 00000000 00000101 11011100
+byte b=(byte)i;  //11011100
+
+double d=99.5;
+int m=(int)d;     //m=99，丢掉小数部分，保留整数部分
+</code></pre>
+<h2 id="算数运算符"><strong>算数运算符</strong></h2>
+<p>在java中，两个整数相除还是整数。</p>
+<pre><code class="language-java">int i=5;
+int j=2;
+i/j      //2.5=&gt;2
+i*1.0/j  //2.5
+</code></pre>
+<p>使用加符号连接时能算则算，不能算就用加符号连接在一起。</p>
+<pre><code class="language-java">int a=5;
+System.out.println(&quot;abc&quot;+a);     //abc5
+System.out.println(a+5);         //10
+System.out.println(&quot;abc&quot;+a+'a'); //abc5a
+System.out.println(a+'a'+&quot;abc&quot;); //102abc
+</code></pre>
+<p>自增自减非单独使用时，++a先自增再赋值，a++先赋值再自增。</p>
+<pre><code class="language-java">int m=5;
+int n=3;
+int result=++m - --m + m-- - ++n + n-- + 3;   //6-5+5-4+4+3
+</code></pre>
+<p>扩展赋值运算符底层代码形式：<br>
+eg.  a+=b → a=(a的类型)(a+b)</p>
+<h2 id="逻辑运算符"><strong>逻辑运算符</strong></h2>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>叫法</th>
+<th>运算逻辑</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&amp;</td>
+<td>逻辑与</td>
+<td>前后表达式都为true才为true</td>
+</tr>
+<tr>
+<td>|</td>
+<td>逻辑或</td>
+<td>只要有一个true结果就为true</td>
+</tr>
+<tr>
+<td>！</td>
+<td>逻辑非</td>
+<td>true变false，false变true</td>
+</tr>
+<tr>
+<td>^</td>
+<td>逻辑异或</td>
+<td>前后表达式结果相同则为false，前后表达式结果不同则为true</td>
+</tr>
+<tr>
+<td>&amp;&amp;</td>
+<td>短路与</td>
+<td>判断结果与&amp;相同，若左侧表达式为false，右侧不执行</td>
+</tr>
+<tr>
+<td>||</td>
+<td>短路或</td>
+<td>判断结果与|一样，左边为true，右侧则不执行</td>
+</tr>
+</tbody>
+</table>
+<h2 id="三元运算符"><strong>三元运算符</strong></h2>
+<p>条件表达式？值1:值2;</p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E6%B3%A8%E9%87%8A"><strong>注释</strong></a></li>
+<li><a href="#%E5%8F%98%E9%87%8F"><strong>变量</strong></a></li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><strong>数据类型</strong></a></li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><strong>数据类型转换</strong></a></li>
+<li><a href="#%E7%AE%97%E6%95%B0%E8%BF%90%E7%AE%97%E7%AC%A6"><strong>算数运算符</strong></a></li>
+<li><a href="#%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97%E7%AC%A6"><strong>逻辑运算符</strong></a></li>
+<li><a href="#%E4%B8%89%E5%85%83%E8%BF%90%E7%AE%97%E7%AC%A6"><strong>三元运算符</strong></a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://yyss1014.github.io/post/java-ru-men-hello-world/">
+              <h3 class="post-title">
+                Java入门 - Hello World
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://yyss1014.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1077 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>多表关系与员工查询 | WASD研究院</title>
+<link rel="shortcut icon" href="https://yyss1014.github.io/favicon.ico?v=1751633121752">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://yyss1014.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="多表关系与员工查询 | WASD研究院 - Atom Feed" href="https://yyss1014.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+多表关系
+
+一对多
+多表问题分析
+一对一
+多对多
+多表设计案例
+
+
+多表查询
+
+分类
+内连接
+外连接
+子查询
+案例
+
+
+员工列表查询
+
+准备工作
+分页查询
+
+代码实现
+PageHelper分页插件
+
+
+条件分页查询
+
+功能开发
+程序优化
+..." />
+    <meta name="keywords" content="JavaWeb" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yyss1014.github.io">
+  <img class="avatar" src="https://yyss1014.github.io/images/avatar.png?v=1751633121752" alt="">
+  </a>
+  <h1 class="site-title">
+    WASD研究院
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/archives" class="menu">
+          目录
+        </a>
+      
+    
+      
+        <a href="/" class="menu">
+          文章
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          分类
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              多表关系与员工查询
+            </h2>
+            <div class="post-info">
+              <span>
+                2025-06-16
+              </span>
+              <span>
+                45 min read
+              </span>
+              
+                <a href="https://yyss1014.github.io/tag/2ON39h6GJZ/" class="post-tag">
+                  # JavaWeb
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p><ul class="markdownIt-TOC">
+<li><a href="#%E5%A4%9A%E8%A1%A8%E5%85%B3%E7%B3%BB"><strong>多表关系</strong></a>
+<ul>
+<li><a href="#%E4%B8%80%E5%AF%B9%E5%A4%9A"><strong>一对多</strong></a></li>
+<li><a href="#%E5%A4%9A%E8%A1%A8%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90"><strong>多表问题分析</strong></a></li>
+<li><a href="#%E4%B8%80%E5%AF%B9%E4%B8%80"><strong>一对一</strong></a></li>
+<li><a href="#%E5%A4%9A%E5%AF%B9%E5%A4%9A"><strong>多对多</strong></a></li>
+<li><a href="#%E5%A4%9A%E8%A1%A8%E8%AE%BE%E8%AE%A1%E6%A1%88%E4%BE%8B"><strong>多表设计案例</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E5%A4%9A%E8%A1%A8%E6%9F%A5%E8%AF%A2"><strong>多表查询</strong></a>
+<ul>
+<li><a href="#%E5%88%86%E7%B1%BB"><strong>分类</strong></a></li>
+<li><a href="#%E5%86%85%E8%BF%9E%E6%8E%A5"><strong>内连接</strong></a></li>
+<li><a href="#%E5%A4%96%E8%BF%9E%E6%8E%A5"><strong>外连接</strong></a></li>
+<li><a href="#%E5%AD%90%E6%9F%A5%E8%AF%A2"><strong>子查询</strong></a></li>
+<li><a href="#%E6%A1%88%E4%BE%8B"><strong>案例</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E5%91%98%E5%B7%A5%E5%88%97%E8%A1%A8%E6%9F%A5%E8%AF%A2"><strong>员工列表查询</strong></a>
+<ul>
+<li><a href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><strong>准备工作</strong></a></li>
+<li><a href="#%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2"><strong>分页查询</strong></a>
+<ul>
+<li><a href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><strong>代码实现</strong></a></li>
+<li><a href="#pagehelper%E5%88%86%E9%A1%B5%E6%8F%92%E4%BB%B6"><strong>PageHelper分页插件</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E6%9D%A1%E4%BB%B6%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2"><strong>条件分页查询</strong></a>
+<ul>
+<li><a href="#%E5%8A%9F%E8%83%BD%E5%BC%80%E5%8F%91"><strong>功能开发</strong></a></li>
+<li><a href="#%E7%A8%8B%E5%BA%8F%E4%BC%98%E5%8C%96"><strong>程序优化</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</p>
+<h1 id="多表关系"><strong>多表关系</strong></h1>
+<p>项目开发中，在进行数据库表结构设计时，会根据业务需求及业务模块之间的关系，分析并设计表结构，由于业务之间相互关联，所以各个表结构之间也存在着各种联系，基本上分为三种：</p>
+<ul>
+<li>一对多(多对一)</li>
+<li>多对多</li>
+<li>一对一</li>
+</ul>
+<h2 id="一对多"><strong>一对多</strong></h2>
+<ul>
+<li>场景：部门与员工的关系（一个部门下有多个员工）。</li>
+<li>部门管理的页面原型：</li>
+</ul>
+<figure data-type="image" tabindex="1"><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250617142912.png" alt="" loading="lazy"></figure>
+<ul>
+<li>员工管理的页面原型：</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250617142941.png" alt="" loading="lazy"><br>
+由于一个部门下，会关联多个员工。 而一个员工，是归属于某一个部门的 。那么此时，我们就需要在 emp 表中增加一个字段 dept_id 来标识这个员工属于哪一个部门，dept_id 关联的是 dept 的 id 。</p>
+<pre><code class="language-sql">CREATE TABLE dept (
+  id int unsigned PRIMARY KEY AUTO_INCREMENT COMMENT 'ID, 主键',
+  name varchar(10) NOT NULL UNIQUE COMMENT '部门名称',
+  create_time datetime DEFAULT NULL COMMENT '创建时间',
+  update_time datetime DEFAULT NULL COMMENT '修改时间'
+) COMMENT '部门表';
+
+INSERT INTO dept VALUES (1,'学工部','2023-09-25 09:47:40','2023-09-25 09:47:40'),
+						  (2,'教研部','2023-09-25 09:47:40','2023-10-09 15:17:04'),
+						  (3,'咨询部2','2023-09-25 09:47:40','2023-11-30 21:26:24'),
+						  (4,'就业部','2023-09-25 09:47:40','2023-09-25 09:47:40'),
+						  (5,'人事部','2023-09-25 09:47:40','2023-09-25 09:47:40'),
+						  (15,'行政部','2023-11-30 20:56:37','2023-11-30 20:56:37');
+
+
+
+
+create table emp(
+    id int unsigned primary key auto_increment comment 'ID,主键',
+    username varchar(20) not null unique comment '用户名',
+    password varchar(32) default '123456' comment '密码',
+    name varchar(10) not null comment '姓名',
+    gender tinyint unsigned not null comment '性别, 1:男, 2:女',
+    phone char(11) not null unique comment '手机号',
+    job tinyint unsigned comment '职位, 1 班主任, 2 讲师 , 3 学工主管, 4 教研主管, 5 咨询师',
+    salary int unsigned comment '薪资',
+    image varchar(255) comment '头像',
+    entry_date date comment '入职日期',
+    dept_id int unsigned comment '部门ID',
+    create_time datetime comment '创建时间',
+    update_time datetime comment '修改时间'
+) comment '员工表';
+
+
+INSERT INTO emp VALUES
+(1,'shinaian','123456','施耐庵',1,'13309090001',4,15000,'5.png','2000-01-01',2,'2023-10-20 16:35:33','2023-11-16 16:11:26'),
+(2,'songjiang','123456','宋江',1,'13309090002',2,8600,'01.png','2015-01-01',2,'2023-10-20 16:35:33','2023-10-20 16:35:37'),
+(3,'lujunyi','123456','卢俊义',1,'13309090003',2,8900,'01.png','2008-05-01',2,'2023-10-20 16:35:33','2023-10-20 16:35:39'),
+(4,'wuyong','123456','吴用',1,'13309090004',2,9200,'01.png','2007-01-01',2,'2023-10-20 16:35:33','2023-10-20 16:35:41'),
+(5,'gongsunsheng','123456','公孙胜',1,'13309090005',2,9500,'01.png','2012-12-05',2,'2023-10-20 16:35:33','2023-10-20 16:35:43'),
+(6,'huosanniang','123456','扈三娘',2,'13309090006',3,6500,'01.png','2013-09-05',1,'2023-10-20 16:35:33','2023-10-20 16:35:45'),
+(7,'chaijin','123456','柴进',1,'13309090007',1,4700,'01.png','2005-08-01',1,'2023-10-20 16:35:33','2023-10-20 16:35:47'),
+(8,'likui','123456','李逵',1,'13309090008',1,4800,'01.png','2014-11-09',1,'2023-10-20 16:35:33','2023-10-20 16:35:49'),
+(9,'wusong','123456','武松',1,'13309090009',1,4900,'01.png','2011-03-11',1,'2023-10-20 16:35:33','2023-10-20 16:35:51'),
+(10,'linchong','123456','林冲',1,'13309090010',1,5000,'01.png','2013-09-05',1,'2023-10-20 16:35:33','2023-10-20 16:35:53'),
+(11,'huyanzhuo','123456','呼延灼',1,'13309090011',2,9700,'01.png','2007-02-01',2,'2023-10-20 16:35:33','2023-10-20 16:35:55'),
+(12,'xiaoliguang','123456','小李广',1,'13309090012',2,10000,'01.png','2008-08-18',2,'2023-10-20 16:35:33','2023-10-20 16:35:57'),
+(13,'yangzhi','123456','杨志',1,'13309090013',1,5300,'01.png','2012-11-01',1,'2023-10-20 16:35:33','2023-10-20 16:35:59'),
+(14,'shijin','123456','史进',1,'13309090014',2,10600,'01.png','2002-08-01',2,'2023-10-20 16:35:33','2023-10-20 16:36:01'),
+(15,'sunerniang','123456','孙二娘',2,'13309090015',2,10900,'01.png','2011-05-01',2,'2023-10-20 16:35:33','2023-10-20 16:36:03'),
+(16,'luzhishen','123456','鲁智深',1,'13309090016',2,9600,'01.png','2010-01-01',2,'2023-10-20 16:35:33','2023-10-20 16:36:05'),
+(17,'liying','12345678','李应',1,'13309090017',1,5800,'01.png','2015-03-21',1,'2023-10-20 16:35:33','2023-10-20 16:36:07'),
+(18,'shiqian','123456','时迁',1,'13309090018',2,10200,'01.png','2015-01-01',2,'2023-10-20 16:35:33','2023-10-20 16:36:09'),
+(19,'gudasao','123456','顾大嫂',2,'13309090019',2,10500,'01.png','2008-01-01',2,'2023-10-20 16:35:33','2023-10-20 16:36:11'),
+(20,'ruanxiaoer','123456','阮小二',1,'13309090020',2,10800,'01.png','2018-01-01',2,'2023-10-20 16:35:33','2023-10-20 16:36:13'),
+(21,'ruanxiaowu','123456','阮小五',1,'13309090021',5,5200,'01.png','2015-01-01',3,'2023-10-20 16:35:33','2023-10-20 16:36:15'),
+(22,'ruanxiaoqi','123456','阮小七',1,'13309090022',5,5500,'01.png','2016-01-01',3,'2023-10-20 16:35:33','2023-10-20 16:36:17'),
+(23,'ruanji','123456','阮籍',1,'13309090023',5,5800,'01.png','2012-01-01',3,'2023-10-20 16:35:33','2023-10-20 16:36:19'),
+(24,'tongwei','123456','童威',1,'13309090024',5,5000,'01.png','2006-01-01',3,'2023-10-20 16:35:33','2023-10-20 16:36:21'),
+(25,'tongmeng','123456','童猛',1,'13309090025',5,4800,'01.png','2002-01-01',3,'2023-10-20 16:35:33','2023-10-20 16:36:23'),
+(26,'yanshun','123456','燕顺',1,'13309090026',5,5400,'01.png','2011-01-01',3,'2023-10-20 16:35:33','2023-11-08 22:12:46'),
+(27,'lijun','123456','李俊',1,'13309090027',2,6600,'8.png','2004-01-01',2,'2023-10-20 16:35:33','2023-11-16 17:56:59'),
+(28,'lizhong','123456','李忠',1,'13309090028',5,5000,'6.png','2007-01-01',3,'2023-10-20 16:35:33','2023-11-17 16:34:22'),
+(30,'liyun','123456','李云',1,'13309090030',NULL,NULL,'01.png','2020-03-01',NULL,'2023-10-20 16:35:33','2023-10-20 16:36:31'),
+(36,'linghuchong','123456','令狐冲',1,'18809091212',2,6800,'1.png','2023-10-19',2,'2023-10-20 20:44:54','2023-11-09 09:41:04');
+</code></pre>
+<h2 id="多表问题分析"><strong>多表问题分析</strong></h2>
+<ul>
+<li>现象：部门数据可以直接删除，然而还有部分员工归属于该部门下，此时就出现了数据的不完整、不一致问题 。</li>
+<li>原因：目前上述的两张表，在数据库层面，并未建立关联，所以是无法保证数据的一致性和完整性的 。</li>
+<li>解决方案：想解决上述的问题呢，我们就可以通过数据库中的 外键约束 来解决。</li>
+</ul>
+<p>外键约束的语法：</p>
+<pre><code class="language-sql">-- 创建表时指定
+create table 表名(
+        字段名    数据类型,
+        ...
+        [constraint]   [外键名称]  foreign  key (外键字段名)   references   主表 (主表列名)        
+);
+
+
+-- 建完表后，添加外键
+alter table  表名  add constraint  外键名称  foreign key(外键字段名) references 主表(主表列名);
+</code></pre>
+<p>方式1：通过SQL语句操作</p>
+<pre><code class="language-sql">-- 添加外键约束
+alter table emp add constraint fk_emp_dept_id foreign key (dept_id) references dept(id);
+</code></pre>
+<p>方式2：图形化界面操作<br>
+在左侧菜单栏，在emp表上右键，选择 modify Table...<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250617145745.png" alt="" loading="lazy"></p>
+<ul>
+<li>
+<p>物理外键</p>
+<ul>
+<li>概念：使用foreign key定义外键关联另外一张表。</li>
+<li>缺点：
+<ul>
+<li>影响增、删、改的效率（需要检查外键关系）。</li>
+<li>仅用于单节点数据库，不适用于分布式、集群场景。</li>
+<li>容易引发数据库的死锁问题，消耗性能。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>逻辑外键</p>
+<ul>
+<li>概念：在业务层逻辑中，解决外键关联。</li>
+<li>通过逻辑外键，就可以很方便的解决上述问题。</li>
+</ul>
+</li>
+</ul>
+<p>在现在的企业开发中，很少会使用物理外键，都是使用逻辑外键。 甚至在一些数据库开发规范中，会明确指出禁止使用物理外键 foreign key</p>
+<h2 id="一对一"><strong>一对一</strong></h2>
+<p>如果在业务系统当中，对用户的基本信息查询频率特别的高，但是对于用户的身份信息查询频率很低，此时出于提高查询效率的考虑，我就可以将这张大表拆分成两张小表，第一张表存放的是用户的基本信息，而第二张表存放的就是用户的身份信息。他们两者之间一对一的关系，一个用户只能对应一个身份证，而一个身份证也只能关联一个用户。</p>
+<ul>
+<li>基本信息：用户的ID、姓名、性别、手机号、学历</li>
+<li>身份信息：民族、生日、身份证号、身份证签发机关，身份证的有效期(开始时间、结束时间)</li>
+<li>在任意一方加入外键，关联另外一方的主键，并且设置外键为唯一的(UNIQUE)</li>
+</ul>
+<h2 id="多对多"><strong>多对多</strong></h2>
+<p>案例：学生与课程的关系</p>
+<ul>
+<li>关系：一个学生可以选修多门课程，一门课程也可以供多个学生选择</li>
+<li>实现关系：建立第三张中间表，中间表至少包含两个外键，分别关联两方主键</li>
+</ul>
+<h2 id="多表设计案例"><strong>多表设计案例</strong></h2>
+<p>员工表与工作经历表是一对多关系，逻辑外键：</p>
+<pre><code class="language-sql">create table emp_expr(
+    id int unsigned primary key auto_increment comment 'ID,主键',
+    begin date comment '开始时间',
+    end date comment '结束时间',
+    company varchar(50) comment '公司名字',
+    job varchar(50) comment '职位',
+    emp_id int unsigned comment '关联员工ID'
+)comment '工作经历表'
+</code></pre>
+<h1 id="多表查询"><strong>多表查询</strong></h1>
+<p>查询用户表和部门表中的数据：</p>
+<pre><code class="language-sql">select * from  emp , dept;
+</code></pre>
+<p>此时，我们看到查询结果中包含了大量的结果集，总共180条记录，而这其实就是员工表所有的记录(30行)与部门表所有记录(6行)的所有组合情况，这种现象称之为笛卡尔积。<br>
+在SQL语句中，如何去除无效的笛卡尔积呢？只需要给多表查询加上连接查询的条件即可。</p>
+<pre><code class="language-sql">select * from emp , dept where emp.dept_id = dept.id ;
+</code></pre>
+<p>这样，我们就查询出来了所有的员工，及其这个员工所属的部门信息。 而由于id为29、30的员工，没有dept_id字段值，所以在多表查询时，根据连接查询的条件并没有查询到。</p>
+<h2 id="分类"><strong>分类</strong></h2>
+<p>多表查询可以分为：<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250617155309.png" alt="" loading="lazy"></p>
+<ol>
+<li>连接查询</li>
+</ol>
+<ul>
+<li>内连接：相当于查询A、B交集部分数据</li>
+<li>外连接
+<ul>
+<li>左外连接：查询左表所有数据(包括两张表交集部分数据)</li>
+<li>右外连接：查询右表所有数据(包括两张表交集部分数据)</li>
+</ul>
+</li>
+</ul>
+<ol start="2">
+<li>子查询</li>
+</ol>
+<pre><code class="language-sql">-- 部门管理
+create table dept(
+    id int unsigned primary key auto_increment comment 'ID, 主键',
+    name varchar(10) not null unique comment '部门名称',
+    create_time datetime comment '创建时间',
+    update_time datetime comment '修改时间'
+) comment '部门表' ;
+
+insert into dept (id, name, create_time, update_time) values
+        (1,'学工部',now(),now()),
+        (2,'教研部',now(),now()),
+        (3,'咨询部',now(),now()),
+        (4,'就业部',now(),now()),
+        (5,'人事部',now(),now());
+
+
+-- 员工管理
+create table emp(
+    id int unsigned primary key auto_increment comment 'ID,主键',
+    username varchar(20) not null unique comment '用户名',
+    password varchar(32) not null comment '密码',
+    name varchar(10) not null comment '姓名',
+    gender tinyint unsigned not null comment '性别, 1:男, 2:女',
+    phone char(11) not null unique comment '手机号',
+    job tinyint unsigned comment '职位, 1:班主任,2:讲师,3:学工主管,4:教研主管,5:咨询师',
+    salary int unsigned comment '薪资',
+    image varchar(255) comment '头像',
+    entry_date date comment '入职日期',
+    dept_id int unsigned COMMENT '关联的部门ID',
+    create_time datetime comment '创建时间',
+    update_time datetime comment '修改时间'
+) comment '员工表';
+
+
+-- 准备测试数据
+INSERT INTO `emp` VALUES (1,'shinaian','123456','施耐庵',1,'13309090001',4,15000,'https://dawn-itcast.oss-cn-hangzhou.aliyuncs.com/01.png','2000-01-01',2,'2024-10-27 16:35:33','2024-10-27 16:35:35'),
+			(2,'songjiang','123456','宋江',1,'13309090002',2,8600,'https://dawn-itcast.oss-cn-hangzhou.aliyuncs.com/01.png','2015-01-01',2,'2024-10-27 16:35:33','2024-10-27 16:35:37'),
+			(3,'lujunyi','123456','卢俊义',1,'13309090003',2,8900,'https://dawn-itcast.oss-cn-hangzhou.aliyuncs.com/01.png','2008-05-01',2,'2024-10-27 16:35:33','2024-10-27 16:35:39'),
+			(4,'wuyong','123456','吴用',1,'13309090004',2,9200,'https://dawn-itcast.oss-cn-hangzhou.aliyuncs.com/01.png','2007-01-01',2,'2024-10-27 16:35:33','2024-10-27 16:35:41'),
+			(5,'gongsunsheng','123456','公孙胜',1,'13309090005',2,9500,'https://dawn-itcast.oss-cn-hangzhou.aliyuncs.com/01.png','2012-12-05',2,'2024-10-27 16:35:33','2024-10-27 16:35:43'),
+			(6,'huosanniang','123456','扈三娘',2,'13309090006',3,6500,'https://dawn-itcast.oss-cn-hangzhou.aliyuncs.com/01.png','2013-09-05',1,'2024-10-27 16:35:33','2024-10-27 16:35:45'),
+			(7,'chaijin','123456','柴进',1,'13309090007',1,4700,'https://dawn-itcast.oss-cn-hangzhou.aliyuncs.com/01.png','2005-08-01',1,'2024-10-27 16:35:33','2024-10-27 16:35:47'),
+			(8,'likui','123456','李逵',1,'13309090008',1,4800,'https://dawn-itcast.oss-cn-hangzhou.aliyuncs.com/01.png','2014-11-09',1,'2024-10-27 16:35:33','2024-10-27 16:35:49'),
+			(9,'wusong','123456','武松',1,'13309090009',1,4900,'https://dawn-itcast.oss-cn-hangzhou.aliyuncs.com/01.png','2011-03-11',1,'2024-10-27 16:35:33','2024-10-27 16:35:51'),
+			(10,'lichong','123456','林冲',1,'13309090010',1,5000,'https://dawn-itcast.oss-cn-hangzhou.aliyuncs.com/01.png','2013-09-05',1,'2024-10-27 16:35:33','2024-10-27 16:35:53'),
+			(11,'huyanzhuo','123456','呼延灼',1,'13309090011',2,9700,'https://dawn-itcast.oss-cn-hangzhou.aliyuncs.com/01.png','2007-02-01',2,'2024-10-27 16:35:33','2024-10-27 16:35:55'),
+			(12,'xiaoliguang','123456','小李广',1,'13309090012',2,10000,'https://dawn-itcast.oss-cn-hangzhou.aliyuncs.com/01.png','2008-08-18',2,'2024-10-27 16:35:33','2024-10-27 16:35:57'),
+			(13,'yangzhi','123456','杨志',1,'13309090013',1,5300,'https://dawn-itcast.oss-cn-hangzhou.aliyuncs.com/01.png','2012-11-01',1,'2024-10-27 16:35:33','2024-10-27 16:35:59'),
+			(14,'shijin','123456','史进',1,'13309090014',2,10600,'https://dawn-itcast.oss-cn-hangzhou.aliyuncs.com/01.png','2002-08-01',2,'2024-10-27 16:35:33','2024-10-27 16:36:01'),
+			(15,'sunerniang','123456','孙二娘',2,'13309090015',2,10900,'https://dawn-itcast.oss-cn-hangzhou.aliyuncs.com/01.png','2011-05-01',2,'2024-10-27 16:35:33','2024-10-27 16:36:03'),
+			(16,'luzhishen','123456','鲁智深',1,'13309090016',2,9600,'https://dawn-itcast.oss-cn-hangzhou.aliyuncs.com/01.png','2010-01-01',2,'2024-10-27 16:35:33','2024-10-27 16:36:05'),
+			(17,'liying','12345678','李应',1,'13309090017',1,5800,'https://dawn-itcast.oss-cn-hangzhou.aliyuncs.com/01.png','2015-03-21',1,'2024-10-27 16:35:33','2024-10-27 16:36:07'),
+			(18,'shiqian','123456','时迁',1,'13309090018',2,10200,'https://dawn-itcast.oss-cn-hangzhou.aliyuncs.com/01.png','2015-01-01',2,'2024-10-27 16:35:33','2024-10-27 16:36:09'),
+			(19,'gudasao','123456','顾大嫂',2,'13309090019',2,10500,'https://dawn-itcast.oss-cn-hangzhou.aliyuncs.com/01.png','2008-01-01',2,'2024-10-27 16:35:33','2024-10-27 16:36:11'),
+			(20,'ruanxiaoer','123456','阮小二',1,'13309090020',2,10800,'https://dawn-itcast.oss-cn-hangzhou.aliyuncs.com/01.png','2018-01-01',2,'2024-10-27 16:35:33','2024-10-27 16:36:13'),
+			(21,'ruanxiaowu','123456','阮小五',1,'13309090021',5,5200,'https://dawn-itcast.oss-cn-hangzhou.aliyuncs.com/01.png','2015-01-01',3,'2024-10-27 16:35:33','2024-10-27 16:36:15'),
+			(22,'ruanxiaoqi','123456','阮小七',1,'13309090022',5,5500,'https://dawn-itcast.oss-cn-hangzhou.aliyuncs.com/01.png','2016-01-01',3,'2024-10-27 16:35:33','2024-10-27 16:36:17'),
+			(23,'ruanji','123456','阮籍',1,'13309090023',5,5800,'https://dawn-itcast.oss-cn-hangzhou.aliyuncs.com/01.png','2012-01-01',3,'2024-10-27 16:35:33','2024-10-27 16:36:19'),
+			(24,'tongwei','123456','童威',1,'13309090024',5,5000,'https://dawn-itcast.oss-cn-hangzhou.aliyuncs.com/01.png','2006-01-01',3,'2024-10-27 16:35:33','2024-10-27 16:36:21'),
+			(25,'tongmeng','123456','童猛',1,'13309090025',5,4800,'https://dawn-itcast.oss-cn-hangzhou.aliyuncs.com/01.png','2002-01-01',3,'2024-10-27 16:35:33','2024-10-27 16:36:23'),
+			(26,'yanshun','123456','燕顺',1,'13309090026',5,5400,'https://dawn-itcast.oss-cn-hangzhou.aliyuncs.com/01.png','2011-01-01',3,'2024-10-27 16:35:33','2024-10-27 16:36:25'),
+			(27,'lijun','123456','李俊',1,'13309090027',5,6600,'https://dawn-itcast.oss-cn-hangzhou.aliyuncs.com/01.png','2004-01-01',3,'2024-10-27 16:35:33','2024-10-27 16:36:27'),
+			(28,'lizhong','123456','李忠',1,'13309090028',5,5000,'https://dawn-itcast.oss-cn-hangzhou.aliyuncs.com/01.png','2007-01-01',3,'2024-10-27 16:35:33','2024-10-27 16:36:29'),
+			(29,'songqing','123456','宋清',1,'13309090029',NULL,5100,'https://dawn-itcast.oss-cn-hangzhou.aliyuncs.com/01.png','2020-01-01',NULL,'2024-10-27 16:35:33','2024-10-27 16:36:31'),
+			(30,'liyun','123456','李云',1,'13309090030',NULL,NULL,'https://dawn-itcast.oss-cn-hangzhou.aliyuncs.com/01.png','2020-03-01',NULL,'2024-10-27 16:35:33','2024-10-27 16:36:31');
+</code></pre>
+<h2 id="内连接"><strong>内连接</strong></h2>
+<p>内连接查询：查询两表或多表中交集部分数据。<br>
+内连接从语法上可以分为：</p>
+<ul>
+<li>隐式内连接</li>
+<li>显式内连接</li>
+</ul>
+<pre><code class="language-sql">-- ============================= 内连接 ==========================
+-- A. 查询所有员工的ID, 姓名 , 及所属的部门名称 (隐式、显式内连接实现)
+select emp.id,emp.name,dept.name from emp,dept where emp.dept_id=dept.id;
+-- inner关键字可省略
+select emp.id,emp.name,dept.name from emp inner join dept on emp.dept_id=dept.id;
+
+
+-- B. 查询 性别为男, 且工资 高于8000 的员工的ID, 姓名, 及所属的部门名称 (隐式、显式内连接实现)
+select emp.id,emp.name,dept.name from emp,dept where emp.dept_id=dept.id and gender=1 and salary&gt;8000;
+
+select emp.id,emp.name,dept.name from emp join dept on emp.dept_id=dept.id where gender=1 and salary&gt;8000;
+
+-- 为表起别名
+select e.id,e.name,d.name from emp e join dept d on e.dept_id=d.id where gender=1 and salary&gt;8000;
+</code></pre>
+<h2 id="外连接"><strong>外连接</strong></h2>
+<p>外连接分为两种：左外连接 和 右外连接，语法中outer可省略。</p>
+<pre><code class="language-sql">-- =============================== 外连接 ============================
+-- A. 查询员工表 所有 员工的姓名, 和对应的部门名称 (左外连接)
+select e.name,d.name from emp e left outer join dept d on e.dept_id = d.id;
+
+-- B. 查询部门表 所有 部门的名称, 和对应的员工名称 (右外连接)
+select e.name,d.name from emp e right outer join dept d on e.dept_id = d.id;
+
+-- C. 查询工资 高于8000 的 所有员工的姓名, 和对应的部门名称 (左外连接)
+select e.name,d.name from emp e left outer join dept d on e.dept_id = d.id where salary&gt;8000;
+</code></pre>
+<p>左外连接和右外连接是可以相互替换的，只需要调整连接查询时SQL语句中表的先后顺序就可以了。而我们在日常开发使用时，更偏向于左外连接。</p>
+<h2 id="子查询"><strong>子查询</strong></h2>
+<p>SQL语句中嵌套select语句，称为嵌套查询，又称子查询。子查询外部的语句可以是insert / update / delete / select 的任何一个，最常见的是 select。<br>
+根据子查询结果的不同分为：</p>
+<ol>
+<li>标量子查询（子查询结果为单个值 [一行一列]）</li>
+<li>列子查询（子查询结果为一列，但可以是多行）</li>
+<li>行子查询（子查询结果为一行，但可以是多列）</li>
+<li>表子查询（子查询结果为多行多列[相当于子查询结果是一张表]）</li>
+</ol>
+<p>子查询的要点是，先对需求做拆分，明确具体的步骤，然后再逐条编写SQL语句。 最终将多条SQL语句合并为一条。</p>
+<pre><code class="language-sql">-- ========================= 子查询 ================================
+-- 标量子查询
+-- A. 查询 最早入职 的员工信息
+-- a.最早入职时间
+select min(entry_date) from emp;
+-- b.最早入职的员工信息
+select * from emp where entry_date= (select min(entry_date) from emp);
+
+-- B. 查询在 &quot;阮小五&quot; 入职之后入职的员工信息
+select * from emp where entry_date &gt; (select entry_date from emp where name='阮小五');
+
+-- 列子查询
+-- A. 查询 &quot;教研部&quot; 和 &quot;咨询部&quot; 的所有员工信息
+-- a.查询教研部和咨询部的id
+select id from dept where name='教研部' or name='咨询部';
+
+-- b.查询指定部门ID的员工信息
+select * from emp where dept_id in (select id from dept where name='教研部' or name='咨询部');
+
+-- 行子查询
+-- A. 查询与 &quot;李忠&quot; 的薪资 及 职位都相同的员工信息 ;
+-- a.李忠的薪资和职位
+select salary,job from emp where name='李忠';
+
+-- b. 指定薪资和职位的员工信息
+select * from emp where (salary, job)=(select salary,job from emp where name='李忠');
+
+-- 表子查询
+-- A. 获取每个部门中薪资最高的员工信息
+-- a. 每个部门的最高薪资
+select dept_id,max(salary) from emp group by dept_id;
+
+-- b. 查询每个部门薪资最高的员工信息
+select * from emp e ,(select dept_id,max(salary) max_salary from emp group by dept_id) a
+         where e.dept_id=a.dept_id and e.salary=a.max_salary;
+
+select * from emp where (dept_id,salary) in (select dept_id,max(salary) from emp group by dept_id);
+</code></pre>
+<p>在SQL中，NULL值是特殊的，它既不等于任何值，也不等于另一个NULL值。</p>
+<h2 id="案例"><strong>案例</strong></h2>
+<pre><code class="language-sql">-- 需求:
+-- 1. 查询 &quot;教研部&quot; 性别为 男，且在 &quot;2011-05-01&quot; 之后入职的员工信息 。
+select emp.* from emp,dept where emp.dept_id=dept.id and dept.name='教研部' and gender=1 and entry_date&gt;'2011-05-01';
+
+-- 2. 查询工资 低于公司平均工资的 且 性别为男 的员工信息 。
+select * from emp where salary&lt;(select avg(salary) from emp) and gender=1;
+
+-- 3. 查询部门人数超过 10 人的部门名称 。
+select d.name from emp e join dept d on e.dept_id=d.id group by d.name having count(*) &gt;10;
+
+-- 4. 查询在 &quot;2010-05-01&quot; 后入职，且薪资高于 10000 的 &quot;教研部&quot; 员工信息，并根据薪资倒序排序。
+select e.* from emp e,dept d where e.dept_id=d.id and d.name='教研部'
+                               and salary&gt;10000 and entry_date&gt;'2010-05-01' order by salary desc;
+
+
+-- 5. 查询工资 低于本部门平均工资的员工信息 。
+select avg(salary),dept_id from emp group by dept_id;
+select e.* from emp e,(select avg(salary) avg_sal,dept_id from emp group by dept_id) a
+           where e.dept_id=a.dept_id and e.salary&lt;a.avg_sal;
+</code></pre>
+<h1 id="员工列表查询"><strong>员工列表查询</strong></h1>
+<h2 id="准备工作"><strong>准备工作</strong></h2>
+<p>1). 创建员工管理相关表结构</p>
+<pre><code class="language-sql">-- 员工表
+create table emp(
+    id int unsigned primary key auto_increment comment 'ID,主键',
+    username varchar(20) not null unique comment '用户名',
+    password varchar(32) default '123456' comment '密码',
+    name varchar(10) not null comment '姓名',
+    gender tinyint unsigned not null comment '性别, 1:男, 2:女',
+    phone char(11) not null unique comment '手机号',
+    job tinyint unsigned comment '职位, 1 班主任, 2 讲师 , 3 学工主管, 4 教研主管, 5 咨询师',
+    salary int unsigned comment '薪资',
+    image varchar(255) comment '头像',
+    entry_date date comment '入职日期',
+    dept_id int unsigned comment '部门ID',
+    create_time datetime comment '创建时间',
+    update_time datetime comment '修改时间'
+) comment '员工表';
+
+
+INSERT INTO emp VALUES 
+(1,'shinaian','123456','施耐庵',1,'13309090001',4,15000,'https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg','2000-01-01',2,'2023-10-20 16:35:33','2023-11-16 16:11:26'),
+(2,'songjiang','123456','宋江',1,'13309090002',2,8600,'https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg','2015-01-01',2,'2023-10-20 16:35:33','2023-10-20 16:35:37'),
+(3,'lujunyi','123456','卢俊义',1,'13309090003',2,8900,'https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg','2008-05-01',2,'2023-10-20 16:35:33','2023-10-20 16:35:39'),
+(4,'wuyong','123456','吴用',1,'13309090004',2,9200,'https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg','2007-01-01',2,'2023-10-20 16:35:33','2023-10-20 16:35:41'),
+(5,'gongsunsheng','123456','公孙胜',1,'13309090005',2,9500,'https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg','2012-12-05',2,'2023-10-20 16:35:33','2023-10-20 16:35:43'),
+(6,'huosanniang','123456','扈三娘',2,'13309090006',3,6500,'https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg','2013-09-05',1,'2023-10-20 16:35:33','2023-10-20 16:35:45'),
+(7,'chaijin','123456','柴进',1,'13309090007',1,4700,'https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg','2005-08-01',1,'2023-10-20 16:35:33','2023-10-20 16:35:47'),
+(8,'likui','123456','李逵',1,'13309090008',1,4800,'https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg','2014-11-09',1,'2023-10-20 16:35:33','2023-10-20 16:35:49'),
+(9,'wusong','123456','武松',1,'13309090009',1,4900,'https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg','2011-03-11',1,'2023-10-20 16:35:33','2023-10-20 16:35:51'),
+(10,'linchong','123456','林冲',1,'13309090010',1,5000,'https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg','2013-09-05',1,'2023-10-20 16:35:33','2023-10-20 16:35:53'),
+(11,'huyanzhuo','123456','呼延灼',1,'13309090011',2,9700,'https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg','2007-02-01',2,'2023-10-20 16:35:33','2023-10-20 16:35:55'),
+(12,'xiaoliguang','123456','小李广',1,'13309090012',2,10000,'https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg','2008-08-18',2,'2023-10-20 16:35:33','2023-10-20 16:35:57'),
+(13,'yangzhi','123456','杨志',1,'13309090013',1,5300,'https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg','2012-11-01',1,'2023-10-20 16:35:33','2023-10-20 16:35:59'),
+(14,'shijin','123456','史进',1,'13309090014',2,10600,'https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg','2002-08-01',2,'2023-10-20 16:35:33','2023-10-20 16:36:01'),
+(15,'sunerniang','123456','孙二娘',2,'13309090015',2,10900,'https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg','2011-05-01',2,'2023-10-20 16:35:33','2023-10-20 16:36:03'),
+(16,'luzhishen','123456','鲁智深',1,'13309090016',2,9600,'https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg','2010-01-01',2,'2023-10-20 16:35:33','2023-10-20 16:36:05'),
+(17,'liying','12345678','李应',1,'13309090017',1,5800,'https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg','2015-03-21',1,'2023-10-20 16:35:33','2023-10-20 16:36:07'),
+(18,'shiqian','123456','时迁',1,'13309090018',2,10200,'https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg','2015-01-01',2,'2023-10-20 16:35:33','2023-10-20 16:36:09'),
+(19,'gudasao','123456','顾大嫂',2,'13309090019',2,10500,'https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg','2008-01-01',2,'2023-10-20 16:35:33','2023-10-20 16:36:11'),
+(20,'ruanxiaoer','123456','阮小二',1,'13309090020',2,10800,'https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg','2018-01-01',2,'2023-10-20 16:35:33','2023-10-20 16:36:13'),
+(21,'ruanxiaowu','123456','阮小五',1,'13309090021',5,5200,'https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg','2015-01-01',3,'2023-10-20 16:35:33','2023-10-20 16:36:15'),
+(22,'ruanxiaoqi','123456','阮小七',1,'13309090022',5,5500,'https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg','2016-01-01',3,'2023-10-20 16:35:33','2023-10-20 16:36:17'),
+(23,'ruanji','123456','阮籍',1,'13309090023',5,5800,'https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg','2012-01-01',3,'2023-10-20 16:35:33','2023-10-20 16:36:19'),
+(24,'tongwei','123456','童威',1,'13309090024',5,5000,'https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg','2006-01-01',3,'2023-10-20 16:35:33','2023-10-20 16:36:21'),
+(25,'tongmeng','123456','童猛',1,'13309090025',5,4800,'https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg','2002-01-01',3,'2023-10-20 16:35:33','2023-10-20 16:36:23'),
+(26,'yanshun','123456','燕顺',1,'13309090026',5,5400,'https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg','2011-01-01',3,'2023-10-20 16:35:33','2023-11-08 22:12:46'),
+(27,'lijun','123456','李俊',1,'13309090027',2,6600,'https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg','2004-01-01',2,'2023-10-20 16:35:33','2023-11-16 17:56:59'),
+(28,'lizhong','123456','李忠',1,'13309090028',5,5000,'https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg','2007-01-01',3,'2023-10-20 16:35:33','2023-11-17 16:34:22'),
+(30,'liyun','123456','李云',1,'13309090030',NULL,NULL,'https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg','2020-03-01',NULL,'2023-10-20 16:35:33','2023-10-20 16:36:31'),
+(36,'linghuchong','123456','令狐冲',1,'18809091212',2,6800,'https://web-framework.oss-cn-hangzhou.aliyuncs.com/2023/1.jpg','2023-10-19',2,'2023-10-20 20:44:54','2023-11-09 09:41:04');
+
+
+-- 员工工作经历信息
+create table emp_expr(
+    id int unsigned primary key auto_increment comment 'ID, 主键',
+    emp_id int unsigned comment '员工ID',
+    begin date comment '开始时间',
+    end  date comment '结束时间',
+    company varchar(50) comment '公司名称',
+    job varchar(50) comment '职位'
+)comment '工作经历';
+</code></pre>
+<p>2). 准备emp表对应的实体类Emp、EmpExpr</p>
+<pre><code class="language-java">@Data
+public class Emp {
+    private Integer id; //ID,主键
+    private String username; //用户名
+    private String password; //密码
+    private String name; //姓名
+    private Integer gender; //性别, 1:男, 2:女
+    private String phone; //手机号
+    private Integer job; //职位, 1:班主任,2:讲师,3:学工主管,4:教研主管,5:咨询师
+    private Integer salary; //薪资
+    private String image; //头像
+    private LocalDate entryDate; //入职日期
+    private Integer deptId; //关联的部门ID
+    private LocalDateTime createTime; //创建时间
+    private LocalDateTime updateTime; //修改时间
+}
+</code></pre>
+<pre><code class="language-java">@Data
+public class EmpExpr {
+    private Integer id; //ID
+    private Integer empId; //员工ID
+    private LocalDate begin; //开始时间
+    private LocalDate end; //结束时间
+    private String company; //公司名称
+    private String job; //职位
+}
+</code></pre>
+<p>3). 准备Emp员工管理的基础结构，包括Controller、Service、Mapper</p>
+<pre><code class="language-sql">-- 查询所有的员工信息，如果员工关联了部门，也要查询出部门名称
+select e.*, d.name as dept_name from emp e left join dept d on e.dept_id = d.id;
+</code></pre>
+<h2 id="分页查询"><strong>分页查询</strong></h2>
+<ol>
+<li>前端在请求服务端时，传递的参数</li>
+</ol>
+<ul>
+<li>当前页码  page</li>
+<li>每页显示条数  pageSize</li>
+</ul>
+<ol start="2">
+<li>后端需要响应什么数据给前端</li>
+</ol>
+<ul>
+<li>所查询到的数据列表（存储到List 集合中）</li>
+<li>总记录数</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250617193154.png" alt="" loading="lazy"><br>
+请求路径：/emps<br>
+请求方式：GET<br>
+接口描述：该接口用于员工列表数据的条件分页查询<br>
+参数格式：queryString<br>
+参数说明：</p>
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>是否必须</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>否</td>
+<td>张</td>
+<td>姓名</td>
+</tr>
+<tr>
+<td>gender</td>
+<td>否</td>
+<td>1</td>
+<td>性别 , 1 男 , 2 女</td>
+</tr>
+<tr>
+<td>begin</td>
+<td>否</td>
+<td>2010-01-01</td>
+<td>范围匹配的开始时间(入职日期)</td>
+</tr>
+<tr>
+<td>end</td>
+<td>否</td>
+<td>2020-01-01</td>
+<td>范围匹配的结束时间(入职日期)</td>
+</tr>
+<tr>
+<td>page</td>
+<td>是</td>
+<td>1</td>
+<td>分页查询的页码，如果未指定，默认为1</td>
+</tr>
+<tr>
+<td>pageSize</td>
+<td>是</td>
+<td>10</td>
+<td>分页查询的每页记录数，如果未指定，默认为10</td>
+</tr>
+</tbody>
+</table>
+<p>请求数据样例：<br>
+/emps?name=张&amp;gender=1&amp;begin=2007-09-01&amp;end=2022-09-01&amp;page=1&amp;pageSize=10<br>
+后台给前端返回的数据包含：List集合(数据列表)、total(总记录数)。而这两部分我们通常封装到PageResult对象中，并将该对象转换为json格式的数据响应回给浏览器。响应数据样例：</p>
+<pre><code class="language-json">{
+  &quot;code&quot;: 1,
+  &quot;msg&quot;: &quot;success&quot;,
+  &quot;data&quot;: {
+    &quot;total&quot;: 2,
+    &quot;rows&quot;: [
+       {
+        &quot;id&quot;: 1,
+        &quot;username&quot;: &quot;jinyong&quot;,
+        &quot;name&quot;: &quot;金庸&quot;,
+        &quot;gender&quot;: 1,
+        &quot;image&quot;: &quot;https://web-framework.oss-cn-hangzhou.aliyuncs.com/2022-09-02-00-27-53B.jpg&quot;,
+        &quot;job&quot;: 2,
+        &quot;salary&quot;: 8000,
+        &quot;entryDate&quot;: &quot;2015-01-01&quot;,
+        &quot;deptId&quot;: 2,
+        &quot;deptName&quot;: &quot;教研部&quot;,
+        &quot;createTime&quot;: &quot;2022-09-01T23:06:30&quot;,
+        &quot;updateTime&quot;: &quot;2022-09-02T00:29:04&quot;
+      },
+      {
+        &quot;id&quot;: 2,
+        &quot;username&quot;: &quot;zhangwuji&quot;,
+        &quot;name&quot;: &quot;张无忌&quot;,
+        &quot;gender&quot;: 1,
+        &quot;image&quot;: &quot;https://web-framework.oss-cn-hangzhou.aliyuncs.com/2022-09-02-00-27-53B.jpg&quot;,
+        &quot;job&quot;: 2,
+        &quot;salary&quot;: 6000,
+        &quot;entryDate&quot;: &quot;2015-01-01&quot;,
+        &quot;deptId&quot;: 2,
+        &quot;deptName&quot;: &quot;教研部&quot;,
+        &quot;createTime&quot;: &quot;2022-09-01T23:06:30&quot;,
+        &quot;updateTime&quot;: &quot;2022-09-02T00:29:04&quot;
+      }
+    ]
+  }
+}
+</code></pre>
+<pre><code class="language-java">@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class PageResult&lt;T&gt; {
+    private Long total; //总记录数
+    private List&lt;T&gt; rows; //当前页数据列表
+}
+</code></pre>
+<h3 id="代码实现"><strong>代码实现</strong></h3>
+<p>1). EmpController</p>
+<pre><code class="language-java">@Slf4j
+@RestController
+@RequestMapping(&quot;/emps&quot;)
+public class EmpController {
+    @Autowired
+    private EmpService empService;
+
+    @GetMapping
+    public Result page(@RequestParam(defaultValue = &quot;1&quot;) Integer page,
+                       @RequestParam(defaultValue = &quot;10&quot;) Integer pageSize){
+        log.info(&quot;分页查询：{},{}&quot;,page,pageSize);
+        PageResult&lt;Emp&gt; pageResult =empService.page(page,pageSize);
+        return Result.success(pageResult);
+    }
+}
+</code></pre>
+<p>@RequestParam(defaultValue=&quot;默认值&quot;)   //设置请求参数默认值<br>
+2). EmpService</p>
+<pre><code class="language-java">@Service
+public class EmpServiceImpl implements EmpService {
+
+    @Autowired
+    private EmpMapper empMapper;
+
+    @Override
+    public PageResult&lt;Emp&gt; page(Integer page, Integer pageSize) {
+        Long total=empMapper.count();
+        Integer start=(page-1)*pageSize;
+        List&lt;Emp&gt; rows= empMapper.list(start, pageSize);
+        return new PageResult&lt;Emp&gt;(total, rows);
+    }
+}
+</code></pre>
+<p>3). EmpMapper</p>
+<pre><code class="language-java">@Mapper
+public interface EmpMapper {
+
+    @Select(&quot;select count(*) from emp e left join dept d on e.dept_id=d.id&quot;)
+    public Long count();
+
+    @Select(&quot;select e.* ,d.name deptName from emp e left join dept d on e.dept_id=d.id order by e.update_time desc limit #{start},#{pageSize} &quot;)
+    public List&lt;Emp&gt; list(Integer start,Integer pageSize);
+}
+</code></pre>
+<h3 id="pagehelper分页插件"><strong>PageHelper分页插件</strong></h3>
+<p>分页查询的思路、步骤是比较固定的。 在Mapper接口中定义两个方法执行两条不同的SQL语句：</p>
+<ol>
+<li>查询总记录数</li>
+<li>指定页码的数据列表<br>
+在Service当中，调用Mapper接口的两个方法，分别获取：总记录数、查询结果列表，然后在将获取的数据结果封装到PageBean对象中。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250617203958.png" alt="" loading="lazy"><br>
+PageHelper是第三方提供的Mybatis框架中的一款功能强大、方便易用的分页插件，支持任何形式的单标、多表的分页查询。当使用了PageHelper分页插件进行分页，就无需再Mapper中进行手动分页了。 在Mapper中我们只需要进行正常的列表查询即可。在Service层中，调用Mapper的方法之前设置分页参数，在调用Mapper方法执行查询之后，解析分页结果，并将结果封装到PageResult对象中返回。<br>
+1). 在pom.xml引入依赖</li>
+</ol>
+<pre><code class="language-xml">&lt;!--分页插件PageHelper--&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;com.github.pagehelper&lt;/groupId&gt;
+    &lt;artifactId&gt;pagehelper-spring-boot-starter&lt;/artifactId&gt;
+    &lt;version&gt;1.4.7&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<p>2). EmpServiceImpl</p>
+<pre><code class="language-java">@Override
+public PageResult page(Integer page, Integer pageSize) {
+    //1. 设置分页参数
+    PageHelper.startPage(page,pageSize);
+
+    //2. 执行查询
+    List&lt;Emp&gt; empList = empMapper.list();
+    Page&lt;Emp&gt; p = (Page&lt;Emp&gt;) empList;
+
+    //3. 封装结果
+    return new PageResult(p.getTotal(), p.getResult());
+}
+</code></pre>
+<ul>
+<li>实现机制</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250617210752.png" alt="" loading="lazy"><br>
+其实就是将我们编写的SQL语句进行的改造增强，将查询返回的字段列表替换成了 count(0) 来统计总记录数且在SQL语句之后拼接上了limit进行分页查询。而PageHelper在进行分页查询时，会执行上述两条SQL语句，并将查询到的总记录数，与数据列表封装到了 Page<Emp> 对象中，我们再获取查询结果时，只需要调用Page对象的方法就可以获取。</p>
+<pre><code class="language-java">List&lt;Emp&gt; empList = empMapper.list();
+</code></pre>
+<p>虽然 empMapper.list() 返回的是 List<Emp> 类型，但底层返回的是 com.github.pagehelper.Page<Emp>，它实现了 List<Emp> 接口。<br>
+注意：</p>
+<ul>
+<li>PageHelper实现分页查询时，SQL语句的结尾一定一定一定不要加分号(;)。</li>
+<li>PageHelper只会对紧跟在其后的第一条SQL语句进行分页处理（Service层）。</li>
+</ul>
+<h2 id="条件分页查询"><strong>条件分页查询</strong></h2>
+<p>sql语句字符串拼接：</p>
+<pre><code class="language-sql">select concat('%','阮','%')
+</code></pre>
+<h3 id="功能开发"><strong>功能开发</strong></h3>
+<p>1). 在EmpController方法中通过多个方法形参，依次接收这几个参数</p>
+<pre><code class="language-java">@Slf4j
+@RestController
+@RequestMapping(&quot;/emps&quot;)
+public class EmpController {
+    @Autowired
+    private EmpService empService;
+
+    @GetMapping
+    public Result page(@RequestParam(defaultValue = &quot;1&quot;) Integer page,
+                       @RequestParam(defaultValue = &quot;10&quot;) Integer pageSize,
+                       String name,
+                       Integer gender,
+                       @DateTimeFormat(pattern = &quot;yyy-MM-dd&quot;) LocalDate begin,
+                       @DateTimeFormat(pattern = &quot;yyy-MM-dd&quot;) LocalDate end) {
+        log.info(&quot;分页查询：{},{},{},{},{},{}&quot;,page,pageSize,name,gender,begin,end);
+        PageResult&lt;Emp&gt; pageResult =empService.page(page,pageSize,name,gender,begin,end);
+        return Result.success(pageResult);
+    }
+}
+</code></pre>
+<p>日期时间类型参数接收时，需要通过@DateTimeFormat注解指定前端传递的日期格式。<br>
+2). 修改EmpService及EmpServiceImpl中的代码逻辑</p>
+<pre><code class="language-java">@Override
+    public PageResult&lt;Emp&gt; page(Integer page, Integer pageSize,
+                                String name,
+                                Integer gender,
+                                LocalDate begin,
+                                LocalDate end) {
+        //1.设置分页参数
+        PageHelper.startPage(page, pageSize);
+        //2.执行查询
+        List&lt;Emp&gt; empList=empMapper.list(name, gender, begin, end);
+        //3.解析查询结果，并封装
+        Page&lt;Emp&gt; p= (Page&lt;Emp&gt;) empList;
+        return new PageResult&lt;Emp&gt;(p.getTotal(),p.getResult());
+    }
+</code></pre>
+<p>3). 调整EmpMapper接口方法</p>
+<pre><code class="language-java">public List&lt;Emp&gt; list(String name, Integer gender, LocalDate begin, LocalDate end);
+</code></pre>
+<p>由于SQL语句比较复杂，建议将SQL语句配置在XML映射文件中。<br>
+4). 新增Mapper映射文件EmpMapper.xml</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;!DOCTYPE mapper
+        PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
+        &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+&lt;mapper namespace=&quot;com.ys.mapper.EmpMapper&quot;&gt;
+
+    &lt;select id=&quot;list&quot; resultType=&quot;com.ys.pojo.Emp&quot;&gt;
+        select e.* ,d.name from emp e left join dept d on e.dept_id=d.id
+        where e.name like concat('%',#{name},'%')
+          and gender=#{gender}
+          and e.entry_date between #{begin} and #{end}
+        order by e.update_time desc
+    &lt;/select&gt;
+&lt;/mapper&gt;
+</code></pre>
+<h3 id="程序优化"><strong>程序优化</strong></h3>
+<p>在上述分页条件查询中，请求参数比较多，有6个，如下所示：</p>
+<ul>
+<li>请求参数：/emps?name=张&amp;gender=1&amp;begin=2007-09-01&amp;end=2022-09-01&amp;page=1&amp;pageSize=10</li>
+</ul>
+<p>那我们在controller层方法中，接收请求参数的时候，直接在controller方法中声明这样6个参数即可，这样做，功能可以实现，但是不方便维护和管理。<br>
+优化思路：定义一个实体类，来封装这几个请求参数。 【需要保证，前端传递的请求参数和实体类的属性名是一样的】<br>
+1). 定义实体类：EmpQueryParam</p>
+<pre><code class="language-java">@Data
+public class EmpQueryParam {
+    private Integer page=1;
+    private Integer pageSize=10;
+    private String name; //姓名
+    private Integer gender; //性别
+    @DateTimeFormat(pattern = &quot;yyyy-MM-dd&quot;)
+    private LocalDate begin; //入职开始时间
+    @DateTimeFormat(pattern = &quot;yyyy-MM-dd&quot;)
+    private LocalDate end; //入职结束时间
+}
+</code></pre>
+<p>2). EmpController接收请求参数</p>
+<pre><code class="language-java">@Slf4j
+@RestController
+@RequestMapping(&quot;/emps&quot;)
+public class EmpController {
+    @Autowired
+    private EmpService empService;
+
+    @GetMapping
+    public Result page(EmpQueryParam empQueryParam) {
+        log.info(&quot;分页查询：{}&quot;,empQueryParam);
+        PageResult&lt;Emp&gt; pageResult =empService.page(empQueryParam);
+        return Result.success(pageResult);
+    }
+}
+</code></pre>
+<p>3). 修改EmpServiceImpl中的page方法</p>
+<pre><code class="language-java">@Override
+    public PageResult&lt;Emp&gt; page(EmpQueryParam empQueryParam) {
+        //1.设置分页参数
+        PageHelper.startPage(empQueryParam.getPage(), empQueryParam.getPageSize());
+        //2.执行查询
+        List&lt;Emp&gt; empList=empMapper.list(empQueryParam);
+        //3.解析查询结果，并封装
+        Page&lt;Emp&gt; p= (Page&lt;Emp&gt;) empList;
+        return new PageResult&lt;Emp&gt;(p.getTotal(),p.getResult());
+    }
+}
+</code></pre>
+<p>4). 修改EmpMapper接口方法</p>
+<pre><code class="language-java">public List&lt;Emp&gt; list(EmpQueryParam empQueryParam);
+</code></pre>
+<p>5). EmpMapper.xml 中配置修改<br>
+当前，我们在查询的时候，Mapper映射配置文件中的SQL语句中，查询条件是写死的。 而我们在员工管理中，根据条件查询员工信息时，查询条件是可选的，可以输入也可以不输入。我们看到，这个SQL语句不应该是写死的，而应该根据用户输入的条件的变化而变化。 那这里呢，就要通过Mybatis中的动态SQL来实现。</p>
+<ul>
+<li>所谓动态SQL，指的就是随着用户的输入或外部的条件的变化而变化的SQL语句。</li>
+<li>&lt;if&gt;：判断条件是否成立，如果条件为true，则拼接SQL。</li>
+<li>&lt;where&gt;：根据查询条件，来生成where关键字，并会自动去除条件前面多余的and或or。</li>
+</ul>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;!DOCTYPE mapper
+        PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
+        &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+&lt;mapper namespace=&quot;com.ys.mapper.EmpMapper&quot;&gt;
+
+    &lt;select id=&quot;list&quot; resultType=&quot;com.ys.pojo.Emp&quot;&gt;
+        select e.* ,d.name deptName from emp e left join dept d on e.dept_id=d.id
+        &lt;where&gt;
+            &lt;if test=&quot;name != null and name != ''&quot;&gt;
+                e.name like concat('%',#{name},'%')
+            &lt;/if&gt;
+            &lt;if test=&quot;gender != null&quot;&gt;
+                and e.gender = #{gender}
+            &lt;/if&gt;
+            &lt;if test=&quot;begin != null and end != null&quot;&gt;
+                and e.entry_date between #{begin} and #{end}
+            &lt;/if&gt;
+        &lt;/where&gt;
+    &lt;/select&gt;
+&lt;/mapper&gt;
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E5%A4%9A%E8%A1%A8%E5%85%B3%E7%B3%BB"><strong>多表关系</strong></a>
+<ul>
+<li><a href="#%E4%B8%80%E5%AF%B9%E5%A4%9A"><strong>一对多</strong></a></li>
+<li><a href="#%E5%A4%9A%E8%A1%A8%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90"><strong>多表问题分析</strong></a></li>
+<li><a href="#%E4%B8%80%E5%AF%B9%E4%B8%80"><strong>一对一</strong></a></li>
+<li><a href="#%E5%A4%9A%E5%AF%B9%E5%A4%9A"><strong>多对多</strong></a></li>
+<li><a href="#%E5%A4%9A%E8%A1%A8%E8%AE%BE%E8%AE%A1%E6%A1%88%E4%BE%8B"><strong>多表设计案例</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E5%A4%9A%E8%A1%A8%E6%9F%A5%E8%AF%A2"><strong>多表查询</strong></a>
+<ul>
+<li><a href="#%E5%88%86%E7%B1%BB"><strong>分类</strong></a></li>
+<li><a href="#%E5%86%85%E8%BF%9E%E6%8E%A5"><strong>内连接</strong></a></li>
+<li><a href="#%E5%A4%96%E8%BF%9E%E6%8E%A5"><strong>外连接</strong></a></li>
+<li><a href="#%E5%AD%90%E6%9F%A5%E8%AF%A2"><strong>子查询</strong></a></li>
+<li><a href="#%E6%A1%88%E4%BE%8B"><strong>案例</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E5%91%98%E5%B7%A5%E5%88%97%E8%A1%A8%E6%9F%A5%E8%AF%A2"><strong>员工列表查询</strong></a>
+<ul>
+<li><a href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><strong>准备工作</strong></a></li>
+<li><a href="#%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2"><strong>分页查询</strong></a>
+<ul>
+<li><a href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><strong>代码实现</strong></a></li>
+<li><a href="#pagehelper%E5%88%86%E9%A1%B5%E6%8F%92%E4%BB%B6"><strong>PageHelper分页插件</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E6%9D%A1%E4%BB%B6%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2"><strong>条件分页查询</strong></a>
+<ul>
+<li><a href="#%E5%8A%9F%E8%83%BD%E5%BC%80%E5%8F%91"><strong>功能开发</strong></a></li>
+<li><a href="#%E7%A8%8B%E5%BA%8F%E4%BC%98%E5%8C%96"><strong>程序优化</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://yyss1014.github.io/post/hou-duan-web-shi-zhan-bu-men-guan-li/">
+              <h3 class="post-title">
+                后端Web实战(部门管理)
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://yyss1014.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

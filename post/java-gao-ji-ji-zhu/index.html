@@ -1,0 +1,767 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Java高级技术 | WASD研究院</title>
+<link rel="shortcut icon" href="https://yyss1014.github.io/favicon.ico?v=1751633121752">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://yyss1014.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Java高级技术 | WASD研究院 - Atom Feed" href="https://yyss1014.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+单元测试
+
+Junit单元测试框架
+Junit框架常见注解
+
+
+反射
+
+获取类
+获取构造器
+获取类的成员变量
+获取类的成员方法
+反射的作用
+
+
+注解
+
+自定义注解
+元注解
+注解的解析
+应用场景
+
+
+动态代理
+
+
+单元测试
+针对最小的功能单..." />
+    <meta name="keywords" content="JavaSE" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yyss1014.github.io">
+  <img class="avatar" src="https://yyss1014.github.io/images/avatar.png?v=1751633121752" alt="">
+  </a>
+  <h1 class="site-title">
+    WASD研究院
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/archives" class="menu">
+          目录
+        </a>
+      
+    
+      
+        <a href="/" class="menu">
+          文章
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          分类
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Java高级技术
+            </h2>
+            <div class="post-info">
+              <span>
+                2025-04-23
+              </span>
+              <span>
+                14 min read
+              </span>
+              
+                <a href="https://yyss1014.github.io/tag/xcf3bLryi2/" class="post-tag">
+                  # JavaSE
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p><ul class="markdownIt-TOC">
+<li><a href="#%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95"><strong>单元测试</strong></a>
+<ul>
+<li><a href="#junit%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6"><strong>Junit单元测试框架</strong></a></li>
+<li><a href="#junit%E6%A1%86%E6%9E%B6%E5%B8%B8%E8%A7%81%E6%B3%A8%E8%A7%A3"><strong>Junit框架常见注解</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E5%8F%8D%E5%B0%84"><strong>反射</strong></a>
+<ul>
+<li><a href="#%E8%8E%B7%E5%8F%96%E7%B1%BB"><strong>获取类</strong></a></li>
+<li><a href="#%E8%8E%B7%E5%8F%96%E6%9E%84%E9%80%A0%E5%99%A8"><strong>获取构造器</strong></a></li>
+<li><a href="#%E8%8E%B7%E5%8F%96%E7%B1%BB%E7%9A%84%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F"><strong>获取类的成员变量</strong></a></li>
+<li><a href="#%E8%8E%B7%E5%8F%96%E7%B1%BB%E7%9A%84%E6%88%90%E5%91%98%E6%96%B9%E6%B3%95"><strong>获取类的成员方法</strong></a></li>
+<li><a href="#%E5%8F%8D%E5%B0%84%E7%9A%84%E4%BD%9C%E7%94%A8"><strong>反射的作用</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E6%B3%A8%E8%A7%A3"><strong>注解</strong></a>
+<ul>
+<li><a href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3"><strong>自定义注解</strong></a></li>
+<li><a href="#%E5%85%83%E6%B3%A8%E8%A7%A3"><strong>元注解</strong></a></li>
+<li><a href="#%E6%B3%A8%E8%A7%A3%E7%9A%84%E8%A7%A3%E6%9E%90"><strong>注解的解析</strong></a></li>
+<li><a href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><strong>应用场景</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86"><strong>动态代理</strong></a></li>
+</ul>
+</p>
+<h1 id="单元测试"><strong>单元测试</strong></h1>
+<p>针对最小的功能单元（方法），编写测试代码对其进行正确性测试。</p>
+<h2 id="junit单元测试框架"><strong>Junit单元测试框架</strong></h2>
+<p>可以用来对方法进行测试，它是由第三方公司开源出来的（很多开发工具已经集成了Junit框架，比如IDEA）<br>
+<strong>优点：</strong></p>
+<ul>
+<li>可以灵活的编写测试代码，可以针对某个方法执行测试，也支持一键完成对全部方法的自动化测试，且各自独立。</li>
+<li>不需要程序员去分析测试的结果，会自动生成测试报告出来。</li>
+</ul>
+<p><strong>步骤：</strong><br>
+将Junit框架的jar包倒入到项目中<br>
+为需要测试的业务类，定义对应的测试类，并为每个业务方法，编写对应的测试方法<br>
+测试方法上必须声明@Test注解，然后在测试方法中，编写代码调用被测试的业务方法进行测试<br>
+选中测试方法，右键选择JUnit运行，如果测试通过是绿色，如果测试失败则是红色。</p>
+<pre><code class="language-java">public class StringUtil {
+    public static void printNumber(String name){
+        if(name == null){
+            System.out.println(0);
+            return;
+        }
+        System.out.println(&quot;名字长度是：&quot;+name.length());
+    }
+    public static int getMaxIndex(String data){
+        if(data==null){
+            return -1;
+        }
+        return data.length()-1;
+    }
+}
+</code></pre>
+<pre><code class="language-java">package com.ys.d1_file;
+
+import org.junit.Assert;
+import org.junit.Test;
+
+public class StringUtilTest {
+    @Test//测试方法
+    public void testPrintNumber(){
+        StringUtil.printNumber(&quot;admin&quot;);
+        StringUtil.printNumber(null);
+    }
+    @Test
+    public void testGetMaxIndex(){
+        int index1=StringUtil.getMaxIndex(null);
+        System.out.println(index1);
+
+        int index2=StringUtil.getMaxIndex(&quot;admin&quot;);
+        System.out.println(index2);
+
+        //断言机制：程序员可以通过预测业务方法的结果
+        Assert.assertEquals(&quot;方法内部有bug&quot;,4,index2);
+    }
+}
+</code></pre>
+<h2 id="junit框架常见注解"><strong>Junit框架常见注解</strong></h2>
+<pre><code class="language-java">public class StringUtilTest {
+    @Before//用来修饰一个实例方法，该方法会在每一个测试方法执行前执行一次
+    public void test1(){
+        System.out.println(&quot;----&gt;test1 Before 执行了----&quot;);
+    }
+
+    @BeforeClass//用来修饰一个静态方法,该方法会在所有测试方法执行前只执行一次
+    public static void test11(){
+        System.out.println(&quot;----&gt;test11 BeforeClass 执行了----&quot;);
+    }
+
+    @After//用来修饰一个实例方法，该方法会在每一个测试方法执行后执行一次
+    public void test2(){
+        System.out.println(&quot;----&gt;test2 After 执行了----&quot;);
+    }
+
+    @AfterClass//用来修饰一个静态方法,该方法会在所有测试方法执行后只执行一次
+    public static void test22(){
+        System.out.println(&quot;----&gt;test22 AfterClass 执行了----&quot;);
+    }
+
+    @Test//测试方法
+    public void testPrintNumber(){
+        StringUtil.printNumber(&quot;admin&quot;);
+        StringUtil.printNumber(null);
+    }
+
+    @Test
+    public void testGetMaxIndex(){
+        int index1=StringUtil.getMaxIndex(null);
+        System.out.println(index1);
+
+        int index2=StringUtil.getMaxIndex(&quot;admin&quot;);
+        System.out.println(index2);
+
+        //断言机制：程序员可以通过预测业务方法的结果
+        Assert.assertEquals(&quot;方法内部有bug&quot;,4,index2);
+    }
+}
+</code></pre>
+<h1 id="反射"><strong>反射</strong></h1>
+<p>加载类，并允许以编程方式解剖类中的各种成分（成员变量，方法，构造器等）。</p>
+<h2 id="获取类"><strong>获取类</strong></h2>
+<p>获取class对象的三种方式：</p>
+<ul>
+<li>Class c1=类名.class</li>
+<li>调用Class提供方法：public static Class&lt;?&gt; forName(String className)</li>
+<li>Object提供方法：public final native Class&lt;?&gt; getClass();</li>
+</ul>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws ClassNotFoundException {
+        Class c1=Student.class;
+        System.out.println(c1.getName());//全类名
+        System.out.println(c1.getSimpleName());//简名：Student
+
+        Class c2=Class.forName(&quot;com.ys.d1_file.Student&quot;);
+        System.out.println(c1==c2);
+
+        Student s=new Student();
+        Class c3=s.getClass();
+        System.out.println(c3==c2);
+
+    }
+}
+</code></pre>
+<h2 id="获取构造器"><strong>获取构造器</strong></h2>
+<pre><code class="language-java">public class Test2Constructor {
+    @Test
+    public void testGetConstructors(){
+        //必须先得到这个类的class对象
+        Class c=Student.class;
+        //获取类的全部构造器
+        //Constructor[] constructors=c.getConstructors();//只能获取public修饰的
+        Constructor[] constructors=c.getDeclaredConstructors();//只要存在就能拿到
+        //遍历数组中的每个构造器对象
+        for (Constructor constructor : constructors) {
+            System.out.println(constructor.getName()+&quot;:&quot;+constructor.getParameterCount());
+        }
+    }
+
+    @Test
+    public void testGetConstructor() throws NoSuchMethodException {
+        Class c=Student.class;
+        //Constructor constructor=c.getConstructor();//获取某个构造器，public修饰的
+        Constructor constructor=c.getDeclaredConstructor();//只要存在就能拿到
+        System.out.println(constructor.getName()+&quot;:&quot;+constructor.getParameterCount());
+
+        Constructor constructor2=c.getDeclaredConstructor(String.class,int.class,double.class);
+        System.out.println(constructor2.getName()+&quot;:&quot;+constructor2.getParameterCount());
+    }
+}
+</code></pre>
+<p>获取类构造器的作用：</p>
+<pre><code class="language-java">@Test
+    public void testGetConstructor() throws Exception {
+        Class c=Student.class;
+        //Constructor constructor=c.getConstructor();//获取某个构造器，public修饰的
+        Constructor constructor=c.getDeclaredConstructor();//只要存在就能拿到
+        System.out.println(constructor.getName()+&quot;:&quot;+constructor.getParameterCount());
+
+        //设置为true，表示禁止检查访问控制（暴力反射），可以访问private构造器
+        constructor.setAccessible(true);
+        //调用此构造器对象表示的构造器，并传入参数
+        Student student=(Student) constructor.newInstance();
+        System.out.println(student);
+
+        Constructor constructor2=c.getDeclaredConstructor(String.class,int.class,double.class);
+        System.out.println(constructor2.getName()+&quot;:&quot;+constructor2.getParameterCount());
+        Student student2=(Student) constructor2.newInstance(&quot;John&quot;,27,99.0);
+        System.out.println(student2);
+    }
+</code></pre>
+<h2 id="获取类的成员变量"><strong>获取类的成员变量</strong></h2>
+<pre><code class="language-java">public class Test3Field {
+    @Test
+    public void testGetField() throws Exception {
+        //反射第一步：获得类的Class对象
+        Class c = Student.class;
+        //获取类的全部成员变量
+        Field[] fields=c.getDeclaredFields();
+        //遍历这个成员变量数组
+        for (Field field : fields) {
+            System.out.println(field.getName()+&quot;:&quot;+field.getType());
+        }
+        //定位某个成员变量
+        Field fName=c.getDeclaredField(&quot;name&quot;);
+        System.out.println(fName.getName()+&quot;:&quot;+fName.getType());
+
+        //赋值
+        Student stu=new Student();
+        fName.setAccessible(true);//禁止访问控制权限
+        fName.set(stu,&quot;John&quot;);
+        System.out.println(stu);
+        //取值
+        String name=(String)fName.get(stu);
+        System.out.println(name);
+    }
+}
+</code></pre>
+<h2 id="获取类的成员方法"><strong>获取类的成员方法</strong></h2>
+<pre><code class="language-java">public class Test3Method {
+    @Test
+    public void testGetMethod() throws Exception {
+        Class c = Student.class;
+        //获取类的全部成员方法
+        Method[] methods=c.getDeclaredMethods();
+        //遍历这个数组中的每个方法对象
+        for (Method method : methods) {
+            System.out.println(method.getName()+&quot;:&quot;+method.getParameterCount()+&quot;:&quot;+method.getReturnType());
+        }
+        //获取某个方法对象
+        Method equals=c.getDeclaredMethod(&quot;equals&quot;, Object.class);
+        System.out.println(equals.getName()+&quot;:&quot;+equals.getParameterCount()+&quot;:&quot;+equals.getReturnType());
+
+        Method setname=c.getDeclaredMethod(&quot;setName&quot;, String.class);
+        System.out.println(setname.getName()+&quot;:&quot;+setname.getParameterCount()+&quot;:&quot;+setname.getReturnType());
+
+        Student stu=new Student();
+        setname.setAccessible(true);
+        Object rs=setname.invoke(stu,&quot;John&quot;);//接返回值
+        System.out.println(rs);
+
+    }
+}
+</code></pre>
+<h2 id="反射的作用"><strong>反射的作用</strong></h2>
+<ul>
+<li>基本作用：可以得到一个类的全部成分并操作</li>
+<li>破坏封装性</li>
+<li>适合做框架<br>
+<strong>案例</strong><br>
+对于任意一个对象，该框架都可以把对象的字段名和对应的值保存到文件中去。</li>
+</ul>
+<pre><code class="language-java">public class ObjectFrame {
+    public static void saveObject(Object obj) throws Exception {
+        PrintStream ps=new PrintStream(new FileOutputStream(&quot;D:\\codetest\\javasepro\\file-io-app\\src\\data.txt&quot;,true));
+        Class c=obj.getClass();
+        String cName=c.getSimpleName();
+        ps.println(&quot;-----------&quot;+cName+&quot;-----------&quot;);
+        Field[] fields=c.getDeclaredFields();
+        for (Field field : fields) {
+            String name = field.getName();
+            field.setAccessible(true);
+            String value=field.get(obj)+&quot;&quot;;
+            ps.println(name+&quot;=&quot;+value);
+        }
+        ps.close();
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test5Frame {
+    @Test
+    public void save() throws Exception {
+        Student s = new Student(&quot;易遇&quot;, 27, '男', 185.3, &quot;姑姑&quot;);
+        Teacher t = new Teacher(&quot;柏源&quot;, 999.9);
+        ObjectFrame.saveObject(s);
+        ObjectFrame.saveObject(t);
+    }
+}
+</code></pre>
+<h1 id="注解"><strong>注解</strong></h1>
+<p>java里的特殊标记，比如@Override、@Test等，让其他程序根据注解信息决定怎么执行该程序。</p>
+<h2 id="自定义注解"><strong>自定义注解</strong></h2>
+<p>自己定义注解，如果注解中只有一个value属性，使用注解时，value名称可以不写。</p>
+<pre><code class="language-java">@Mytest1(aaa=&quot;易遇&quot;,ccc={&quot;HTML&quot;,&quot;Java&quot;})
+@Mytest2(&quot;顾时夜&quot;)
+public class AnnotationTest1 {
+    @Mytest1(aaa=&quot;柏源&quot;, bbb=false, ccc={&quot;Python&quot;, &quot;前端&quot;, &quot;Java&quot;})
+    public void test1(){}
+
+    public static void main(String[] args) {
+
+    }
+}
+</code></pre>
+<pre><code class="language-java">public @interface Mytest1 {
+    String aaa();
+    boolean bbb() default true;
+    String[] ccc();
+}
+</code></pre>
+<pre><code class="language-java">public @interface Mytest2 {
+    String value();
+    int age() default 23;
+}
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250424170959.png" alt="" loading="lazy"></figure>
+<ul>
+<li>注解本质是一个接口，Java中所有注解都是继承了Annotation接口的。</li>
+<li>@注解(...)实际上就是一个实现类对象，实现了该注解以及Annotation接口。</li>
+</ul>
+<h2 id="元注解"><strong>元注解</strong></h2>
+<p>修饰注解的注解。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250424172142.png" alt="" loading="lazy"><br>
+SOURCE：编译成class文件里不存在。</p>
+<pre><code class="language-java">@Target({ElementType.TYPE, ElementType.METHOD})
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Mytest1 {
+
+}
+</code></pre>
+<h2 id="注解的解析"><strong>注解的解析</strong></h2>
+<p>判断类上，方法上是否存在注解，并把注解里的内容解析出来。<br>
+Class,Method,Field,Constructor都实现了AnnotatedElement接口，它们都有解析注解的能力。</p>
+<pre><code class="language-java">@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.TYPE,ElementType.METHOD})
+public @interface MyTest1 {
+    String value();
+    double aaa() default 100;
+    String[] bbb();
+}
+</code></pre>
+<pre><code class="language-java">@MyTest1(value = &quot;蜘蛛精&quot;, aaa=99.5, bbb = {&quot;至尊宝&quot;, &quot;黑马&quot;})
+@MyTest2
+public class Demo {
+    @MyTest1(value = &quot;孙悟空&quot;, aaa=199.9, bbb = {&quot;紫霞&quot;, &quot;牛夫人&quot;})
+    public void test1(){}
+}
+</code></pre>
+<pre><code class="language-java">public class AnnotationTest1 {
+    @Test
+    public void parseClass(){
+        Class c = Demo.class;
+        //解析类上的注释
+        //判断类上是否包含了某个注释
+        if (c.isAnnotationPresent(MyTest1.class)) {
+            //Annotation myTest1 = c.getDeclaredAnnotation(MyTest1.class);//多态写法
+            MyTest1 myTest1 = (MyTest1) c.getDeclaredAnnotation(MyTest1.class);
+            System.out.println(myTest1.value());
+            System.out.println(myTest1.aaa());
+            System.out.println(Arrays.toString(myTest1.bbb()));
+        }
+    }
+    @Test
+    public void parseMethod() throws NoSuchMethodException {
+        Class c = Demo.class;
+        Method m=c.getDeclaredMethod(&quot;test1&quot;);
+        //解析类上的注释
+        //判断类上是否包含了某个注释
+        if (m.isAnnotationPresent(MyTest1.class)) {
+            //Annotation myTest1 = c.getDeclaredAnnotation(MyTest1.class);//多态写法
+            MyTest1 myTest1 = (MyTest1) m.getDeclaredAnnotation(MyTest1.class);
+            System.out.println(myTest1.value());
+            System.out.println(myTest1.aaa());
+            System.out.println(Arrays.toString(myTest1.bbb()));
+        }
+    }
+}
+</code></pre>
+<h2 id="应用场景"><strong>应用场景</strong></h2>
+<p>模拟Junit框架，只要加了MyTest注解，就会触发方法执行。</p>
+<pre><code class="language-java">@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface MyTest {
+}
+</code></pre>
+<pre><code class="language-java">public class AnnotationTest1 {
+    //@MyTest
+    public void test1() {
+        System.out.println(&quot;===test1===&quot;);
+    }
+
+    @MyTest
+    public void test2() {
+        System.out.println(&quot;===test2===&quot;);
+    }
+
+    @MyTest
+    public void test3() {
+        System.out.println(&quot;===test3===&quot;);
+    }
+
+    public static void main(String[] args) throws Exception {
+        AnnotationTest1 a=new AnnotationTest1();
+        Class c = AnnotationTest1.class;
+        Method[] methods = c.getDeclaredMethods();
+        for (Method method : methods) {
+            if (method.isAnnotationPresent(MyTest.class)) {
+                method.invoke(a);
+            }
+        }
+    }
+}
+</code></pre>
+<h1 id="动态代理"><strong>动态代理</strong></h1>
+<pre><code class="language-java">public interface Star {
+    String sing(String name);
+    void dance();
+}
+public class BigStar implements Star{
+    private String name;
+
+    public BigStar(String name) {
+        this.name = name;
+    }
+
+    public String sing(String name) {
+        System.out.println(this.name+&quot;正在唱：&quot;+name);
+        return &quot;谢谢&quot;;
+    }
+    public void dance(){
+        System.out.println(this.name+&quot;正在优美地跳舞~&quot;);
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class ProxyUtil {
+    public static Star createProxy(BigStar bigstar){
+        /*public static Object newProxyInstance(ClassLoader loader,
+                Class&lt;?&gt;[] interfaces,
+                InvocationHandler h)
+                参数1：用来加载一个类加载器
+                参数2：指定生成的代理长什么样子，也就是有哪些方法
+                参数3：用来指定生成的代理对象要干什么事情
+                */
+        Star starProxy=(Star) Proxy.newProxyInstance(ProxyUtil.class.getClassLoader()
+                ,new Class[]{Star.class},new InvocationHandler() {
+                    @Override
+                    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                        //Object proxy是动态生成的代理对象本身，也就是通过 Proxy.newProxyInstance() 创建的那个对象。
+                        //代理对象要做的事情，会在这里写代码
+                        if(method.getName().equals(&quot;sing&quot;)){
+                            System.out.println(&quot;准备话筒，收钱20万&quot;);
+                        }else if(method.getName().equals(&quot;dance&quot;)){
+                            System.out.println(&quot;准备场地，收钱100万&quot;);
+                        }
+                        return method.invoke(bigstar,args);
+                    }
+                });
+        return starProxy;
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        BigStar s=new BigStar(&quot;杨超越&quot;);
+        Star starProxy=ProxyUtil.createProxy(s);
+
+        String rs=starProxy.sing(&quot;好日子&quot;);
+        System.out.println(rs);
+
+        starProxy.dance();
+    }
+}
+</code></pre>
+<p><strong>案例：使用代理优化业务类</strong></p>
+<pre><code class="language-java">public interface UserService {
+    // 登录功能
+    void login(String loginName,String passWord) throws Exception;
+    // 删除用户
+    void deleteUsers() throws Exception;
+    // 查询用户，返回数组的形式。
+    String[] selectUsers() throws Exception;
+}
+</code></pre>
+<pre><code class="language-java">public class UserServiceImpl implements UserService{
+    @Override
+    public void login(String loginName, String passWord) throws Exception {
+        if(&quot;admin&quot;.equals(loginName) &amp;&amp; &quot;123456&quot;.equals(passWord)){
+            System.out.println(&quot;您登录成功，欢迎光临本系统~&quot;);
+        }else {
+            System.out.println(&quot;您登录失败，用户名或密码错误~&quot;);
+        }
+        Thread.sleep(1000);
+    }
+
+    @Override
+    public void deleteUsers() throws Exception{
+        System.out.println(&quot;成功删除了1万个用户~&quot;);
+        Thread.sleep(1500);
+    }
+
+    @Override
+    public String[] selectUsers() throws Exception{
+
+        System.out.println(&quot;查询出了3个用户&quot;);
+        String[] names = {&quot;张全蛋&quot;, &quot;李二狗&quot;, &quot;牛爱花&quot;};
+        Thread.sleep(500);
+
+        return names;
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class ProxyUtil {
+    public static UserService createProxy(UserService userService){
+        UserService userServiceProxy = (UserService) Proxy.newProxyInstance(ProxyUtil.class.getClassLoader()
+                , new Class[]{UserService.class}, new InvocationHandler() {
+                    @Override
+                    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                        if(method.getName().equals(&quot;login&quot;)||method.getName().equals(&quot;deleteUsers&quot;)
+                        ||method.getName().equals(&quot;selectUsers&quot;)){
+                            long start = System.currentTimeMillis();
+                            Object rs = method.invoke(userService, args);
+                            long end = System.currentTimeMillis();
+                            System.out.println(method.getName()+&quot;方法执行耗时：&quot;+(end-start)/1000.0+&quot;s&quot;);
+                            return rs;
+                        }else {
+                            return method.invoke(userService, args);
+                        }
+                    }
+                });
+        return userServiceProxy;
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) throws Exception{
+        // 1、创建用户业务对象。
+        UserService userService = ProxyUtil.createProxy(new UserServiceImpl());
+
+        // 2、调用用户业务的功能。
+        userService.login(&quot;admin&quot;, &quot;123456&quot;);
+        System.out.println(&quot;----------------------------------------------------&quot;);
+
+        userService.deleteUsers();
+        System.out.println(&quot;----------------------------------------------------&quot;);
+
+        String[] names = userService.selectUsers();
+        System.out.println(&quot;查询到的用户是：&quot; + Arrays.toString(names));
+        System.out.println(&quot;----------------------------------------------------&quot;);
+
+    }
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95"><strong>单元测试</strong></a>
+<ul>
+<li><a href="#junit%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6"><strong>Junit单元测试框架</strong></a></li>
+<li><a href="#junit%E6%A1%86%E6%9E%B6%E5%B8%B8%E8%A7%81%E6%B3%A8%E8%A7%A3"><strong>Junit框架常见注解</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E5%8F%8D%E5%B0%84"><strong>反射</strong></a>
+<ul>
+<li><a href="#%E8%8E%B7%E5%8F%96%E7%B1%BB"><strong>获取类</strong></a></li>
+<li><a href="#%E8%8E%B7%E5%8F%96%E6%9E%84%E9%80%A0%E5%99%A8"><strong>获取构造器</strong></a></li>
+<li><a href="#%E8%8E%B7%E5%8F%96%E7%B1%BB%E7%9A%84%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F"><strong>获取类的成员变量</strong></a></li>
+<li><a href="#%E8%8E%B7%E5%8F%96%E7%B1%BB%E7%9A%84%E6%88%90%E5%91%98%E6%96%B9%E6%B3%95"><strong>获取类的成员方法</strong></a></li>
+<li><a href="#%E5%8F%8D%E5%B0%84%E7%9A%84%E4%BD%9C%E7%94%A8"><strong>反射的作用</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E6%B3%A8%E8%A7%A3"><strong>注解</strong></a>
+<ul>
+<li><a href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3"><strong>自定义注解</strong></a></li>
+<li><a href="#%E5%85%83%E6%B3%A8%E8%A7%A3"><strong>元注解</strong></a></li>
+<li><a href="#%E6%B3%A8%E8%A7%A3%E7%9A%84%E8%A7%A3%E6%9E%90"><strong>注解的解析</strong></a></li>
+<li><a href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><strong>应用场景</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86"><strong>动态代理</strong></a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://yyss1014.github.io/post/wang-luo-tong-xin/">
+              <h3 class="post-title">
+                网络通信
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://yyss1014.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

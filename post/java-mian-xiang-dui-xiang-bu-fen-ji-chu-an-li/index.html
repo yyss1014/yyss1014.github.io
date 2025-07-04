@@ -1,0 +1,555 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Java基础案例 | WASD研究院</title>
+<link rel="shortcut icon" href="https://yyss1014.github.io/favicon.ico?v=1751633121752">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://yyss1014.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Java基础案例 | WASD研究院 - Atom Feed" href="https://yyss1014.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="案例1 买飞机票
+需求：用户购买机票时，机票会安装淡季旺季，头等舱还是经济舱的情况进行相应的优惠。5-10月为旺季，11月至次年4月为淡季，旺季头等舱机票打9折，经济舱打8.5折；淡季头等舱打7折，经济舱打6.5折。
+public clas..." />
+    <meta name="keywords" content="Java" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yyss1014.github.io">
+  <img class="avatar" src="https://yyss1014.github.io/images/avatar.png?v=1751633121752" alt="">
+  </a>
+  <h1 class="site-title">
+    WASD研究院
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/archives" class="menu">
+          目录
+        </a>
+      
+    
+      
+        <a href="/" class="menu">
+          文章
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          分类
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Java基础案例
+            </h2>
+            <div class="post-info">
+              <span>
+                2025-02-27
+              </span>
+              <span>
+                11 min read
+              </span>
+              
+                <a href="https://yyss1014.github.io/tag/ZoLZarYSyW/" class="post-tag">
+                  # Java
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <h2 id="案例1-买飞机票"><strong>案例1 买飞机票</strong></h2>
+<p>需求：用户购买机票时，机票会安装淡季旺季，头等舱还是经济舱的情况进行相应的优惠。5-10月为旺季，11月至次年4月为淡季，旺季头等舱机票打9折，经济舱打8.5折；淡季头等舱打7折，经济舱打6.5折。</p>
+<pre><code class="language-java">public class test1 {
+    public static void main(String[] args) {
+        System.out.println(&quot;请输入月份：&quot;);
+        Scanner sc = new Scanner(System.in);
+        int a = sc.nextInt();
+        System.out.println(&quot;请输入仓型，是经济舱还是头等舱：&quot;);
+        String b = sc.next();
+        System.out.println(&quot;请输入机票价格：&quot;);
+        double c = sc.nextDouble();
+        double d=ticket(b,a,c);
+        System.out.println(&quot;您的机票优惠价是：&quot;+d);
+    }
+    public static double ticket(String s, int month,double price) {
+        if(month &lt;=10&amp;&amp;month&gt;=5){
+            return price*(s==&quot;头等舱&quot;?0.9:0.85);
+        }else
+            return price*(s==&quot;头等舱&quot;?0.7:0.65);
+
+    }
+}
+</code></pre>
+<h2 id="案例2-生成验证码"><strong>案例2 生成验证码</strong></h2>
+<p>生成可以指定位数的验证码，每位可以是大写字母，小写字母，数字。</p>
+<pre><code class="language-java">public class test2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println(&quot;请输入需要的验证码的长度：&quot;);
+        int n=sc.nextInt();
+        String code=creatCode(n);
+        System.out.println(code);
+    }
+    public static String creatCode(int n){
+        Random r = new Random();
+        String code = &quot;&quot;;
+        for (int i = 1; i &lt;= n; i++) {
+            int type = r.nextInt(3);
+            switch(type){
+                case 0:
+                    code += (char)('a'+r.nextInt(26));
+                    break;
+                case 1:
+                    code += (char)('A'+r.nextInt(26));
+                    break;
+                case 2:
+                    code += (char)('0'+r.nextInt(10));
+            }
+        }
+        return code;
+    }
+}
+</code></pre>
+<h2 id="案例3-评委打分"><strong>案例3 评委打分</strong></h2>
+<p>在比赛中可能有多个评委打分，分数是0-100之间的整数，选手最后得分为去掉一个最高分，去掉一个最低分后剩余分数的平均分。</p>
+<pre><code class="language-java">public class test3 {
+    public static void main(String[] args) {
+        System.out.println(&quot;当前的选手的得分是&quot;+getAverageScore(6));
+
+    }
+    public static double getAverageScore(int number){
+        int[] scores=new int[number];
+        Scanner sc=new Scanner(System.in);
+        int max=0;
+        int sum=0;
+        int min=101;
+        for (int i = 0; i &lt; scores.length; i++) {
+            System.out.println(&quot;请录入第&quot;+(i+1)+&quot;个评委的分数&quot;);
+            scores[i]=sc.nextInt();
+            sum+=scores[i];
+            if(scores[i]&gt;max){
+                max=scores[i];
+            }
+            if(scores[i]&lt;min){
+                min=scores[i];
+            }
+        }
+        return 1.0*(sum-max-min)/(number-2);
+    }
+}
+</code></pre>
+<h2 id="案例4-数字加密"><strong>案例4 数字加密</strong></h2>
+<p>某系统的数字密码是4位数，如1983，需要加密后再传输，加密规则是对密码中的每一位数都加5，再对10求余，最后将所有数字反转，得到一串加密后的新数。</p>
+<pre><code class="language-java">public class test4 {
+    public static void main(String[] args) {
+        System.out.println(&quot;加密后的结果是：&quot;+encrypt(1983));
+
+    }
+    public static String encrypt(int number){
+        int[] numbers=split(number);//Alt+Enter直接创建方法
+        for (int i = 0; i &lt; numbers.length; i++) {
+            numbers[i]=(numbers[i]+5)%10;
+        }
+        String data=&quot;&quot;;
+        for (int i = 0; i &lt; numbers.length; i++) {
+            data+=numbers[i];
+        }
+        return data;
+    }
+
+    public static int[] split(int number) {
+        int[] numbers=new int[4];
+        for (int i = 0; i &lt; numbers.length; i++) {
+            numbers[i]=number%10;
+            number=number/10;
+        }
+        return numbers;
+    }
+}
+</code></pre>
+<h2 id="案例5-数组拷贝"><strong>案例5 数组拷贝</strong></h2>
+<p>请将一个整型数组，拷贝一个一模一样的数组出来。</p>
+<pre><code class="language-java">public class test5 {
+    public static void main(String[] args) {
+        int[] arr={11,22,33};
+        int[] arr2=copy(arr);
+        printArray(arr2);
+    }
+    public static void printArray(int[] arr) {
+        System.out.print(&quot;[&quot;);
+        for (int i = 0; i &lt; arr.length; i++) {
+            System.out.print(i==arr.length-1?arr[i]:arr[i]+&quot;,&quot;);
+        }
+        System.out.print(&quot;]&quot;);
+    }
+    public static int[] copy(int[] arr) {
+        int[] arr2 = new int[arr.length];
+        for (int i = 0; i &lt; arr.length; i++) {
+            arr2[i] = arr[i];
+        }
+        return arr2;
+    }
+}
+</code></pre>
+<h2 id="案例6-抢红包"><strong>案例6 抢红包</strong></h2>
+<p>一个大V直播抽奖，红包金额分别为9、666、188、520、99999。请模拟粉丝前来抽奖，随机抽取，抽完极致，注意：一个红包只能被抽取一次。</p>
+<pre><code class="language-java">public class test6 {
+    public static void main(String[] args) {
+        int[] moneys={9,666,188,520,99999};
+        start(moneys);
+    }
+    public static void start(int[] moneys) {
+        Scanner sc=new Scanner(System.in);
+        for (int i=0;i&lt;moneys.length;i++) {
+            System.out.println(&quot;请输入任意内容进行抽奖：&quot;);//Ctrl+Alt+T快捷生成流程控制语句
+            sc.next();
+            Random random=new Random();
+            while (true) {
+                int index=random.nextInt(moneys.length);
+                int money=moneys[index];
+                if(money!=0){
+                    System.out.println(&quot;恭喜你抽中了红包&quot;+money);
+                    moneys[index]=0;
+                    break;
+                }
+            }
+        }
+        System.out.println(&quot;活动结束了&quot;);
+    }
+}
+</code></pre>
+<p>这种方法有性能问题，可以打乱奖金顺序依次发给粉丝。</p>
+<h2 id="案例7-找素数"><strong>案例7 找素数</strong></h2>
+<p>判断101-200之间有多少素数并返回所有素数。</p>
+<ul>
+<li>方法一</li>
+</ul>
+<pre><code class="language-java">public class test7 {
+    public static void main(String[] args) {
+        System.out.println(&quot;素数个数为&quot;+search(101,200));
+    }
+    public static int search(int start, int end) {
+        int sum=0;
+        for (int i = start; i &lt;= end; i++) {
+            boolean flag=true;
+            for (int j = i/2; j &gt; 1; j--) {
+                if (i%j==0) {
+                    flag=false;
+                   break;
+                }
+            }
+            if (flag==true) {
+                System.out.println(i);
+                sum+=1;
+            }
+        }
+        return sum;
+    }
+}
+</code></pre>
+<ul>
+<li>方法二</li>
+</ul>
+<pre><code class="language-java">public class test7 {
+    public static void main(String[] args) {
+        System.out.println(&quot;素数个数为&quot;+search(101,200));
+    }
+    public static int search(int start, int end) {
+        int sum=0;
+        OUT://为外部循环指定标签
+        for (int i = start; i &lt;= end; i++) {
+            for (int j = i/2; j &gt; 1; j--) {
+                if (i%j==0) {
+                    continue OUT;
+                }
+            }
+                System.out.println(i);
+                sum+=1;
+        }
+        return sum;
+    }
+}
+</code></pre>
+<ul>
+<li>方法三</li>
+</ul>
+<pre><code class="language-java">public class test7 {
+    public static void main(String[] args) {
+        for (int i = 101; i &lt;= 200; i++) {
+            if (check(i)){
+                System.out.println(i);
+            }
+        }
+    }
+    public static boolean check(int data) {
+        for (int i = 2; i &lt;= data / 2; i++) {
+            if (data % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+</code></pre>
+<h2 id="案例8-打印乘法表"><strong>案例8 打印乘法表</strong></h2>
+<pre><code class="language-java">public class test8 {
+    public static void main(String[] args) {
+        for (int i = 1; i &lt;=9 ; i++) {
+            for (int j = 1; j &lt;=i ; j++) {
+                System.out.print(j+&quot;X&quot;+i+&quot;=&quot;+i*j+&quot;\t&quot;);
+            }
+            System.out.println();
+        }
+    }
+}
+</code></pre>
+<p>打印等边梯形</p>
+<pre><code class="language-java">public class test9 {
+    public static void main(String[] args) {
+        int n=10;
+        for (int i = 1; i &lt;= n; i++) {
+            for (int j = 1; j &lt;=(n-i) ; j++) {
+                System.out.print(&quot; &quot;);
+            }
+            for (int j = 1; j &lt;=2*i-1 ; j++) {
+                System.out.print(&quot;*&quot;);
+            }
+            System.out.println();
+        }
+    }
+}
+</code></pre>
+<h2 id="案例9-双色球"><strong>案例9 双色球</strong></h2>
+<p>投注号码由6个红球号码和1个蓝球号码组成。红色球号码由1-33中选择，蓝色球号码由1-16组成。</p>
+<pre><code class="language-java">public class test10 {
+    public static void main(String[] args) {
+        int[] userNumbers=userselectNumbers();
+        System.out.println(&quot;您投注的号码：&quot;);
+        printArray(userNumbers);
+        int[] luckeyNumbers=createluckyNumbers();
+        System.out.println(&quot;中奖的号码：&quot;);
+        printArray(luckeyNumbers);
+        judge(userNumbers, luckeyNumbers);
+
+    }
+    public static void printArray(int[] array) {
+        System.out.print(&quot;[&quot;);
+        for (int i = 0; i &lt; array.length; i++) {
+            System.out.print(i== array.length-1 ?array[i] :  array[i]+&quot;, &quot; );
+        }
+        System.out.println(&quot;]&quot;);
+    }
+    public static int[] userselectNumbers() {
+        int[] numbers=new int[7];
+        Scanner sc=new Scanner(System.in);
+        Random r = new Random();
+        for (int i = 0; i &lt; numbers.length-1; i++) {
+            while (true) {
+                System.out.println(&quot;请您输入第&quot;+(i+1)+&quot;个红球号码&quot;);
+                int number=sc.nextInt();
+                if(number&lt;1||number&gt;33) {
+                    System.out.println(&quot;对不起，您输入的号码不在1-33之间&quot;);
+                }else if(exist(numbers,number)){
+                        System.out.println(&quot;您的红球号码重复了&quot;);
+                }else{
+                    numbers[i]=number;
+                    break;
+                }
+            }
+        }
+        while (true) {
+            System.out.println(&quot;请输入最后一个蓝球号码&quot;);
+            int number=sc.nextInt();
+            if(number&lt;1||number&gt;16) {
+                System.out.println(&quot;对不起，您输入的号码不在1-16之间&quot;);
+            }else{
+                numbers[numbers.length-1]=number;
+                break;
+            }
+        }
+        return numbers;
+    }
+    public static boolean exist(int[] numbers, int number) {
+        for (int i = 0; i &lt; numbers.length; i++) {
+            if(numbers[i]==0) {
+                break;
+            }
+            if (numbers[i] == number) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public static int[] createluckyNumbers() {
+        int[] numbers=new int[7];
+        Random r=new Random();
+        for (int i = 0; i &lt; numbers.length-1; i++) {
+            while (true) {
+                int number=r.nextInt(33)+1;
+                if(!exist(numbers,number)) {
+                    numbers[i]=number;
+                    break;
+                }
+            }
+        }
+        numbers[numbers.length-1]=r.nextInt(16)+1;
+        return numbers;
+    }
+    public static void judge(int[] usernumbers,int[] luckeynumbers) {
+        int redcount=0;
+        int bluecount=0;
+        for (int i = 0; i &lt; usernumbers.length-1; i++) {
+            for (int j = 0; j &lt; luckeynumbers.length-1; j++) {
+                if(usernumbers[i]==luckeynumbers[j]) {
+                    redcount++;
+                    break;
+                }
+            }
+        }
+        bluecount=usernumbers[6]==luckeynumbers[6]?1:0;
+        System.out.println(&quot;您命中的红球数量是：&quot;+redcount);
+        System.out.println(&quot;您命中的蓝球数量是：&quot;+bluecount);
+        if(redcount==6&amp;&amp;bluecount==1) {
+            System.out.println(&quot;1000w&quot;);
+        } else if (redcount==6&amp;&amp;bluecount==0) {
+            System.out.println(&quot;500w&quot;);
+        }else if (redcount==5&amp;&amp;bluecount==1) {
+            System.out.println(&quot;3000&quot;);
+        }else if (redcount==5&amp;&amp;bluecount==0||redcount==4&amp;&amp;bluecount==1) {
+            System.out.println(&quot;200&quot;);
+        }else if (redcount==4&amp;&amp;bluecount==0||redcount==3&amp;&amp;bluecount==1) {
+            System.out.println(&quot;10&quot;);
+        }else if (redcount&lt;3&amp;&amp;bluecount==1) {
+            System.out.println(&quot;5&quot;);
+        }else{
+            System.out.println(&quot;感谢您对福利事业的巨大贡献&quot;);
+        }
+    }
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E6%A1%88%E4%BE%8B1-%E4%B9%B0%E9%A3%9E%E6%9C%BA%E7%A5%A8"><strong>案例1 买飞机票</strong></a></li>
+<li><a href="#%E6%A1%88%E4%BE%8B2-%E7%94%9F%E6%88%90%E9%AA%8C%E8%AF%81%E7%A0%81"><strong>案例2 生成验证码</strong></a></li>
+<li><a href="#%E6%A1%88%E4%BE%8B3-%E8%AF%84%E5%A7%94%E6%89%93%E5%88%86"><strong>案例3 评委打分</strong></a></li>
+<li><a href="#%E6%A1%88%E4%BE%8B4-%E6%95%B0%E5%AD%97%E5%8A%A0%E5%AF%86"><strong>案例4 数字加密</strong></a></li>
+<li><a href="#%E6%A1%88%E4%BE%8B5-%E6%95%B0%E7%BB%84%E6%8B%B7%E8%B4%9D"><strong>案例5 数组拷贝</strong></a></li>
+<li><a href="#%E6%A1%88%E4%BE%8B6-%E6%8A%A2%E7%BA%A2%E5%8C%85"><strong>案例6 抢红包</strong></a></li>
+<li><a href="#%E6%A1%88%E4%BE%8B7-%E6%89%BE%E7%B4%A0%E6%95%B0"><strong>案例7 找素数</strong></a></li>
+<li><a href="#%E6%A1%88%E4%BE%8B8-%E6%89%93%E5%8D%B0%E4%B9%98%E6%B3%95%E8%A1%A8"><strong>案例8 打印乘法表</strong></a></li>
+<li><a href="#%E6%A1%88%E4%BE%8B9-%E5%8F%8C%E8%89%B2%E7%90%83"><strong>案例9 双色球</strong></a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://yyss1014.github.io/post/java-fang-fa/">
+              <h3 class="post-title">
+                Java方法
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://yyss1014.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,501 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Java继承 | WASD研究院</title>
+<link rel="shortcut icon" href="https://yyss1014.github.io/favicon.ico?v=1751633121752">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://yyss1014.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Java继承 | WASD研究院 - Atom Feed" href="https://yyss1014.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+权限修饰符
+单继承
+方法重写
+常见应用场景
+子类中访问其他成员的特点
+子类构造器
+兄弟构造器
+
+
+java中提供了一个关键字extends，用这个关键字，可以让一个类和另一个类建立父子关系。子类能继承父类的非私有成员，子类对象是由父类子类..." />
+    <meta name="keywords" content="JavaSE" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yyss1014.github.io">
+  <img class="avatar" src="https://yyss1014.github.io/images/avatar.png?v=1751633121752" alt="">
+  </a>
+  <h1 class="site-title">
+    WASD研究院
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/archives" class="menu">
+          目录
+        </a>
+      
+    
+      
+        <a href="/" class="menu">
+          文章
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          分类
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Java继承
+            </h2>
+            <div class="post-info">
+              <span>
+                2025-03-06
+              </span>
+              <span>
+                7 min read
+              </span>
+              
+                <a href="https://yyss1014.github.io/tag/xcf3bLryi2/" class="post-tag">
+                  # JavaSE
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p><ul class="markdownIt-TOC">
+<li><a href="#%E6%9D%83%E9%99%90%E4%BF%AE%E9%A5%B0%E7%AC%A6"><strong>权限修饰符</strong></a></li>
+<li><a href="#%E5%8D%95%E7%BB%A7%E6%89%BF"><strong>单继承</strong></a></li>
+<li><a href="#%E6%96%B9%E6%B3%95%E9%87%8D%E5%86%99"><strong>方法重写</strong></a></li>
+<li><a href="#%E5%B8%B8%E8%A7%81%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><strong>常见应用场景</strong></a></li>
+<li><a href="#%E5%AD%90%E7%B1%BB%E4%B8%AD%E8%AE%BF%E9%97%AE%E5%85%B6%E4%BB%96%E6%88%90%E5%91%98%E7%9A%84%E7%89%B9%E7%82%B9"><strong>子类中访问其他成员的特点</strong></a></li>
+<li><a href="#%E5%AD%90%E7%B1%BB%E6%9E%84%E9%80%A0%E5%99%A8"><strong>子类构造器</strong></a></li>
+<li><a href="#%E5%85%84%E5%BC%9F%E6%9E%84%E9%80%A0%E5%99%A8"><strong>兄弟构造器</strong></a></li>
+</ul>
+<br>
+java中提供了一个关键字extends，用这个关键字，可以让一个类和另一个类建立父子关系。子类能继承父类的非私有成员，子类对象是由父类子类共同完成的（子类对象包含父类成员，但无法调用非私有成员）。</p>
+<pre><code class="language-java">public class A {
+    public int i;
+    public void print1(){
+        System.out.println(&quot;===print1===&quot;);
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class B extends A {
+    //子类可以继承父类的私有成员
+    public void print3(){
+        System.out.println(i);
+        print1();
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        B b = new B();//b对象是由AB两个设计图共同创建的
+        System.out.println(b.i);
+        b.print1();
+    }
+}
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250306163339.png" alt="" loading="lazy"></figure>
+<h1 id="权限修饰符"><strong>权限修饰符</strong></h1>
+<table>
+<thead>
+<tr>
+<th>修饰符</th>
+<th>在本类</th>
+<th>同一个包的其他类里</th>
+<th>任意包下的子类里</th>
+<th>任意包下的任意类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>private</td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>缺省</td>
+<td>√</td>
+<td>√</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>protected</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td></td>
+</tr>
+<tr>
+<td>public</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>protected可以在任意包下的子类A里访问，但不能在非子类B中通过A类的对象访问</li>
+</ul>
+<h1 id="单继承"><strong>单继承</strong></h1>
+<p>一个类只能继承一个父类，Java中的类不支持多继承，但支持多层继承。</p>
+<pre><code class="language-java">class A {};//extends Object{},Object类是所有类的祖宗类
+class B extends A {};
+class C extends B {};
+</code></pre>
+<h1 id="方法重写"><strong>方法重写</strong></h1>
+<p>当子类觉得父类某个方法不管用，子类可以重新写一个参数一样的方法，子类可以重写一个参数列表一样的方法，称为方法重写。重写后方法的访问遵循就近原则。</p>
+<ul>
+<li>重写小技巧：使用Override重写，可以指定java编译器，检查我们方法重写的格式是否正确，代码可读性也会更好。</li>
+<li>子类重写父类方法时，访问权限必须大于等于父类该方法的权限（public&gt;protected&gt;缺省）</li>
+<li>重写方法返回值类型，必须与被重写方法返回值一样，或者范围更小。</li>
+<li>私有方法，静态方法不能被重写，如果重写会报错的。</li>
+</ul>
+<pre><code class="language-java">public class A {
+    public void print1(){
+        System.out.println(&quot;111&quot;);
+    }
+    public void print2(int a,int b){
+        System.out.println(&quot;111111&quot;);
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class B extends A{
+    @Override
+    public void print1(){
+        System.out.println(&quot;666&quot;);
+    }
+    @Override
+    public void print2(int a,int b){
+        System.out.println(&quot;666666&quot;);
+    }
+}
+</code></pre>
+<h1 id="常见应用场景"><strong>常见应用场景</strong></h1>
+<p>子类重写Object中的类方法，以便返回对象的内容。</p>
+<pre><code class="language-java">//object类中的toString()方法
+public String toString() {
+        return getClass().getName() + &quot;@&quot; + Integer.toHexString(hashCode());
+    }
+</code></pre>
+<p>创建实体类Student</p>
+<pre><code class="language-java">public class Student {
+    private int age;
+    private String name;
+
+    public Student(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+    ······
+    @Override
+    public String toString() {
+        return &quot;Student [age=&quot; + age + &quot;, name=&quot; + name + &quot;]&quot;;
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        Student s=new Student(&quot;播妞&quot;,19);
+        System.out.println(s);//Student [age=19, name=播妞]
+    }
+}
+</code></pre>
+<h1 id="子类中访问其他成员的特点"><strong>子类中访问其他成员的特点</strong></h1>
+<p>在子类方法中访问成员遵循就近原则，如果在子父类中出现了重名的成员，会优先选择子类的；如果此时一定要在子类中使用父类成员需要使用super关键字。</p>
+<pre><code class="language-java">public class F {
+    String name=&quot;父类名称&quot;;
+    public void print1(){
+        System.out.println(&quot;==父类的print方法执行==&quot;);
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Z extends F{
+    String name=&quot;子类名称&quot;;
+    public void showname() {
+        String name=&quot;局部名称&quot;;
+        System.out.println(name);
+        System.out.println(this.name);
+        System.out.println(super.name);
+    }
+    public void print1(){
+        System.out.println(&quot;==子类的print方法执行==&quot;);
+    }
+    public void showMethod(){
+        print1();
+        super.print1();
+    }
+
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        Z z=new Z();
+        z.showname();
+        /*局部名称
+          子类名称
+          父类名称*/
+        z.showMethod();
+        /*==子类的print方法执行==
+          ==父类的print方法执行==*/
+    }
+}
+</code></pre>
+<h1 id="子类构造器"><strong>子类构造器</strong></h1>
+<p>子类的全部构造器都会先调用父类的构造器，再执行自己的。</p>
+<pre><code class="language-java">public class F {
+    public F() {
+        System.out.println(&quot;父类的无参构造器执行了&quot;);
+    }
+}
+</code></pre>
+<p>子类的所有构造器都会调用父类的无参构造器，如果父类没有无参构造器会报错。或者在子类构造器里第一行用super(...)调用父类的有参构造器。</p>
+<pre><code class="language-java">public class Z extends F{
+    public Z() {
+        super();//默认存在
+        System.out.println(&quot;子类的无参构造器执行了&quot;);
+    }
+    public Z(String name) {
+        super();//默认存在
+        System.out.println(&quot;子类的有参构造器执行了&quot;);
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Test {
+    public static void main(String[] args) {
+        Z z=new Z();
+       /* 父类的无参构造器执行了
+          子类的无参构造器执行了*/
+        Z z2=new Z(&quot;wasd&quot;);
+        /*父类的无参构造器执行了
+          子类的有参构造器执行了*/
+    }
+}
+</code></pre>
+<p>常见应用案例：</p>
+<pre><code class="language-java">public class Test2 {
+    public static void main(String[] args) {
+        Teacher t = new Teacher(&quot;李四&quot;,36,&quot;Java&quot;);
+
+    }
+}
+class Teacher extends People{
+    private String skill;
+
+    public Teacher(String name, int age, String skill) {
+        super(age, name);
+        this.skill = skill;
+    }
+
+    public String getSkill() {
+        return skill;
+    }
+
+    public void setSkill(String skill) {
+        this.skill = skill;
+    }
+}
+class People{
+    private String name;
+    private int age;
+
+    public People() {
+    }
+
+    public People(int age, String name) {
+        this.age = age;
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+}
+</code></pre>
+<h1 id="兄弟构造器"><strong>兄弟构造器</strong></h1>
+<p>在任意类的构造器中，可以用this(...)调用兄弟构造器。this(...)和super(...)不能同时写，且this(...)也要写在第一行。</p>
+<pre><code class="language-java">public class Test3 {
+    Student s1=new Student(&quot;李四&quot;,24);
+}
+class Student{
+    private String name;
+    private int age;
+    private String schoolname;
+
+    public Student() {
+    }
+    public Student(String name, int age) {
+       this(name, age, &quot;WASD&quot;);
+    }
+
+    public Student(String name, int age, String schoolname) {
+        this.name = name;
+        this.age = age;
+        this.schoolname = schoolname;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getSchoolname() {
+        return schoolname;
+    }
+
+    public void setSchoolname(String schoolname) {
+        this.schoolname = schoolname;
+    }
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E6%9D%83%E9%99%90%E4%BF%AE%E9%A5%B0%E7%AC%A6"><strong>权限修饰符</strong></a></li>
+<li><a href="#%E5%8D%95%E7%BB%A7%E6%89%BF"><strong>单继承</strong></a></li>
+<li><a href="#%E6%96%B9%E6%B3%95%E9%87%8D%E5%86%99"><strong>方法重写</strong></a></li>
+<li><a href="#%E5%B8%B8%E8%A7%81%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><strong>常见应用场景</strong></a></li>
+<li><a href="#%E5%AD%90%E7%B1%BB%E4%B8%AD%E8%AE%BF%E9%97%AE%E5%85%B6%E4%BB%96%E6%88%90%E5%91%98%E7%9A%84%E7%89%B9%E7%82%B9"><strong>子类中访问其他成员的特点</strong></a></li>
+<li><a href="#%E5%AD%90%E7%B1%BB%E6%9E%84%E9%80%A0%E5%99%A8"><strong>子类构造器</strong></a></li>
+<li><a href="#%E5%85%84%E5%BC%9F%E6%9E%84%E9%80%A0%E5%99%A8"><strong>兄弟构造器</strong></a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://yyss1014.github.io/post/java-mian-xiang-dui-xiang-gao-ji/">
+              <h3 class="post-title">
+                Static
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://yyss1014.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

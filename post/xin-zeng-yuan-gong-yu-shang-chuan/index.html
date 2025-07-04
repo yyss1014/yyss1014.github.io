@@ -1,0 +1,1070 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>新增员工与上传 | WASD研究院</title>
+<link rel="shortcut icon" href="https://yyss1014.github.io/favicon.ico?v=1751633121752">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://yyss1014.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="新增员工与上传 | WASD研究院 - Atom Feed" href="https://yyss1014.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+新增员工
+
+接口描述
+保存员工信息
+批量保存工作经历
+
+
+事务管理
+
+介绍
+操作
+Spring事务管理
+事务进阶
+
+rollbackFor
+propagation
+
+
+事务四大特性
+
+
+文件上传
+
+本地存储
+阿里云OSS
+
+入门
+集成
+
+..." />
+    <meta name="keywords" content="JavaWeb" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yyss1014.github.io">
+  <img class="avatar" src="https://yyss1014.github.io/images/avatar.png?v=1751633121752" alt="">
+  </a>
+  <h1 class="site-title">
+    WASD研究院
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/archives" class="menu">
+          目录
+        </a>
+      
+    
+      
+        <a href="/" class="menu">
+          文章
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          分类
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              新增员工与上传
+            </h2>
+            <div class="post-info">
+              <span>
+                2025-06-18
+              </span>
+              <span>
+                29 min read
+              </span>
+              
+                <a href="https://yyss1014.github.io/tag/2ON39h6GJZ/" class="post-tag">
+                  # JavaWeb
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p><ul class="markdownIt-TOC">
+<li><a href="#%E6%96%B0%E5%A2%9E%E5%91%98%E5%B7%A5"><strong>新增员工</strong></a>
+<ul>
+<li><a href="#%E6%8E%A5%E5%8F%A3%E6%8F%8F%E8%BF%B0"><strong>接口描述</strong></a></li>
+<li><a href="#%E4%BF%9D%E5%AD%98%E5%91%98%E5%B7%A5%E4%BF%A1%E6%81%AF"><strong>保存员工信息</strong></a></li>
+<li><a href="#%E6%89%B9%E9%87%8F%E4%BF%9D%E5%AD%98%E5%B7%A5%E4%BD%9C%E7%BB%8F%E5%8E%86"><strong>批量保存工作经历</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86"><strong>事务管理</strong></a>
+<ul>
+<li><a href="#%E4%BB%8B%E7%BB%8D"><strong>介绍</strong></a></li>
+<li><a href="#%E6%93%8D%E4%BD%9C"><strong>操作</strong></a></li>
+<li><a href="#spring%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86"><strong>Spring事务管理</strong></a></li>
+<li><a href="#%E4%BA%8B%E5%8A%A1%E8%BF%9B%E9%98%B6"><strong>事务进阶</strong></a>
+<ul>
+<li><a href="#rollbackfor"><strong>rollbackFor</strong></a></li>
+<li><a href="#propagation"><strong>propagation</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E4%BA%8B%E5%8A%A1%E5%9B%9B%E5%A4%A7%E7%89%B9%E6%80%A7"><strong>事务四大特性</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0"><strong>文件上传</strong></a>
+<ul>
+<li><a href="#%E6%9C%AC%E5%9C%B0%E5%AD%98%E5%82%A8"><strong>本地存储</strong></a></li>
+<li><a href="#%E9%98%BF%E9%87%8C%E4%BA%91oss"><strong>阿里云OSS</strong></a>
+<ul>
+<li><a href="#%E5%85%A5%E9%97%A8"><strong>入门</strong></a></li>
+<li><a href="#%E9%9B%86%E6%88%90"><strong>集成</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E5%8A%9F%E8%83%BD%E4%BC%98%E5%8C%96"><strong>功能优化</strong></a></li>
+</ul>
+</li>
+</ul>
+</p>
+<h1 id="新增员工"><strong>新增员工</strong></h1>
+<p><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250618163149.png" alt="" loading="lazy"><br>
+在新增员工的时候，在表单中，我们既要录入员工的基本信息，又要录入员工的工作经历信息。 员工基本信息，对应的表结构是 emp表，员工工作经历信息，对应的表结构是 emp_expr 表，所以这里我们要操作两张表，往两张表中保存数据。</p>
+<h2 id="接口描述"><strong>接口描述</strong></h2>
+<p>请求路径：/emps<br>
+请求方式：POST<br>
+接口描述：该接口用于添加员工的信息<br>
+参数格式：application/json<br>
+请求数据样例：</p>
+<pre><code class="language-json">{
+  &quot;image&quot;: &quot;https://web-framework.oss-cn-hangzhou.aliyuncs.com/2022-09-03-07-37-38222.jpg&quot;,
+  &quot;username&quot;: &quot;linpingzhi&quot;,
+  &quot;name&quot;: &quot;林平之&quot;,
+  &quot;gender&quot;: 1,
+  &quot;job&quot;: 1,
+  &quot;entryDate&quot;: &quot;2022-09-18&quot;,
+  &quot;deptId&quot;: 1,
+  &quot;phone&quot;: &quot;18809091234&quot;,
+  &quot;salary&quot;: 8000,
+  &quot;exprList&quot;: [
+      {
+         &quot;company&quot;: &quot;百度科技股份有限公司&quot;,
+         &quot;job&quot;: &quot;java开发&quot;,
+         &quot;begin&quot;: &quot;2012-07-01&quot;,
+         &quot;end&quot;: &quot;2019-03-03&quot;
+      },
+      {
+         &quot;company&quot;: &quot;阿里巴巴科技股份有限公司&quot;,
+         &quot;job&quot;: &quot;架构师&quot;,
+         &quot;begin&quot;: &quot;2019-03-15&quot;,
+         &quot;end&quot;: &quot;2023-03-01&quot;
+      }
+   ]
+}
+</code></pre>
+<p>参数格式：application/json<br>
+响应数据样例：</p>
+<pre><code class="language-json">{
+    &quot;code&quot;:1,
+    &quot;msg&quot;:&quot;success&quot;,
+    &quot;data&quot;:null
+}
+</code></pre>
+<h2 id="保存员工信息"><strong>保存员工信息</strong></h2>
+<p>1). EmpController</p>
+<pre><code class="language-java">@PostMapping
+    public Result save(@RequestBody Emp emp) {
+        log.info(&quot;新增员工：{}&quot;,emp);
+        empService.save(emp);
+        return Result.success();
+    }
+</code></pre>
+<p>2). EmpService &amp; EmpServiceImpl</p>
+<pre><code class="language-java">@Override
+public void save(Emp emp) {
+    //1.补全基础属性
+    emp.setCreateTime(LocalDateTime.now());
+    emp.setUpdateTime(LocalDateTime.now());
+    
+    //2.保存员工基本信息
+    empMapper.insert(emp);
+
+    //3. 保存员工的工作经历信息 - 批量 (稍后完成)
+    
+}
+</code></pre>
+<p>3). EmpMapper</p>
+<pre><code class="language-java">@Insert(&quot;insert into emp(username, name, gender, phone, job, salary, image, entry_date, dept_id, create_time, update_time) &quot; +
+            &quot;values (#{username},#{name},#{gender},#{phone},#{job},#{salary},#{image},#{entryDate},#{deptId},#{createTime},#{updateTime})&quot;)
+    void insert(Emp emp);
+</code></pre>
+<h2 id="批量保存工作经历"><strong>批量保存工作经历</strong></h2>
+<p>这里用到Mybatis中的动态SQL里提供的 &lt;foreach&gt; 标签，改标签的作用，是用来遍历循环，常见的属性说明：</p>
+<ol>
+<li>collection：集合名称</li>
+<li>item：集合遍历出来的元素/项</li>
+<li>separator：每一次遍历使用的分隔符</li>
+<li>open：遍历开始前拼接的片段</li>
+<li>close：遍历结束后拼接的片段</li>
+</ol>
+<p>上述的属性，是可选的，并不是所有的都是必须的。 可以自己根据实际需求，来指定对应的属性。<br>
+1). EmpServiceImpl</p>
+<pre><code class="language-java">@Override
+    public void save(Emp emp) {
+        //1.保存员工基本信息
+        emp.setCreateTime(LocalDateTime.now());
+        emp.setUpdateTime(LocalDateTime.now());
+        empMapper.insert(emp);
+        //2.保存员工的工作经历信息
+        List&lt;EmpExpr&gt; exprList=emp.getExprList();
+        if(!CollectionUtils.isEmpty(exprList)){
+            exprList.forEach(expr-&gt;{
+                expr.setEmpId(emp.getId());
+            });
+            empExprMapper.insertBatch(exprList);
+        }
+    }
+</code></pre>
+<p>2). EmpExprMapper</p>
+<pre><code class="language-java">public interface EmpExprMapper {
+
+    void insertBatch(List&lt;EmpExpr&gt; exprList);
+}
+</code></pre>
+<p>3). EmpExprMapper.xml</p>
+<pre><code class="language-java">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;!DOCTYPE mapper
+        PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
+        &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+&lt;mapper namespace=&quot;com.ys.mapper.EmpExprMapper&quot;&gt;
+
+&lt;!--    批量保存员工工作经历--&gt;
+    &lt;insert id=&quot;insertBatch&quot;&gt;
+        insert into emp_expr(emp_id, begin, end, company, job) values
+        &lt;foreach collection=&quot;exprList&quot; item=&quot;expr&quot; separator=&quot;,&quot;&gt;
+            (#{expr.empId}, #{expr.begin}, #{expr.end}, #{expr.company}, #{expr.job})
+        &lt;/foreach&gt;
+    &lt;/insert&gt;
+&lt;/mapper&gt;
+</code></pre>
+<p>4). EmpMapper<br>
+主键返回：@Options(useGeneratedKeys = true, keyProperty = &quot;id&quot;)<br>
+由于稍后，我们在保存工作经历信息的时候，需要记录是哪位员工的工作经历。 所以，保存完员工信息之后，是需要获取到员工的ID的，那这里就需要通过Mybatis中提供的主键返回功能来获取。</p>
+<pre><code class="language-java">@Options(useGeneratedKeys = true,keyProperty = &quot;id&quot;)
+    @Insert(&quot;insert into emp(username, name, gender, phone, job, salary, image, entry_date, dept_id, create_time, update_time) &quot; +
+            &quot;values (#{username},#{name},#{gender},#{phone},#{job},#{salary},#{image},#{entryDate},#{deptId},#{createTime},#{updateTime})&quot;)
+    void insert(Emp emp);
+</code></pre>
+<h1 id="事务管理"><strong>事务管理</strong></h1>
+<p>目前我们实现的新增员工功能中，操作了两次数据库，执行了两次 insert 操作。</p>
+<ul>
+<li>第一次：保存员工的基本信息到 emp 表中。</li>
+<li>第二次：保存员工的工作经历信息到 emp_expr 表中。</li>
+</ul>
+<p>如果说，保存员工的基本信息成功了，而保存员工的工作经历信息出错了，会发生什么现象呢？那接下来，我们来做一个测试 。 我们可以在代码中，人为在保存员工的service层的save方法中，构造一个错误：<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250618193824.png" alt="" loading="lazy"><br>
+点击 “保存” 之后，提示 “系统接口异常”。我们可以打开IDEA控制台看一下，报出的错误信息。 我们看到，保存了员工的基本信息之后，系统出现了异常。最终，我们看到，程序出现了异常 ，员工表 emp 数据保存成功了, 但是 emp_expr 员工工作经历信息表，数据保存失败了。 那是否允许这种情况发生呢？</p>
+<ul>
+<li>不允许</li>
+<li>因为这属于一个业务操作，如果保存员工信息成功了，保存工作经历信息失败了，就会造成数据库数据的不完整、不一致。</li>
+</ul>
+<h2 id="介绍"><strong>介绍</strong></h2>
+<p>概念： 事务是一组操作的集合，它是一个不可分割的工作单位。事务会把所有的操作作为一个整体一起向系统提交或撤销操作请求，即这些操作 要么同时成功，要么同时失败。<br>
+默认MySQL的事务是自动提交的，也就是说，当执行一条DML语句，MySQL会立即隐式的提交事务。</p>
+<h2 id="操作"><strong>操作</strong></h2>
+<p>事务控制主要三步操作：开启事务、提交事务/回滚事务。</p>
+<ul>
+<li>需要在这组操作执行之前，先开启事务  ( start transaction; / begin;)。</li>
+<li>所有操作如果全部都执行成功，则提交事务 ( commit; )。</li>
+<li>如果这组操作中，有任何一个操作执行失败，都应该回滚事务 ( rollback )。</li>
+</ul>
+<p>那接下来，我们就可以将添加员工的业务操作，进行事务管理。 具体的SQL如下：</p>
+<pre><code class="language-sql">-- 开启事务
+start transaction; / begin;
+
+-- 1. 保存员工基本信息
+insert into emp values (39, 'Tom', '123456', '汤姆', 1, '13300001111', 1, 4000, '1.jpg', '2023-11-01', 1, now(), now());
+
+-- 2. 保存员工的工作经历信息
+insert into emp_expr(emp_id, begin, end, company, job) values (39,'2019-01-01', '2020-01-01', '百度', '开发'), (39,'2020-01-10', '2022-02-01', '阿里', '架构'); 
+
+-- 此时用select语句可以看到执行成功的sql数据，但事务并没有提交（新打开一个窗口查看这个表时看不到新增的数据，打开新窗口可以看成一个新事务，这是事务的独立性）
+
+-- 提交事务(全部成功)
+commit;
+
+-- 回滚事务(有一个失败)
+rollback;
+</code></pre>
+<h2 id="spring事务管理"><strong>Spring事务管理</strong></h2>
+<p>注解：@Transactional<br>
+作用：就是在当前这个方法执行开始之前来开启事务，方法执行完毕之后提交事务。如果在这个方法执行的过程当中出现了异常，就会进行事务的回滚操作。<br>
+位置：业务层的方法上、类上、接口上</p>
+<ul>
+<li>方法上：当前方法交给spring进行事务管理</li>
+<li>类上：当前类中所有的方法都交由spring进行事务管理</li>
+<li>接口上：接口下所有的实现类当中所有的方法都交给spring 进行事务管理</li>
+</ul>
+<p>接下来，我们就可以在业务方法save上加上 @Transactional 来控制事务 。</p>
+<pre><code class="language-yml">#spring事务管理日志,控制这个包下这个类的日志输出
+logging:
+  level:
+    org.springframework.jdbc.support.JdbcTransactionManager: debug
+</code></pre>
+<pre><code class="language-java">@Transactional
+    @Override
+    public void save(Emp emp) {
+        //1.保存员工基本信息
+        emp.setCreateTime(LocalDateTime.now());
+        emp.setUpdateTime(LocalDateTime.now());
+        empMapper.insert(emp);
+
+        int i=1/0;
+
+        //2.保存员工的工作经历信息
+        List&lt;EmpExpr&gt; exprList=emp.getExprList();
+        if(!CollectionUtils.isEmpty(exprList)){
+            exprList.forEach(expr-&gt;{
+                expr.setEmpId(emp.getId());
+            });
+            empExprMapper.insertBatch(exprList);
+        }
+    }
+</code></pre>
+<p><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250618211050.png" alt="" loading="lazy"><br>
+打开数据库，我们会看到 emp 表 与 emp_expr 表中都没有对应的数据信息，保证了数据的一致性、完整性。</p>
+<h2 id="事务进阶"><strong>事务进阶</strong></h2>
+<p>@Transactional注解当中的两个常见的属性：</p>
+<ul>
+<li>异常回滚的属性：rollbackFor</li>
+<li>事务传播行为：propagation</li>
+</ul>
+<h3 id="rollbackfor"><strong>rollbackFor</strong></h3>
+<p>下面我们在做一个测试，我们修改业务功能代码，在模拟异常的位置上直接抛出Exception异常（编译时异常）</p>
+<pre><code class="language-java">@Transactional
+@Override
+public void save(Emp emp) {
+    //1.补全基础属性
+    emp.setCreateTime(LocalDateTime.now());
+    emp.setUpdateTime(LocalDateTime.now());
+    //2.保存员工基本信息
+    empMapper.insert(emp);
+        
+    //模拟：异常发生
+    if(true){
+        throw new Exception(&quot;出现异常了~~~&quot;);
+    }
+        
+    //3. 保存员工的工作经历信息 - 批量
+    Integer empId = emp.getId();
+    List&lt;EmpExpr&gt; exprList = emp.getExprList();
+    if(!CollectionUtils.isEmpty(exprList)){
+        exprList.forEach(empExpr -&gt; empExpr.setEmpId(empId));
+        empExprMapper.insertBatch(exprList);
+    }
+}
+</code></pre>
+<p>我们看到数据库的事务居然提交了，并没有进行回滚。<br>
+通过以上测试可以得出一个结论：默认情况下，只有出现RuntimeException(运行时异常)才会回滚事务。假如我们想让所有的异常都回滚，需要来配置@Transactional注解当中的rollbackFor属性，通过rollbackFor这个属性可以指定出现何种异常类型回滚事务。</p>
+<pre><code class="language-java">@Transactional(rollbackFor = {Exception.class})
+</code></pre>
+<h3 id="propagation"><strong>propagation</strong></h3>
+<p>事务的传播行为：当一个事务方法被另一个事务方法调用时，这个事务方法应该如何进行事务控制。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250618213225.png" alt="" loading="lazy"></p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>REQUIRED</td>
+<td>【默认值】需要事务，有则加入，无则创建新事务</td>
+</tr>
+<tr>
+<td>REQUIRES_NEW</td>
+<td>需要新事务，无论有无，总是创建新事务</td>
+</tr>
+<tr>
+<td>SUPPORTS</td>
+<td>支持事务，有则加入，无则在无事务状态中运行</td>
+</tr>
+<tr>
+<td>NOT_SUPPORTED</td>
+<td>不支持事务，在无事务状态下运行,如果当前存在已有事务,则挂起当前事务</td>
+</tr>
+<tr>
+<td>MANDATORY</td>
+<td>必须有事务，否则抛异常</td>
+</tr>
+<tr>
+<td>NEVER</td>
+<td>必须没事务，否则抛异常</td>
+</tr>
+<tr>
+<td>…</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>需求：在新增员工信息时，无论是成功还是失败，都要记录操作日志。<br>
+步骤：</p>
+<ol>
+<li>准备日志表 emp_log、实体类EmpLog、Mapper接口EmpLogMapper</li>
+<li>在新增员工时记录日志</li>
+</ol>
+<p><strong>准备工作</strong>：<br>
+1). 创建数据库表 emp_log 日志表</p>
+<pre><code class="language-java">-- 创建员工日志表
+create table emp_log(
+    id int unsigned primary key auto_increment comment 'ID, 主键',
+    operate_time datetime comment '操作时间',
+    info varchar(2000) comment '日志信息'
+) comment '员工日志表';
+</code></pre>
+<p>2). 引入资料中提供的实体类：EmpLog</p>
+<pre><code class="language-java">@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class EmpLog {
+    private Integer id; //ID
+    private LocalDateTime operateTime; //操作时间
+    private String info; //详细信息
+}
+</code></pre>
+<p>3). 引入资料中提供的Mapper接口：EmpLogMapper</p>
+<pre><code class="language-java">@Mapper
+public interface EmpLogMapper {
+        //插入日志
+    @Insert(&quot;insert into emp_log (operate_time, info) values (#{operateTime}, #{info})&quot;)
+    public void insert(EmpLog empLog);
+}
+</code></pre>
+<p>4). 引入资料中提供的业务接口：EmpLogService</p>
+<pre><code class="language-java">public interface EmpLogService {
+        //记录新增员工日志
+    public void insertLog(EmpLog empLog);
+}
+</code></pre>
+<p>5). 引入资料中提供的业务实现类：EmpLogServiceImpl</p>
+<pre><code class="language-java">@Service
+public class EmpLogServiceImpl implements EmpLogService {
+
+    @Autowired
+    private EmpLogMapper empLogMapper;
+
+    @Transactional
+    @Override
+    public void insertLog(EmpLog empLog) {
+        empLogMapper.insert(empLog);
+    }
+}
+</code></pre>
+<p>6).业务实现类：EmpServiceImpl</p>
+<pre><code class="language-java">@Service
+public class EmpServiceImpl implements EmpService {
+
+    @Autowired
+    private EmpMapper empMapper;
+    @Autowired
+    private EmpExprMapper empExprMapper;
+    @Autowired
+    private EmpLogService empLogService;
+
+    //原始分页查询
+    /*@Override
+    public PageResult&lt;Emp&gt; page(Integer page, Integer pageSize) {
+        Long total=empMapper.count();
+        Integer start=(page-1)*pageSize;
+        List&lt;Emp&gt; rows= empMapper.list(start, pageSize);
+        return new PageResult&lt;Emp&gt;(total, rows);
+    }*/
+
+    @Override
+    public PageResult&lt;Emp&gt; page(EmpQueryParam empQueryParam) {
+        //1.设置分页参数
+        PageHelper.startPage(empQueryParam.getPage(), empQueryParam.getPageSize());
+        //2.执行查询
+        List&lt;Emp&gt; empList=empMapper.list(empQueryParam);
+        //3.解析查询结果，并封装
+        Page&lt;Emp&gt; p= (Page&lt;Emp&gt;) empList;
+        return new PageResult&lt;Emp&gt;(p.getTotal(),p.getResult());
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void save(Emp emp) throws Exception {
+        try {
+            //1.保存员工基本信息
+            emp.setCreateTime(LocalDateTime.now());
+            emp.setUpdateTime(LocalDateTime.now());
+            empMapper.insert(emp);
+            
+            int i=1/0;
+
+            //2.保存员工的工作经历信息
+            List&lt;EmpExpr&gt; exprList=emp.getExprList();
+            if(!CollectionUtils.isEmpty(exprList)){
+                exprList.forEach(expr-&gt;{
+                    expr.setEmpId(emp.getId());
+                });
+                empExprMapper.insertBatch(exprList);
+            }
+        } finally {
+            //记录操作日志
+            EmpLog empLog=new EmpLog(null,LocalDateTime.now(),&quot;新增员工：&quot;+emp);
+            empLogService.insertLog(empLog);
+        }
+    }
+}
+</code></pre>
+<p><strong>测试</strong>:<br>
+重新启动SpringBoot服务，测试新增员工操作 。我们可以看到控制台中输出的日志：<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250618214901.png" alt="" loading="lazy"><br>
+从日志中我们可以看到：</p>
+<ul>
+<li>执行了插入员工数据的操作</li>
+<li>执行了插入日志操作</li>
+<li>程序发生Exception异常</li>
+<li>执行事务回滚（保存员工数据、插入操作日志 因为在一个事务范围内，两个操作都会被回滚）</li>
+</ul>
+<p>然后在 emp_log 表中没有记录日志数据 。<br>
+<strong>原因分析</strong>:<br>
+接下来我们就需要来分析一下具体是什么原因导致的日志没有成功的记录。</p>
+<ul>
+<li>在执行 save 方法时开启了一个事务</li>
+<li>当执行 empLogService.insertLog 操作时，insertLog设置的事务传播行是默认值REQUIRED，表示有事务就加入，没有则新建事务</li>
+<li>此时：save 和 insertLog 操作使用了同一个事务，同一个事务中的多个操作，要么同时成功，要么同时失败，所以当异常发生时进行事务回滚，就会回滚 save 和  insertLog 操作。</li>
+</ul>
+<p><strong>解决方案</strong>：<br>
+在EmpLogServiceImpl类中insertLog方法上，添加 @Transactional(propagation = Propagation.REQUIRES_NEW)<br>
+重启SpringBoot服务，再次测试 新增员工的操作 ，会看到具体的日志如下：<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250618215234.png" alt="" loading="lazy"><br>
+那此时，EmpServiceImpl 中的 save 方法运行时，会开启一个事务。 当调用  empLogService.insertLog(empLog)  时，也会创建一个新的事务，那此时，当 insertLog 方法运行完毕之后，事务就已经提交了。 即使外部的事务出现异常，内部已经提交的事务，也不会回滚了，因为是两个独立的事务。</p>
+<h2 id="事务四大特性"><strong>事务四大特性</strong></h2>
+<figure data-type="image" tabindex="1"><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250618215601.png" alt="" loading="lazy"></figure>
+<ul>
+<li>原子性（Atomicity） ：原子性是指事务包装的一组sql是一个不可分割的工作单元，事务中的操作要么全部成功，要么全部失败。</li>
+<li>一致性（Consistency）：一个事务完成之后数据都必须处于一致性状态。
+<ul>
+<li>如果事务成功的完成，那么数据库的所有变化将生效。</li>
+<li>如果事务执行出现错误，那么数据库的所有变化将会被回滚(撤销)，返回到原始状态。</li>
+</ul>
+</li>
+<li>隔离性（Isolation）：多个用户并发的访问数据库时，一个用户的事务不能被其他用户的事务干扰，多个并发的事务之间要相互隔离。
+<ul>
+<li>一个事务的成功或者失败对于其他的事务是没有影响。</li>
+</ul>
+</li>
+<li>持久性（Durability）：一个事务一旦被提交或回滚，它对数据库的改变将是永久性的，哪怕数据库发生异常，重启之后数据亦然存在。</li>
+</ul>
+<h1 id="文件上传"><strong>文件上传</strong></h1>
+<p>在我们完成的 新增员工 功能中，还存在一个问题：没有头像(图片缺失)<br>
+1). 生成的前端代码形式如下:</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;上传文件&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+    &lt;form action=&quot;/upload&quot; method=&quot;post&quot; enctype=&quot;multipart/form-data&quot;&gt;
+        姓名: &lt;input type=&quot;text&quot; name=&quot;username&quot;&gt;&lt;br&gt;
+        年龄: &lt;input type=&quot;text&quot; name=&quot;age&quot;&gt;&lt;br&gt;
+        头像: &lt;input type=&quot;file&quot; name=&quot;file&quot;&gt;&lt;br&gt;
+        &lt;input type=&quot;submit&quot; value=&quot;提交&quot;&gt;
+    &lt;/form&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>上传文件的原始form表单，要求表单必须具备以下三点（上传文件页面三要素）：</p>
+<ul>
+<li>表单必须有file域，用于选择要上传的文件</li>
+<li>表单提交方式必须为POST：通常上传的文件会比较大，所以需要使用 POST 提交方式</li>
+<li>表单的编码类型enctype必须要设置为：multipart/form-data：普通默认的编码格式是不适合传输大型的二进制数据的，所以在文件上传时，表单的编码格式必须设置为multipart/form-data</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250619161047.png" alt="" loading="lazy"><br>
+2). 生成的服务端代码形式如下</p>
+<pre><code class="language-java">@Slf4j
+@RestController
+public class UploadController {
+
+    @PostMapping(&quot;/upload&quot;)
+    public Result upload(String name,Integer age,MultipartFile file) {
+        log.info(&quot;接收参数：{},{},{}&quot;,name,age,file);
+        return Result.success();
+    }
+}
+</code></pre>
+<p>会将上传上来的文件存放在C盘的临时目录，一旦这次请求响应完毕，文件也就删掉了。</p>
+<h2 id="本地存储"><strong>本地存储</strong></h2>
+<p>利用原始文件名存储：</p>
+<pre><code class="language-java">@Slf4j
+@RestController
+public class UploadController {
+
+    @PostMapping(&quot;/upload&quot;)
+    public Result upload(String name,Integer age,MultipartFile file) throws IOException {
+        log.info(&quot;接收参数：{},{},{}&quot;,name,age,file);
+        //获取原始文件名
+        String originalFilename=file.getOriginalFilename();
+        //保存文件
+        file.transferTo(new File(&quot;D:/images/&quot;+originalFilename));
+        return Result.success();
+    }
+}
+</code></pre>
+<p>生成唯一文件名：</p>
+<pre><code class="language-java">@Slf4j
+@RestController
+public class UploadController {
+
+    @PostMapping(&quot;/upload&quot;)
+    public Result upload(String name,Integer age,MultipartFile file) throws IOException {
+        log.info(&quot;接收参数：{},{},{}&quot;,name,age,file);
+        //获取原始文件名
+        String originalFilename=file.getOriginalFilename();
+
+        //新的文件名
+        String extension=originalFilename.substring(originalFilename.lastIndexOf(&quot;.&quot;));
+        String newFilename= UUID.randomUUID().toString()+extension;
+        //保存文件
+        file.transferTo(new File(&quot;D:/images/&quot;+newFilename));
+        return Result.success();
+    }
+}
+</code></pre>
+<p>在SpringBoot中，文件上传时默认单个文件最大大小为1M<br>
+那么如果需要上传大文件，可以在 application.properties 进行如下配置：</p>
+<pre><code class="language-yml">spring:
+  application:
+    name: tlias-web-management
+  datasource:
+    url: jdbc:mysql://localhost:3306/tlias
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+  servlet:
+    multipart:
+      # 最大单个文件大小
+      max-file-size: 10MB
+      # 单个请求最大大小
+      max-request-size: 100MB
+</code></pre>
+<h2 id="阿里云oss"><strong>阿里云OSS</strong></h2>
+<p>如果直接存储在服务器的磁盘目录中，存在以下缺点：</p>
+<ul>
+<li>不安全：磁盘如果损坏，所有的文件就会丢失</li>
+<li>容量有限：如果存储大量的图片，磁盘空间有限(磁盘不可能无限制扩容)</li>
+<li>无法直接访问</li>
+</ul>
+<p>为了解决上述问题呢，通常有两种解决方案：</p>
+<ul>
+<li>自己搭建存储服务器，如：fastDFS 、MinIO</li>
+<li>使用现成的云服务，如：阿里云，腾讯云，华为云</li>
+</ul>
+<p>阿里云对象存储OSS（Object Storage Service），是一款海量、安全、低成本、高可靠的云存储服务。使用OSS，您可以通过网络随时存储和调用包括文本、图片、音频和视频等在内的各种文件。在我们使用了阿里云OSS对象存储服务之后，我们的项目当中如果涉及到文件上传这样的业务，在前端进行文件上传并请求到服务端时，在服务器本地磁盘当中就不需要再来存储文件了。我们直接将接收到的文件上传到oss，由 oss帮我们存储和管理，同时阿里云的oss存储服务还保障了我们所存储内容的安全可靠。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250619170013.png" alt="" loading="lazy"><br>
+SDK：Software Development Kit 的缩写，软件开发工具包，包括辅助软件开发的依赖（jar包）、代码示例等，都可以叫做SDK。<br>
+简单说，sdk中包含了我们使用第三方云服务时所需要的依赖，以及一些示例代码。我们可以参照sdk所提供的示例代码就可以完成入门程序。<br>
+Bucket：存储空间是用户用于存储对象（Object，就是文件）的容器，所有的对象都必须隶属于某个存储空间。<br>
+1).开通OSS服务之后，就可以进入到阿里云对象存储的控制台<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250619173509.png" alt="" loading="lazy"><br>
+2).创建AccessKey<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250619173605.png" alt="" loading="lazy"><br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250619173615.png" alt="" loading="lazy"><br>
+3).配置AccessKey<br>
+以管理员身份打开CMD命令行，执行如下命令，配置系统的环境变量。</p>
+<pre><code class="language-shell">set OSS_ACCESS_KEY_ID=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+set OSS_ACCESS_KEY_SECRET=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+</code></pre>
+<p>执行如下命令，让更改生效。</p>
+<pre><code class="language-shell">setx OSS_ACCESS_KEY_ID &quot;%OSS_ACCESS_KEY_ID%&quot;
+setx OSS_ACCESS_KEY_SECRET &quot;%OSS_ACCESS_KEY_SECRET%&quot;
+</code></pre>
+<p>执行如下命令，验证环境变量是否生效。</p>
+<pre><code class="language-shell">echo %OSS_ACCESS_KEY_ID%
+echo %OSS_ACCESS_KEY_SECRET%
+</code></pre>
+<h3 id="入门"><strong>入门</strong></h3>
+<p>阿里云oss 对象存储服务的准备工作我们已经完成了，接下来我们就来完成第二步操作：参照官方所提供的sdk示例来编写入门程序。<br>
+首先我们需要来打开阿里云OSS的官方文档，在官方文档中找到 SDK 的示例代码：<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250619174802.png" alt="" loading="lazy"></p>
+<pre><code class="language-xml">&lt;!--阿里云OSS依赖--&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;com.aliyun.oss&lt;/groupId&gt;
+    &lt;artifactId&gt;aliyun-sdk-oss&lt;/artifactId&gt;
+    &lt;version&gt;3.17.4&lt;/version&gt;
+&lt;/dependency&gt;
+
+&lt;dependency&gt;
+    &lt;groupId&gt;javax.xml.bind&lt;/groupId&gt;
+    &lt;artifactId&gt;jaxb-api&lt;/artifactId&gt;
+    &lt;version&gt;2.3.1&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;javax.activation&lt;/groupId&gt;
+    &lt;artifactId&gt;activation&lt;/artifactId&gt;
+    &lt;version&gt;1.1.1&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;!-- no more than 2.3.3--&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.glassfish.jaxb&lt;/groupId&gt;
+    &lt;artifactId&gt;jaxb-runtime&lt;/artifactId&gt;
+    &lt;version&gt;2.3.3&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<pre><code class="language-java">public class Demo {
+
+    public static void main(String[] args) throws Exception {
+        // Endpoint以华东1（杭州）为例，其它Region请按实际情况填写。
+        String endpoint = &quot;https://oss-cn-beijing.aliyuncs.com&quot;;
+        // 从环境变量中获取访问凭证。运行本代码示例之前，请确保已设置环境变量OSS_ACCESS_KEY_ID和OSS_ACCESS_KEY_SECRET。
+        EnvironmentVariableCredentialsProvider credentialsProvider = CredentialsProviderFactory.newEnvironmentVariableCredentialsProvider();
+        // 填写Bucket名称，例如examplebucket。
+        String bucketName = &quot;java-ai-ys-wasd&quot;;
+        // 填写Object完整路径，例如exampledir/exampleobject.txt。Object完整路径中不能包含Bucket名称。
+        String objectName = &quot;001.jpg&quot;;
+        // 填写Bucket所在地域。以华东1（杭州）为例，Region填写为cn-hangzhou。
+        String region = &quot;cn-beijing&quot;;
+
+        // 创建OSSClient实例。
+        ClientBuilderConfiguration clientBuilderConfiguration = new ClientBuilderConfiguration();
+        clientBuilderConfiguration.setSignatureVersion(SignVersion.V4);
+        OSS ossClient = OSSClientBuilder.create()
+                .endpoint(endpoint)
+                .credentialsProvider(credentialsProvider)
+                .clientConfiguration(clientBuilderConfiguration)
+                .region(region)
+                .build();
+
+        try {
+
+            File file = new File(&quot;D:\\Gridea\\图标.jpg&quot;);
+            byte[] content = Files.readAllBytes(file.toPath());
+
+            ossClient.putObject(bucketName, objectName, new ByteArrayInputStream(content));
+        } catch (OSSException oe) {
+            System.out.println(&quot;Caught an OSSException, which means your request made it to OSS, &quot;
+                    + &quot;but was rejected with an error response for some reason.&quot;);
+            System.out.println(&quot;Error Message:&quot; + oe.getErrorMessage());
+            System.out.println(&quot;Error Code:&quot; + oe.getErrorCode());
+            System.out.println(&quot;Request ID:&quot; + oe.getRequestId());
+            System.out.println(&quot;Host ID:&quot; + oe.getHostId());
+        } catch (ClientException ce) {
+            System.out.println(&quot;Caught an ClientException, which means the client encountered &quot;
+                    + &quot;a serious internal problem while trying to communicate with OSS, &quot;
+                    + &quot;such as not being able to access the network.&quot;);
+            System.out.println(&quot;Error Message:&quot; + ce.getMessage());
+        } finally {
+            if (ossClient != null) {
+                ossClient.shutdown();
+            }
+        }
+    }
+}
+</code></pre>
+<p>在以上代码中，需要替换的内容为：</p>
+<ul>
+<li>endpoint：阿里云OSS中的bucket对应的域名</li>
+<li>bucketName：Bucket名称</li>
+<li>objectName：对象名称，在Bucket中存储的对象的名称</li>
+<li>region：bucket所属区域</li>
+</ul>
+<p>运行以上程序后，会把本地的文件上传到阿里云OSS服务器上。</p>
+<h3 id="集成"><strong>集成</strong></h3>
+<p>阿里云oss对象存储服务的准备工作以及入门程序我们都已经完成了，接下来我们就需要在案例当中集成oss对象存储服务，来存储和管理案例中上传的图片。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250619181913.png" alt="" loading="lazy"><br>
+在新增员工的时候，上传员工的图像，而之所以需要上传员工的图像，是因为将来我们需要在系统页面当中访问并展示员工的图像。而要想完成这个操作，需要做两件事：</p>
+<ol>
+<li>需要上传员工的图像，并把图像保存起来（存储到阿里云OSS）</li>
+<li>访问员工图像（通过图像在阿里云OSS的存储地址访问图像）</li>
+</ol>
+<ul>
+<li>OSS中的每一个文件都会分配一个访问的url，通过这个url就可以访问到存储在阿里云上的图片。所以需要把url返回给前端，这样前端就可以通过url获取到图像。</li>
+</ul>
+<p>我们参照接口文档来开发文件上传功能：<br>
+基本信息</p>
+<ul>
+<li>请求路径：/upload</li>
+<li>请求方式：POST</li>
+<li>接口描述：上传图片接口</li>
+</ul>
+<p>请求参数</p>
+<ul>
+<li>参数格式：multipart/form-data</li>
+</ul>
+<p>响应数据</p>
+<ul>
+<li>参数格式：application/json</li>
+<li>响应数据样例：</li>
+</ul>
+<pre><code class="language-json">{
+    &quot;code&quot;: 1,
+    &quot;msg&quot;: &quot;success&quot;,
+    &quot;data&quot;: &quot;https://web-framework.oss-cn-hangzhou.aliyuncs.com/2022-09-02-00-27-0400.jpg&quot;
+}
+</code></pre>
+<p>1). 引入阿里云OSS上传文件工具类（由官方的示例代码改造而来）</p>
+<pre><code class="language-java">@Component
+public class AliyunOSSOperator {
+
+    private String endpoint = &quot;https://oss-cn-beijing.aliyuncs.com&quot;;
+    private String bucketName = &quot;java-ai-ys-wasd&quot;;
+    private String region = &quot;cn-beijing&quot;;
+
+    public String upload(byte[] content, String originalFilename) throws Exception {
+        // 从环境变量中获取访问凭证。运行本代码示例之前，请确保已设置环境变量OSS_ACCESS_KEY_ID和OSS_ACCESS_KEY_SECRET。
+        EnvironmentVariableCredentialsProvider credentialsProvider = CredentialsProviderFactory.newEnvironmentVariableCredentialsProvider();
+
+        // 填写Object完整路径，例如202406/1.png。Object完整路径中不能包含Bucket名称。
+        //获取当前系统日期的字符串,格式为 yyyy/MM
+        String dir = LocalDate.now().format(DateTimeFormatter.ofPattern(&quot;yyyy/MM&quot;));
+        //生成一个新的不重复的文件名
+        String newFileName = UUID.randomUUID() + originalFilename.substring(originalFilename.lastIndexOf(&quot;.&quot;));
+        String objectName = dir + &quot;/&quot; + newFileName;
+
+        // 创建OSSClient实例。
+        ClientBuilderConfiguration clientBuilderConfiguration = new ClientBuilderConfiguration();
+        clientBuilderConfiguration.setSignatureVersion(SignVersion.V4);
+        OSS ossClient = OSSClientBuilder.create()
+                .endpoint(endpoint)
+                .credentialsProvider(credentialsProvider)
+                .clientConfiguration(clientBuilderConfiguration)
+                .region(region)
+                .build();
+
+        try {
+            ossClient.putObject(bucketName, objectName, new ByteArrayInputStream(content));
+        } finally {
+            ossClient.shutdown();
+        }
+
+        // 返回文件路径，类似https://java-ai-ys-wasd.oss-cn-beijing.aliyuncs.com/001.jpg
+        return endpoint.split(&quot;//&quot;)[0] + &quot;//&quot; + bucketName + &quot;.&quot; + endpoint.split(&quot;//&quot;)[1] + &quot;/&quot; + objectName;
+    }
+
+}
+</code></pre>
+<p>2). 修改UploadController代码</p>
+<pre><code class="language-java">@Slf4j
+@RestController
+public class UploadController {
+
+    @Autowired
+    private AliyunOSSOperator aliyunOSSOperator;
+
+    @PostMapping(&quot;/upload&quot;)
+    public Result upload(MultipartFile file) throws Exception {
+        log.info(&quot;文件上传：{}&quot;, file.getOriginalFilename());
+        String url=aliyunOSSOperator.upload(file.getBytes(), file.getOriginalFilename() );
+        log.info(&quot;文件上传OSS，url：{}&quot;,url);
+        return Result.success(url);
+    }
+}
+</code></pre>
+<h2 id="功能优化"><strong>功能优化</strong></h2>
+<p>员工管理的新增功能我们已开发完成，但在我们所开发的程序中还一些小问题，下面我们就来分析一下当前案例中存在的问题以及如何优化解决。<br>
+在刚才我们制作的AliyunOSS操作的工具类中，我们直接将 endpoint、bucketName参数直接在java文件中写死了。如下所示：</p>
+<pre><code class="language-java">@Component
+public class AliyunOSSOperator {
+
+    private String endpoint = &quot;https://oss-cn-beijing.aliyuncs.com&quot;;
+    private String bucketName = &quot;java-ai-ys-wasd&quot;;
+    private String region = &quot;cn-beijing&quot;;
+</code></pre>
+<p>那么对于这些容易变动的参数，我们可以将其配置在配置文件中，然后通过 @Value 注解来注解外部配置的属性。如下所示：</p>
+<pre><code class="language-yml">#阿里云OSS
+aliyun:
+  oss:
+    endpoint: https://oss-cn-beijing.aliyuncs.com
+    bucketName: java-ai-ys-wasd
+    region: cn-beijing
+</code></pre>
+<pre><code class="language-java">@Component
+public class AliyunOSSOperator {
+
+    @Value(&quot;${aliyun.oss.endpoint}&quot;)
+    private String endpoint;
+    @Value(&quot;${aliyun.oss.bucketName}&quot;)
+    private String bucketName;
+    @Value(&quot;${aliyun.oss.region}&quot;)
+    private String region;
+</code></pre>
+<p>如果只有一两个属性需要注入，而且不需要考虑复用性，使用@Value注解就可以了。<br>
+但是使用@Value注解注入配置文件的配置项，如果配置项多，注入繁琐，不便于维护管理 和 复用。<br>
+Spring中给我们提供了一种简化方式，可以直接将配置文件中配置项的值自动的注入到对象的属性中。</p>
+<p>Spring提供的简化方式套路：<br>
+1). 需要创建一个实现类，且实体类中的属性名和配置文件当中key的名字必须要一致<br>
+比如：配置文件当中叫endpoint，实体类当中的属性也得叫endpoint，另外实体类当中的属性还需要提供 getter / setter方法<br>
+2). 需要将实体类交给Spring的IOC容器管理，成为IOC容器当中的bean对象<br>
+3). 在实体类上添加@ConfigurationProperties注解，并通过perfect属性来指定配置参数项的前缀</p>
+<p>1). 定义实体类AliyunOSSProperties ，并交给IOC容器管理</p>
+<pre><code class="language-java">@Data
+@Component
+@ConfigurationProperties(prefix = &quot;aliyun.oss&quot;)
+public class AliyunOSSProperties {
+    private String endpoint;
+    private String bucketName;
+    private String region;
+}
+</code></pre>
+<p>2). 修改AliyunOSSOperator</p>
+<pre><code class="language-java">@Component
+public class AliyunOSSOperator {
+
+    @Autowired
+    private AliyunOSSProperties aliyunOSSProperties;
+
+
+    public String upload(byte[] content, String originalFilename) throws Exception {
+        String endpoint=aliyunOSSProperties.getEndpoint();
+        String bucketName=aliyunOSSProperties.getBucketName();
+        String region=aliyunOSSProperties.getRegion();
+        // 从环境变量中获取访问凭证。运行本代码示例之前，请确保已设置环境变量OSS_ACCESS_KEY_ID和OSS_ACCESS_KEY_SECRET。
+        EnvironmentVariableCredentialsProvider credentialsProvider = CredentialsProviderFactory.newEnvironmentVariableCredentialsProvider();
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E6%96%B0%E5%A2%9E%E5%91%98%E5%B7%A5"><strong>新增员工</strong></a>
+<ul>
+<li><a href="#%E6%8E%A5%E5%8F%A3%E6%8F%8F%E8%BF%B0"><strong>接口描述</strong></a></li>
+<li><a href="#%E4%BF%9D%E5%AD%98%E5%91%98%E5%B7%A5%E4%BF%A1%E6%81%AF"><strong>保存员工信息</strong></a></li>
+<li><a href="#%E6%89%B9%E9%87%8F%E4%BF%9D%E5%AD%98%E5%B7%A5%E4%BD%9C%E7%BB%8F%E5%8E%86"><strong>批量保存工作经历</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86"><strong>事务管理</strong></a>
+<ul>
+<li><a href="#%E4%BB%8B%E7%BB%8D"><strong>介绍</strong></a></li>
+<li><a href="#%E6%93%8D%E4%BD%9C"><strong>操作</strong></a></li>
+<li><a href="#spring%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86"><strong>Spring事务管理</strong></a></li>
+<li><a href="#%E4%BA%8B%E5%8A%A1%E8%BF%9B%E9%98%B6"><strong>事务进阶</strong></a>
+<ul>
+<li><a href="#rollbackfor"><strong>rollbackFor</strong></a></li>
+<li><a href="#propagation"><strong>propagation</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E4%BA%8B%E5%8A%A1%E5%9B%9B%E5%A4%A7%E7%89%B9%E6%80%A7"><strong>事务四大特性</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0"><strong>文件上传</strong></a>
+<ul>
+<li><a href="#%E6%9C%AC%E5%9C%B0%E5%AD%98%E5%82%A8"><strong>本地存储</strong></a></li>
+<li><a href="#%E9%98%BF%E9%87%8C%E4%BA%91oss"><strong>阿里云OSS</strong></a>
+<ul>
+<li><a href="#%E5%85%A5%E9%97%A8"><strong>入门</strong></a></li>
+<li><a href="#%E9%9B%86%E6%88%90"><strong>集成</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E5%8A%9F%E8%83%BD%E4%BC%98%E5%8C%96"><strong>功能优化</strong></a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://yyss1014.github.io/post/hou-duan-web-shi-zhan-yuan-gong-guan-li/">
+              <h3 class="post-title">
+                多表关系与员工查询
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://yyss1014.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

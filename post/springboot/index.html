@@ -1,0 +1,842 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SpringBoot | WASD研究院</title>
+<link rel="shortcut icon" href="https://yyss1014.github.io/favicon.ico?v=1751633121752">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://yyss1014.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="SpringBoot | WASD研究院 - Atom Feed" href="https://yyss1014.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+入门
+
+入门程序
+入门解析
+
+
+http协议
+
+概述
+http请求协议
+响应协议
+
+
+案例
+
+ResponseBody
+
+
+分层解耦
+
+三层架构
+分层解耦
+IOC&amp;DI入门
+IOC详解
+DI详解
+
+注意事项
+
+
+
+
+
+
+
+BS架构..." />
+    <meta name="keywords" content="JavaWeb" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yyss1014.github.io">
+  <img class="avatar" src="https://yyss1014.github.io/images/avatar.png?v=1751633121752" alt="">
+  </a>
+  <h1 class="site-title">
+    WASD研究院
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/archives" class="menu">
+          目录
+        </a>
+      
+    
+      
+        <a href="/" class="menu">
+          文章
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          分类
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              SpringBoot
+            </h2>
+            <div class="post-info">
+              <span>
+                2025-05-22
+              </span>
+              <span>
+                20 min read
+              </span>
+              
+                <a href="https://yyss1014.github.io/tag/2ON39h6GJZ/" class="post-tag">
+                  # JavaWeb
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p><ul class="markdownIt-TOC">
+<li><a href="#%E5%85%A5%E9%97%A8"><strong>入门</strong></a>
+<ul>
+<li><a href="#%E5%85%A5%E9%97%A8%E7%A8%8B%E5%BA%8F"><strong>入门程序</strong></a></li>
+<li><a href="#%E5%85%A5%E9%97%A8%E8%A7%A3%E6%9E%90"><strong>入门解析</strong></a></li>
+</ul>
+</li>
+<li><a href="#http%E5%8D%8F%E8%AE%AE"><strong>http协议</strong></a>
+<ul>
+<li><a href="#%E6%A6%82%E8%BF%B0"><strong>概述</strong></a></li>
+<li><a href="#http%E8%AF%B7%E6%B1%82%E5%8D%8F%E8%AE%AE"><strong>http请求协议</strong></a></li>
+<li><a href="#%E5%93%8D%E5%BA%94%E5%8D%8F%E8%AE%AE"><strong>响应协议</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E6%A1%88%E4%BE%8B"><strong>案例</strong></a>
+<ul>
+<li><a href="#responsebody"><strong>ResponseBody</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E5%88%86%E5%B1%82%E8%A7%A3%E8%80%A6"><strong>分层解耦</strong></a>
+<ul>
+<li><a href="#%E4%B8%89%E5%B1%82%E6%9E%B6%E6%9E%84"><strong>三层架构</strong></a></li>
+<li><a href="#%E5%88%86%E5%B1%82%E8%A7%A3%E8%80%A6-2"><strong>分层解耦</strong></a></li>
+<li><a href="#iocdi%E5%85%A5%E9%97%A8"><strong>IOC&amp;DI入门</strong></a></li>
+<li><a href="#ioc%E8%AF%A6%E8%A7%A3"><strong>IOC详解</strong></a></li>
+<li><a href="#di%E8%AF%A6%E8%A7%A3"><strong>DI详解</strong></a>
+<ul>
+<li><a href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><strong>注意事项</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</p>
+<ul>
+<li>BS架构：Browser/Server，浏览器/服务器架构模式。客户端只需要浏览器，应用程序的逻辑和数据都存储在服务端。
+<ul>
+<li>优点：维护方便</li>
+<li>缺点：体验一般</li>
+</ul>
+</li>
+<li>CS架构：Client/Server，客户端/服务器架构模式。需要单独开发维护客户端。
+<ul>
+<li>优点：体验不错</li>
+<li>缺点：开发维护麻烦</li>
+</ul>
+</li>
+</ul>
+<h1 id="入门"><strong>入门</strong></h1>
+<p>Spring Boot 可以帮助我们非常快速的构建应用程序、简化开发、提高效率 。而直接基于SpringBoot进行项目构建和开发，不仅是Spring官方推荐的方式，也是现在企业开发的主流。</p>
+<h2 id="入门程序"><strong>入门程序</strong></h2>
+<p>需求：基于SpringBoot的方式开发一个web应用，浏览器发起请求/hello后，给浏览器返回字符串 &quot;Hello xxx&quot;。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250522160211.png" alt="" loading="lazy"><br>
+创建一个springboot工程：<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250522160718.png" alt="" loading="lazy"></p>
+<pre><code class="language-java">@RestController//表示当前类是一个请求处理类
+public class HelloController {
+    @RequestMapping(&quot;/hello&quot;)//请求路径
+    public String hello(String name) {//接收前端传递的参数name
+        System.out.println(&quot;name: &quot; + name);//输出到控制台
+        return &quot;Hello &quot; + name;//给前端响应一个字符串
+    }
+}
+</code></pre>
+<pre><code class="language-java">/*
+* 启动类*/
+@SpringBootApplication
+public class SpringbootWebQuickstartApplication {
+
+    public static void main(String[] args) {
+
+        SpringApplication.run(SpringbootWebQuickstartApplication.class, args);
+    }
+
+}
+</code></pre>
+<p>联网基于spring的脚手架创建SpringBoot项目，偶尔可能会因为网内网络的原因，链接不上SpringBoot的脚手架网站，此时可以使用阿里云提供的脚手架，网址为：https://start.aliyun.com。</p>
+<h2 id="入门解析"><strong>入门解析</strong></h2>
+<p>一种为开发者提供简化配置和集成的机制，使得构建Spring应用程序更加轻松。起步依赖本质上是一组预定义的依赖项集合，它们一起提供了在特定场景下开发Spring应用所需的所有库和配置。</p>
+<ul>
+<li>spring-boot-starter-web：包含了web应用开发所需要的常见依赖。</li>
+<li>spring-boot-starter-test：包含了单元测试所需要的常见依赖。</li>
+</ul>
+<p>为什么一个main方法就可以将Web应用启动了？<br>
+因为我们在创建springboot项目的时候，选择了web开发的起步依赖 spring-boot-starter-web。而spring-boot-starter-web依赖，又依赖了spring-boot-starter-tomcat，由于maven的依赖传递特性，那么在我们创建的springboot项目中也就已经有了tomcat的依赖，这个其实就是springboot中内嵌的tomcat。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250522161724.png" alt="" loading="lazy"><br>
+而我们运行引导类中的main方法，其实启动的就是springboot中内嵌的Tomcat服务器。 而我们所开发的项目，也会自动的部署在该tomcat服务器中，并占用8080端口号 。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250522161756.png" alt="" loading="lazy"></p>
+<h1 id="http协议"><strong>http协议</strong></h1>
+<h2 id="概述"><strong>概述</strong></h2>
+<p>HTTP：Hyper Text Transfer Protocol(超文本传输协议)，规定了浏览器与服务器之间数据传输的规则。</p>
+<ul>
+<li>http是互联网上应用最为广泛的一种网络协议</li>
+<li>http协议要求：浏览器在向服务器发送请求数据时，或是服务器在向浏览器发送响应数据时，都必须按照固定的格式进行数据传输。</li>
+</ul>
+<p>HTTP协议特点：</p>
+<ul>
+<li>基于TCP协议: 面向连接，安全</li>
+<li>基于请求-响应模型:   一次请求对应一次响应（先请求后响应）</li>
+<li>HTTP协议是无状态协议:  对于数据没有记忆能力。每次请求-响应都是独立的。无状态指的是客户端发送HTTP请求给服务端之后，服务端根据请求响应数据，响应完后，不会记录任何信息。
+<ul>
+<li>缺点:  多次请求间不能共享数据</li>
+<li>优点:  速度快</li>
+</ul>
+</li>
+</ul>
+<h2 id="http请求协议"><strong>http请求协议</strong></h2>
+<p>请求协议：浏览器将数据以请求格式发送到服务器。包括：请求行、请求头 、请求体。GET请求的请求参数在请求行中，故不需要设置请求体。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250522213603.png" alt="" loading="lazy"><br>
+请求行：HTTP请求中的第一行数据。由：请求方式、资源路径、协议/版本组成（之间使用空格分隔）。</p>
+<ul>
+<li>请求方式：GET</li>
+<li>资源路径：/brand/findAll?name=OPPO&amp;status=1
+<ul>
+<li>请求路径：/brand/findAll</li>
+<li>请求参数：name=OPPO&amp;status=1
+<ul>
+<li>请求参数是以key=value形式出现</li>
+<li>多个请求参数之间使用&amp;连接</li>
+</ul>
+</li>
+<li>请求路径和请求参数之间使用?连接</li>
+</ul>
+</li>
+<li>协议/版本：HTTP/1.1</li>
+</ul>
+<p>请求头(以上图中黄色部分) ：第二行开始，上图黄色部分内容就是请求头。格式为key: value形式 。</p>
+<table>
+<thead>
+<tr>
+<th>请求头</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Host</td>
+<td>表示请求的主机名</td>
+</tr>
+<tr>
+<td>User-Agent</td>
+<td>浏览器版本。 例如：Chrome浏览器的标识类似Mozilla/5.0 ...Chrome/79 ，IE浏览器的标识类似Mozilla/5.0 (Windows NT ...)like Gecko</td>
+</tr>
+<tr>
+<td>Accept</td>
+<td>表示浏览器能接收的资源类型，如text/*，image/<em>或者</em>/*表示所有；</td>
+</tr>
+<tr>
+<td>Accept-Language</td>
+<td>表示浏览器偏好的语言，服务器可以据此返回不同语言的网页；</td>
+</tr>
+<tr>
+<td>Accept-Encoding</td>
+<td>表示浏览器可以支持的压缩类型，例如gzip, deflate等。</td>
+</tr>
+<tr>
+<td>Content-Type</td>
+<td>请求主体的数据类型</td>
+</tr>
+<tr>
+<td>Content-Length</td>
+<td>数据主体的大小（单位：字节）</td>
+</tr>
+</tbody>
+</table>
+<p>Web服务器（Tomcat）对HTTP协议的请求数据进行解析，并进行了封装(HttpServletRequest)，并在调用Controller方法的时候传递给了该方法。这样，就使得程序员不必直接对协议进行操作，让Web开发更加便捷。</p>
+<pre><code class="language-java">@RestController
+public class RequestController {
+    @RequestMapping(&quot;/request&quot;)
+    public String request(HttpServletRequest request) {
+        //1.获取请求方式
+        String method = request.getMethod();
+        System.out.println(&quot;method: &quot; + method);//GET
+        //2.获取请求url地址
+        String url = request.getRequestURL().toString();//http://localhost:8080/request
+        System.out.println(&quot;url: &quot; + url);
+        String uri = request.getRequestURI();// /request
+        System.out.println(&quot;uri: &quot; + uri);
+        //3.获取请求协议
+        String protocol = request.getProtocol();// HTTP/1.1
+        System.out.println(&quot;protocol: &quot; + protocol);
+        //4.获取请求参数-name
+        String name = request.getParameter(&quot;name&quot;);
+        String age = request.getParameter(&quot;age&quot;);
+        System.out.println(&quot;name: &quot; + name + &quot;, age: &quot; + age);
+        //5.获取请求头
+        String accept = request.getHeader(&quot;Accept&quot;);
+        System.out.println(&quot;accept: &quot; + accept);
+
+        return &quot;OK&quot;;
+    }
+}
+</code></pre>
+<h2 id="响应协议"><strong>响应协议</strong></h2>
+<p>响应协议：服务器将数据以响应格式返回给浏览器。包括：响应行 、响应头 、响应体。<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250522215047.png" alt="" loading="lazy"><br>
+响应行(以上图中红色部分)：响应数据的第一行。响应行由协议及版本、响应状态码、状态码描述组成</p>
+<ul>
+<li>协议/版本：HTTP/1.1</li>
+<li>响应状态码：200</li>
+<li>状态码描述：OK</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>状态码分类</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1xx</td>
+<td>响应中 --- 临时状态码。表示请求已经接受，告诉客户端应该继续请求或者如果已经完成则忽略</td>
+</tr>
+<tr>
+<td>2xx</td>
+<td>成功 --- 表示请求已经被成功接收，处理已完成</td>
+</tr>
+<tr>
+<td>3xx</td>
+<td>重定向 --- 重定向（请求头）到其它地方，让客户端再发起一个请求以完成整个处理</td>
+</tr>
+<tr>
+<td>4xx</td>
+<td>客户端错误 --- 处理发生错误，责任在客户端，如：客户端的请求一个不存在的资源，客户端未被授权，禁止访问等</td>
+</tr>
+<tr>
+<td>5xx</td>
+<td>服务器端错误 --- 处理发生错误，责任在服务端，如：服务端抛出异常，路由出错，HTTP版本不支持等</td>
+</tr>
+</tbody>
+</table>
+<p>响应头(以上图中黄色部分)：响应数据的第二行开始。格式为key：value形式。  - http是个无状态的协议，所以可以在请求头和响应头中设置一些信息和想要执行的动作，这样，对方在收到信息后，就可以知道你是谁，你想干什么。</p>
+<pre><code class="language-java">Content-Type：表示该响应内容的类型，例如text/html，image/jpeg ；
+
+Content-Length：表示该响应内容的长度（字节数）；
+
+Content-Encoding：表示该响应压缩算法，例如gzip ；
+
+Cache-Control：指示客户端应如何缓存，例如max-age=300表示可以最多缓存300秒 ;
+
+Set-Cookie: 告诉浏览器为当前页面所在的域设置cookie ;
+</code></pre>
+<p>响应体(以上图中绿色部分)： 响应数据的最后一部分。存储响应的数据。响应体和响应头之间有一个空行隔开（作用：用于标记响应头结束）。</p>
+<p>Web服务器对HTTP协议的响应数据进行了封装(HttpServletResponse)，并在调用Controller方法的时候传递给了该方法。这样，就使得程序员不必直接对协议进行操作，让Web开发更加便捷。</p>
+<pre><code class="language-java">@RestController
+public class ResponseController {
+    /*
+    方式一：HttpServletResponse
+    * */
+    @RequestMapping(&quot;/response&quot;)
+    public void response(HttpServletResponse response) throws IOException {
+        //1.设置响应状态码（可以不用设定，自动设置）
+        response.setStatus(HttpServletResponse.SC_OK);//HttpServletResponse接口中的常量
+        //2.设置响应头
+        response.setHeader(&quot;name&quot;,&quot;ys&quot;);
+        //3.设置响应体
+        response.getWriter().write(&quot;&lt;h1&gt;hello response&lt;/h1&gt;&quot;);
+    }
+
+    /*
+    方式二：ResponseEntity-Spring提供的方式，Spring不强制要求控制器方法必须有参数，因为它没有依赖任何请求信息（如请求体、路径变量、请求头等）
+    * */
+    @RequestMapping(&quot;/response2&quot;)
+    public ResponseEntity&lt;String&gt; response2(){
+        return ResponseEntity.status(401)
+                .header(&quot;name&quot;,&quot;javaweb-ai&quot;)
+                .body(&quot;&lt;h1&gt;hello response2&lt;/h1&gt;&quot;);
+    }
+}
+</code></pre>
+<p>响应状态码 和 响应头如果没有特殊要求的话，通常不手动设定。服务器会根据请求处理的逻辑，自动设置响应状态码和响应头。</p>
+<h1 id="案例"><strong>案例</strong></h1>
+<p>基于SpringBoot开发web程序，完成用户列表的渲染展示。<br>
+方法：创建一个SpringBoot工程，并勾选web依赖、lombok依赖。</p>
+<pre><code class="language-java">/*
+* 用户信息，这三个注解是lombok中用来定义实体类
+* */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class User {
+    private Integer id;
+    private String username;
+    private String password;
+    private String name;
+    private Integer age;
+    private LocalDateTime updateTime;
+
+}
+</code></pre>
+<p>接收请求，读取文本数据并响应。在案例中，需要读取文本中的数据，并且还需要将对象转为json格式，所以这里呢，我们在项目中再引入一个非常常用的工具包hutool。</p>
+<pre><code class="language-html">&lt;dependency&gt;
+    &lt;groupId&gt;cn.hutool&lt;/groupId&gt;
+    &lt;artifactId&gt;hutool-all&lt;/artifactId&gt;
+    &lt;version&gt;5.8.27&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<pre><code class="language-java">@RestController
+public class UserController {
+    @RequestMapping(&quot;/list&quot;)
+    public List&lt;User&gt; list() throws FileNotFoundException {
+        //1.加载并读取user.txt文件
+        //InputStream in=new FileInputStream(&quot;src/main/resources/user.txt&quot;);
+        InputStream in=this.getClass().getClassLoader().getResourceAsStream(&quot;user.txt&quot;);
+        ArrayList&lt;String&gt; lines=IoUtil.readLines(in, StandardCharsets.UTF_8,new ArrayList&lt;&gt;());
+        //2.解析用户信息，封装成用户对象
+        //map传入的参数是重写了apply方法的Function接口
+        List&lt;User&gt; userList= lines.stream().map(line -&gt; {
+            String[] parts= line.split(&quot;,&quot;);
+            Integer id=Integer.parseInt(parts[0]);
+            String username=parts[1];
+            String password=parts[2];
+            String name=parts[3];
+            Integer age=Integer.parseInt(parts[4]);
+            LocalDateTime updateTime=LocalDateTime.parse(parts[5], DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd HH:mm:ss&quot;));
+            return new User(id,username,password,name,age,updateTime);
+        }).toList();
+        //3.返回数据(json),响应数据
+        //@RestController 的返回值默认被 @ResponseBody 修饰
+        //@ResponseBody将controller返回值直接作为响应体数据直接响应；返回值是对象/集合-&gt;json-&gt;响应
+        return userList;
+    }
+}
+</code></pre>
+<p>当在浏览器地址栏，访问前端静态页面（http://localhost:8080/usr.html）后，在前端页面上，会发送ajax请求，请求服务端（http://localhost:8080/list），服务端程序加载 user.txt 文件中的数据，读取出来后最终给前端页面响应json格式的数据，前端页面再将数据渲染展示在表格中。</p>
+<pre><code class="language-html">&lt;!--引入axios--&gt;
+    &lt;script src=&quot;js/axios.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script type=&quot;module&quot;&gt;
+        import { createApp } from './js/vue.esm-browser.js'
+        createApp({
+            data() {
+                return {
+                    userList: []
+                }
+            },
+            methods: {
+                async search(){
+                    const result = await axios.get('/list');//发送 HTTP GET 请求，请求完成时解析为一个响应对象
+                    this.userList = result.data;
+                }
+            },
+            mounted() {
+                this.search();
+            }
+        }).mount('#app')
+    &lt;/script&gt;
+</code></pre>
+<h2 id="responsebody"><strong>ResponseBody</strong></h2>
+<p>controller方法中的return的结果，怎么就可以响应给浏览器呢？<br>
+答案：使用@ResponseBody注解。<br>
+@ResponseBody注解：</p>
+<ul>
+<li>类型：方法注解、类注解</li>
+<li>位置：书写在Controller方法上或类上</li>
+<li>作用：将方法返回值直接响应给浏览器，如果返回值类型是实体对象/集合，将会转换为JSON格式后在响应给浏览器</li>
+</ul>
+<pre><code class="language-java">@Target({ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Controller
+@ResponseBody
+public @interface RestController {
+    @AliasFor(
+        annotation = Controller.class
+    )
+    String value() default &quot;&quot;;
+}
+</code></pre>
+<p>我们在类上加了@RestController注解，而这个注解是由两个注解组合起来的，分别是：@Controller 、@ResponseBody。 那也就意味着，我们在类上已经添加了@ResponseBody注解了，而一旦在类上加了@ResponseBody注解，就相当于该类所有的方法中都已经添加了@ResponseBody注解。</p>
+<h1 id="分层解耦"><strong>分层解耦</strong></h1>
+<h2 id="三层架构"><strong>三层架构</strong></h2>
+<p>基于三层架构的程序执行流程，如图所示：<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250527161913.png" alt="" loading="lazy"></p>
+<ul>
+<li>Controller：控制层。接收前端发送的请求，对请求进行处理，并响应数据。</li>
+<li>Service：业务逻辑层。处理具体的业务逻辑。</li>
+<li>Dao：数据访问层(Data Access Object)，也称为持久层。负责数据访问操作，包括数据的增、删、改、查。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250527164445.png" alt="" loading="lazy"><br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250527164535.png" alt="" loading="lazy"></p>
+<h2 id="分层解耦-2"><strong>分层解耦</strong></h2>
+<p>如果说我们需要更换实现类，比如由于业务的变更，UserServiceImpl 不能满足现有的业务需求，我们需要切换为 UserServiceImpl2 这套实现，就需要修改Contorller的代码，需要创建 UserServiceImpl2 的实现new UserServiceImpl2() 。</p>
+<ul>
+<li>内聚：软件中各个功能模块内部的功能联系。</li>
+<li>耦合：衡量软件中各个层/模块之间的依赖、关联的程度。</li>
+<li>软件设计原则：高内聚低耦合。高内聚：指的是一个模块中各个元素之间的联系的紧密程度，如果各个元素(语句、程序段)之间的联系程度越高，则内聚性越高，即 &quot;高内聚&quot;。低耦合：指的是软件中各个层、模块之间的依赖关联程序越低越好。</li>
+</ul>
+<p>解决思路是：提供一个容器，容器中存储一些对象(例：UserService对象)<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250527165559.png" alt="" loading="lazy"><br>
+想要实现上述解耦操作，就涉及到Spring中的两个核心概念：</p>
+<ul>
+<li>
+<p>控制反转： Inversion Of Control，简称IOC。对象的创建控制权由程序自身转移到外部（容器），这种思想称为控制反转。</p>
+<ul>
+<li>对象的创建权由程序员主动创建转移到容器(由容器创建、管理对象)。这个容器称为：IOC容器或Spring容器。</li>
+</ul>
+</li>
+<li>
+<p>依赖注入： Dependency Injection，简称DI。容器为应用程序提供运行时，所依赖的资源，称之为依赖注入。</p>
+<ul>
+<li>程序运行时需要某个资源，此时容器就为其提供这个资源。</li>
+<li>例：EmpController程序运行时需要EmpService对象，Spring容器就为其提供并注入EmpService对象。</li>
+</ul>
+</li>
+<li>
+<p>bean对象：IOC容器中创建、管理的对象，称之为：bean对象。</p>
+</li>
+</ul>
+<h2 id="iocdi入门"><strong>IOC&amp;DI入门</strong></h2>
+<ol>
+<li>将Service及Dao层的实现类，交给IOC容器管理。</li>
+</ol>
+<pre><code class="language-java">@Component//将当前类交给IOC容器管理
+public class UserDaoImpl implements UserDao {
+    @Override
+    public List&lt;String&gt; findAll() {
+        //1.加载并读取user.txt文件
+        //InputStream in=new FileInputStream(&quot;src/main/resources/user.txt&quot;);
+        InputStream in=this.getClass().getClassLoader().getResourceAsStream(&quot;user.txt&quot;);
+        ArrayList&lt;String&gt; lines= IoUtil.readLines(in, StandardCharsets.UTF_8,new ArrayList&lt;&gt;());
+        return lines;
+    }
+}
+</code></pre>
+<ol start="2">
+<li>为Controller 及 Service注入运行时所依赖的对象。</li>
+</ol>
+<pre><code class="language-java">@Component
+public class UserServiceImpl implements UserService {
+    @Autowired//应用程序运行时，会自动查询该类型的bean对象，并赋值给该成员变量
+    private UserDao userDao;
+    @Override
+    public List&lt;User&gt; findAll() {
+        //1.调用dao，获取数据
+        List&lt;String&gt; lines=userDao.findAll();
+        //2.解析用户信息，封装成用户对象
+        //map传入的参数是重写了apply方法的Function接口
+        List&lt;User&gt; userList= lines.stream().map(line -&gt; {
+            String[] parts= line.split(&quot;,&quot;);
+            Integer id=Integer.parseInt(parts[0]);
+            String username=parts[1];
+            String password=parts[2];
+            String name=parts[3];
+            Integer age=Integer.parseInt(parts[4]);
+            LocalDateTime updateTime=LocalDateTime.parse(parts[5], DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd HH:mm:ss&quot;));
+            return new User(id,username,password,name,age,updateTime);
+        }).toList();
+        return userList;
+    }
+}
+</code></pre>
+<h2 id="ioc详解"><strong>IOC详解</strong></h2>
+<p>Spring框架为了更好的标识web应用程序开发当中，bean对象到底归属于哪一层，又提供了@Component的衍生注解：</p>
+<table>
+<thead>
+<tr>
+<th>注解</th>
+<th>说明</th>
+<th>位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@Component</td>
+<td>声明bean的基础注解</td>
+<td>不属于以下三类时，用此注解</td>
+</tr>
+<tr>
+<td>@Controller</td>
+<td>@Component的衍生注解</td>
+<td>标注在控制层类上</td>
+</tr>
+<tr>
+<td>@Service</td>
+<td>@Component的衍生注解</td>
+<td>标注在业务层类上</td>
+</tr>
+<tr>
+<td>@Repository</td>
+<td>@Component的衍生注解</td>
+<td>标注在数据访问层类上（由于与mybatis整合，用的少）</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-java">@Target({ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Controller
+@ResponseBody
+public @interface RestController {
+    @AliasFor(
+        annotation = Controller.class
+    )
+    String value() default &quot;&quot;;
+}
+</code></pre>
+<p>bean对象名字默认类首字母小写：<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20250527171020.png" alt="" loading="lazy"></p>
+<pre><code class="language-java">@Repository(&quot;userDao&quot;)
+public class UserDaoImpl implements UserDao {
+    @Override
+    public List&lt;String&gt; findAll() {
+        //1.加载并读取user.txt文件
+        //InputStream in=new FileInputStream(&quot;src/main/resources/user.txt&quot;);
+        InputStream in=this.getClass().getClassLoader().getResourceAsStream(&quot;user.txt&quot;);
+        ArrayList&lt;String&gt; lines= IoUtil.readLines(in, StandardCharsets.UTF_8,new ArrayList&lt;&gt;());
+        return lines;
+    }
+}
+</code></pre>
+<p>前面声明bean的四大注解，要想生效，还需要被组件扫描注解 @ComponentScan 扫描。该注解虽然没有显式配置，但是实际上已经包含在了启动类声明注解 @SpringBootApplication 中，默认扫描的范围是启动类所在包及其子包。</p>
+<pre><code class="language-java">@SpringBootApplication//默认扫描当前包及其子包
+public class SpringbootWeb01Application {
+
+    public static void main(String[] args) {
+        SpringApplication.run(SpringbootWeb01Application.class, args);
+    }
+
+}
+</code></pre>
+<h2 id="di详解"><strong>DI详解</strong></h2>
+<p>@Autowired 进行依赖注入，常见的方式，有如下三种：</p>
+<pre><code class="language-java">@RestController
+public class UserController {
+    //1.属性注入：
+    //@Autowired
+    //private UserService userService;
+
+    //2.构造器注入:
+    //private final UserService userService;
+    //如果构造函数只有一个构造函数@Autowired可省略
+    //@Autowired
+    //public UserController(UserService userService) {
+    //    this.userService = userService;
+    //}
+
+    //3.setter注入
+    private UserService userService;
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+    @RequestMapping(&quot;/list&quot;)
+    public List&lt;User&gt; list() throws FileNotFoundException {
+        //1.调用service
+        List&lt;User&gt; userList = userService.findAll();
+        //2.返回数据(json),响应数据
+        return userList;
+    }
+}
+</code></pre>
+<ol>
+<li>属性注入：</li>
+</ol>
+<ul>
+<li>优点：代码简洁、方便快速开发。</li>
+<li>缺点：隐藏了类之间的依赖关系、可能会破坏类的封装性。</li>
+</ul>
+<ol start="2">
+<li>构造函数注入：</li>
+</ol>
+<ul>
+<li>优点：能清晰地看到类的依赖关系、提高了代码的安全性（final）。</li>
+<li>缺点：代码繁琐、如果构造参数过多，可能会导致构造函数臃肿。</li>
+<li>注意：如果只有一个构造函数，@Autowired注解可以省略。（通常来说，也只有一个构造函数）</li>
+</ul>
+<ol start="3">
+<li>setter注入：</li>
+</ol>
+<ul>
+<li>优点：保持了类的封装性，依赖关系更清晰。</li>
+<li>缺点：需要额外编写setter方法，增加了代码量。</li>
+</ul>
+<p>在项目开发中，基于@Autowired进行依赖注入时，基本都是第一种和第二种方式。（官方推荐第二种方式，因为会更加规范）但是在企业项目开发中，很多的项目中，也会选择第一种方式因为更加简洁、高效（在规范性方面进行了妥协）。</p>
+<h3 id="注意事项"><strong>注意事项</strong></h3>
+<p>如果存在多个相同类型的bean对象，会报错。<br>
+方案一：使用@Primary注解<br>
+当存在多个相同类型的Bean注入时，加上@Primary注解，来确定默认的实现。</p>
+<pre><code class="language-java">@Primary
+@Service
+public class UserServiceImpl implements UserService {
+}
+</code></pre>
+<p>方案二：使用@Qualifier注解<br>
+指定当前要注入的bean对象。 在@Qualifier的value属性中，指定注入的bean的名称。 @Qualifier注解不能单独使用，必须配合@Autowired使用。</p>
+<pre><code class="language-java">@RestController
+public class UserController {
+
+    @Qualifier(&quot;userServiceImpl&quot;)
+    @Autowired
+    private UserService userService;
+</code></pre>
+<p>方案三：使用@Resource注解<br>
+是按照bean的名称进行注入。通过name属性指定要注入的bean的名称。</p>
+<pre><code class="language-java">@RestController
+public class UserController {
+        
+    @Resource(name = &quot;userServiceImpl&quot;)
+    private UserService userService;
+</code></pre>
+<ul>
+<li>@Autowired 是spring框架提供的注解，而@Resource是JDK提供的注解</li>
+<li>@Autowired 默认是按照类型注入，而@Resource是按照名称注入</li>
+</ul>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E5%85%A5%E9%97%A8"><strong>入门</strong></a>
+<ul>
+<li><a href="#%E5%85%A5%E9%97%A8%E7%A8%8B%E5%BA%8F"><strong>入门程序</strong></a></li>
+<li><a href="#%E5%85%A5%E9%97%A8%E8%A7%A3%E6%9E%90"><strong>入门解析</strong></a></li>
+</ul>
+</li>
+<li><a href="#http%E5%8D%8F%E8%AE%AE"><strong>http协议</strong></a>
+<ul>
+<li><a href="#%E6%A6%82%E8%BF%B0"><strong>概述</strong></a></li>
+<li><a href="#http%E8%AF%B7%E6%B1%82%E5%8D%8F%E8%AE%AE"><strong>http请求协议</strong></a></li>
+<li><a href="#%E5%93%8D%E5%BA%94%E5%8D%8F%E8%AE%AE"><strong>响应协议</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E6%A1%88%E4%BE%8B"><strong>案例</strong></a>
+<ul>
+<li><a href="#responsebody"><strong>ResponseBody</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E5%88%86%E5%B1%82%E8%A7%A3%E8%80%A6"><strong>分层解耦</strong></a>
+<ul>
+<li><a href="#%E4%B8%89%E5%B1%82%E6%9E%B6%E6%9E%84"><strong>三层架构</strong></a></li>
+<li><a href="#%E5%88%86%E5%B1%82%E8%A7%A3%E8%80%A6-2"><strong>分层解耦</strong></a></li>
+<li><a href="#iocdi%E5%85%A5%E9%97%A8"><strong>IOC&amp;DI入门</strong></a></li>
+<li><a href="#ioc%E8%AF%A6%E8%A7%A3"><strong>IOC详解</strong></a></li>
+<li><a href="#di%E8%AF%A6%E8%A7%A3"><strong>DI详解</strong></a>
+<ul>
+<li><a href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><strong>注意事项</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://yyss1014.github.io/post/maven/">
+              <h3 class="post-title">
+                Maven
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://yyss1014.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
