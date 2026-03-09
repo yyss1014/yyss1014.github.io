@@ -1,0 +1,298 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>短信验证 | WASD研究院</title>
+<link rel="shortcut icon" href="https://yyss1014.github.io/favicon.ico?v=1773063224143">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://yyss1014.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="短信验证 | WASD研究院 - Atom Feed" href="https://yyss1014.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="1.创建阿里云ram用户
+
+授予短信服务的权限：
+
+使用阿里云官方短信服务时需要，正常不用。
+2.调用云市场api
+在阿里云里找到短信类别：
+
+选一家购买（一般有免费试用）：
+
+购买之后会提供给你appCode:
+
+购买的云市场服务会提供接..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yyss1014.github.io">
+  <img class="avatar" src="https://yyss1014.github.io/images/avatar.png?v=1773063224143" alt="">
+  </a>
+  <h1 class="site-title">
+    WASD研究院
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/archives" class="menu">
+          目录
+        </a>
+      
+    
+      
+        <a href="/" class="menu">
+          文章
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          分类
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              短信验证
+            </h2>
+            <div class="post-info">
+              <span>
+                2026-03-09
+              </span>
+              <span>
+                3 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <h1 id="1创建阿里云ram用户"><strong>1.创建阿里云ram用户</strong></h1>
+<p><img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20260309163428.png" alt="" loading="lazy"><br>
+授予短信服务的权限：<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20260309163949.png" alt="" loading="lazy"><br>
+使用阿里云官方短信服务时需要，正常不用。</p>
+<h1 id="2调用云市场api"><strong>2.调用云市场api</strong></h1>
+<p>在阿里云里找到短信类别：<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20260309204359.png" alt="" loading="lazy"><br>
+选一家购买（一般有免费试用）：<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20260309204617.png" alt="" loading="lazy"><br>
+购买之后会提供给你appCode:<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202026-03-09%20170055.png" alt="" loading="lazy"><br>
+购买的云市场服务会提供接口文档：<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20260309210438.png" alt="" loading="lazy"><br>
+分析接口文档，在请求头里我们需要提供appCode，另外在调用接口时还要提供4个查询参数：<br>
+<img src="https://cdn.jsdelivr.net/gh/yyss1014/blog_img@main/20260309210723.png" alt="" loading="lazy"></p>
+<ol>
+<li>定义实体类SmsProperties，交由IOC容器管理。</li>
+</ol>
+<pre><code class="language-java">@Component
+@ConfigurationProperties(prefix = &quot;spring.cloud.aliyun.sms&quot;)
+@Data
+public class SmsProperties {
+
+    private String templateId;
+    private String smsSignId;
+    private String host;
+    private String path;
+    private String appcode;
+}
+</code></pre>
+<ol start="2">
+<li>在配置文件中注解属性。</li>
+</ol>
+<pre><code class="language-yaml">spring:
+  cloud:
+    aliyun:
+      sms:
+        template-id: 908e94ccf08b4476ba6c876d13f084ad
+        sms-sign-id: 2e65b1bb3d054466b82f0c9d125465e2
+        host: https://gyytz.market.alicloudapi.com
+        path: /sms/smsSend
+        appcode: xxx
+</code></pre>
+<ol start="3">
+<li>创建一个smsSend类来发送请求，sendCode是黑马点评短信登陆的service层。这段代码其实是有问题的，我把请求参数写在请求体里了，按接口文档应该写在查询参数中，但是能正常调用我就不改了。</li>
+</ol>
+<pre><code class="language-java">@Service
+@Slf4j
+public class UserServiceImpl extends ServiceImpl&lt;UserMapper, User&gt; implements IUserService {
+
+    @Autowired
+    private SmsProperties smsProperties;
+
+    private static final ObjectMapper mapper = new ObjectMapper();
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @Override
+    public Result sendCode(String phone, HttpSession session) {
+        //1.校验手机号
+        if(RegexUtils.isPhoneInvalid(phone)){
+            //2.如果不符合，返回错误信息
+            return Result.fail(&quot;手机号格式错误&quot;);
+        }
+        //3.符合，生成验证码
+        String code = RandomUtil.randomNumbers(6);
+        //4.发送验证码
+        boolean success = smsSend(phone, code);
+        if(!success){
+            return Result.fail(&quot;短信发送失败&quot;);
+        }
+
+        //5.保存验证码到session
+        session.setAttribute(&quot;code&quot;, code);
+        log.debug(&quot;发送验证码成功，验证码：{}&quot;, code);
+
+        return Result.ok();
+    }
+
+    private boolean smsSend(String phone, String code) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(&quot;Authorization&quot;, &quot;APPCODE &quot; + smsProperties.getAppcode());
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);//发送表单格式
+
+        MultiValueMap&lt;String,String&gt; params = new LinkedMultiValueMap&lt;&gt;();
+        params.add(&quot;mobile&quot;, phone);
+        params.add(&quot;templateId&quot;, smsProperties.getTemplateId());
+        params.add(&quot;smsSignId&quot;, smsProperties.getSmsSignId());
+        params.add(&quot;param&quot;, &quot;**code**:&quot; + code + &quot;,**minute**:5&quot;);
+
+        HttpEntity&lt;MultiValueMap&lt;String,String&gt;&gt; request =
+                new HttpEntity&lt;&gt;(params, headers);
+        String url = smsProperties.getHost() + smsProperties.getPath();
+        String result = restTemplate.postForObject(url, request, String.class);
+        try {
+            SmsDTO smsDTO = mapper.readValue(result, SmsDTO.class);
+            return &quot;0&quot;.equals(smsDTO.getCode());
+        } catch (Exception e) {
+            log.error(&quot;短信解析失败: {}&quot;, result, e);
+            return false;
+        }
+    }
+}
+</code></pre>
+<p>RestTemplate 是 Spring 框架中用于发起 HTTP 请求的工具类，通过配置类初始化 RestTemplate：</p>
+<pre><code class="language-java">@Configuration
+public class RestTemplateConfig {
+
+    @Bean
+    public RestTemplate restTemplate(RestTemplateBuilder builder){
+        return builder.build();
+    }
+
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#1%E5%88%9B%E5%BB%BA%E9%98%BF%E9%87%8C%E4%BA%91ram%E7%94%A8%E6%88%B7"><strong>1.创建阿里云ram用户</strong></a></li>
+<li><a href="#2%E8%B0%83%E7%94%A8%E4%BA%91%E5%B8%82%E5%9C%BAapi"><strong>2.调用云市场api</strong></a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://yyss1014.github.io/post/redis/">
+              <h3 class="post-title">
+                Redis
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://yyss1014.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
