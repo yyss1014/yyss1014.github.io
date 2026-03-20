@@ -1,0 +1,463 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Redisson | WASD研究院</title>
+<link rel="shortcut icon" href="https://yyss1014.github.io/favicon.ico?v=1773995175290">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://yyss1014.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Redisson | WASD研究院 - Atom Feed" href="https://yyss1014.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+1.trylock
+2.tryAquire
+3.unlock
+
+
+1.trylock
+public boolean tryLock(long waitTime, long leaseTime, TimeUnit unit) throws ..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://yyss1014.github.io">
+  <img class="avatar" src="https://yyss1014.github.io/images/avatar.png?v=1773995175290" alt="">
+  </a>
+  <h1 class="site-title">
+    WASD研究院
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/archives" class="menu">
+          目录
+        </a>
+      
+    
+      
+        <a href="/" class="menu">
+          文章
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          分类
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Redisson
+            </h2>
+            <div class="post-info">
+              <span>
+                2026-03-19
+              </span>
+              <span>
+                9 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p><ul class="markdownIt-TOC">
+<li><a href="#1trylock">1.<strong>trylock</strong></a></li>
+<li><a href="#2tryaquire"><strong>2.tryAquire</strong></a></li>
+<li><a href="#3unlock"><strong>3.unlock</strong></a></li>
+</ul>
+</p>
+<h1 id="1trylock">1.<strong>trylock</strong></h1>
+<pre><code class="language-java">public boolean tryLock(long waitTime, long leaseTime, TimeUnit unit) throws InterruptedException {
+        long time = unit.toMillis(waitTime); // 剩余可等待时间（毫秒）
+        long current = System.currentTimeMillis();
+        long threadId = Thread.currentThread().getId();
+
+        // 尝试加锁（执行 Lua 脚本）
+        Long ttl = this.tryAcquire(waitTime, leaseTime, unit, threadId);
+
+        // 抢锁成功，直接返回 true
+        if (ttl == null) {
+                return true;
+        }
+
+        // 抢锁失败，计算剩下的时间。如果已经没时间等了，直接返回 false
+        time -= System.currentTimeMillis() - current;
+        if (time &lt;= 0L) {
+                this.acquireFailed(waitTime, unit, threadId);
+                return false;
+            } else {
+                current = System.currentTimeMillis();
+                // 订阅该锁的频道
+                CompletableFuture&lt;RedissonLockEntry&gt; subscribeFuture = this.subscribe(threadId);
+
+                try {
+                    // 阻塞等待订阅结果。如果在 time 时间内订阅都没成功，直接报错 
+                    subscribeFuture.get(time, TimeUnit.MILLISECONDS);
+                } catch (TimeoutException var21) {
+                    // 订阅超时处理逻辑
+                    if (!subscribeFuture.completeExceptionally(new RedisTimeoutException(&quot;Unable to acquire subscription lock after &quot; + time + &quot;ms. Try to increase 'subscriptionsPerConnection' and/or 'subscriptionConnectionPoolSize' parameters.&quot;))) {
+                        subscribeFuture.whenComplete((res, ex) -&gt; {
+                            if (ex == null) {
+                                this.unsubscribe(res, threadId);
+                            }
+
+                        });
+                    }
+
+                    this.acquireFailed(waitTime, unit, threadId);
+                    return false;
+                } catch (ExecutionException e) {
+                    LOGGER.error(e.getMessage(), e);
+                    this.acquireFailed(waitTime, unit, threadId);
+                    return false;
+                }
+
+                boolean currentTime;
+                try {
+                    // 扣除订阅花掉的时间
+                    time -= System.currentTimeMillis() - current;
+                    if (time &gt; 0L) {
+                        do {
+                            long currentTime = System.currentTimeMillis();
+                            // 再次尝试抢锁
+                            ttl = this.tryAcquire(waitTime, leaseTime, unit, threadId);
+                            // 抢到了，结束
+                            if (ttl == null) {
+                                boolean var32 = true;
+                                return var32;
+                            }
+
+                            // 没抢到，扣除抢锁花掉的时间
+                            time -= System.currentTimeMillis() - currentTime;
+                            if (time &lt;= 0L) {
+                                this.acquireFailed(waitTime, unit, threadId);
+                                boolean var31 = false;
+                                return var31;
+                            }
+
+                            // 拿到该锁对应的信号量（getLatch），如果在睡眠时间内锁被释放，进程会被getlatch叫醒
+                            currentTime = System.currentTimeMillis();
+                            if (ttl &gt;= 0L &amp;&amp; ttl &lt; time) {
+                                // 如果 ttl 比剩余等待时间短，就睡 ttl 毫秒
+                                ((RedissonLockEntry)this.commandExecutor.getNow(subscribeFuture)).getLatch().tryAcquire(ttl, TimeUnit.MILLISECONDS);
+                            } else {
+                                // 否则睡到 waitTime 结束
+                                ((RedissonLockEntry)this.commandExecutor.getNow(subscribeFuture)).getLatch().tryAcquire(time, TimeUnit.MILLISECONDS);
+                            }
+                            // 此时线程处于休眠状态，直到：
+                            // 1. 睡够了（ttl 到期）
+                            // 2. 有人解锁发了广播，Redisson 收到消息立刻 release 信号量，将线程唤醒
+                            time -= System.currentTimeMillis() - currentTime;// 扣除睡觉花掉的时间
+                        } while(time &gt; 0L);//回循环继续抢锁
+
+                        this.acquireFailed(waitTime, unit, threadId);
+                        boolean var16 = false;
+                        return var16;
+                    }
+
+                    this.acquireFailed(waitTime, unit, threadId);
+                    currentTime = false;
+                } finally {
+                    // 无论成功失败，最后都要退订广播
+                    this.unsubscribe((RedissonLockEntry)this.commandExecutor.getNow(subscribeFuture), threadId);
+                }
+
+                return currentTime;
+            }
+        }
+    }
+</code></pre>
+<h1 id="2tryaquire"><strong>2.tryAquire</strong></h1>
+<p>上锁脚本核心逻辑：</p>
+<pre><code class="language-lua">if ((redis.call('exists', KEYS[1]) == 0) or (redis.call('hexists', KEYS[1], ARGV[2]) == 1)) then 
+    -- 如果锁不存在，或者锁已经是我自己的（重入）
+    redis.call('hincrby', KEYS[1], ARGV[2], 1); 
+    redis.call('pexpire', KEYS[1], ARGV[1]); 
+    return nil; 
+end; 
+-- 返回剩余时间
+return redis.call('pttl', KEYS[1]);
+</code></pre>
+<pre><code class="language-java">private RFuture&lt;Long&gt; tryAcquireAsync(long waitTime, long leaseTime, TimeUnit unit, long threadId) {
+        RFuture&lt;Long&gt; ttlRemainingFuture;
+        if (leaseTime &gt; 0L) {
+            ttlRemainingFuture = this.&lt;Long&gt;tryLockInnerAsync(waitTime, leaseTime, unit, threadId, RedisCommands.EVAL_LONG);
+        } else {
+            // 使用 Redisson 默认的 internalLockLeaseTime（默认 30秒）
+            ttlRemainingFuture = this.&lt;Long&gt;tryLockInnerAsync(waitTime, this.internalLockLeaseTime, TimeUnit.MILLISECONDS, threadId, RedisCommands.EVAL_LONG);
+        }
+
+       // 处理一些本地缓存或同步状态，确保 Future 的状态是正确的
+        CompletionStage&lt;Long&gt; s = this.handleNoSync(threadId, ttlRemainingFuture);
+        ttlRemainingFuture = new CompletableFutureWrapper(s);
+        // thenApply:当之前的任务完成后，拿着结果去执行下一步，并返回一个新的结果
+        // ttlRemainingFuture 是 RFuture&lt;Long&gt;，当抢锁结果（ttlRemaining）回来时
+        CompletionStage&lt;Long&gt; f = ttlRemainingFuture.thenApply((ttlRemaining) -&gt; {
+            if (ttlRemaining == null) {
+                // 抢到了
+                if (leaseTime &gt; 0L) {
+                    // 自己设置了过期时间
+                    this.internalLockLeaseTime = unit.toMillis(leaseTime);
+                } else {
+                    //没设置过期时间，开启看门狗续期
+                    this.scheduleExpirationRenewal(threadId);
+                }
+            }
+
+            return ttlRemaining;
+        });
+        return new CompletableFutureWrapper(f);
+    }
+</code></pre>
+<p>看门狗机制：</p>
+<pre><code class="language-java">protected void scheduleExpirationRenewal(long threadId) {
+        //getRawName()是自己getlock时设的名称
+        //getLockName()是RedissonObject自动生成一个全局唯一的 UUID+threadId
+        this.renewalScheduler.renewLock(this.getRawName(), threadId, this.getLockName(threadId));
+    }
+</code></pre>
+<pre><code class="language-java">public void renewLock(String name, Long threadId, String lockName) {
+        //reference：这是一个 AtomicReference（原子引用）
+        //存放全局唯一的 LockTask，internalLockLeaseTime续期间隔，executor负责执行续期操作的线程池，batchSize一次合并多少个续期请求
+        this.reference.compareAndSet((Object)null, new LockTask(this.internalLockLeaseTime, this.executor, this.batchSize));
+        //LockTask 内部维护了一个 Map 或者 集合。它把你的锁信息加到这个“待续期清单”里，LockTask内部执行批量续期 Lua 脚本
+        //在加入第一把锁后，RenewalTask（LockTask的父类）就把running设为true，开启schedule() 往时间轮里塞入一个 10s 后的闹钟，10s钟后执行run()方法，在这个方法里第一步调用renew()执行 Lua 脚本（LockTask中的buildChunk）给 Redis 里的锁续30s，第二步再次触发 schedule()，预约下一个 10秒。
+        LockTask task = (LockTask)this.reference.get();
+        task.add(name, lockName, threadId);
+    }
+</code></pre>
+<pre><code class="language-java"> public void add(String rawName, String lockName, long threadId) {
+        LockEntry entry = new LockEntry();
+        entry.addThreadId(threadId, lockName);
+        // 在内存中，每把锁的名字是rawName，里面的对象是entry（两个map），key都是threadId
+        this.add(rawName, lockName, threadId, entry);
+    }
+</code></pre>
+<h1 id="3unlock"><strong>3.unlock</strong></h1>
+<p>释放锁脚本：</p>
+<pre><code class="language-lua">-- 检查是否有缓存的解锁结果（防止重复提交或并发冲突）
+local val = redis.call('get', KEYS[3]); 
+if val ~= false then 
+    return tonumber(val); -- 如果已经处理过了，直接返回结果
+end; 
+
+-- 检查锁是否属于当前线程（UUID + threadId）
+if (redis.call('hexists', KEYS[1], ARGV[3]) == 0) then 
+    return nil; -- 如果不是我的锁，返回 nil（对应 Java 里的异常抛出）
+end; 
+
+-- 核心操作：计数值减 1
+local counter = redis.call('hincrby', KEYS[1], ARGV[3], -1); 
+
+if (counter &gt; 0) then 
+    -- 情况 A：重入次数还大于 0，说明还没彻底释放
+    redis.call('pexpire', KEYS[1], ARGV[2]); -- 重新刷新锁的有效期
+    redis.call('set', KEYS[3], 0, 'px', ARGV[5]); -- 在缓存里记下：还没解完
+    return 0; -- 返回 0 告知 Java 层：只是减了重入，看门狗别停
+else 
+    -- 情况 B：计数归零，彻底释放锁
+    redis.call('del', KEYS[1]); -- 物理删除锁 Key
+    -- 发送 Pub/Sub 消息，通知其他正在排队的服务器：锁空出来了！
+    redis.call(ARGV[4], KEYS[2], ARGV[1]); 
+    redis.call('set', KEYS[3], 1, 'px', ARGV[5]); -- 在缓存里记下：彻底解开了
+    return 1; -- 返回 1 告知 Java 层：可以清理本地 Entry 了
+end;
+</code></pre>
+<pre><code class="language-java">public RFuture&lt;Void&gt; unlockAsync(long threadId) {
+        // 为了防止同一个解锁请求被重复执行（幂等性），或者为了追踪这个异步任务的进度，Redisson 会给每个操作生成一个唯一的 ID
+        String requestId = this.getServiceManager().generateId();
+        return this.getServiceManager().execute(() -&gt; this.unlockAsync0(threadId, requestId));
+    }
+</code></pre>
+<pre><code class="language-java">private RFuture&lt;Void&gt; unlockAsync0(long threadId, String requestId) {
+        // Lua 解锁脚本发给 Redis
+        CompletionStage&lt;Boolean&gt; future = this.unlockInnerAsync(threadId, requestId);
+        CompletionStage&lt;Void&gt; f = future.handle((res, e) -&gt; {
+            // 关闭看门狗，只要 Redis 给了回复（不管 res 是 0 还是 1），它都会去尝试清理本地的续期任务
+            this.cancelExpirationRenewal(threadId, res);
+            if (e != null) {
+                if (e instanceof CompletionException) {
+                    throw (CompletionException)e;
+                } else {
+                    throw new CompletionException(e);
+                }
+            } else if (res == null) {
+                IllegalMonitorStateException cause = new IllegalMonitorStateException(&quot;attempt to unlock lock, not locked by current thread by node id: &quot; + this.id + &quot; thread-id: &quot; + threadId);
+                throw new CompletionException(cause);
+            } else {
+                return null;
+            }
+        });
+        return new CompletableFutureWrapper(f);
+    }
+</code></pre>
+<p>关闭看门狗：</p>
+<pre><code class="language-java">  protected void cancelExpirationRenewal(Long threadId, Boolean unlockResult) {
+        super.cancelExpirationRenewal(threadId, unlockResult);
+        // 当一个锁被彻底释放（或者发生异常导致解锁）后，Redisson 会将当前锁对象的配置恢复为默认的看门狗超时时间（通常是 30 秒）
+        if (unlockResult == null || unlockResult) {
+            this.internalLockLeaseTime = this.getServiceManager().getCfg().getLockWatchdogTimeout();
+        }
+
+    }
+</code></pre>
+<p>super.cancelExpirationRenewal(threadId, unlockResult);</p>
+<pre><code class="language-java"> protected void cancelExpirationRenewal(Long threadId, Boolean unlockResult) {
+        this.renewalScheduler.cancelLockRenewal(this.getRawName(), threadId);
+    }
+</code></pre>
+<pre><code class="language-java">public void cancelLockRenewal(String name, Long threadId) {
+        LockTask task = (LockTask)this.reference.get();
+        if (task != null) {
+            task.cancelExpirationRenewal(name, threadId);
+        }
+
+    }
+</code></pre>
+<pre><code class="language-java">void cancelExpirationRenewal(String name, Long threadId) {
+        // 根据锁的名字（rawname）从本地缓存 map 中获取对应的 LockEntry
+        LockEntry task = (LockEntry)this.name2entry.get(name);
+        if (task != null) {
+            //  如果指定了线程 ID
+            if (threadId != null) {
+                // 在这里，可重入锁如果计数为0才被移除
+                task.removeThreadId(threadId);
+            }
+            // 如果没有指定线程 ID（强制全部停止），或者该锁名下已经没有任何线程在持有了
+            if (threadId == null || task.hasNoThreads()) {
+                // 从本地续期映射表中移除这个锁，这意味着看门狗不再关注这把锁
+                this.name2entry.remove(name);
+                if (this.executor.getServiceManager().isClusterSetup()) {
+                    int slot = this.executor.getConnectionManager().calcSlot(name);
+                    this.slot2names.computeIfPresent(slot, (k, v) -&gt; {
+                        v.remove(name);
+                        return v.isEmpty() ? null : v;
+                    });
+                }
+
+                if (!this.name2entry.isEmpty()) {
+                    return;
+                }
+
+                this.stop();
+                if (!this.name2entry.isEmpty() &amp;&amp; this.tryRun()) {
+                    this.schedule();
+                }
+            }
+
+        }
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#1trylock">1.<strong>trylock</strong></a></li>
+<li><a href="#2tryaquire"><strong>2.tryAquire</strong></a></li>
+<li><a href="#3unlock"><strong>3.unlock</strong></a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://yyss1014.github.io/post/duan-xin-yan-zheng/">
+              <h3 class="post-title">
+                短信验证
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://yyss1014.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
